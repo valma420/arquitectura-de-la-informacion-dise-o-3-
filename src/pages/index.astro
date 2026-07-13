@@ -3,44 +3,44 @@ import MainLayout from '@layouts/MainLayout.astro';
 
 const orbitObjects = [
   {
-    image: '/images/catalogo/c06.png',
-    label: 'Robe à la française, ca. 1760',
-    x: 4,
-    y: 61,
-    width: 8.5,
-    rotate: -7,
-  },
-  {
-    image: '/images/prendas/1700s.png',
-    label: 'Corset, siglo XVIII',
-    x: 20,
-    y: 47,
-    width: 8,
-    rotate: -3,
-  },
-  {
-    image: '/images/catalogo/c14.png',
-    label: 'Robe à la française, 1775',
-    x: 44.5,
-    y: 38,
-    width: 9.5,
+    image: '/images/home/orbit-dress.png',
+    label: 'Figurín de vestido, archivo Palais Galliera',
+    x: 3.7,
+    y: 80.3,
+    width: 10.26,
     rotate: 0,
   },
   {
-    image: '/images/prendas/1925.png',
-    label: 'Vestido de recepción, 1925',
-    x: 70,
-    y: 47,
-    width: 8,
-    rotate: 3,
+    image: '/images/home/orbit-pattern.png',
+    label: 'Patronaje, archivo Palais Galliera',
+    x: 22.4,
+    y: 60.6,
+    width: 10.26,
+    rotate: 0,
   },
   {
-    image: '/images/prendas/2011.png',
-    label: 'Chaqueta, 2011',
-    x: 88,
-    y: 61,
-    width: 8,
-    rotate: 7,
+    image: '/images/home/orbit-coat.png',
+    label: 'Abrigo bordado, colección Palais Galliera',
+    x: 50,
+    y: 54,
+    width: 10.26,
+    rotate: 0,
+  },
+  {
+    image: '/images/home/orbit-blue.png',
+    label: 'Detalle textil bordado, colección Palais Galliera',
+    x: 77.6,
+    y: 60.6,
+    width: 10.26,
+    rotate: 0,
+  },
+  {
+    image: '/images/home/orbit-photo.png',
+    label: 'Fotografía de moda, archivo Palais Galliera',
+    x: 96.3,
+    y: 80.3,
+    width: 10.26,
+    rotate: 0,
   },
 ];
 
@@ -103,7 +103,6 @@ const portals = [
   <section class="home-hero" data-home-hero>
     <div class="home-hero__pattern" aria-hidden="true"></div>
 
-    <p class="home-hero__eyebrow label" data-reveal>Musée de la Mode · Paris</p>
     <h1 class="home-hero__title" aria-label="Palais Galliera">
       <span>Palais</span>
       <strong>Galliera</strong>
@@ -133,11 +132,10 @@ const portals = [
         Conservar la moda es conservar el tiempo.
       </p>
       <p class="home-hero__intro">
-        Cada prenda guarda una época. Cada recorrido abre una forma distinta de habitarla.
+        Cada prenda que el Palais Galliera guarda es el testimonio de un cuerpo, una época y un modo
+        de habitar el mundo. Desde 1977, el museo de la Ciudad de París resguarda tres siglos de
+        indumentaria como patrimonio frágil y vivo.
       </p>
-      <a class="home-hero__enter label" href="#recorridos">
-        Elegí un recorrido <span aria-hidden="true">↓</span>
-      </a>
     </div>
   </section>
 
@@ -192,26 +190,23 @@ const portals = [
 <style>
   .home-hero {
     position: relative;
-    height: max(47.5rem, calc(100svh - 76px));
-    min-height: 47.5rem;
+    height: clamp(64rem, 106.46vw, 127.75rem);
+    min-height: 64rem;
     overflow: hidden;
     isolation: isolate;
-    background: var(--color-ink);
+    background: #141414;
     color: var(--color-cream);
   }
 
   .home-hero__pattern {
     position: absolute;
-    inset: -12%;
+    top: -221.41vw;
+    left: -37.55vw;
+    width: 328.23vw;
+    aspect-ratio: 6302 / 6301;
     z-index: -2;
-    opacity: 0.18;
-    background-image:
-      linear-gradient(rgba(17, 16, 15, 0.86), rgba(17, 16, 15, 0.86)),
-      url('/images/ornaments/orn-04.png');
-    background-position: center;
-    background-size: min(48rem, 75vw);
-    filter: grayscale(1) contrast(0.8);
-    transform: rotate(-5deg) scale(1.12);
+    background: url('/images/site/home-pattern.svg') 0 0 / 100% 100% no-repeat;
+    pointer-events: none;
   }
 
   .home-hero::after {
@@ -220,17 +215,7 @@ const portals = [
     inset: 0;
     z-index: -1;
     pointer-events: none;
-    background:
-      radial-gradient(circle at 50% 62%, rgba(255, 90, 0, 0.09), transparent 28%),
-      linear-gradient(180deg, transparent 58%, rgba(0, 0, 0, 0.72));
-  }
-
-  .home-hero__eyebrow {
-    position: absolute;
-    top: clamp(1.25rem, 3vh, 2.25rem);
-    left: var(--layout-gutter);
-    z-index: 5;
-    color: var(--color-orange);
+    background: none;
   }
 
   .home-hero__title {
@@ -239,7 +224,7 @@ const portals = [
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: clamp(2.5rem, 5.5vh, 5rem);
+    padding-top: clamp(6.25rem, 9.9vw, 11.875rem);
     color: var(--color-orange);
     text-transform: uppercase;
     pointer-events: none;
@@ -247,7 +232,7 @@ const portals = [
 
   .home-hero__title span {
     font-family: var(--font-display);
-    font-size: clamp(2.5rem, 4.2vw, 4.5rem);
+    font-size: clamp(4rem, 7.9vw, 9.5rem);
     font-weight: var(--font-weight-regular);
     line-height: 0.85;
     text-transform: none;
@@ -255,7 +240,7 @@ const portals = [
 
   .home-hero__title strong {
     font-family: var(--font-display);
-    font-size: clamp(5.6rem, 12.4vw, 13rem);
+    font-size: clamp(7rem, 15.7vw, 18.84rem);
     font-weight: var(--font-weight-regular);
     line-height: 0.88;
     letter-spacing: -0.055em;
@@ -270,30 +255,29 @@ const portals = [
   .orbit__line {
     position: absolute;
     left: 50%;
-    top: 42%;
-    border: 1px solid rgba(243, 238, 225, 0.26);
-    border-bottom-color: transparent;
+    top: 54.89%;
+    border: 1px solid rgba(243, 238, 225, 0.72);
     border-radius: 50% 50% 0 0;
     transform: translateX(-50%);
   }
 
   .orbit__line--outer {
-    width: 91%;
-    height: 43%;
+    width: 100%;
+    height: 45.11%;
   }
 
   .orbit__line--inner {
-    top: 48%;
-    width: 72%;
-    height: 32%;
-    opacity: 0.58;
+    top: 55.63%;
+    width: 98.65%;
+    height: 44.37%;
+    opacity: 1;
   }
 
   .orbit__object {
     position: absolute;
     left: var(--x);
     top: var(--y);
-    width: clamp(5.4rem, var(--w), 10.5rem);
+    width: clamp(7.5rem, var(--w), 12.3125rem);
     margin: 0;
     transform: translate(-50%, -50%) rotate(var(--r));
     transform-origin: 50% 100%;
@@ -301,31 +285,21 @@ const portals = [
 
   .orbit__frame {
     position: relative;
-    aspect-ratio: 0.68;
-    overflow: hidden;
-    display: grid;
-    place-items: center;
-    padding: 10%;
-    border: 1px solid rgba(243, 238, 225, 0.56);
-    border-radius: 48% 48% 0.25rem 0.25rem / 23% 23% 0.25rem 0.25rem;
-    background:
-      radial-gradient(circle at 50% 28%, rgba(243, 238, 225, 0.17), transparent 46%), #191817;
-    box-shadow: 0 1.25rem 4rem rgba(0, 0, 0, 0.52);
+    aspect-ratio: 197 / 266;
   }
 
   .orbit__frame::after {
     content: '';
     position: absolute;
-    inset: 0;
-    box-shadow: inset 0 0 2rem rgba(0, 0, 0, 0.5);
+    inset: -0.5%;
+    background: url('/images/home/orbit-frame.svg') center / 100% 100% no-repeat;
     pointer-events: none;
   }
 
   .orbit__frame img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 0.75rem 1rem rgba(0, 0, 0, 0.72));
+    object-fit: fill;
   }
 
   .orbit__object figcaption {
@@ -335,47 +309,31 @@ const portals = [
     width: max-content;
     max-width: 11rem;
     transform: translateX(-50%);
-    color: rgba(243, 238, 225, 0.58);
-    text-align: center;
-    line-height: 1.45;
+    display: none;
   }
 
   .home-hero__manifesto {
     position: absolute;
     z-index: 4;
     left: 50%;
-    bottom: clamp(1.25rem, 4vh, 3.25rem);
-    width: min(38rem, calc(100% - 2 * var(--layout-gutter)));
+    top: 74.9%;
+    bottom: auto;
+    width: min(70%, 84rem);
     transform: translateX(-50%);
     text-align: center;
   }
 
   .home-hero__statement {
-    color: var(--color-cream);
-    font-size: clamp(1.8rem, 3.1vw, 3.7rem);
+    color: #b9d6fe;
+    font-size: clamp(2rem, 3.33vw, 4rem);
   }
 
   .home-hero__intro {
-    max-width: 42ch;
+    max-width: 88ch;
     margin: var(--space-sm) auto 0;
     color: rgba(243, 238, 225, 0.74);
-    font-size: var(--font-size-sm);
-  }
-
-  .home-hero__enter {
-    display: inline-flex;
-    gap: 0.75rem;
-    align-items: center;
-    margin-top: var(--space-md);
-    color: var(--color-orange);
-  }
-
-  .home-hero__enter span {
-    transition: transform var(--duration-fast) var(--ease-expo);
-  }
-
-  .home-hero__enter:hover span {
-    transform: translateY(0.25rem);
+    font-size: clamp(0.875rem, 1.667vw, 2rem);
+    font-style: italic;
   }
 
   .home-portals {
@@ -543,8 +501,10 @@ const portals = [
       min-height: 45rem;
     }
 
-    .home-hero__eyebrow {
-      display: none;
+    .home-hero__pattern {
+      top: -95rem;
+      left: -22rem;
+      width: 112rem;
     }
 
     .home-hero__title {
@@ -584,7 +544,9 @@ const portals = [
     }
 
     .home-hero__manifesto {
+      top: auto;
       bottom: 1.75rem;
+      width: calc(100% - 2 * var(--layout-gutter));
     }
 
     .home-hero__statement {

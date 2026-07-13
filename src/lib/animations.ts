@@ -225,8 +225,7 @@ function initHomeParallax(): void {
 
     if (pattern) {
       gsap.to(pattern, {
-        yPercent: -4,
-        scale: 1.18,
+        yPercent: -2,
         ease: 'none',
         scrollTrigger: galleryTrigger,
       });
