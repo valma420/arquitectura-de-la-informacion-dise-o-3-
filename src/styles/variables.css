@@ -19,6 +19,13 @@
   --color-red: #a31e24;
   --color-red-deep: #82161b;
   --color-red-bright: #c22026;
+  --color-orange: #ff5a00;
+  --color-orange-deep: #c64100;
+  --color-purple: #680052;
+  --color-purple-deep: #430035;
+  --color-blue: #c7dcff;
+  --color-blue-soft: #dce9ff;
+  --color-ink: #11100f;
 
   --color-background: var(--color-black);
   --color-surface: var(--color-surface-dark);
@@ -29,7 +36,7 @@
 
   --color-primary: var(--color-cream);
   --color-primary-contrast: var(--color-black);
-  --color-accent: var(--color-red);
+  --color-accent: var(--color-orange);
 
   /* ------------------------------------------------------------------ */
   /* Typography                                                          */

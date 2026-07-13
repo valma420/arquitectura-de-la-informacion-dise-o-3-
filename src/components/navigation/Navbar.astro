@@ -1,8 +1,6 @@
 ---
 /**
- * Navbar — primary site navigation.
- * Black bar, circular Galliera logo, centered uppercase links, hamburger.
- * The active link is highlighted in red, as in the design.
+ * Navbar — compact editorial navigation with an accessible fullscreen menu.
  */
 import { navigationLinks } from '@data/navigation';
 
@@ -13,18 +11,18 @@ const isActive = (href: string) =>
 
 <header class="navbar" data-component="navbar">
   <nav class="navbar__inner" aria-label="Principal">
-    <a href="/" class="navbar__brand" aria-label="Galliera — Home">
-      <span class="navbar__logo">
-        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
-          <g fill="none" stroke="currentColor" stroke-width="1.4">
-            <path d="M3.5 9.5 L12 4.5 L20.5 9.5 Z" />
-            <line x1="5.5" y1="11.5" x2="5.5" y2="18" />
-            <line x1="9.8" y1="11.5" x2="9.8" y2="18" />
-            <line x1="14.2" y1="11.5" x2="14.2" y2="18" />
-            <line x1="18.5" y1="11.5" x2="18.5" y2="18" />
-            <line x1="3" y1="19.5" x2="21" y2="19.5" />
+    <a href="/" class="navbar__brand" aria-label="Palais Galliera — Inicio">
+      <span class="navbar__logo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20">
+          <g fill="none" stroke="currentColor" stroke-width="1.35">
+            <path d="M3.5 9.5 12 4.5l8.5 5H3.5Z"></path>
+            <path d="M5.5 11.5V18m4.3-6.5V18m4.4-6.5V18m4.3-6.5V18M3 19.5h18"></path>
           </g>
         </svg>
+      </span>
+      <span class="navbar__wordmark" aria-hidden="true">
+        <span>Palais</span>
+        Galliera
       </span>
     </a>
 
@@ -44,7 +42,15 @@ const isActive = (href: string) =>
       }
     </ul>
 
-    <button class="navbar__burger" aria-label="Abrir menú" aria-expanded="false" data-menu-toggle>
+    <button
+      class="navbar__burger"
+      type="button"
+      aria-label="Abrir menú"
+      aria-controls="site-menu"
+      aria-haspopup="dialog"
+      aria-expanded="false"
+      data-menu-toggle
+    >
       <span></span>
       <span></span>
       <span></span>
@@ -52,19 +58,46 @@ const isActive = (href: string) =>
   </nav>
 </header>
 
-<div class="menu-overlay" data-menu-overlay aria-hidden="true">
-  <ul class="menu-overlay__list">
-    {
-      navigationLinks.map((link, i) => (
-        <li style={`--i:${i}`}>
-          <a href={link.href} class="menu-overlay__link">
-            <span class="menu-overlay__num">0{i + 1}</span>
-            {link.label}
-          </a>
-        </li>
-      ))
-    }
-  </ul>
+<div
+  class="menu-overlay"
+  id="site-menu"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Menú principal"
+  aria-hidden="true"
+  data-menu-overlay
+  inert
+>
+  <div class="menu-overlay__inner">
+    <p class="menu-overlay__eyebrow label">
+      Palais Galliera
+      <span>Musée de la Mode · París</span>
+    </p>
+
+    <nav aria-label="Menú desplegable">
+      <ul class="menu-overlay__list">
+        {
+          navigationLinks.map((link, i) => (
+            <li style={`--i:${i}`}>
+              <a
+                href={link.href}
+                class:list={['menu-overlay__link', { 'is-active': isActive(link.href) }]}
+                aria-current={isActive(link.href) ? 'page' : undefined}
+              >
+                <span class="menu-overlay__num">0{i + 1}</span>
+                <span>{link.label}</span>
+                <span class="menu-overlay__arrow" aria-hidden="true">
+                  →
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <p class="menu-overlay__meta label">Colección · Exposiciones · Memoria</p>
+  </div>
 </div>
 
 <style>
@@ -72,144 +105,477 @@ const isActive = (href: string) =>
     position: sticky;
     top: 0;
     z-index: var(--z-navigation);
-    background: var(--color-black);
-    border-bottom: 1px solid rgba(243, 238, 225, 0.08);
+    color: var(--color-cream);
+    background: color-mix(in srgb, var(--color-black) 92%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--color-orange) 20%, transparent);
+    backdrop-filter: blur(14px);
   }
 
   .navbar__inner {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    height: 92px;
-    padding-inline: var(--layout-gutter);
+    width: 100%;
     max-width: var(--layout-max-width);
+    height: clamp(4rem, 5vw, 4.5rem);
     margin-inline: auto;
+    padding-inline: var(--layout-gutter);
+  }
+
+  .navbar__brand {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    width: fit-content;
   }
 
   .navbar__logo {
     display: grid;
     place-items: center;
-    width: 46px;
-    height: 46px;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: 0 0 auto;
     border-radius: var(--radius-full);
-    background: var(--color-cream);
     color: var(--color-black);
+    background: var(--color-orange);
+    transition:
+      color var(--duration-fast) var(--ease-standard),
+      background-color var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-expo);
+  }
+
+  .navbar__wordmark {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    font-style: italic;
+    line-height: 0.78;
+    letter-spacing: -0.02em;
+  }
+
+  .navbar__wordmark span {
+    margin-left: 0.1rem;
+    font-family: var(--font-body);
+    font-size: 0.42rem;
+    font-style: normal;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.4;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .navbar__brand:hover .navbar__logo {
+    color: var(--color-orange);
+    background: var(--color-cream);
+    transform: rotate(-8deg);
   }
 
   .navbar__links {
     display: flex;
-    gap: clamp(1.5rem, 4vw, 4.5rem);
+    align-items: center;
+    gap: clamp(1.1rem, 2.5vw, 3rem);
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
   .navbar__link {
-    color: var(--color-cream);
+    position: relative;
+    display: block;
+    padding-block: 0.75rem;
+    color: color-mix(in srgb, var(--color-cream) 72%, transparent);
+    font-size: 0.625rem;
     transition: color var(--duration-fast) var(--ease-standard);
+  }
+
+  .navbar__link::after {
+    position: absolute;
+    right: 0;
+    bottom: 0.42rem;
+    left: 0;
+    height: 1px;
+    background: var(--color-orange);
+    content: '';
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--duration-fast) var(--ease-expo);
   }
 
   .navbar__link:hover,
   .navbar__link.is-active {
-    color: var(--color-red-bright);
+    color: var(--color-orange);
+  }
+
+  .navbar__link:hover::after,
+  .navbar__link.is-active::after,
+  .navbar__link:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
   }
 
   .navbar__burger {
     justify-self: end;
     display: flex;
     flex-direction: column;
-    gap: 6px;
-    background: none;
-    border: 0;
-    padding: 6px;
+    align-items: center;
+    justify-content: center;
+    gap: 0.28rem;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    color: var(--color-cream);
+    background: transparent;
+    border: 1px solid color-mix(in srgb, var(--color-orange) 38%, transparent);
+    border-radius: var(--radius-full);
     cursor: pointer;
+    transition:
+      color var(--duration-fast) var(--ease-standard),
+      background-color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard);
+  }
+
+  .navbar__burger:hover,
+  .navbar__burger[aria-expanded='true'] {
+    color: var(--color-black);
+    background: var(--color-orange);
+    border-color: var(--color-orange);
   }
 
   .navbar__burger span {
     display: block;
-    width: 26px;
-    height: 1.5px;
-    background: var(--color-cream);
-    transition: transform var(--duration-fast) var(--ease-standard);
+    width: 1.05rem;
+    height: 1px;
+    background: currentColor;
+    transition:
+      opacity var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-expo);
   }
 
   .navbar__burger[aria-expanded='true'] span:nth-child(1) {
-    transform: translateY(7.5px) rotate(45deg);
+    transform: translateY(0.34rem) rotate(45deg);
   }
+
   .navbar__burger[aria-expanded='true'] span:nth-child(2) {
     opacity: 0;
   }
+
   .navbar__burger[aria-expanded='true'] span:nth-child(3) {
-    transform: translateY(-7.5px) rotate(-45deg);
+    transform: translateY(-0.34rem) rotate(-45deg);
   }
 
-  /* ---------------------------------------------------------------- */
-  /* Fullscreen menu overlay                                           */
-  /* ---------------------------------------------------------------- */
+  .navbar__brand:focus-visible,
+  .navbar__link:focus-visible,
+  .navbar__burger:focus-visible {
+    outline-color: var(--color-orange);
+    outline-offset: 0.25rem;
+  }
+
+  /* Fullscreen menu overlay */
   .menu-overlay {
     position: fixed;
     inset: 0;
     z-index: calc(var(--z-navigation) - 1);
+    overflow: hidden auto;
+    color: var(--color-cream);
     background: var(--color-black);
-    display: grid;
-    place-items: center;
     opacity: 0;
     visibility: hidden;
+    pointer-events: none;
     transition:
       opacity var(--duration-base) var(--ease-standard),
       visibility var(--duration-base);
   }
 
+  .menu-overlay::before {
+    position: fixed;
+    right: -22vw;
+    bottom: -52vw;
+    width: min(92rem, 112vw);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: conic-gradient(
+      from 205deg,
+      var(--color-blue),
+      var(--color-purple) 33%,
+      var(--color-orange) 62%,
+      var(--color-blue)
+    );
+    content: '';
+    filter: blur(2.25rem) saturate(1.08);
+    opacity: 0;
+    transform: translate3d(12%, 18%, 0) scale(0.72) rotate(-16deg);
+    transition:
+      opacity var(--duration-slow) var(--ease-standard),
+      transform var(--duration-slower) var(--ease-expo);
+  }
+
+  .menu-overlay::after {
+    position: fixed;
+    inset: auto 0 0;
+    height: min(22rem, 32vh);
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      color-mix(in srgb, var(--color-black) 45%, transparent)
+    );
+    content: '';
+    pointer-events: none;
+  }
+
   .menu-overlay.is-open {
     opacity: 1;
     visibility: visible;
+    pointer-events: auto;
+  }
+
+  .menu-overlay.is-open::before {
+    opacity: 0.65;
+    transform: translate3d(0, 0, 0) scale(1) rotate(0);
+  }
+
+  .menu-overlay__inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    width: 100%;
+    min-height: 100%;
+    max-width: var(--layout-max-width);
+    margin-inline: auto;
+    padding: clamp(6.5rem, 12vh, 9rem) var(--layout-gutter) clamp(2rem, 7vh, 5rem);
+  }
+
+  .menu-overlay__eyebrow,
+  .menu-overlay__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-md);
+    color: color-mix(in srgb, var(--color-cream) 70%, transparent);
   }
 
   .menu-overlay__list {
-    list-style: none;
-    margin: 0;
+    width: min(100%, 75rem);
+    margin: clamp(1.75rem, 4vh, 4rem) 0;
     padding: 0;
-    text-align: center;
+    list-style: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-cream) 18%, transparent);
+  }
+
+  .menu-overlay__list li {
+    opacity: 0;
+    transform: translateY(1.25rem);
+    transition:
+      opacity var(--duration-slow) var(--ease-expo),
+      transform var(--duration-slow) var(--ease-expo);
+    transition-delay: calc(var(--i) * 35ms);
+  }
+
+  .menu-overlay.is-open .menu-overlay__list li {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .menu-overlay__link {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: clamp(2.5rem, 6vw, 5rem);
-    color: var(--color-cream);
-    line-height: 1.3;
-    display: inline-flex;
+    position: relative;
+    isolation: isolate;
+    display: grid;
+    grid-template-columns: clamp(2rem, 5vw, 4rem) 1fr auto;
     align-items: baseline;
-    gap: 1rem;
+    gap: clamp(0.75rem, 2vw, 1.75rem);
+    padding: clamp(0.35rem, 1vh, 0.7rem) clamp(0.35rem, 1vw, 0.85rem);
+    overflow: hidden;
+    color: var(--color-cream);
+    border-top: 1px solid color-mix(in srgb, var(--color-cream) 18%, transparent);
+    font-family: var(--font-display);
+    font-size: clamp(2.15rem, 6.2vh, 5.25rem);
+    font-style: italic;
+    line-height: 0.96;
     transition: color var(--duration-fast) var(--ease-standard);
   }
 
-  .menu-overlay__link:hover {
-    color: var(--color-red-bright);
+  .menu-overlay__link::before {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+      100deg,
+      var(--color-orange),
+      var(--color-purple) 55%,
+      var(--color-blue)
+    );
+    content: '';
+    opacity: 0.84;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform var(--duration-base) var(--ease-expo);
+  }
+
+  .menu-overlay__link:hover::before,
+  .menu-overlay__link:focus-visible::before {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .menu-overlay__link.is-active {
+    color: var(--color-orange);
+  }
+
+  .menu-overlay__link.is-active::before {
+    opacity: 0.16;
+    transform: scaleX(0.08);
+    transform-origin: left;
+  }
+
+  .menu-overlay__link.is-active:hover,
+  .menu-overlay__link.is-active:focus-visible {
+    color: var(--color-cream);
+  }
+
+  .menu-overlay__link.is-active:hover::before,
+  .menu-overlay__link.is-active:focus-visible::before {
+    opacity: 0.84;
+    transform: scaleX(1);
+  }
+
+  .menu-overlay__link:focus-visible {
+    outline: 2px solid var(--color-orange);
+    outline-offset: -2px;
   }
 
   .menu-overlay__num {
+    align-self: center;
+    color: var(--color-orange);
     font-family: var(--font-body);
     font-size: var(--label-size-sm);
+    font-style: normal;
+    font-weight: var(--font-weight-medium);
     letter-spacing: var(--letter-spacing-wide);
-    color: var(--color-red-bright);
   }
 
-  @media (max-width: 900px) {
+  .menu-overlay__arrow {
+    align-self: center;
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    font-style: normal;
+    transform: translateX(-0.3rem);
+    transition: transform var(--duration-fast) var(--ease-expo);
+  }
+
+  .menu-overlay__link:hover .menu-overlay__arrow,
+  .menu-overlay__link:focus-visible .menu-overlay__arrow {
+    transform: translateX(0.15rem);
+  }
+
+  .menu-overlay__link:hover .menu-overlay__num,
+  .menu-overlay__link:focus-visible .menu-overlay__num {
+    color: var(--color-cream);
+  }
+
+  @media (max-width: 64rem) {
     .navbar__links {
       display: none;
+    }
+  }
+
+  @media (max-width: 36rem) {
+    .navbar__wordmark {
+      display: none;
+    }
+
+    .menu-overlay__eyebrow span {
+      display: none;
+    }
+
+    .menu-overlay__link {
+      grid-template-columns: 1.5rem 1fr auto;
+      font-size: clamp(1.85rem, 6.5vh, 3rem);
+    }
+
+    .menu-overlay__meta {
+      display: block;
+      max-width: 18rem;
+      line-height: 1.7;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .navbar__logo,
+    .navbar__link::after,
+    .navbar__burger,
+    .navbar__burger span,
+    .menu-overlay,
+    .menu-overlay::before,
+    .menu-overlay__list li,
+    .menu-overlay__link::before,
+    .menu-overlay__arrow {
+      transition-duration: 0.01ms;
     }
   }
 </style>
 
 <script>
-  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const navbar = document.querySelector<HTMLElement>('[data-component="navbar"]');
+  const toggle = navbar?.querySelector<HTMLButtonElement>('[data-menu-toggle]');
   const overlay = document.querySelector<HTMLElement>('[data-menu-overlay]');
 
-  toggle?.addEventListener('click', () => {
-    const open = overlay?.classList.toggle('is-open') ?? false;
-    toggle.setAttribute('aria-expanded', String(open));
-    overlay?.setAttribute('aria-hidden', String(!open));
-    document.body.style.overflow = open ? 'hidden' : '';
-  });
+  if (toggle && overlay) {
+    const links = Array.from(overlay.querySelectorAll<HTMLAnchorElement>('a[href]'));
+    let previousBodyOverflow = '';
+
+    const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+
+    const setOpen = (open: boolean, restoreFocus = false) => {
+      if (!open && (restoreFocus || overlay.contains(document.activeElement))) {
+        toggle.focus();
+      }
+
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+      overlay.classList.toggle('is-open', open);
+      overlay.setAttribute('aria-hidden', String(!open));
+      overlay.toggleAttribute('inert', !open);
+
+      if (open) {
+        previousBodyOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        requestAnimationFrame(() => links[0]?.focus());
+      } else {
+        document.body.style.overflow = previousBodyOverflow;
+      }
+    };
+
+    toggle.addEventListener('click', () => setOpen(!isOpen()));
+
+    overlay.addEventListener('click', (event) => {
+      if (event.target === overlay) setOpen(false, true);
+    });
+
+    links.forEach((link) => link.addEventListener('click', () => setOpen(false)));
+
+    document.addEventListener('keydown', (event) => {
+      if (!isOpen()) return;
+
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        setOpen(false, true);
+        return;
+      }
+
+      if (event.key !== 'Tab') return;
+
+      const focusable = [toggle, ...links];
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last?.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first?.focus();
+      }
+    });
+  }
 </script>

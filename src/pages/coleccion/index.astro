@@ -39,13 +39,16 @@ import { pieces, themes, docTypes } from '@data/collection';
           data-doctype={piece.docTypeId}
           data-period={piece.periodId}
         >
-          <figure class:list={['cell__media', { 'cell__media--photo': piece.imageKind === 'photo' }]}>
+          <figure
+            class:list={['cell__media', { 'cell__media--photo': piece.imageKind === 'photo' }]}
+          >
             <img src={piece.image} alt={piece.title} loading="lazy" />
           </figure>
           <div class="cell__card">
             <p class="cell__year label">{piece.yearLabel}</p>
             <p class="cell__title">{piece.title}</p>
             {piece.designer && <p class="cell__designer">{piece.designer}</p>}
+            <p class="cell__hint label">Tocá otra vez para abrir</p>
           </div>
         </a>
       ))
@@ -193,12 +196,14 @@ import { pieces, themes, docTypes } from '@data/collection';
   }
 
   .cell:hover .cell__card,
-  .cell:focus-visible .cell__card {
+  .cell:focus-visible .cell__card,
+  .cell.is-revealed .cell__card {
     opacity: 1;
   }
 
   .cell:hover .cell__media,
-  .cell:focus-visible .cell__media {
+  .cell:focus-visible .cell__media,
+  .cell.is-revealed .cell__media {
     opacity: 0;
   }
 
@@ -217,8 +222,58 @@ import { pieces, themes, docTypes } from '@data/collection';
     font-size: var(--font-size-sm);
   }
 
+  .cell__hint {
+    display: none;
+    margin-top: auto;
+    color: var(--color-red);
+  }
+
+  .cell__designer + .cell__hint {
+    margin-top: var(--space-xs);
+  }
+
   .cell.is-hidden {
     display: none;
+  }
+
+  @media (hover: none), (pointer: coarse) {
+    .cell:hover:not(.is-revealed):not(:focus-visible) .cell__card {
+      opacity: 0;
+    }
+
+    .cell:hover:not(.is-revealed):not(:focus-visible) .cell__media {
+      opacity: 1;
+    }
+
+    .cell__hint {
+      display: block;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .chero {
+      padding-top: var(--space-xl);
+      padding-bottom: var(--space-xl);
+    }
+
+    .chero__title {
+      font-size: clamp(4rem, 21vw, 6rem);
+      line-height: 0.95;
+    }
+
+    .chero__search {
+      position: relative;
+      right: auto;
+      bottom: auto;
+      display: inline-flex;
+      margin-top: var(--space-lg);
+    }
+
+    .chero__filter-state {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
   }
 </style>
 
@@ -232,13 +287,13 @@ import { pieces, themes, docTypes } from '@data/collection';
   const nameMaps: Record<string, Record<string, string>> = {
     tema: Object.fromEntries(
       (JSON.parse(document.getElementById('filter-names')?.textContent ?? '{}').themes ?? []).map(
-        (t: { id: string; name: string }) => [t.id, t.name],
-      ),
+        (t: { id: string; name: string }) => [t.id, t.name]
+      )
     ),
     tipo: Object.fromEntries(
       (JSON.parse(document.getElementById('filter-names')?.textContent ?? '{}').docTypes ?? []).map(
-        (t: { id: string; name: string }) => [t.id, t.name],
-      ),
+        (t: { id: string; name: string }) => [t.id, t.name]
+      )
     ),
   };
 
@@ -262,6 +317,42 @@ import { pieces, themes, docTypes } from '@data/collection';
       state.hidden = false;
     }
   }
+
+  // Touch devices use a deliberate two-tap pattern: reveal details first,
+  // then follow the link. Tapping elsewhere or pressing Escape closes it.
+  const touchQuery = window.matchMedia('(hover: none), (pointer: coarse)');
+  const collectionCells = document.querySelectorAll<HTMLAnchorElement>('[data-piece]');
+  let revealedCell: HTMLAnchorElement | null = null;
+
+  const closeRevealedCell = () => {
+    revealedCell?.classList.remove('is-revealed');
+    revealedCell = null;
+  };
+
+  collectionCells.forEach((cell) => {
+    cell.addEventListener('click', (event) => {
+      if (!touchQuery.matches || cell.classList.contains('is-revealed')) return;
+
+      event.preventDefault();
+      closeRevealedCell();
+      cell.classList.add('is-revealed');
+      revealedCell = cell;
+    });
+
+    cell.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      closeRevealedCell();
+      cell.blur();
+    });
+  });
+
+  document.addEventListener('pointerdown', (event) => {
+    const targetCell =
+      event.target instanceof Element
+        ? event.target.closest<HTMLAnchorElement>('[data-piece]')
+        : null;
+    if (revealedCell && targetCell !== revealedCell) closeRevealedCell();
+  });
 </script>
 
 <script

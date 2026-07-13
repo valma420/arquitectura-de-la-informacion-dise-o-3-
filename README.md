@@ -2,7 +2,7 @@
 
 An interactive digital exhibition / museum website built for a Graphic Design course at **Universidad de Buenos Aires**. The site presents a curated collection of objects through an immersive, animation-driven experience — gallery, timeline, exhibition viewer, catalog and program.
 
-> **Status:** Architecture scaffold. The folder structure, tooling, design-token system and component/page placeholders are in place. The final UI, content and animations are implemented on top of this foundation.
+> **Status:** Functional visual prototype. The principal routes, editorial content, responsive layouts, navigation, interactive collection, timeline, New Look story and shared motion system are implemented. The remaining work is final Figma alignment and production content QA.
 
 ---
 
@@ -45,7 +45,7 @@ Then copy the environment template:
 cp .env.example .env
 ```
 
-Set `PUBLIC_SITE_URL` in `.env` and the `site` field in `astro.config.mjs` to your deployment URL.
+Set `PUBLIC_SITE_URL` in `.env` to your deployment URL. `astro.config.mjs` consumes it for canonical links, OpenGraph URLs and the sitemap.
 
 ---
 

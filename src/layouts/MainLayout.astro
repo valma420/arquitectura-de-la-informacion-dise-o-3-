@@ -25,7 +25,10 @@ type Props = Partial<SeoMeta>;
 </BaseLayout>
 
 <script>
-  // Client-side only: initialize smooth scrolling once the page is ready.
+  // Client-side only: initialize scrolling before scroll-linked site motion.
+  import { initSiteMotion } from '@lib/animations';
   import { initSmoothScroll } from '@lib/lenis';
+
   initSmoothScroll();
+  initSiteMotion();
 </script>

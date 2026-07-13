@@ -228,7 +228,7 @@ export const pieces: Piece[] = [
   }),
 
   /* -------------------------------- El New Look ------------------- */
-  d('traje-bar', 'Traje «Bar»', 1947, '1947', 'new-look', '/images/catalogo/c01.png', 'cutout', {
+  d('traje-bar', 'Traje «Bar»', 1947, '1947', 'new-look', '/images/muestra/m14.jpeg', 'photo', {
     designer: 'Christian Dior',
     house: 'Maison Dior',
     line: 'Corolle',
@@ -241,7 +241,7 @@ export const pieces: Piece[] = [
     description:
       'Una sola pieza definió el día: el tailleur «Bar». Chaqueta de shantung ceñida en la cintura, pollera de lana negra plisada hasta media pantorrilla. La modelo entró y la sala se quedó en silencio.',
   }),
-  d('firmament', 'Firmament', 1947, '1947', 'new-look', '/images/catalogo/c02.png', 'cutout', {
+  d('firmament', 'Firmament', 1947, '1947', 'new-look', '/images/muestra/m02.jpg', 'photo', {
     designer: 'Christian Dior',
     house: 'Maison Dior',
     line: 'Corolle',
@@ -254,7 +254,7 @@ export const pieces: Piece[] = [
     description:
       'Vestido de gala de la primera época de la maison Dior. Seda y tul bordado con motivos de estrellas —el «firmamento» que da nombre a la pieza—. Silueta New Look: hombros suaves, cintura ceñida y falda amplia sostenida por enaguas de tul.',
   }),
-  d('vestido-bonbon', 'Vestido «Bonbon»', 1947, '1947', 'new-look', '/images/catalogo/c03.png', 'cutout', {
+  d('vestido-bonbon', 'Vestido «Bonbon»', 1947, '1947', 'new-look', '/images/muestra/m07.jpg', 'photo', {
     designer: 'Christian Dior',
     house: 'Maison Dior',
     line: 'Corolle',
@@ -263,7 +263,7 @@ export const pieces: Piece[] = [
     inv: 'GAL.1983.47',
     description: 'Vestido de día, silueta New Look. Falda amplia, cinturón.',
   }),
-  d('corolle', 'Vestido «Corolle»', 1947, '1947', 'new-look', '/images/catalogo/c04.png', 'cutout', {
+  d('corolle', 'Vestido «Corolle»', 1947, '1947', 'new-look', '/images/muestra/m09.jpg', 'photo', {
     designer: 'Christian Dior',
     house: 'Maison Dior',
     line: 'Corolle',
@@ -272,19 +272,19 @@ export const pieces: Piece[] = [
     description:
       'Corola, como el cáliz de una flor: la falda amplia dada vuelta que dio nombre a la primera colección de la maison.',
   }),
-  d('tailleur-dia', 'Tailleur de día', 1948, '1948', 'new-look', '/images/catalogo/c05.png', 'cutout', {
+  d('tailleur-dia', 'Tailleur de día', 1948, '1948', 'new-look', '/images/muestra/m12.jpg', 'photo', {
     designer: 'Christian Dior',
     house: 'Maison Dior',
     section: 'Alta costura',
     inv: 'GAL.1983.52',
   }),
-  d('vestido-gala-1949', 'Vestido de gala', 1949, '1949', 'new-look', '/images/catalogo/c06.png', 'cutout', {
+  d('vestido-gala-1949', 'Vestido de gala', 1949, '1949', 'new-look', '/images/muestra/m13.jpeg', 'photo', {
     designer: 'Christian Dior',
     house: 'Maison Dior',
     section: 'Alta costura',
     inv: 'GAL.1983.55',
   }),
-  d('chaqueta-lapa', 'Chaqueta y vestido «Lapa»', 1950, '1950–51', 'new-look', '/images/catalogo/c07.png', 'cutout', {
+  d('chaqueta-lapa', 'Chaqueta y vestido «Lapa»', 1950, '1950–51', 'new-look', '/images/muestra/m15.webp', 'photo', {
     designer: 'Christian Dior',
     house: 'Maison Dior',
     themeIds: ['la-silueta', 'el-atelier'],
@@ -292,19 +292,19 @@ export const pieces: Piece[] = [
     inv: 'GAL.1983.58',
     description: 'Chaqueta peplum + falda lápiz. Evolución de la silueta.',
   }),
-  d('vestido-dior-1951', 'Vestido de cóctel', 1951, '1951', 'new-look', '/images/catalogo/c08.png', 'cutout', {
+  d('vestido-dior-1951', 'Vestido de cóctel', 1951, '1951', 'new-look', '/images/muestra/m08.jpg', 'photo', {
     designer: 'Christian Dior',
     house: 'Maison Dior',
     section: 'Alta costura',
     inv: 'GAL.1983.61',
   }),
-  d('vestido-tarde-1952', 'Vestido de tarde', 1952, '1952', 'new-look', '/images/catalogo/c09.png', 'cutout', {
+  d('vestido-tarde-1952', 'Vestido de tarde', 1952, '1952', 'new-look', '/images/muestra/m11.jpg', 'photo', {
     designer: 'Christian Dior',
     house: 'Maison Dior',
     section: 'Alta costura',
     inv: 'GAL.1983.63',
   }),
-  d('clavel-negro', 'Vestido «Clavel Negro»', 1953, '1953–54', 'new-look', '/images/catalogo/c10.png', 'cutout', {
+  d('clavel-negro', 'Vestido «Clavel Negro»', 1953, '1953–54', 'new-look', '/images/muestra/m03.jpg', 'photo', {
     designer: 'Christian Dior',
     house: 'Maison Dior',
     themeIds: ['la-imagen', 'el-color'],
@@ -312,25 +312,25 @@ export const pieces: Piece[] = [
     inv: 'GAL.1983.66',
     description: 'Vestido de noche, estampado floral blanco y negro.',
   }),
-  d('maillot', 'Maillot', 1954, '1954', 'new-look', '/images/catalogo/c11.png', 'cutout', {
+  d('maillot', 'Maillot', 1954, '1954', 'new-look', '/images/muestra/m01.jpg', 'photo', {
     designer: 'Christian Dior',
     house: 'Maison Dior',
     section: 'Alta costura',
     inv: 'GAL.1983.68',
   }),
-  d('abrigo-1955', 'Abrigo de noche', 1955, '1955', 'new-look', '/images/catalogo/c12.png', 'cutout', {
+  d('abrigo-1955', 'Abrigo de noche', 1955, '1955', 'new-look', '/images/muestra/m06.jpg', 'photo', {
     designer: 'Christian Dior',
     house: 'Maison Dior',
     section: 'Alta costura',
     inv: 'GAL.1983.71',
   }),
-  d('traje-sastre-1956', 'Traje sastre', 1956, '1956', 'new-look', '/images/catalogo/c13.png', 'cutout', {
+  d('traje-sastre-1956', 'Traje sastre', 1956, '1956', 'new-look', '/images/muestra/m04.jpg', 'photo', {
     designer: 'Christian Dior',
     house: 'Maison Dior',
     section: 'Alta costura',
     inv: 'GAL.1983.74',
   }),
-  d('gasa-rosa', 'Gasa rosa', 1957, '1957', 'new-look', '/images/catalogo/c14.png', 'cutout', {
+  d('gasa-rosa', 'Gasa rosa', 1957, '1957', 'new-look', '/images/muestra/m05.jpg', 'photo', {
     designer: 'Christian Dior',
     house: 'Maison Dior',
     themeIds: ['el-color', 'la-silueta'],
@@ -338,7 +338,7 @@ export const pieces: Piece[] = [
     section: 'Alta costura',
     inv: 'GAL.1983.77',
   }),
-  d('capa-noche-1957', 'Capa de noche', 1957, '1957', 'new-look', '/images/catalogo/c15.png', 'cutout', {
+  d('capa-noche-1957', 'Capa de noche', 1957, '1957', 'new-look', '/images/muestra/m10.jpg', 'photo', {
     designer: 'Christian Dior',
     house: 'Maison Dior',
     section: 'Alta costura',

@@ -2,9 +2,7 @@
 /**
  * PageTransition
  *
- * Wrapper + overlay element used to drive route/page transition animations
- * (e.g. via GSAP + Astro View Transitions). Placeholder only — the overlay is
- * inert and hidden until the transition logic is implemented.
+ * Full-viewport overlay driven by the shared GSAP motion layer.
  */
 ---
 
@@ -16,8 +14,14 @@
     inset: 0;
     z-index: var(--z-overlay);
     pointer-events: none;
-    /* Hidden by default; animation logic will reveal/animate this element. */
-    opacity: 0;
-    background-color: var(--color-background);
+    opacity: 1;
+    visibility: visible;
+    transform: scaleY(0);
+    transform-origin: bottom center;
+    background:
+      linear-gradient(to bottom, var(--color-orange) 0 2px, transparent 2px),
+      var(--color-background);
+    backface-visibility: hidden;
+    will-change: transform;
   }
 </style>

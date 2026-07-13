@@ -1,271 +1,833 @@
 ---
-/**
- * Muestra (/muestra) — temporary exhibition "El New Look y la silueta de Posguerra".
- * Black hero + cream section with the four numbered curatorial cards.
- */
 import MainLayout from '@layouts/MainLayout.astro';
 
-const cards = [
+const decadeMoments = [
   {
-    num: '01',
-    title: '12 de febrero de 1947',
-    image: '/images/catalogo/c01.png',
-    imageDark: true,
-    caption: 'Traje Bar, Christian Dior · 1947',
-    cols: [
-      'Una sola pieza definió el día: el tailleur «Bar». Chaqueta de shantung ceñida en la cintura, pollera de lana negra plisada hasta media pantorrilla. La modelo entró y la sala se quedó en silencio.',
-    ],
+    year: '1947',
+    title: 'La línea Corolle',
+    copy: 'Dior presenta su primera colección y el tailleur Bar convierte la cintura en el centro de una nueva arquitectura.',
+    image: '/images/muestra/m14.jpeg',
   },
   {
-    num: '02',
-    title: 'La silueta',
-    image: '/images/muestra/m03.jpg',
-    caption: 'Figurín de atelier · Maison Dior',
-    cols: [
-      'El New Look fue una ruptura: del racionamiento bélico a la abundancia de tela, del hombro cuadrado al redondeado, de la falda corta a la amplia bajo la rodilla.',
-      'La cintura volvió a ceñirse hasta extremos casi eduardianos; las caderas se rellenaron con crinolinas. Algunos modelos llevaban veinte metros de tela.',
-    ],
+    year: '1948',
+    title: 'La casa se expande',
+    copy: 'Alta costura, perfume y accesorios construyen un universo completo alrededor de la silueta.',
+    image: '/images/muestra/m08.jpg',
   },
   {
-    num: '03',
-    title: 'El atelier',
-    image: '/images/muestra/m04.jpg',
-    caption: 'Figurín de atelier · Maison Dior',
-    cols: [
-      'Figurines, patrones y documentos de trabajo del taller de la maison Dior. Cómo se construía la silueta desde el diseño.',
-      'El corsé interno, el relleno de cadera, los refuerzos: la estructura que el cuerpo no mostraba pero que sostenía la forma.',
-    ],
+    year: '1951',
+    title: 'La imagen viaja',
+    copy: 'Fotógrafos, revistas y clientas hacen circular el New Look mucho más allá de París.',
+    image: '/images/muestra/m11.jpg',
+  },
+];
+
+const hotspots = [
+  {
+    id: 'hombros',
+    number: '01',
+    title: 'Hombro redondeado',
+    copy: 'Desaparece la hombrera militar. La línea cae con suavidad para devolverle curva al torso.',
+    x: 34,
+    y: 31,
   },
   {
-    num: '04',
-    title: 'La imagen',
-    image: '/images/muestra/m15.webp',
-    caption: 'Fotografías por Henry Clarke, Vogue, septiembre 1951',
-    cols: [
-      'Henry Clarke, Willy Maywald y las páginas de Vogue Francia y Figaro Album difundieron el New Look por el mundo. La imagen hizo la revolución tanto como la prenda.',
-    ],
+    id: 'cintura',
+    number: '02',
+    title: 'Cintura avispa',
+    copy: 'Una estructura interior ciñe el talle y amplifica el contraste con el volumen de la cadera.',
+    x: 51,
+    y: 43,
+  },
+  {
+    id: 'falda',
+    number: '03',
+    title: 'Falda corola',
+    copy: 'Metros de lana plisada abren la falda bajo la rodilla. La escasez de guerra deja lugar a la abundancia.',
+    x: 57,
+    y: 66,
+  },
+  {
+    id: 'sombrero',
+    number: '04',
+    title: 'Ala ancha',
+    copy: 'El sombrero prolonga la silueta y encuadra el rostro como parte de una composición total.',
+    x: 53,
+    y: 14,
   },
 ];
 ---
 
 <MainLayout
-  title="Muestra — El New Look y la silueta de Posguerra"
-  description="Muestra temporaria 1947–1957: la década que redefinió la silueta femenina de posguerra. Palais Galliera."
+  title="New Look — La revolución del cuerpo vestido"
+  description="Una muestra digital sobre el New Look de Christian Dior, la silueta Bar y la década que transformó el cuerpo vestido."
 >
-  <!-- ================= HERO ================= -->
-  <section class="mhero">
-    <div class="mhero__text">
-      <p class="label mhero__kicker">
-        <span class="mhero__range">1947 — 1957</span>
-        <span class="mhero__dot">·</span>
-        Muestra temporaria
-      </p>
-      <h1 class="mhero__title type-display-italic">El New Look<br />y la silueta<br />de Posguerra</h1>
-      <p class="mhero__copy">
-        Exhibición temático-cronológica que recorre la década que redefinió la silueta femenina de
-        posguerra, a través de prendas originales, figurines de atelier y fotografía editorial de
-        época del acervo del Palais Galliera. Una entrada al tiempo que cambió el cuerpo vestido.
-      </p>
-      <p class="label mhero__meta">
-        15 marzo – 28 julio 2026 <span class="mhero__dot">·</span> Salas del jardín bajo, Palais
-        Galliera
-      </p>
-    </div>
-
-    <figure class="mhero__media">
-      <img src="/images/muestra/m13.jpeg" alt="Desfile de Christian Dior, tailleur «Bar», 1947" />
-      <figcaption class="label">Christian Dior · «Bar» · 1947</figcaption>
-    </figure>
+  <section class="nl-hero" data-nl-hero>
+    <div class="nl-hero__glow" aria-hidden="true"></div>
+    <p class="nl-hero__meta label" data-reveal>La revolución del cuerpo vestido · 1947–1957</p>
+    <h1 class="nl-hero__title" data-reveal>
+      <span>New</span>
+      <span>Look</span>
+    </h1>
+    <p class="nl-hero__subtitle type-display-italic" data-reveal>
+      Una nueva forma de mirar el cuerpo.<br />Una nueva forma de construirlo.
+    </p>
+    <a class="nl-hero__scroll label" href="#origen">
+      Comenzar el recorrido <span aria-hidden="true">↓</span>
+    </a>
   </section>
 
-  <!-- ============== CARDS ============== -->
-  <section class="mcards section-cream">
-    {
-      cards.map((card, i) => (
-        <article class:list={['mcard', `mcard--${i + 1}`]}>
-          <figure class:list={['mcard__media', { 'mcard__media--dark': card.imageDark }]}>
-            <span class="mcard__num label">{card.num}</span>
-            <img src={card.image} alt={card.caption} loading="lazy" />
-            <figcaption class="label">{card.caption}</figcaption>
-          </figure>
-          <div class="mcard__body">
-            <h2 class="mcard__title">{card.title}</h2>
-            <div class:list={['mcard__cols', { 'mcard__cols--two': card.cols.length > 1 }]}>
-              {card.cols.map((c) => (
-                <p>{c}</p>
-              ))}
-            </div>
+  <section class="nl-origin" id="origen">
+    <p class="label nl-origin__kicker" data-reveal>París · 12 de febrero de 1947</p>
+    <blockquote data-reveal>
+      <p class="type-display-italic">
+        “It’s quite a revolution, dear Christian. Your dresses have such a
+        <em>New Look</em>.”
+      </p>
+      <cite class="label">Carmel Snow · Harper’s Bazaar</cite>
+    </blockquote>
+    <div class="nl-origin__story" data-reveal>
+      <p>
+        Christian Dior presentó su primera colección en el 30 de Avenue Montaigne. La llamó
+        <em>Corolle</em> —por la forma de las flores—, pero el mundo la recordó por dos palabras.
+      </p>
+      <p>
+        Después de años de racionamiento, hombros cuadrados y faldas estrechas, aparecieron la
+        cintura ceñida, las caderas redondeadas y una falda construida con una abundancia casi
+        provocadora de tela.
+      </p>
+    </div>
+    <div class="nl-origin__gradient" aria-hidden="true"></div>
+  </section>
+
+  <section class="nl-decade">
+    <header class="nl-decade__head" data-reveal>
+      <p class="label">Archivo de una transformación</p>
+      <h2>Diez años, una casa.</h2>
+      <p>
+        El New Look no fue una colección: fue el punto de partida de una hegemonía absoluta de diez
+        años.
+      </p>
+    </header>
+
+    <div class="nl-decade__cards">
+      {
+        decadeMoments.map((moment, index) => (
+          <article class:list={['nl-moment', { 'nl-moment--accent': index === 1 }]} data-reveal>
+            <p class="nl-moment__year type-display-italic">{moment.year}</p>
+            <figure>
+              <img src={moment.image} alt={moment.title} loading="lazy" />
+            </figure>
+            <h3>{moment.title}</h3>
+            <p>{moment.copy}</p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="nl-bar" data-bar-explorer>
+    <header class="nl-bar__head" data-reveal>
+      <p class="label">La pieza ícono</p>
+      <h2>Bar</h2>
+      <p class="type-display-italic">El tailleur que redibujó el cuerpo.</p>
+      <span class="label">Christian Dior · Línea Corolle · 1947</span>
+    </header>
+
+    <div class="nl-bar__layout">
+      <div class="nl-bar__panels" aria-live="polite">
+        {
+          hotspots.map((hotspot, index) => (
+            <article
+              class:list={['nl-callout', { 'is-active': index === 0 }]}
+              id={`callout-${hotspot.id}`}
+              data-callout={hotspot.id}
+              hidden={index !== 0}
+            >
+              <p class="label">{hotspot.number} · Detalle</p>
+              <h3>{hotspot.title}</h3>
+              <p>{hotspot.copy}</p>
+            </article>
+          ))
+        }
+      </div>
+
+      <figure class="nl-bar__figure" data-reveal>
+        <img src="/images/muestra/m14.jpeg" alt="Tailleur Bar de Christian Dior, 1947" />
+        {
+          hotspots.map((hotspot, index) => (
+            <button
+              class:list={['nl-hotspot', { 'is-active': index === 0 }]}
+              type="button"
+              style={`--x:${hotspot.x}%;--y:${hotspot.y}%;`}
+              aria-label={`Ver detalle: ${hotspot.title}`}
+              aria-controls={`callout-${hotspot.id}`}
+              aria-pressed={index === 0 ? 'true' : 'false'}
+              data-hotspot={hotspot.id}
+            >
+              <span>{hotspot.number}</span>
+            </button>
+          ))
+        }
+        <figcaption class="label">Seleccioná los puntos para reconstruir la silueta</figcaption>
+      </figure>
+
+      <aside class="nl-bar__facts" data-reveal>
+        <p class="label">La forma en cifras</p>
+        <dl>
+          <div>
+            <dt>20 m</dt>
+            <dd>de tela en algunos modelos</dd>
           </div>
-        </article>
-      ))
-    }
+          <div>
+            <dt>42</dt>
+            <dd>años tenía Dior al presentarlo</dd>
+          </div>
+          <div>
+            <dt>10</dt>
+            <dd>años duró su revolución</dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <section class="nl-quote">
+    <blockquote data-reveal>
+      <p class="type-display-italic">
+        “Concibo mi trabajo como una arquitectura efímera dedicada a la belleza del cuerpo
+        femenino.”
+      </p>
+      <cite class="label">Christian Dior · Conferencia en La Sorbonne · 1955</cite>
+    </blockquote>
+  </section>
+
+  <section class="nl-close">
+    <div class="nl-close__pattern" aria-hidden="true"></div>
+    <p class="label" data-reveal>Explorá las piezas de la colección</p>
+    <div class="nl-close__disc" data-reveal>
+      <h2>New Look</h2>
+      <p class="label">Una selección del archivo Galliera · 1947–1957</p>
+      <a class="nl-close__cta label" href="/linea-de-tiempo?periodo=new-look">
+        Ver la colección completa <span aria-hidden="true">→</span>
+      </a>
+    </div>
   </section>
 </MainLayout>
 
 <style>
-  /* ================================================================ */
-  /* Hero                                                             */
-  /* ================================================================ */
-  .mhero {
+  .nl-hero {
+    position: relative;
+    min-height: calc(100svh - 72px);
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(2rem, 6vw, 6rem);
-    align-items: center;
-    background: var(--color-black);
+    place-items: center;
+    align-content: center;
+    overflow: hidden;
+    isolation: isolate;
+    padding: var(--space-2xl) var(--layout-gutter);
+    background: var(--color-ink);
     color: var(--color-cream);
-    padding: clamp(3rem, 8vh, 6rem) var(--layout-gutter) clamp(3rem, 9vh, 7rem);
+    text-align: center;
   }
 
-  .mhero__kicker {
-    color: var(--color-red-bright);
+  .nl-hero__glow {
+    position: absolute;
+    z-index: -1;
+    left: 50%;
+    bottom: -37vw;
+    width: min(90vw, 78rem);
+    aspect-ratio: 1;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(
+      circle,
+      rgba(243, 238, 225, 0.98) 0 31%,
+      rgba(243, 238, 225, 0.72) 42%,
+      rgba(255, 90, 0, 0.1) 58%,
+      transparent 70%
+    );
+    filter: blur(0.6rem);
   }
 
-  .mhero__dot {
-    margin-inline: 0.75em;
-    color: var(--color-muted);
+  .nl-hero__meta {
+    color: rgba(243, 238, 225, 0.64);
   }
 
-  .mhero__title {
-    font-size: clamp(3rem, 7vw, 7.5rem);
+  .nl-hero__title {
+    display: flex;
+    gap: 0.2em;
     margin-top: var(--space-lg);
+    color: var(--color-orange);
+    font-size: clamp(5.5rem, 14vw, 14rem);
+    line-height: 0.77;
+    letter-spacing: -0.07em;
+    text-transform: uppercase;
   }
 
-  .mhero__copy {
-    max-width: 44rem;
-    margin-top: var(--space-xl);
-    font-size: var(--font-size-sm);
-    line-height: 1.75;
+  .nl-hero__title span:last-child {
+    font-style: italic;
+    font-weight: var(--font-weight-regular);
   }
 
-  .mhero__meta {
-    margin-top: var(--space-2xl);
-    color: var(--color-cream);
-  }
-
-  .mhero__media {
-    margin: 0;
-    position: relative;
-  }
-
-  .mhero__media img {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    filter: grayscale(1) contrast(1.05);
-  }
-
-  .mhero__media figcaption {
-    position: absolute;
-    left: var(--space-md);
-    bottom: var(--space-md);
-    color: var(--color-cream);
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
-  }
-
-  /* ================================================================ */
-  /* Cards                                                            */
-  /* ================================================================ */
-  .mcards {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(3rem, 6vw, 6rem) clamp(3rem, 8vw, 8rem);
-    padding: var(--space-3xl) var(--layout-gutter);
-  }
-
-  .mcard {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: var(--space-lg);
-    align-items: start;
-  }
-
-  /* Alternate: text first on even cards, like the design's stagger. */
-  .mcard--3 .mcard__media,
-  .mcard--4 .mcard__body {
-    order: 2;
-  }
-
-  .mcard--2,
-  .mcard--4 {
+  .nl-hero__subtitle {
+    max-width: 38rem;
     margin-top: clamp(2rem, 6vh, 5rem);
-  }
-
-  .mcard__media {
-    margin: 0;
+    color: var(--color-ink);
+    font-size: clamp(1.8rem, 3.2vw, 3.4rem);
     position: relative;
-    border: 1px solid var(--color-red);
-    padding: var(--space-2xs);
-  }
-
-  .mcard__media img {
-    width: 100%;
-    aspect-ratio: 4 / 5;
-    object-fit: cover;
-    object-position: top;
-  }
-
-  .mcard__media--dark img {
-    object-fit: contain;
-    background:
-      radial-gradient(ellipse at 50% 30%, rgba(243, 238, 225, 0.12), transparent 70%),
-      var(--color-black);
-    padding: var(--space-lg);
-  }
-
-  .mcard__num {
-    position: absolute;
-    top: -1px;
-    left: -1px;
-    background: var(--color-red);
-    color: var(--color-cream);
-    padding: 0.9em 1.1em;
     z-index: 2;
   }
 
-  .mcard__media figcaption {
+  .nl-hero__scroll {
     position: absolute;
-    left: var(--space-sm);
-    bottom: var(--space-sm);
-    color: var(--color-black);
-    background: rgba(243, 238, 225, 0.85);
-    padding: 0.4em 0.7em;
+    right: var(--layout-gutter);
+    bottom: var(--space-lg);
+    display: inline-flex;
+    gap: 0.75rem;
+    color: var(--color-orange);
   }
 
-  .mcard__title {
-    font-family: var(--font-display);
-    font-size: clamp(1.6rem, 2.2vw, 2.2rem);
-    color: var(--color-red);
-    padding-bottom: var(--space-xs);
-    border-bottom: 1px solid var(--color-red);
-    display: inline-block;
+  .nl-origin {
+    position: relative;
+    min-height: 52rem;
+    overflow: hidden;
+    padding: clamp(5rem, 11vh, 9rem) var(--layout-gutter) clamp(10rem, 20vh, 15rem);
+    background: var(--color-cream);
+    color: var(--color-ink);
+    text-align: center;
   }
 
-  .mcard__cols {
-    margin-top: var(--space-md);
+  .nl-origin__kicker {
+    color: var(--color-purple);
+  }
+
+  .nl-origin blockquote {
+    position: relative;
+    z-index: 2;
+    max-width: 62rem;
+    margin: var(--space-xl) auto 0;
+  }
+
+  .nl-origin blockquote p {
+    font-size: clamp(2.4rem, 5.6vw, 6rem);
+  }
+
+  .nl-origin blockquote em {
+    color: var(--color-orange);
+    font-weight: inherit;
+  }
+
+  .nl-origin blockquote cite {
+    display: block;
+    margin-top: var(--space-lg);
+    color: var(--color-purple);
+    font-style: normal;
+  }
+
+  .nl-origin__story {
+    position: relative;
+    z-index: 2;
+    max-width: 56rem;
+    margin: clamp(4rem, 10vh, 8rem) auto 0;
     display: grid;
-    gap: var(--space-md);
-    font-size: var(--font-size-sm);
-    line-height: 1.7;
-  }
-
-  .mcard__cols--two {
     grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 5vw, 5rem);
+    text-align: left;
   }
 
-  @media (max-width: 1000px) {
-    .mhero,
-    .mcards,
-    .mcard {
+  .nl-origin__story p {
+    line-height: 1.75;
+  }
+
+  .nl-origin__story em {
+    color: var(--color-orange);
+  }
+
+  .nl-origin__gradient {
+    position: absolute;
+    left: -10%;
+    right: -10%;
+    bottom: -18rem;
+    height: 32rem;
+    border-radius: 50% 50% 0 0;
+    background: radial-gradient(ellipse at center, var(--color-blue) 0 45%, transparent 72%);
+    filter: blur(0.8rem);
+  }
+
+  .nl-decade {
+    position: relative;
+    padding: clamp(4rem, 10vh, 8rem) var(--layout-gutter) var(--space-3xl);
+    overflow: hidden;
+    background: var(--color-blue);
+    color: var(--color-ink);
+  }
+
+  .nl-decade::before,
+  .nl-close__pattern {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.16;
+    background-image: url('/images/ornaments/orn-04.png');
+    background-position: center;
+    background-size: 36rem;
+    filter: grayscale(1) sepia(1) hue-rotate(170deg);
+    pointer-events: none;
+  }
+
+  .nl-decade__head {
+    position: relative;
+    max-width: 70rem;
+  }
+
+  .nl-decade__head > .label {
+    color: var(--color-purple);
+  }
+
+  .nl-decade__head h2 {
+    margin-top: var(--space-md);
+    font-size: clamp(4rem, 10vw, 10rem);
+    letter-spacing: -0.055em;
+  }
+
+  .nl-decade__head > p:last-child {
+    max-width: 34rem;
+    margin: var(--space-md) 0 0 auto;
+    line-height: 1.65;
+  }
+
+  .nl-decade__cards {
+    position: relative;
+    margin-top: clamp(3rem, 8vh, 7rem);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.25rem, 3vw, 3rem);
+  }
+
+  .nl-moment {
+    min-height: 34rem;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(1rem, 2.2vw, 2rem);
+    border: 1px solid rgba(17, 16, 15, 0.28);
+    border-radius: 48% 48% 0 0 / 14% 14% 0 0;
+    background: rgba(243, 238, 225, 0.42);
+  }
+
+  .nl-moment--accent {
+    background: var(--color-orange);
+  }
+
+  .nl-moment__year {
+    color: var(--color-purple);
+    font-size: clamp(2.5rem, 5vw, 5rem);
+    line-height: 1;
+  }
+
+  .nl-moment figure {
+    margin: var(--space-md) 0 0;
+    height: 16rem;
+    overflow: hidden;
+    border-radius: 46% 46% 0 0 / 22% 22% 0 0;
+  }
+
+  .nl-moment img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    filter: grayscale(1) contrast(1.03);
+    transition: transform var(--duration-slow) var(--ease-expo);
+  }
+
+  .nl-moment:hover img {
+    transform: scale(1.04);
+  }
+
+  .nl-moment h3 {
+    margin-top: var(--space-lg);
+    color: var(--color-purple);
+    font-size: clamp(1.9rem, 3.2vw, 3rem);
+  }
+
+  .nl-moment > p:last-child {
+    margin-top: var(--space-sm);
+    font-size: var(--font-size-sm);
+    line-height: 1.65;
+  }
+
+  .nl-bar {
+    min-height: 100svh;
+    padding: clamp(4rem, 9vh, 7rem) var(--layout-gutter) var(--space-3xl);
+    overflow: hidden;
+    background: var(--color-ink);
+    color: var(--color-cream);
+  }
+
+  .nl-bar__head {
+    text-align: center;
+  }
+
+  .nl-bar__head > .label:first-child {
+    color: var(--color-blue);
+  }
+
+  .nl-bar__head h2 {
+    margin-top: var(--space-xs);
+    color: var(--color-orange);
+    font-size: clamp(4rem, 8vw, 8rem);
+  }
+
+  .nl-bar__head > p:not(.label) {
+    margin-top: var(--space-xs);
+    font-size: clamp(1.8rem, 3.3vw, 3.5rem);
+  }
+
+  .nl-bar__head > span {
+    display: block;
+    margin-top: var(--space-md);
+    color: rgba(243, 238, 225, 0.58);
+  }
+
+  .nl-bar__layout {
+    max-width: 86rem;
+    margin: var(--space-xl) auto 0;
+    display: grid;
+    grid-template-columns: minmax(13rem, 0.68fr) minmax(24rem, 1.2fr) minmax(13rem, 0.68fr);
+    gap: clamp(1.25rem, 4vw, 4rem);
+    align-items: center;
+  }
+
+  .nl-bar__panels {
+    min-height: 19rem;
+    display: grid;
+    align-items: center;
+  }
+
+  .nl-callout {
+    grid-area: 1 / 1;
+    min-height: 17rem;
+    padding: clamp(1.5rem, 2.5vw, 2.4rem);
+    border-radius: 48% 48% 0.25rem 0.25rem / 30% 30% 0.25rem 0.25rem;
+    background: var(--color-orange);
+    color: var(--color-ink);
+  }
+
+  .nl-callout[hidden] {
+    display: block;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(1rem);
+  }
+
+  .nl-callout.is-active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    transition:
+      opacity var(--duration-base) var(--ease-expo),
+      transform var(--duration-base) var(--ease-expo);
+  }
+
+  .nl-callout h3 {
+    margin-top: var(--space-sm);
+    font-size: clamp(2rem, 3.2vw, 3.2rem);
+  }
+
+  .nl-callout > p:last-child {
+    margin-top: var(--space-md);
+    font-size: var(--font-size-sm);
+    line-height: 1.65;
+  }
+
+  .nl-bar__figure {
+    position: relative;
+    width: min(100%, 34rem);
+    margin: 0 auto;
+  }
+
+  .nl-bar__figure > img {
+    width: 100%;
+    max-height: 42rem;
+    object-fit: cover;
+    object-position: top;
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 47%, transparent 78%);
+    mask-image: radial-gradient(ellipse at center, #000 47%, transparent 78%);
+    filter: grayscale(1) contrast(1.16);
+  }
+
+  .nl-bar__figure figcaption {
+    margin-top: var(--space-sm);
+    color: rgba(243, 238, 225, 0.58);
+    text-align: center;
+  }
+
+  .nl-hotspot {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: 1.6rem;
+    height: 1.6rem;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 1px solid var(--color-blue);
+    border-radius: 50%;
+    background: rgba(17, 16, 15, 0.62);
+    color: var(--color-blue);
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    transition:
+      background var(--duration-fast) var(--ease-standard),
+      color var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-expo);
+  }
+
+  .nl-hotspot::after {
+    content: '';
+    position: absolute;
+    inset: -0.55rem;
+    border: 1px solid rgba(199, 220, 255, 0.34);
+    border-radius: 50%;
+    animation: hotspot-pulse 2s var(--ease-in-out) infinite;
+  }
+
+  .nl-hotspot span {
+    font-size: 0.55rem;
+  }
+
+  .nl-hotspot:hover,
+  .nl-hotspot.is-active {
+    background: var(--color-blue);
+    color: var(--color-ink);
+    transform: translate(-50%, -50%) scale(1.16);
+  }
+
+  .nl-bar__facts > .label {
+    color: var(--color-orange);
+  }
+
+  .nl-bar__facts dl {
+    margin: var(--space-lg) 0 0;
+  }
+
+  .nl-bar__facts dl > div {
+    padding-block: var(--space-md);
+    border-top: 1px solid rgba(243, 238, 225, 0.18);
+  }
+
+  .nl-bar__facts dt {
+    font-family: var(--font-display);
+    color: var(--color-orange);
+    font-size: clamp(2.4rem, 4vw, 4rem);
+    line-height: 1;
+  }
+
+  .nl-bar__facts dd {
+    margin: 0.3rem 0 0;
+    color: rgba(243, 238, 225, 0.62);
+    font-size: var(--font-size-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+  }
+
+  .nl-quote {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(5rem, 12vh, 9rem) var(--layout-gutter);
+    background: var(--color-purple);
+    color: var(--color-cream);
+  }
+
+  .nl-quote::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.16;
+    background-image: url('/images/ornaments/orn-07.png');
+    background-size: 32rem;
+    background-position: center;
+    filter: grayscale(1);
+  }
+
+  .nl-quote blockquote {
+    position: relative;
+    max-width: 68rem;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .nl-quote blockquote p {
+    font-size: clamp(2.2rem, 5vw, 5.5rem);
+  }
+
+  .nl-quote cite {
+    display: block;
+    margin-top: var(--space-lg);
+    color: var(--color-blue);
+    font-style: normal;
+  }
+
+  .nl-close {
+    position: relative;
+    min-height: 42rem;
+    overflow: hidden;
+    padding: var(--space-3xl) var(--layout-gutter) 0;
+    background: var(--color-cream);
+    color: var(--color-ink);
+    text-align: center;
+  }
+
+  .nl-close > .label {
+    position: relative;
+    z-index: 2;
+    color: var(--color-purple);
+  }
+
+  .nl-close__disc {
+    position: absolute;
+    left: 50%;
+    bottom: -29rem;
+    width: min(86rem, 112vw);
+    height: 55rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: clamp(5rem, 11vw, 10rem);
+    border-radius: 50% 50% 0 0;
+    background: var(--color-ink);
+    color: var(--color-cream);
+    transform: translateX(-50%);
+  }
+
+  .nl-close__disc h2 {
+    font-size: clamp(4.5rem, 11vw, 11rem);
+    letter-spacing: -0.06em;
+  }
+
+  .nl-close__disc > p {
+    margin-top: var(--space-sm);
+    color: var(--color-blue);
+  }
+
+  .nl-close__cta {
+    display: inline-flex;
+    gap: 1rem;
+    margin-top: var(--space-lg);
+    padding: 0.9rem 1.25rem;
+    border: 1px solid var(--color-blue);
+    color: var(--color-blue);
+  }
+
+  @keyframes hotspot-pulse {
+    0%,
+    100% {
+      transform: scale(0.86);
+      opacity: 0.25;
+    }
+    50% {
+      transform: scale(1.12);
+      opacity: 0.85;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .nl-hero {
+      min-height: calc(100svh - 64px);
+    }
+
+    .nl-hero__glow {
+      bottom: -19rem;
+      width: 48rem;
+    }
+
+    .nl-hero__title {
+      flex-direction: column;
+      gap: 0;
+      font-size: clamp(5rem, 27vw, 8rem);
+    }
+
+    .nl-hero__subtitle {
+      margin-top: 3rem;
+      font-size: clamp(1.65rem, 8vw, 2.6rem);
+    }
+
+    .nl-origin__story,
+    .nl-decade__cards,
+    .nl-bar__layout {
       grid-template-columns: 1fr;
     }
 
-    .mcard--3 .mcard__media,
-    .mcard--4 .mcard__body {
-      order: 0;
+    .nl-origin__story {
+      gap: var(--space-lg);
     }
 
-    .mcard__cols--two {
-      grid-template-columns: 1fr;
+    .nl-decade__head > p:last-child {
+      margin-left: 0;
+    }
+
+    .nl-moment {
+      min-height: 30rem;
+    }
+
+    .nl-bar__layout {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nl-bar__figure {
+      order: 1;
+    }
+
+    .nl-bar__panels {
+      width: min(100%, 28rem);
+      min-height: 17rem;
+      order: 2;
+    }
+
+    .nl-bar__facts {
+      width: min(100%, 28rem);
+      order: 3;
+    }
+
+    .nl-close {
+      min-height: 36rem;
+    }
+
+    .nl-close__disc {
+      bottom: -31rem;
+      width: 135vw;
+      height: 55rem;
+      padding-top: 6rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .nl-hotspot::after {
+      animation: none;
     }
   }
 </style>
+
+<script>
+  const hotspotButtons = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-hotspot]'));
+  const callouts = Array.from(document.querySelectorAll<HTMLElement>('[data-callout]'));
+
+  function activateHotspot(id: string) {
+    hotspotButtons.forEach((button) => {
+      const active = button.dataset.hotspot === id;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-pressed', String(active));
+    });
+
+    callouts.forEach((callout) => {
+      const active = callout.dataset.callout === id;
+      callout.hidden = !active;
+      callout.classList.toggle('is-active', active);
+    });
+  }
+
+  hotspotButtons.forEach((button) => {
+    button.addEventListener('click', () => activateHotspot(button.dataset.hotspot ?? ''));
+  });
+</script>

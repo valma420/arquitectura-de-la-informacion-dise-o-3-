@@ -1,329 +1,654 @@
 ---
-/**
- * Home (/) — hero "Tres siglos de moda, una linea de tiempo." over a wall
- * of vitrinas + giant Galliera wordmark, followed by the featured muestra.
- */
 import MainLayout from '@layouts/MainLayout.astro';
 
-const vitrinas = [
-  { img: '/images/prendas/1790.png', x: 8, y: 6, w: 13 },
-  { img: '/images/prendas/1760.png', x: 30, y: 2, w: 12 },
-  { img: '/images/prendas/1930.png', x: 47, y: 9, w: 11 },
-  { img: '/images/prendas/1700s.png', x: 63, y: 3, w: 12 },
-  { img: '/images/prendas/1925.png', x: 81, y: 8, w: 12 },
-  { img: '/images/prendas/1815.png', x: 2, y: 40, w: 11 },
-  { img: '/images/catalogo/c14.png', x: 22, y: 46, w: 12 },
-  { img: '/images/prendas/1850.png', x: 44, y: 52, w: 12 },
-  { img: '/images/catalogo/c01.png', x: 66, y: 44, w: 12 },
-  { img: '/images/prendas/alaia.png', x: 86, y: 50, w: 11 },
+const orbitObjects = [
+  {
+    image: '/images/catalogo/c06.png',
+    label: 'Robe à la française, ca. 1760',
+    x: 4,
+    y: 61,
+    width: 8.5,
+    rotate: -7,
+  },
+  {
+    image: '/images/prendas/1700s.png',
+    label: 'Corset, siglo XVIII',
+    x: 20,
+    y: 47,
+    width: 8,
+    rotate: -3,
+  },
+  {
+    image: '/images/catalogo/c14.png',
+    label: 'Robe à la française, 1775',
+    x: 44.5,
+    y: 38,
+    width: 9.5,
+    rotate: 0,
+  },
+  {
+    image: '/images/prendas/1925.png',
+    label: 'Vestido de recepción, 1925',
+    x: 70,
+    y: 47,
+    width: 8,
+    rotate: 3,
+  },
+  {
+    image: '/images/prendas/2011.png',
+    label: 'Chaqueta, 2011',
+    x: 88,
+    y: 61,
+    width: 8,
+    rotate: 7,
+  },
 ];
 
-const notes = [
-  { text: 'París · Desde 1977 — Musée de la Mode de la Ville', x: 6, y: 34 },
-  { text: '243.000 piezas en acervo. Tres siglos de moda.', x: 52, y: 30 },
-  { text: 'Indumentaria, accesorios, fotografía y artes gráficas.', x: 72, y: 36 },
-  { text: 'Conservación y exhibición de la moda como patrimonio.', x: 30, y: 72 },
-  { text: 'Centro de documentación abierto a investigadores.', x: 74, y: 78 },
+const portals = [
+  {
+    id: 'acervo',
+    number: '01',
+    label: 'El acervo',
+    title: '243.000 piezas para mirar el tiempo de cerca.',
+    copy: 'Indumentaria, accesorios, fotografía y artes gráficas conservados como una memoria material de tres siglos.',
+    cta: 'Explorar la colección',
+    href: '/coleccion',
+    image: '/images/catalogo/c14.png',
+    caption: 'Robe à la française · ca. 1775',
+    tone: 'archive',
+  },
+  {
+    id: 'exposiciones',
+    number: '02',
+    label: 'Exposiciones',
+    title: 'New Look',
+    copy: 'La revolución de 1947 que volvió a dibujar la cintura, el volumen y la manera de mirar el cuerpo vestido.',
+    cta: 'Entrar a la muestra',
+    href: '/muestra',
+    image: '/images/muestra/m14.jpeg',
+    caption: 'Tailleur Bar · Christian Dior · 1947',
+    tone: 'exhibition',
+  },
+  {
+    id: 'memoria',
+    number: '03',
+    label: 'Memoria',
+    title: 'Las prendas también cuentan quiénes fuimos.',
+    copy: 'Biografías, archivos y relatos curatoriales conectan cada objeto con las personas y los gestos que le dieron sentido.',
+    cta: 'Leer la historia',
+    href: '/historia',
+    image: '/images/site/dior-portrait.png',
+    caption: 'Christian Dior · 1905–1957',
+    tone: 'memory',
+  },
+  {
+    id: 'agenda',
+    number: '04',
+    label: 'Agenda',
+    title: 'El museo está vivo hoy.',
+    copy: 'Recorridos, talleres, conversaciones y activaciones alrededor de la colección y de la muestra New Look.',
+    cta: 'Ver la agenda',
+    href: '/agenda',
+    image: '/images/site/palais.jpg',
+    caption: 'Palais Galliera · París',
+    tone: 'agenda',
+  },
 ];
 ---
 
 <MainLayout
-  title="Home"
-  description="Palais Galliera — tres siglos de moda, una línea de tiempo. 243.000 piezas del acervo accesibles por época, documento y recorrido."
+  title="Palais Galliera"
+  description="Palais Galliera — conservar la moda es conservar el tiempo. Explorá el acervo, las exposiciones, la memoria y la agenda del museo."
 >
-  <!-- ================= HERO ================= -->
-  <section class="hero">
-    <div class="hero__wall" aria-hidden="true">
+  <section class="home-hero" data-home-hero>
+    <div class="home-hero__pattern" aria-hidden="true"></div>
+
+    <p class="home-hero__eyebrow label" data-reveal>Musée de la Mode · Paris</p>
+    <h1 class="home-hero__title" aria-label="Palais Galliera">
+      <span>Palais</span>
+      <strong>Galliera</strong>
+    </h1>
+
+    <div class="orbit" data-home-orbit aria-label="Piezas destacadas del acervo">
+      <span class="orbit__line orbit__line--outer" aria-hidden="true"></span>
+      <span class="orbit__line orbit__line--inner" aria-hidden="true"></span>
       {
-        vitrinas.map((v) => (
-          <figure class="hero__vitrina" style={`left:${v.x}%; top:${v.y}%; width:${v.w}%;`}>
-            <img src={v.img} alt="" loading="eager" />
+        orbitObjects.map((object, index) => (
+          <figure
+            class="orbit__object"
+            style={`--x:${object.x}%;--y:${object.y}%;--w:${object.width}vw;--r:${object.rotate}deg;--i:${index};`}
+            data-orbit-object
+          >
+            <div class="orbit__frame">
+              <img src={object.image} alt={object.label} loading="eager" />
+            </div>
+            <figcaption class="label">{object.label}</figcaption>
           </figure>
         ))
       }
-      {
-        notes.map((n) => (
-          <p class="hero__note label" style={`left:${n.x}%; top:${n.y}%;`}>
-            {n.text}
-          </p>
-        ))
-      }
     </div>
 
-    <h1 class="hero__line hero__line--1 type-display-italic">Tres siglos de moda,</h1>
-    <p class="hero__line hero__line--2 type-display-italic">una linea de tiempo.</p>
-
-    <div class="hero__aside">
-      <p>
-        Más de 243.000 piezas del acervo del Palais Galliera, accesibles por época, por documento
-        y por recorrido.
+    <div class="home-hero__manifesto" data-reveal>
+      <p class="home-hero__statement type-display-italic">
+        Conservar la moda es conservar el tiempo.
       </p>
-      <a href="#muestra-actual" class="hero__cta label">Recorré <span aria-hidden="true">↓</span></a>
+      <p class="home-hero__intro">
+        Cada prenda guarda una época. Cada recorrido abre una forma distinta de habitarla.
+      </p>
+      <a class="home-hero__enter label" href="#recorridos">
+        Elegí un recorrido <span aria-hidden="true">↓</span>
+      </a>
     </div>
-
-    <p class="hero__wordmark" aria-hidden="true">Galliera</p>
   </section>
 
-  <!-- ============ MUESTRA ACTUAL ============ -->
-  <section class="feature section-cream" id="muestra-actual">
-    <div class="feature__rail" aria-hidden="true">
-      <span class="feature__year feature__year--top">1947</span>
-      <span class="feature__rule"></span>
-      <span class="feature__year feature__year--bottom">1957</span>
-    </div>
+  <section class="home-portals" id="recorridos" aria-label="Recorridos del museo">
+    {
+      portals.map((portal, index) => (
+        <article
+          class:list={['portal', `portal--${portal.tone}`, { 'is-active': index === 1 }]}
+          data-portal
+        >
+          <h2 class="portal__heading">
+            <button
+              class="portal__toggle"
+              type="button"
+              aria-expanded={index === 1 ? 'true' : 'false'}
+              aria-controls={`portal-${portal.id}`}
+              data-portal-toggle
+            >
+              <span class="portal__number label">{portal.number}</span>
+              <span class="portal__label">{portal.label}</span>
+              <span class="portal__icon" aria-hidden="true">
+                ↗
+              </span>
+            </button>
+          </h2>
 
-    <figure class="feature__media">
-      <img src="/images/catalogo/c01.png" alt="Traje «Bar», Christian Dior, 1947" />
-      <figcaption class="label">Traje Bar, Christian Dior · 1947</figcaption>
-    </figure>
+          <div class="portal__body" id={`portal-${portal.id}`}>
+            <div class="portal__body-inner">
+              <div class="portal__preview">
+                <div class="portal__copy">
+                  <p class="label">{portal.label}</p>
+                  <h3>{portal.title}</h3>
+                  <p>{portal.copy}</p>
+                  <a class="portal__cta label" href={portal.href}>
+                    {portal.cta} <span aria-hidden="true">→</span>
+                  </a>
+                </div>
 
-    <div class="feature__body">
-      <p class="label feature__kicker">Muestra actual</p>
-      <h2 class="feature__title">El New Look, y la silueta de Posguerra</h2>
-      <p class="label feature__dates">15 marzo – 28 julio 2026</p>
-      <p class="feature__copy">
-        Exhibición temático-cronológica que recorre la década que redefinió la silueta femenina de
-        posguerra, a través de prendas originales, figurines de atelier y fotografía editorial de
-        época del acervo del Palais Galliera.
-      </p>
-      <div class="feature__actions">
-        <a href="/muestra" class="btn btn--solid label">Visitá la muestra</a>
-        <a href="/linea-de-tiempo?periodo=new-look" class="btn btn--ghost label">Explorá el periodo</a>
-      </div>
-    </div>
+                <figure class="portal__media">
+                  <img src={portal.image} alt={portal.caption} loading="lazy" />
+                  <figcaption class="label">{portal.caption}</figcaption>
+                </figure>
+              </div>
+            </div>
+          </div>
+        </article>
+      ))
+    }
   </section>
 </MainLayout>
 
 <style>
-  /* ================================================================ */
-  /* Hero                                                             */
-  /* ================================================================ */
-  .hero {
+  .home-hero {
     position: relative;
-    min-height: calc(100svh - 92px);
-    background: var(--color-black);
+    height: max(47.5rem, calc(100svh - 76px));
+    min-height: 47.5rem;
     overflow: hidden;
+    isolation: isolate;
+    background: var(--color-ink);
+    color: var(--color-cream);
+  }
+
+  .home-hero__pattern {
+    position: absolute;
+    inset: -12%;
+    z-index: -2;
+    opacity: 0.18;
+    background-image:
+      linear-gradient(rgba(17, 16, 15, 0.86), rgba(17, 16, 15, 0.86)),
+      url('/images/ornaments/orn-04.png');
+    background-position: center;
+    background-size: min(48rem, 75vw);
+    filter: grayscale(1) contrast(0.8);
+    transform: rotate(-5deg) scale(1.12);
+  }
+
+  .home-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(circle at 50% 62%, rgba(255, 90, 0, 0.09), transparent 28%),
+      linear-gradient(180deg, transparent 58%, rgba(0, 0, 0, 0.72));
+  }
+
+  .home-hero__eyebrow {
+    position: absolute;
+    top: clamp(1.25rem, 3vh, 2.25rem);
+    left: var(--layout-gutter);
+    z-index: 5;
+    color: var(--color-orange);
+  }
+
+  .home-hero__title {
+    position: relative;
+    z-index: 4;
     display: flex;
     flex-direction: column;
-  }
-
-  .hero__wall {
-    position: absolute;
-    inset: 0 0 18% 0;
-  }
-
-  .hero__vitrina {
-    position: absolute;
-    margin: 0;
-    aspect-ratio: 3 / 4;
-    background:
-      radial-gradient(ellipse at 50% 30%, rgba(243, 238, 225, 0.14), transparent 70%),
-      var(--color-surface-dark);
-    border: 1px solid rgba(243, 238, 225, 0.07);
-    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.75);
-    display: grid;
-    place-items: center;
-    padding: 8%;
-  }
-
-  .hero__vitrina img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.8));
-  }
-
-  .hero__note {
-    position: absolute;
-    max-width: 15rem;
-    color: var(--color-cream);
-    line-height: 1.7;
-    z-index: 2;
-  }
-
-  .hero__line {
-    position: relative;
-    z-index: 3;
-    color: var(--color-cream);
-    font-size: var(--font-size-display-md);
-    margin: 0;
-  }
-
-  .hero__line--1 {
-    padding: clamp(2rem, 8vh, 6rem) var(--layout-gutter) 0;
-  }
-
-  .hero__line--2 {
-    align-self: flex-end;
-    text-align: right;
-    padding: clamp(1rem, 12vh, 9rem) var(--layout-gutter) 0;
-  }
-
-  .hero__aside {
-    position: relative;
-    z-index: 3;
-    align-self: flex-end;
-    max-width: 22rem;
-    padding: var(--space-md) var(--layout-gutter) 0;
-    font-size: var(--font-size-sm);
-    color: var(--color-cream);
-    line-height: 1.6;
-  }
-
-  .hero__cta {
-    display: inline-block;
-    margin-top: var(--space-sm);
-    color: var(--color-red-bright);
-  }
-
-  .hero__wordmark {
-    position: relative;
-    z-index: 2;
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: clamp(8rem, 24vw, 26rem);
-    line-height: 0.72;
-    color: var(--color-cream);
-    text-align: center;
-    white-space: nowrap;
-    margin-top: auto;
-    margin-bottom: -0.16em;
+    align-items: center;
+    padding-top: clamp(2.5rem, 5.5vh, 5rem);
+    color: var(--color-orange);
+    text-transform: uppercase;
     pointer-events: none;
   }
 
-  /* ================================================================ */
-  /* Muestra actual                                                   */
-  /* ================================================================ */
-  .feature {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1.05fr) minmax(0, 1fr);
-    gap: clamp(2rem, 5vw, 5rem);
-    padding: var(--space-3xl) var(--layout-gutter);
-    align-items: center;
-  }
-
-  .feature__rail {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-sm);
-    align-self: stretch;
-  }
-
-  .feature__year {
+  .home-hero__title span {
     font-family: var(--font-display);
-    font-style: italic;
-    font-size: clamp(2.5rem, 4vw, 4rem);
-    color: var(--color-red);
-    line-height: 1;
+    font-size: clamp(2.5rem, 4.2vw, 4.5rem);
+    font-weight: var(--font-weight-regular);
+    line-height: 0.85;
+    text-transform: none;
   }
 
-  .feature__rule {
-    flex: 1;
-    width: 1.5px;
-    background: var(--color-black);
+  .home-hero__title strong {
+    font-family: var(--font-display);
+    font-size: clamp(5.6rem, 12.4vw, 13rem);
+    font-weight: var(--font-weight-regular);
+    line-height: 0.88;
+    letter-spacing: -0.055em;
   }
 
-  .feature__media {
+  .orbit {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+  }
+
+  .orbit__line {
+    position: absolute;
+    left: 50%;
+    top: 42%;
+    border: 1px solid rgba(243, 238, 225, 0.26);
+    border-bottom-color: transparent;
+    border-radius: 50% 50% 0 0;
+    transform: translateX(-50%);
+  }
+
+  .orbit__line--outer {
+    width: 91%;
+    height: 43%;
+  }
+
+  .orbit__line--inner {
+    top: 48%;
+    width: 72%;
+    height: 32%;
+    opacity: 0.58;
+  }
+
+  .orbit__object {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: clamp(5.4rem, var(--w), 10.5rem);
     margin: 0;
-    background:
-      radial-gradient(ellipse at 50% 25%, rgba(243, 238, 225, 0.12), transparent 70%),
-      var(--color-black);
-    padding: clamp(2rem, 4vw, 4rem);
+    transform: translate(-50%, -50%) rotate(var(--r));
+    transform-origin: 50% 100%;
+  }
+
+  .orbit__frame {
+    position: relative;
+    aspect-ratio: 0.68;
+    overflow: hidden;
     display: grid;
     place-items: center;
-    position: relative;
+    padding: 10%;
+    border: 1px solid rgba(243, 238, 225, 0.56);
+    border-radius: 48% 48% 0.25rem 0.25rem / 23% 23% 0.25rem 0.25rem;
+    background:
+      radial-gradient(circle at 50% 28%, rgba(243, 238, 225, 0.17), transparent 46%), #191817;
+    box-shadow: 0 1.25rem 4rem rgba(0, 0, 0, 0.52);
   }
 
-  .feature__media img {
-    max-height: 34rem;
-    object-fit: contain;
-    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.7));
-  }
-
-  .feature__media figcaption {
+  .orbit__frame::after {
+    content: '';
     position: absolute;
-    left: var(--space-md);
-    bottom: var(--space-md);
+    inset: 0;
+    box-shadow: inset 0 0 2rem rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+  }
+
+  .orbit__frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0.75rem 1rem rgba(0, 0, 0, 0.72));
+  }
+
+  .orbit__object figcaption {
+    position: absolute;
+    left: 50%;
+    top: calc(100% + 0.6rem);
+    width: max-content;
+    max-width: 11rem;
+    transform: translateX(-50%);
+    color: rgba(243, 238, 225, 0.58);
+    text-align: center;
+    line-height: 1.45;
+  }
+
+  .home-hero__manifesto {
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    bottom: clamp(1.25rem, 4vh, 3.25rem);
+    width: min(38rem, calc(100% - 2 * var(--layout-gutter)));
+    transform: translateX(-50%);
+    text-align: center;
+  }
+
+  .home-hero__statement {
     color: var(--color-cream);
+    font-size: clamp(1.8rem, 3.1vw, 3.7rem);
   }
 
-  .feature__kicker {
-    color: var(--color-black);
-  }
-
-  .feature__title {
-    font-family: var(--font-display);
-    font-size: clamp(2.4rem, 4.2vw, 4.2rem);
-    color: var(--color-red);
-    line-height: 1.08;
-    margin-top: var(--space-md);
-    max-width: 14ch;
-  }
-
-  .feature__dates {
-    margin-top: var(--space-md);
-  }
-
-  .feature__copy {
-    margin-top: var(--space-sm);
-    max-width: 38ch;
-    line-height: 1.7;
+  .home-hero__intro {
+    max-width: 42ch;
+    margin: var(--space-sm) auto 0;
+    color: rgba(243, 238, 225, 0.74);
     font-size: var(--font-size-sm);
   }
 
-  .feature__actions {
-    display: flex;
-    gap: var(--space-sm);
+  .home-hero__enter {
+    display: inline-flex;
+    gap: 0.75rem;
+    align-items: center;
+    margin-top: var(--space-md);
+    color: var(--color-orange);
+  }
+
+  .home-hero__enter span {
+    transition: transform var(--duration-fast) var(--ease-expo);
+  }
+
+  .home-hero__enter:hover span {
+    transform: translateY(0.25rem);
+  }
+
+  .home-portals {
+    background: var(--color-ink);
+  }
+
+  .portal {
+    color: var(--color-cream);
+  }
+
+  .portal__heading {
+    position: relative;
+    z-index: 2;
+  }
+
+  .portal__toggle {
+    width: 100%;
+    min-height: clamp(5.25rem, 10vw, 8rem);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--space-md);
+    padding: 0.45rem var(--layout-gutter);
+    border: 0;
+    color: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .portal__number {
+    align-self: start;
+    padding-top: 0.7rem;
+  }
+
+  .portal__label {
+    font-family: var(--font-display);
+    font-size: clamp(3.1rem, 7vw, 7.5rem);
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+  }
+
+  .portal__icon {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4vw, 4rem);
+    transition: transform var(--duration-base) var(--ease-expo);
+  }
+
+  .portal.is-active .portal__icon {
+    transform: rotate(90deg);
+  }
+
+  .portal__body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.8s var(--ease-expo);
+  }
+
+  .portal.is-active .portal__body {
+    grid-template-rows: 1fr;
+  }
+
+  .portal__body-inner {
+    overflow: hidden;
+  }
+
+  .portal__preview {
+    min-height: clamp(27rem, 58svh, 44rem);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.8fr);
+    gap: clamp(2rem, 8vw, 9rem);
+    align-items: center;
+    padding: clamp(2.5rem, 7vh, 6rem) var(--layout-gutter);
+  }
+
+  .portal__copy {
+    max-width: 48rem;
+  }
+
+  .portal__copy > .label {
+    opacity: 0.72;
+  }
+
+  .portal__copy h3 {
+    margin-top: var(--space-md);
+    font-size: clamp(3rem, 7vw, 7rem);
+    line-height: 0.95;
+    max-width: 12ch;
+  }
+
+  .portal__copy > p:not(.label) {
     margin-top: var(--space-lg);
-    flex-wrap: wrap;
+    max-width: 48ch;
+    line-height: 1.65;
   }
 
-  .btn {
-    display: inline-block;
-    padding: 0.9em 1.6em;
+  .portal__cta {
+    display: inline-flex;
+    gap: 1rem;
+    align-items: center;
+    margin-top: var(--space-lg);
+    padding: 0.9rem 1.2rem;
+    border: 1px solid currentColor;
     transition:
-      background var(--duration-fast) var(--ease-standard),
-      color var(--duration-fast) var(--ease-standard);
+      color var(--duration-fast) var(--ease-standard),
+      background var(--duration-fast) var(--ease-standard);
   }
 
-  .btn--solid {
-    background: var(--color-red);
+  .portal__cta:hover {
+    color: var(--color-ink);
+    background: var(--color-cream);
+  }
+
+  .portal__media {
+    position: relative;
+    width: min(100%, 27rem);
+    margin: 0 auto;
+  }
+
+  .portal__media img {
+    width: 100%;
+    height: clamp(22rem, 48vw, 35rem);
+    object-fit: cover;
+    object-position: top;
+    border-radius: 48% 48% 0 0 / 18% 18% 0 0;
+    filter: saturate(0.82) contrast(1.04);
+  }
+
+  .portal__media figcaption {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    max-width: 85%;
+    padding: 0.65rem 0.8rem;
+    background: var(--color-ink);
     color: var(--color-cream);
   }
 
-  .btn--solid:hover {
-    background: var(--color-red-deep);
+  .portal--archive .portal__toggle,
+  .portal--archive .portal__preview {
+    background: linear-gradient(105deg, #1d120a, #8f3000 46%, #ff5a00);
   }
 
-  .btn--ghost {
-    border: 1px solid var(--color-black);
-    color: var(--color-black);
+  .portal--exhibition .portal__toggle,
+  .portal--exhibition .portal__preview {
+    background:
+      linear-gradient(115deg, rgba(255, 90, 0, 0.15), transparent 38%),
+      linear-gradient(100deg, var(--color-purple-deep), var(--color-purple));
   }
 
-  .btn--ghost:hover {
-    background: var(--color-black);
-    color: var(--color-cream);
+  .portal--memory .portal__toggle,
+  .portal--memory .portal__preview {
+    color: var(--color-purple-deep);
+    background: linear-gradient(110deg, #b69ad9, var(--color-blue));
   }
 
-  @media (max-width: 900px) {
-    .hero__note {
+  .portal--agenda .portal__toggle,
+  .portal--agenda .portal__preview {
+    color: var(--color-purple);
+    background: linear-gradient(115deg, var(--color-cream) 30%, var(--color-blue));
+  }
+
+  @media (max-width: 800px) {
+    .home-hero {
+      height: max(45rem, calc(100svh - 72px));
+      min-height: 45rem;
+    }
+
+    .home-hero__eyebrow {
       display: none;
     }
 
-    .feature {
+    .home-hero__title {
+      padding-top: 2.5rem;
+    }
+
+    .home-hero__title span {
+      font-size: clamp(2.2rem, 10vw, 3.3rem);
+    }
+
+    .home-hero__title strong {
+      font-size: clamp(4.2rem, 20vw, 6.5rem);
+    }
+
+    .orbit__line--outer {
+      top: 38%;
+      width: 125%;
+      height: 44%;
+    }
+
+    .orbit__line--inner {
+      top: 44%;
+      width: 94%;
+      height: 34%;
+    }
+
+    .orbit__object {
+      width: clamp(4.1rem, var(--w), 6.5rem);
+    }
+
+    .orbit__object:nth-of-type(3) {
+      top: 36%;
+    }
+
+    .orbit__object figcaption {
+      display: none;
+    }
+
+    .home-hero__manifesto {
+      bottom: 1.75rem;
+    }
+
+    .home-hero__statement {
+      font-size: clamp(1.9rem, 8vw, 2.8rem);
+    }
+
+    .portal__toggle {
+      min-height: 5.25rem;
+      gap: var(--space-sm);
+    }
+
+    .portal__label {
+      font-size: clamp(2.6rem, 14vw, 4.2rem);
+    }
+
+    .portal__preview {
+      min-height: 40rem;
       grid-template-columns: 1fr;
+      align-content: start;
+      gap: var(--space-xl);
+      padding-block: var(--space-xl);
     }
 
-    .feature__rail {
-      flex-direction: row;
+    .portal__copy h3 {
+      font-size: clamp(2.8rem, 14vw, 4.8rem);
     }
 
-    .feature__rule {
-      height: 1.5px;
-      width: auto;
-      flex: 1;
-      align-self: center;
+    .portal__media {
+      width: min(78vw, 21rem);
+    }
+
+    .portal__media img {
+      height: 26rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .portal__body {
+      transition: none;
     }
   }
 </style>
+
+<script>
+  const portalElements = Array.from(document.querySelectorAll<HTMLElement>('[data-portal]'));
+  const hoverQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+  function activatePortal(target: HTMLElement) {
+    portalElements.forEach((portal) => {
+      const active = portal === target;
+      portal.classList.toggle('is-active', active);
+      portal
+        .querySelector<HTMLButtonElement>('[data-portal-toggle]')
+        ?.setAttribute('aria-expanded', String(active));
+    });
+  }
+
+  portalElements.forEach((portal) => {
+    portal
+      .querySelector<HTMLButtonElement>('[data-portal-toggle]')
+      ?.addEventListener('click', () => activatePortal(portal));
+
+    portal.addEventListener('pointerenter', () => {
+      if (hoverQuery.matches) activatePortal(portal);
+    });
+  });
+</script>

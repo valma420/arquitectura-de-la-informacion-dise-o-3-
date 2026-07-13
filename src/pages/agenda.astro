@@ -79,6 +79,34 @@ for (const e of agendaEvents) {
           }
         </div>
       </div>
+
+      <div class="ag__list" role="list" aria-label="Eventos de junio de 2026">
+        {
+          agendaEvents.map((event) => {
+            const endDay = event.day + (event.span ?? 1) - 1;
+            const dayLabel = endDay > event.day ? `${event.day}—${endDay}` : String(event.day);
+
+            return (
+              <article class="ag__list-card" role="listitem">
+                {event.image && (
+                  <figure class="ag__list-media">
+                    <img src={event.image} alt="" loading="lazy" />
+                  </figure>
+                )}
+                <div class="ag__list-date">
+                  <time datetime={`2026-06-${String(event.day).padStart(2, '0')}`}>{dayLabel}</time>
+                  <span class="label">Junio</span>
+                </div>
+                <div class="ag__list-event">
+                  <p class="label ag__event-kind">{event.kind}</p>
+                  {event.title && <h2>{event.title}</h2>}
+                  {event.time && <p class="label ag__event-time">{event.time}</p>}
+                </div>
+              </article>
+            );
+          })
+        }
+      </div>
     </div>
   </section>
 </MainLayout>
@@ -220,6 +248,10 @@ for (const e of agendaEvents) {
     color: var(--color-cream);
   }
 
+  .ag__list {
+    display: none;
+  }
+
   @media (max-width: 900px) {
     .ag__layout {
       grid-template-columns: 1fr;
@@ -230,16 +262,76 @@ for (const e of agendaEvents) {
       padding-top: 0;
     }
 
-    .ag__weekdays {
+    .ag__cal {
       display: none;
     }
 
-    .ag__grid {
-      grid-template-columns: 1fr;
+    .ag__list {
+      display: grid;
+      border: 1px solid var(--color-red);
     }
 
-    .ag__cell {
-      min-height: 6rem;
+    .ag__list-card {
+      display: grid;
+      grid-template-columns: clamp(5rem, 24vw, 6.5rem) minmax(0, 1fr);
+      background: var(--color-cream);
+      color: var(--color-black);
+      border-bottom: 1px solid var(--color-red);
+    }
+
+    .ag__list-card:last-child {
+      border-bottom: 0;
+    }
+
+    .ag__list-media {
+      grid-column: 1 / -1;
+      height: clamp(8rem, 42vw, 12rem);
+      margin: 0;
+      border-bottom: 1px solid var(--color-red);
+      background: var(--color-black);
+      overflow: hidden;
+    }
+
+    .ag__list-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(0.25) contrast(1.05);
+    }
+
+    .ag__list-date {
+      display: flex;
+      min-height: 8.5rem;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: var(--space-sm);
+      border-right: 1px solid var(--color-red);
+      color: var(--color-red);
+    }
+
+    .ag__list-date time {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 11vw, 4rem);
+      line-height: 0.9;
+      letter-spacing: -0.04em;
+    }
+
+    .ag__list-event {
+      min-width: 0;
+      padding: var(--space-sm);
+    }
+
+    .ag__list-event h2 {
+      margin-top: var(--space-xs);
+      font-family: var(--font-body);
+      font-size: clamp(1.1rem, 5vw, 1.45rem);
+      font-weight: 400;
+      line-height: 1.25;
+    }
+
+    .ag__list-event .ag__event-time {
+      margin-top: var(--space-md);
+      line-height: 1.55;
     }
   }
 </style>

@@ -1,27 +1,37 @@
 ---
 /**
- * Footer — site-wide footer. Black, hairline top border, editorial columns.
+ * Footer — restrained editorial site footer.
  */
 import { navigationLinks } from '@data/navigation';
 ---
 
 <footer class="footer" data-component="footer">
   <div class="footer__inner container">
-    <div class="footer__brand">
-      <p class="footer__wordmark">Galliera</p>
-      <img
-        class="footer__logotype"
-        src="/images/site/logo.png"
-        alt="Palais Galliera — Musée de la Mode de la Ville de Paris"
-      />
+    <div class="footer__masthead">
+      <a class="footer__brand" href="/" aria-label="Palais Galliera — Inicio">
+        <span class="footer__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="18" height="18">
+            <g fill="none" stroke="currentColor" stroke-width="1.35">
+              <path d="M3.5 9.5 12 4.5l8.5 5H3.5Z"></path>
+              <path d="M5.5 11.5V18m4.3-6.5V18m4.4-6.5V18m4.3-6.5V18M3 19.5h18"></path>
+            </g>
+          </svg>
+        </span>
+        <span class="footer__wordmark">
+          <span>Palais</span>
+          Galliera
+        </span>
+      </a>
+      <p class="footer__descriptor label">Musée de la Mode de la Ville de Paris</p>
     </div>
 
-    <nav aria-label="Pie de página">
+    <nav class="footer__navigation" aria-label="Pie de página">
       <ul class="footer__links">
         {
-          navigationLinks.map((link) => (
+          navigationLinks.map((link, i) => (
             <li>
               <a href={link.href} class="label">
+                <span aria-hidden="true">0{i + 1}</span>
                 {link.label}
               </a>
             </li>
@@ -31,7 +41,7 @@ import { navigationLinks } from '@data/navigation';
     </nav>
 
     <div class="footer__meta">
-      <p class="label">10, Avenue Pierre 1.<sup>er</sup> de Serbie — París</p>
+      <address class="label">10, Avenue Pierre 1.<sup>er</sup> de Serbie — París</address>
       <p class="label">mar–dom · 10–18 h</p>
       <p class="footer__credit label">Trabajo práctico · Diseño 3 · UBA · 2026</p>
     </div>
@@ -40,64 +50,178 @@ import { navigationLinks } from '@data/navigation';
 
 <style>
   .footer {
-    background: var(--color-black);
     color: var(--color-cream);
-    border-top: 1px solid rgba(243, 238, 225, 0.12);
-    padding-block: var(--space-2xl);
+    background: var(--color-black);
+    border-top: 1px solid color-mix(in srgb, var(--color-orange) 22%, transparent);
+    padding-block: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 3vw, 2.5rem);
   }
 
   .footer__inner {
     display: grid;
-    grid-template-columns: 1.2fr 1fr 1fr;
-    gap: var(--space-xl);
+    grid-template-columns: minmax(13rem, 0.8fr) minmax(20rem, 1.5fr);
+    column-gap: clamp(2rem, 8vw, 9rem);
+    row-gap: clamp(2.25rem, 5vw, 4.5rem);
     align-items: start;
   }
 
-  .footer__wordmark {
-    font-family: var(--font-display);
-    font-style: italic;
-    font-size: clamp(2.5rem, 4vw, 4rem);
-    line-height: 1;
+  .footer__masthead {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
   }
 
-  .footer__logotype {
-    margin-top: var(--space-md);
-    width: min(20rem, 70%);
-    opacity: 0.9;
+  .footer__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    width: fit-content;
+  }
+
+  .footer__mark {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    flex: 0 0 auto;
+    color: var(--color-black);
+    background: var(--color-orange);
+    border-radius: var(--radius-full);
+    transition:
+      color var(--duration-fast) var(--ease-standard),
+      background-color var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-expo);
+  }
+
+  .footer__wordmark {
+    display: flex;
+    flex-direction: column;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.4vw, 3.75rem);
+    font-style: italic;
+    line-height: 0.72;
+    letter-spacing: -0.04em;
+  }
+
+  .footer__wordmark span {
+    margin-left: 0.18rem;
+    font-family: var(--font-body);
+    font-size: 0.5rem;
+    font-style: normal;
+    font-weight: var(--font-weight-medium);
+    line-height: 1.4;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .footer__brand:hover .footer__mark {
+    color: var(--color-orange);
+    background: var(--color-cream);
+    transform: rotate(-8deg);
+  }
+
+  .footer__descriptor {
+    max-width: 14rem;
+    color: color-mix(in srgb, var(--color-cream) 48%, transparent);
+    line-height: 1.65;
   }
 
   .footer__links {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     margin: 0;
     padding: 0;
     list-style: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--color-cream) 13%, transparent);
+  }
+
+  .footer__links li:nth-child(odd) {
+    border-right: 1px solid color-mix(in srgb, var(--color-cream) 13%, transparent);
   }
 
   .footer__links a {
-    transition: color var(--duration-fast) var(--ease-standard);
+    display: grid;
+    grid-template-columns: 2rem 1fr;
+    gap: var(--space-xs);
+    padding: 0.85rem 1rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-cream) 13%, transparent);
+    transition:
+      color var(--duration-fast) var(--ease-standard),
+      background-color var(--duration-fast) var(--ease-standard);
   }
 
-  .footer__links a:hover {
-    color: var(--color-red-bright);
+  .footer__links a span {
+    color: var(--color-orange);
+    font-size: 0.55rem;
+  }
+
+  .footer__links a:hover,
+  .footer__links a:focus-visible {
+    color: var(--color-black);
+    background: var(--color-orange);
+  }
+
+  .footer__links a:hover span,
+  .footer__links a:focus-visible span {
+    color: currentColor;
+  }
+
+  .footer__brand:focus-visible,
+  .footer__links a:focus-visible {
+    outline-color: var(--color-orange);
+    outline-offset: 0.25rem;
   }
 
   .footer__meta {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xs);
-    color: var(--color-muted);
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: var(--space-lg);
+    align-items: baseline;
+    padding-top: var(--space-sm);
+    color: color-mix(in srgb, var(--color-cream) 48%, transparent);
+    border-top: 1px solid color-mix(in srgb, var(--color-cream) 13%, transparent);
+  }
+
+  .footer__meta address {
+    font-style: normal;
   }
 
   .footer__credit {
-    margin-top: var(--space-md);
-    color: var(--color-red-bright);
+    color: var(--color-orange);
+    text-align: right;
   }
 
-  @media (max-width: 800px) {
+  @media (max-width: 52rem) {
     .footer__inner {
       grid-template-columns: 1fr;
+    }
+
+    .footer__meta {
+      grid-column: auto;
+      grid-template-columns: 1fr;
+      gap: var(--space-xs);
+    }
+
+    .footer__credit {
+      margin-top: var(--space-sm);
+      text-align: left;
+    }
+  }
+
+  @media (max-width: 34rem) {
+    .footer__links {
+      grid-template-columns: 1fr;
+    }
+
+    .footer__links li:nth-child(odd) {
+      border-right: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .footer__mark,
+    .footer__links a {
+      transition-duration: 0.01ms;
     }
   }
 </style>
