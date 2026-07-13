@@ -1,12 +1,329 @@
 ---
 /**
- * Home page (/)
+ * Home (/) — hero "Tres siglos de moda, una linea de tiempo." over a wall
+ * of vitrinas + giant Galliera wordmark, followed by the featured muestra.
  */
 import MainLayout from '@layouts/MainLayout.astro';
-import Hero from '@components/hero/Hero.astro';
+
+const vitrinas = [
+  { img: '/images/prendas/1790.png', x: 8, y: 6, w: 13 },
+  { img: '/images/prendas/1760.png', x: 30, y: 2, w: 12 },
+  { img: '/images/prendas/1930.png', x: 47, y: 9, w: 11 },
+  { img: '/images/prendas/1700s.png', x: 63, y: 3, w: 12 },
+  { img: '/images/prendas/1925.png', x: 81, y: 8, w: 12 },
+  { img: '/images/prendas/1815.png', x: 2, y: 40, w: 11 },
+  { img: '/images/catalogo/c14.png', x: 22, y: 46, w: 12 },
+  { img: '/images/prendas/1850.png', x: 44, y: 52, w: 12 },
+  { img: '/images/catalogo/c01.png', x: 66, y: 44, w: 12 },
+  { img: '/images/prendas/alaia.png', x: 86, y: 50, w: 11 },
+];
+
+const notes = [
+  { text: 'París · Desde 1977 — Musée de la Mode de la Ville', x: 6, y: 34 },
+  { text: '243.000 piezas en acervo. Tres siglos de moda.', x: 52, y: 30 },
+  { text: 'Indumentaria, accesorios, fotografía y artes gráficas.', x: 72, y: 36 },
+  { text: 'Conservación y exhibición de la moda como patrimonio.', x: 30, y: 72 },
+  { text: 'Centro de documentación abierto a investigadores.', x: 74, y: 78 },
+];
 ---
 
-<MainLayout title="Home" description="Welcome to the interactive digital exhibition.">
-  <Hero />
-  {/* TODO: featured collection, exhibition intro, agenda highlights */}
+<MainLayout
+  title="Home"
+  description="Palais Galliera — tres siglos de moda, una línea de tiempo. 243.000 piezas del acervo accesibles por época, documento y recorrido."
+>
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="hero__wall" aria-hidden="true">
+      {
+        vitrinas.map((v) => (
+          <figure class="hero__vitrina" style={`left:${v.x}%; top:${v.y}%; width:${v.w}%;`}>
+            <img src={v.img} alt="" loading="eager" />
+          </figure>
+        ))
+      }
+      {
+        notes.map((n) => (
+          <p class="hero__note label" style={`left:${n.x}%; top:${n.y}%;`}>
+            {n.text}
+          </p>
+        ))
+      }
+    </div>
+
+    <h1 class="hero__line hero__line--1 type-display-italic">Tres siglos de moda,</h1>
+    <p class="hero__line hero__line--2 type-display-italic">una linea de tiempo.</p>
+
+    <div class="hero__aside">
+      <p>
+        Más de 243.000 piezas del acervo del Palais Galliera, accesibles por época, por documento
+        y por recorrido.
+      </p>
+      <a href="#muestra-actual" class="hero__cta label">Recorré <span aria-hidden="true">↓</span></a>
+    </div>
+
+    <p class="hero__wordmark" aria-hidden="true">Galliera</p>
+  </section>
+
+  <!-- ============ MUESTRA ACTUAL ============ -->
+  <section class="feature section-cream" id="muestra-actual">
+    <div class="feature__rail" aria-hidden="true">
+      <span class="feature__year feature__year--top">1947</span>
+      <span class="feature__rule"></span>
+      <span class="feature__year feature__year--bottom">1957</span>
+    </div>
+
+    <figure class="feature__media">
+      <img src="/images/catalogo/c01.png" alt="Traje «Bar», Christian Dior, 1947" />
+      <figcaption class="label">Traje Bar, Christian Dior · 1947</figcaption>
+    </figure>
+
+    <div class="feature__body">
+      <p class="label feature__kicker">Muestra actual</p>
+      <h2 class="feature__title">El New Look, y la silueta de Posguerra</h2>
+      <p class="label feature__dates">15 marzo – 28 julio 2026</p>
+      <p class="feature__copy">
+        Exhibición temático-cronológica que recorre la década que redefinió la silueta femenina de
+        posguerra, a través de prendas originales, figurines de atelier y fotografía editorial de
+        época del acervo del Palais Galliera.
+      </p>
+      <div class="feature__actions">
+        <a href="/muestra" class="btn btn--solid label">Visitá la muestra</a>
+        <a href="/linea-de-tiempo?periodo=new-look" class="btn btn--ghost label">Explorá el periodo</a>
+      </div>
+    </div>
+  </section>
 </MainLayout>
+
+<style>
+  /* ================================================================ */
+  /* Hero                                                             */
+  /* ================================================================ */
+  .hero {
+    position: relative;
+    min-height: calc(100svh - 92px);
+    background: var(--color-black);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hero__wall {
+    position: absolute;
+    inset: 0 0 18% 0;
+  }
+
+  .hero__vitrina {
+    position: absolute;
+    margin: 0;
+    aspect-ratio: 3 / 4;
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(243, 238, 225, 0.14), transparent 70%),
+      var(--color-surface-dark);
+    border: 1px solid rgba(243, 238, 225, 0.07);
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.75);
+    display: grid;
+    place-items: center;
+    padding: 8%;
+  }
+
+  .hero__vitrina img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 12px 24px rgba(0, 0, 0, 0.8));
+  }
+
+  .hero__note {
+    position: absolute;
+    max-width: 15rem;
+    color: var(--color-cream);
+    line-height: 1.7;
+    z-index: 2;
+  }
+
+  .hero__line {
+    position: relative;
+    z-index: 3;
+    color: var(--color-cream);
+    font-size: var(--font-size-display-md);
+    margin: 0;
+  }
+
+  .hero__line--1 {
+    padding: clamp(2rem, 8vh, 6rem) var(--layout-gutter) 0;
+  }
+
+  .hero__line--2 {
+    align-self: flex-end;
+    text-align: right;
+    padding: clamp(1rem, 12vh, 9rem) var(--layout-gutter) 0;
+  }
+
+  .hero__aside {
+    position: relative;
+    z-index: 3;
+    align-self: flex-end;
+    max-width: 22rem;
+    padding: var(--space-md) var(--layout-gutter) 0;
+    font-size: var(--font-size-sm);
+    color: var(--color-cream);
+    line-height: 1.6;
+  }
+
+  .hero__cta {
+    display: inline-block;
+    margin-top: var(--space-sm);
+    color: var(--color-red-bright);
+  }
+
+  .hero__wordmark {
+    position: relative;
+    z-index: 2;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(8rem, 24vw, 26rem);
+    line-height: 0.72;
+    color: var(--color-cream);
+    text-align: center;
+    white-space: nowrap;
+    margin-top: auto;
+    margin-bottom: -0.16em;
+    pointer-events: none;
+  }
+
+  /* ================================================================ */
+  /* Muestra actual                                                   */
+  /* ================================================================ */
+  .feature {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    padding: var(--space-3xl) var(--layout-gutter);
+    align-items: center;
+  }
+
+  .feature__rail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    align-self: stretch;
+  }
+
+  .feature__year {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    color: var(--color-red);
+    line-height: 1;
+  }
+
+  .feature__rule {
+    flex: 1;
+    width: 1.5px;
+    background: var(--color-black);
+  }
+
+  .feature__media {
+    margin: 0;
+    background:
+      radial-gradient(ellipse at 50% 25%, rgba(243, 238, 225, 0.12), transparent 70%),
+      var(--color-black);
+    padding: clamp(2rem, 4vw, 4rem);
+    display: grid;
+    place-items: center;
+    position: relative;
+  }
+
+  .feature__media img {
+    max-height: 34rem;
+    object-fit: contain;
+    filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.7));
+  }
+
+  .feature__media figcaption {
+    position: absolute;
+    left: var(--space-md);
+    bottom: var(--space-md);
+    color: var(--color-cream);
+  }
+
+  .feature__kicker {
+    color: var(--color-black);
+  }
+
+  .feature__title {
+    font-family: var(--font-display);
+    font-size: clamp(2.4rem, 4.2vw, 4.2rem);
+    color: var(--color-red);
+    line-height: 1.08;
+    margin-top: var(--space-md);
+    max-width: 14ch;
+  }
+
+  .feature__dates {
+    margin-top: var(--space-md);
+  }
+
+  .feature__copy {
+    margin-top: var(--space-sm);
+    max-width: 38ch;
+    line-height: 1.7;
+    font-size: var(--font-size-sm);
+  }
+
+  .feature__actions {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-lg);
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.9em 1.6em;
+    transition:
+      background var(--duration-fast) var(--ease-standard),
+      color var(--duration-fast) var(--ease-standard);
+  }
+
+  .btn--solid {
+    background: var(--color-red);
+    color: var(--color-cream);
+  }
+
+  .btn--solid:hover {
+    background: var(--color-red-deep);
+  }
+
+  .btn--ghost {
+    border: 1px solid var(--color-black);
+    color: var(--color-black);
+  }
+
+  .btn--ghost:hover {
+    background: var(--color-black);
+    color: var(--color-cream);
+  }
+
+  @media (max-width: 900px) {
+    .hero__note {
+      display: none;
+    }
+
+    .feature {
+      grid-template-columns: 1fr;
+    }
+
+    .feature__rail {
+      flex-direction: row;
+    }
+
+    .feature__rule {
+      height: 1.5px;
+      width: auto;
+      flex: 1;
+      align-self: center;
+    }
+  }
+</style>

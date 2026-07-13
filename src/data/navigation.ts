@@ -6,9 +6,9 @@ import type { NavLink } from '@/types/index';
 
 export const navigationLinks: NavLink[] = [
   { label: 'Home', href: '/' },
-  { label: 'Collection', href: '/collection' },
-  { label: 'Exhibition', href: '/exhibition' },
-  { label: 'Timeline', href: '/timeline' },
-  { label: 'Catalog', href: '/catalog' },
-  { label: 'About', href: '/about' },
+  { label: 'Muestra', href: '/muestra' },
+  { label: 'Colección', href: '/coleccion' },
+  { label: 'Linea de tiempo', href: '/linea-de-tiempo' },
+  { label: 'Historia', href: '/historia' },
+  { label: 'Agenda', href: '/agenda' },
 ];

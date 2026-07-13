@@ -1,58 +1,103 @@
 ---
 /**
- * Footer — site-wide footer.
- * Placeholder markup only.
+ * Footer — site-wide footer. Black, hairline top border, editorial columns.
  */
 import { navigationLinks } from '@data/navigation';
-import { siteConfig } from '@data/site';
-
-const year = new Date().getFullYear();
 ---
 
 <footer class="footer" data-component="footer">
   <div class="footer__inner container">
-    <p class="footer__brand">{siteConfig.name}</p>
-    <nav aria-label="Footer">
+    <div class="footer__brand">
+      <p class="footer__wordmark">Galliera</p>
+      <img
+        class="footer__logotype"
+        src="/images/site/logo.png"
+        alt="Palais Galliera — Musée de la Mode de la Ville de Paris"
+      />
+    </div>
+
+    <nav aria-label="Pie de página">
       <ul class="footer__links">
         {
           navigationLinks.map((link) => (
             <li>
-              <a href={link.href}>{link.label}</a>
+              <a href={link.href} class="label">
+                {link.label}
+              </a>
             </li>
           ))
         }
       </ul>
     </nav>
-    <p class="footer__meta">© {year} · Universidad de Buenos Aires</p>
+
+    <div class="footer__meta">
+      <p class="label">10, Avenue Pierre 1.<sup>er</sup> de Serbie — París</p>
+      <p class="label">mar–dom · 10–18 h</p>
+      <p class="footer__credit label">Trabajo práctico · Diseño 3 · UBA · 2026</p>
+    </div>
   </div>
 </footer>
 
 <style>
   .footer {
-    border-top: 1px solid var(--color-border);
-    padding-block: var(--space-xl);
-    margin-top: var(--space-3xl);
+    background: var(--color-black);
+    color: var(--color-cream);
+    border-top: 1px solid rgba(243, 238, 225, 0.12);
+    padding-block: var(--space-2xl);
   }
 
   .footer__inner {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-md);
-    justify-content: space-between;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .footer__wordmark {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    line-height: 1;
+  }
+
+  .footer__logotype {
+    margin-top: var(--space-md);
+    width: min(20rem, 70%);
+    opacity: 0.9;
   }
 
   .footer__links {
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-md);
+    flex-direction: column;
+    gap: var(--space-xs);
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
+  .footer__links a {
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+
+  .footer__links a:hover {
+    color: var(--color-red-bright);
+  }
+
   .footer__meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
     color: var(--color-muted);
-    font-size: var(--font-size-sm);
+  }
+
+  .footer__credit {
+    margin-top: var(--space-md);
+    color: var(--color-red-bright);
+  }
+
+  @media (max-width: 800px) {
+    .footer__inner {
+      grid-template-columns: 1fr;
+    }
   }
 </style>

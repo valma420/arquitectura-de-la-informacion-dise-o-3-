@@ -1,14 +1,12 @@
 /**
  * Global site configuration & default SEO metadata.
- * Update these values with the final copy before launch.
  */
 export const siteConfig = {
-  name: 'Digital Exhibition',
-  shortName: 'Exhibition',
+  name: 'Galliera — Musée de la Mode',
+  shortName: 'Galliera',
   description:
-    'An interactive digital exhibition exploring graphic design — a project for Universidad de Buenos Aires.',
-  /** Default OpenGraph image (place the real asset in `public/images`). */
-  ogImage: '/images/og-default.jpg',
-  locale: 'en',
-  themeColor: '#0e0e0e',
+    'Palais Galliera, Musée de la Mode de la Ville de Paris. 243.000 piezas en acervo, tres siglos de moda. Museo digital — Trabajo práctico, Diseño 3, UBA.',
+  ogImage: '/images/site/cover.jpg',
+  locale: 'es',
+  themeColor: '#0a0908',
 } as const;

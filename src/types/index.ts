@@ -1,51 +1,74 @@
 /**
  * Shared domain types for the exhibition.
- *
- * These describe the core content model. They are intentionally minimal and
- * will grow as real data and views are implemented.
  */
 
-/** A single object/piece on display in the collection. */
-export interface ExhibitionObject {
+/** A period of the collection, rendered on the timeline & explorer. */
+export interface Period {
   id: string;
-  slug: string;
-  title: string;
-  author?: string;
-  /** Creation year, or ISO date if the exact date is known. */
-  year?: number;
-  description?: string;
-  /** Path or URL to the primary image. */
-  image?: string;
-  /** Free-form tags used by the collection filters. */
-  tags?: string[];
-  category?: string;
+  /** Anchor year shown on the timeline scrubber (e.g. 1947). */
+  year: number;
+  /** Display name (e.g. "El New Look"). */
+  name: string;
+  /** Short editorial intro shown on the timeline page. */
+  description: string;
+  /** Representative image for the timeline thumbnails. */
+  image: string;
 }
 
-/** A grouping used to organize or filter the collection. */
-export interface Category {
+/** Curatorial theme used to group pieces transversally. */
+export interface Theme {
   id: string;
   name: string;
+}
+
+/** Document typology (pieza, figurín, prensa…). */
+export interface DocType {
+  id: string;
+  name: string;
+}
+
+/** A single object/piece of the collection. */
+export interface Piece {
   slug: string;
-  description?: string;
-}
-
-/** A single milestone rendered on the timeline. */
-export interface TimelineEvent {
-  id: string;
+  title: string;
+  designer?: string;
+  house?: string;
+  /** Sort year. */
   year: number;
-  title: string;
+  /** Display date (e.g. "entre 1790 y 1795"). */
+  yearLabel: string;
+  periodId: string;
+  themeIds: string[];
+  docTypeId: string;
+  /** Path to the image under /public. */
+  image: string;
+  /** 'cutout' = transparent PNG, 'photo' = museum photo with background. */
+  imageKind: 'cutout' | 'photo';
   description?: string;
-  relatedObjectIds?: string[];
+  technique?: string;
+  material?: string;
+  origin?: string;
+  inv?: string;
+  line?: string;
+  acquisition?: string;
+  state?: string;
+  section?: string;
+  dimensions?: string;
+  /** Featured pieces get highlighted in home/muestra. */
+  featured?: boolean;
 }
 
-/** An entry in the exhibition agenda / program. */
-export interface AgendaEntry {
-  id: string;
+/** An entry in the agenda calendar (June 2026). */
+export interface AgendaEvent {
+  /** Day of month (June 2026). */
+  day: number;
+  kind: string;
   title: string;
-  /** ISO date-time string. */
-  date: string;
-  location?: string;
-  description?: string;
+  time?: string;
+  note?: string;
+  image?: string;
+  /** Cell spans (for the "muestra abierta" photo strips). */
+  span?: number;
 }
 
 /** A single link in the primary navigation. */
@@ -58,8 +81,6 @@ export interface NavLink {
 export interface SeoMeta {
   title: string;
   description?: string;
-  /** Absolute or site-relative path to the OpenGraph image. */
   ogImage?: string;
-  /** Canonical path for the current page. */
   canonical?: string;
 }

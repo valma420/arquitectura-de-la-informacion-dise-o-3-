@@ -1,34 +1,40 @@
 /**
  * Font face declarations.
  *
- * PLACEHOLDER ONLY — no font files are shipped yet.
- * Drop the final font files into `public/fonts/` and uncomment/adjust the
- * `@font-face` blocks below. The family names must match the
- * `--font-*` tokens declared in variables.css.
+ * The design kit specifies IvyBodoni (display) + Inter (UI/body).
+ * IvyBodoni is a commercial font — we approximate it with Bodoni Moda,
+ * loaded from Google Fonts in BaseLayout.astro. If the real IvyBodoni
+ * files become available, drop them into `public/fonts/` and declare
+ * them here; the `--font-display` token already lists 'IvyBodoni'.
  */
 
-/*
-@font-face {
-  font-family: 'Display Placeholder';
-  src: url('/fonts/display.woff2') format('woff2');
-  font-weight: 400 700;
-  font-display: swap;
-  font-style: normal;
+/* Utility classes for the two typographic voices of the site. */
+.type-display {
+  font-family: var(--font-display);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-tight);
 }
 
-@font-face {
-  font-family: 'Body Placeholder';
-  src: url('/fonts/body.woff2') format('woff2');
-  font-weight: 400 700;
-  font-display: swap;
-  font-style: normal;
+.type-display-italic {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: var(--font-weight-regular);
+  line-height: 0.95;
+  letter-spacing: -0.015em;
 }
 
-@font-face {
-  font-family: 'Mono Placeholder';
-  src: url('/fonts/mono.woff2') format('woff2');
-  font-weight: 400;
-  font-display: swap;
-  font-style: normal;
+.type-label {
+  font-family: var(--font-body);
+  font-size: var(--label-size);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
 }
-*/
+
+.type-label-sm {
+  font-family: var(--font-body);
+  font-size: var(--label-size-sm);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}

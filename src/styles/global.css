@@ -74,7 +74,7 @@ h2,
 h3,
 h4 {
   font-family: var(--font-display);
-  font-weight: var(--font-weight-bold);
+  font-weight: var(--font-weight-regular);
   line-height: var(--line-height-tight);
   letter-spacing: var(--letter-spacing-tight);
   margin: 0;
@@ -83,6 +83,43 @@ h4 {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+p {
+  margin: 0;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+::selection {
+  background: var(--color-red);
+  color: var(--color-cream);
+}
+
+/* Shared page container. */
+.container {
+  width: 100%;
+  max-width: var(--layout-max-width);
+  margin-inline: auto;
+  padding-inline: var(--layout-gutter);
+}
+
+/* Small-caps utility labels (nav, tags, captions). */
+.label {
+  font-family: var(--font-body);
+  font-size: var(--label-size-sm);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+/* Cream ("light") page sections. */
+.section-cream {
+  background: var(--color-cream);
+  color: var(--color-black);
 }
 
 img,
