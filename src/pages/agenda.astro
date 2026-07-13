@@ -1,0 +1,245 @@
+---
+/**
+ * Agenda (/agenda) — June 2026 calendar grid, cream cells on black,
+ * red hairline borders, Didone day numbers, photo cells for open days.
+ */
+import MainLayout from '@layouts/MainLayout.astro';
+import { agendaEvents, agendaInfo } from '@data/agenda';
+
+const dayNames = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+
+/** June 2026: starts on Monday, 30 days → 5 rows. */
+const totalDays = 30;
+const days = Array.from({ length: totalDays }, (_, i) => i + 1);
+
+const eventsForDay = (day: number) => agendaEvents.filter((e) => e.day === day);
+
+/** Days covered by a multi-day span (skip rendering their own cell). */
+const spanned = new Set<number>();
+for (const e of agendaEvents) {
+  if (e.span && e.span > 1) {
+    for (let d = e.day + 1; d < e.day + e.span; d++) spanned.add(d);
+  }
+}
+---
+
+<MainLayout
+  title="Agenda — Junio 2026"
+  description="Programa de junio 2026: charlas, visitas temáticas, talleres y proyecciones en torno a la muestra El New Look."
+>
+  <section class="ag">
+    <h1 class="ag__title type-display-italic">Agenda Junio 2026</h1>
+
+    <div class="ag__layout">
+      <aside class="ag__side">
+        <p class="label ag__side-kicker">Muestra abierta</p>
+        <p class="ag__side-info">
+          {agendaInfo.hours}<br />
+          {agendaInfo.note}
+        </p>
+      </aside>
+
+      <div class="ag__cal">
+        <div class="ag__weekdays">
+          {dayNames.map((d) => <p class="label ag__weekday">{d}</p>)}
+        </div>
+
+        <div class="ag__grid">
+          {
+            days.map((day) => {
+              if (spanned.has(day)) return null;
+              const events = eventsForDay(day);
+              const spanEvent = events.find((e) => e.span && e.span > 1);
+              const imgEvent = events.find((e) => e.image);
+              return (
+                <div
+                  class:list={['ag__cell', { 'ag__cell--photo': !!imgEvent }]}
+                  style={spanEvent ? `grid-column: span ${spanEvent.span};` : undefined}
+                >
+                  {imgEvent && (
+                    <img class="ag__cell-img" src={imgEvent.image} alt="" loading="lazy" />
+                  )}
+                  <div class="ag__cell-content">
+                    {events.map((e) => (
+                      <div class="ag__event">
+                        <p class="label ag__event-kind">{e.kind}</p>
+                        {e.title && <p class="ag__event-title">{e.title}</p>}
+                        {e.time && <p class="label ag__event-time">{e.time}</p>}
+                      </div>
+                    ))}
+                  </div>
+                  <span class="ag__daynum" aria-hidden="true">
+                    {spanEvent
+                      ? Array.from({ length: spanEvent.span ?? 1 }, (_, i) => day + i).join('   ')
+                      : day}
+                  </span>
+                </div>
+              );
+            })
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  .ag {
+    background: var(--color-black);
+    color: var(--color-cream);
+    padding: clamp(2.5rem, 7vh, 5rem) var(--layout-gutter) var(--space-3xl);
+  }
+
+  .ag__title {
+    font-size: var(--font-size-display-md);
+    color: var(--color-cream);
+  }
+
+  .ag__layout {
+    display: grid;
+    grid-template-columns: minmax(10rem, 0.14fr) minmax(0, 1fr);
+    gap: var(--space-lg);
+    margin-top: var(--space-xl);
+    align-items: start;
+  }
+
+  .ag__side {
+    padding-top: 3.2rem;
+    text-align: right;
+  }
+
+  .ag__side-kicker {
+    color: var(--color-red-bright);
+  }
+
+  .ag__side-info {
+    margin-top: var(--space-sm);
+    font-size: var(--font-size-sm);
+    line-height: 1.7;
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Calendar                                                          */
+  /* ---------------------------------------------------------------- */
+  .ag__weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 0;
+    margin-bottom: var(--space-2xs);
+  }
+
+  .ag__weekday {
+    color: var(--color-cream);
+    padding-inline: var(--space-2xs);
+  }
+
+  .ag__grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    border: 1px solid var(--color-red);
+  }
+
+  .ag__cell {
+    position: relative;
+    min-height: clamp(8rem, 15.5vw, 13.5rem);
+    background: var(--color-cream);
+    color: var(--color-black);
+    border-right: 1px solid var(--color-red);
+    border-bottom: 1px solid var(--color-red);
+    padding: var(--space-sm);
+    overflow: hidden;
+  }
+
+  .ag__cell--photo {
+    color: var(--color-cream);
+  }
+
+  .ag__cell-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ag__cell--photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(10, 9, 8, 0.1) 40%, rgba(10, 9, 8, 0.65));
+  }
+
+  .ag__cell-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .ag__cell--photo .ag__cell-content {
+    position: absolute;
+    left: var(--space-sm);
+    bottom: var(--space-sm);
+    right: var(--space-sm);
+  }
+
+  .ag__event-kind {
+    color: var(--color-red);
+  }
+
+  .ag__cell--photo .ag__event-kind {
+    color: var(--color-cream);
+  }
+
+  .ag__event-title {
+    margin-top: var(--space-3xs);
+    font-size: var(--font-size-sm);
+    line-height: 1.4;
+    max-width: 20ch;
+  }
+
+  .ag__event-time {
+    margin-top: var(--space-3xs);
+    color: var(--color-black);
+    opacity: 0.75;
+  }
+
+  .ag__daynum {
+    position: absolute;
+    right: var(--space-sm);
+    bottom: var(--space-2xs);
+    z-index: 2;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.2vw, 2.2rem);
+    line-height: 1;
+    white-space: pre;
+  }
+
+  .ag__cell--photo .ag__daynum {
+    color: var(--color-cream);
+  }
+
+  @media (max-width: 900px) {
+    .ag__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .ag__side {
+      text-align: left;
+      padding-top: 0;
+    }
+
+    .ag__weekdays {
+      display: none;
+    }
+
+    .ag__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .ag__cell {
+      min-height: 6rem;
+    }
+  }
+</style>

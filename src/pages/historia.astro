@@ -1,0 +1,234 @@
+---
+/**
+ * Historia (/historia) — texto curatorial "Christian Dior 1905–1957".
+ * Cream editorial page: giant red display name, portrait, two-column article.
+ */
+import MainLayout from '@layouts/MainLayout.astro';
+
+const sections = [
+  {
+    heading: 'Antes del 12 de febrero',
+    paragraphs: [
+      'Christian Dior tenía 42 años cuando presentó la colección que le iba a dar nombre a una era. Hasta entonces, su vida había sido la de un hombre que casi no parecía destinado a la moda. Nacido en Granville, Normandía, en 1905, creció en una familia de fabricantes de fertilizantes que perdió todo en el crac del 29. Antes de convertirse en couturier, Dior fue galerista en París, vendió bocetos de sombreros para sobrevivir, y trabajó como asistente en las casas de Robert Piguet y Lucien Lelong durante los años de la ocupación alemana.',
+      'Recién en 1946, con el respaldo financiero del magnate textil Marcel Boussac, abrió su propia casa en el número 30 de la Avenue Montaigne. Tenía un año para preparar la primera colección. La armó con un equipo pequeño, en pisos prestados, con una ambición desproporcionada: devolverle a la moda parisina algo que la guerra le había sacado. El lujo, la frivolidad, la exuberancia.',
+    ],
+  },
+  {
+    heading: '12 de febrero de 1947',
+    paragraphs: [
+      'La presentación fue en los salones del 30 Avenue Montaigne. El público era acotado: editoras de moda, compradoras norteamericanas, clientas de la alta sociedad. La colección se llamaba "Corolle": corola, como el cáliz de una flor, pero nadie la iba a recordar por ese nombre. Una sola pieza definió el día. El tailleur "Bar". Una chaqueta de shantung de seda crudo, ceñida en la cintura, con caderas redondeadas por relleno interno; una pollera de lana negra plisada, larga hasta media pantorrilla, ancha como una corola dada vuelta. La modelo entró al salón y, según las crónicas, la sala se quedó en silencio.',
+      'Carmel Snow, directora de Harper\'s Bazaar, se acercó al final y dijo una frase que cambió todo: "It\'s quite a revolution, dear Christian. Your dresses have such a new look." Esas dos últimas palabras se imprimieron al día siguiente en los diarios del mundo. El New Look había nacido.',
+    ],
+  },
+  {
+    heading: 'La silueta como manifiesto',
+    paragraphs: [
+      'Para entender por qué fue una revolución hay que pensar en lo que existía antes. Durante la guerra, el cuerpo vestido había sido un cuerpo de escasez: hombros cuadrados con hombreras militarizadas, polleras rectas y cortas por el racionamiento de tela, cinturas sin marcar. La moda imitaba al uniforme.',
+      'Dior propuso lo contrario en cada decisión. La cintura volvió a apretarse hasta extremos casi eduardianos. Las caderas se rellenaron con crinolinas y refuerzos para acentuar la curva. Las polleras se hicieron amplias y largas: algunos modelos usaban hasta veinte metros de tela. Los hombros, en lugar de hombreras, se volvieron redondos y suaves. El escote bajó, el cuello se descubrió, las telas pasaron de ásperas a sedosas. La polémica fue inmediata. En el Reino Unido, donde el racionamiento de tela seguía vigente, el ministro Sir Stafford Cripps acusó al New Look de ser un derroche inmoral. En Chicago, un grupo de mujeres salió a la calle con carteles que pedían "menos tela y más sentido común". Pero las clientas votaron con sus armarios. Después de seis años de uniformes, las mujeres querían vestirse otra vez como mujeres. La crítica política se ahogó en la demanda.',
+      'Lo que Dior había entendido, y lo que ningún otro couturier vio con esa claridad, era que la posguerra no necesitaba más austeridad. Necesitaba lo opuesto: una promesa de retorno a la vida.',
+    ],
+  },
+  {
+    heading: 'Lo que Galliera guarda',
+    paragraphs: [
+      'El acervo del Palais Galliera conserva 47 piezas firmadas por Christian Dior entre 1947 y 1957, donadas en su mayoría por las clientas originales que las usaron. Entre ellas, dos versiones del tailleur Bar, varios vestidos de gala de la línea Corolle, accesorios de las primeras temporadas, y un archivo de figurines, fotografías de prensa y correspondencia que documenta cómo París, y el mundo, recibió la revolución de aquel febrero.',
+      'Estas piezas, por su fragilidad, no pueden estar expuestas de forma continua. La luz, la humedad, el simple peso de los años obligan a mantenerlas en reserva la mayor parte del tiempo. Pero en este sitio están todas accesibles, una por una, con sus fotografías, sus fichas técnicas y los documentos que las acompañan. Es, en algún sentido, la forma en que un acervo histórico encuentra su lugar en el presente. No como objeto en vitrina, sino como memoria abierta.',
+    ],
+  },
+];
+---
+
+<MainLayout
+  title="Historia — Christian Dior 1905–1957"
+  description="Texto curatorial: Christian Dior, el 12 de febrero de 1947 y la década que reinventó el cuerpo vestido."
+>
+  <article class="hist section-cream">
+    <p class="hist__meta label">
+      Texto curatorial · Por María Stella Camargo, conservadora · 8 min de lectura · Junio 2026 ·
+      Piezas relacionadas en el acervo: 47
+    </p>
+
+    <div class="hist__grid">
+      <header class="hist__left">
+        <h1 class="hist__name type-display-italic">
+          <span class="hist__name-line">Christian</span>
+          <span class="hist__name-line hist__name-line--2">Dior</span>
+        </h1>
+        <figure class="hist__portrait">
+          <img src="/images/site/dior-portrait.png" alt="Retrato de Christian Dior" />
+          <figcaption>
+            <span class="hist__dates">1905 – 1957</span>
+            <span class="hist__caption">
+              El año en que la silueta cambió<br />
+              Dior, 1947, y la década que reinventó el cuerpo vestido.
+            </span>
+          </figcaption>
+        </figure>
+
+        <section class="hist__decade">
+          <h2 class="hist__decade-title">Una década Dior</h2>
+          <p>
+            Durante los diez años que separaron la primera colección de su muerte, Dior diseñó dos
+            temporadas por año, y cada una propuso una silueta nueva: la línea A, la línea H, la
+            línea Y, la línea Flecha. Cada cambio era noticia. La casa abrió boutiques en Londres,
+            Nueva York, Caracas. Lanzó perfumes, Miss Dior en 1947, el mismo año que la primera
+            colección. Firmó licencias para medias, guantes, lencería, accesorios. Para fines de
+            los 50, una de cada dos prendas de alta costura exportadas desde París venía de Dior.
+          </p>
+          <p>
+            El 24 de octubre de 1957, Christian Dior murió de un infarto en Montecatini Terme,
+            Italia. Tenía 52 años. La sucesión cayó en un asistente de 21: Yves Saint Laurent. La
+            era Dior, en sentido estricto, había durado solo una década. Pero esa década había
+            reescrito completamente las reglas del oficio.
+          </p>
+        </section>
+      </header>
+
+      <div class="hist__article">
+        {
+          sections.map((s) => (
+            <section class="hist__section">
+              <h2 class="hist__heading">{s.heading}</h2>
+              {s.paragraphs.map((p) => (
+                <p>{p}</p>
+              ))}
+            </section>
+          ))
+        }
+      </div>
+    </div>
+
+    <img src="/images/ornaments/orn-04.png" alt="" class="hist__ornament" aria-hidden="true" />
+  </article>
+</MainLayout>
+
+<style>
+  .hist {
+    position: relative;
+    padding: var(--space-xl) var(--layout-gutter) var(--space-3xl);
+    overflow: hidden;
+  }
+
+  .hist__meta {
+    max-width: 26rem;
+    margin-left: auto;
+    color: var(--color-black);
+    line-height: 1.8;
+  }
+
+  .hist__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(3rem, 8vw, 9rem);
+    margin-top: var(--space-lg);
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Left column: name, portrait, decade                               */
+  /* ---------------------------------------------------------------- */
+  .hist__name {
+    color: var(--color-red);
+    font-size: clamp(4rem, 9vw, 9.5rem);
+    line-height: 0.9;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hist__name-line--2 {
+    align-self: flex-end;
+    margin-right: -0.5em;
+    margin-top: -0.08em;
+  }
+
+  .hist__portrait {
+    margin: calc(-1 * clamp(1.5rem, 4vw, 4rem)) 0 0;
+    max-width: 34rem;
+  }
+
+  .hist__portrait img {
+    width: 100%;
+  }
+
+  .hist__portrait figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
+  }
+
+  .hist__dates {
+    font-family: var(--font-body);
+    font-size: var(--font-size-lg);
+    letter-spacing: 0.06em;
+  }
+
+  .hist__caption {
+    color: var(--color-red);
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+  }
+
+  .hist__decade {
+    margin-top: var(--space-3xl);
+    max-width: 40rem;
+  }
+
+  .hist__decade-title {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 4.5vw, 4.5rem);
+    color: var(--color-red);
+    line-height: 1;
+  }
+
+  .hist__decade p {
+    margin-top: var(--space-md);
+    font-size: var(--font-size-sm);
+    line-height: 1.75;
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Right column: article                                             */
+  /* ---------------------------------------------------------------- */
+  .hist__article {
+    max-width: 44rem;
+    padding-top: clamp(2rem, 12vh, 10rem);
+  }
+
+  .hist__section + .hist__section {
+    margin-top: var(--space-2xl);
+  }
+
+  .hist__heading {
+    font-family: var(--font-body);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-xl);
+    color: var(--color-red);
+    letter-spacing: -0.01em;
+  }
+
+  .hist__section p {
+    margin-top: var(--space-md);
+    font-size: var(--font-size-sm);
+    line-height: 1.8;
+  }
+
+  .hist__ornament {
+    position: absolute;
+    right: -4%;
+    bottom: -6%;
+    width: clamp(16rem, 34vw, 34rem);
+    mix-blend-mode: multiply;
+    opacity: 0.75;
+    pointer-events: none;
+  }
+
+  @media (max-width: 1000px) {
+    .hist__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .hist__article {
+      padding-top: 0;
+    }
+  }
+</style>

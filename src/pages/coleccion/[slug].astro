@@ -1,0 +1,328 @@
+---
+/**
+ * Ficha de objeto (/coleccion/[slug]) — framed catalogue card with the
+ * piece image, metadata grid, related pieces and period documentation.
+ */
+import MainLayout from '@layouts/MainLayout.astro';
+import { pieces, getPeriod, pieceNeighbours } from '@data/collection';
+
+export function getStaticPaths() {
+  return pieces.map((piece) => ({ params: { slug: piece.slug }, props: { piece } }));
+}
+
+const { piece } = Astro.props;
+const period = getPeriod(piece.periodId);
+const { group = [] } = pieceNeighbours(piece.slug);
+const related = group.filter((p) => p.slug !== piece.slug).slice(0, 5);
+
+const meta = [
+  ['Diseñador', piece.designer ?? 'Anónimo'],
+  ['Casa', piece.house ?? '—'],
+  ['Año', piece.yearLabel],
+  ['Línea', piece.line ?? '—'],
+  ['Técnica', piece.technique ?? '—'],
+  ['Material', piece.material ?? '—'],
+  ['Origen', piece.origin ?? '—'],
+  ['N.º inv.', piece.inv ?? '—'],
+  ['Adquisición', piece.acquisition ?? '—'],
+  ['Estado', piece.state ?? '—'],
+  ['Sección', piece.section ?? '—'],
+  ['Dimensiones', piece.dimensions ?? '—'],
+];
+
+const docs = [
+  { image: '/images/muestra/m03.jpg', title: 'Figurín de atelier', sub: 'Maison Dior, 1947' },
+  { image: '/images/muestra/m11.jpg', title: 'Vogue Francia', sub: 'octubre 1957' },
+  { image: '/images/muestra/m13.jpeg', title: 'Fotografía', sub: 'Henry Clarke' },
+  { image: '/images/muestra/m08.jpg', title: 'Carta / archivo', sub: 'Centro de Documentación' },
+];
+
+const crumbAuthor = (piece.designer ?? piece.house ?? period?.name ?? '').toUpperCase();
+---
+
+<MainLayout title={`${piece.title} — Colección`} description={piece.description}>
+  <article class="obj">
+    <p class="obj__crumb label">
+      <a href="/coleccion">Colección</a>
+      <span> — </span>
+      {crumbAuthor && <span>{crumbAuthor} — </span>}
+      <span class="obj__crumb-current">{piece.title}</span>
+    </p>
+
+    <!-- ============ FRAMED CARD ============ -->
+    <div class="obj__frame">
+      <div class="obj__card">
+        <figure class:list={['obj__media', { 'obj__media--photo': piece.imageKind === 'photo' }]}>
+          <img src={piece.image} alt={piece.title} />
+        </figure>
+
+        <div class="obj__info">
+          <h1 class="obj__title">{piece.title}</h1>
+          <p class="obj__byline">
+            {piece.designer ?? 'Anónimo'} · {piece.yearLabel}
+          </p>
+          <hr class="obj__rule" />
+          <p class="obj__desc">{piece.description}</p>
+
+          <dl class="obj__meta">
+            {
+              meta.map(([k, v]) => (
+                <div class="obj__meta-item">
+                  <dt class="label">{k}</dt>
+                  <dd>{v}</dd>
+                </div>
+              ))
+            }
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ RELATED ============ -->
+    {
+      related.length > 0 && (
+        <section class="obj__section">
+          <h2 class="label obj__section-title">Piezas vinculadas — por taller, técnica y contexto</h2>
+          <div class="obj__row">
+            {related.map((p) => (
+              <a href={`/coleccion/${p.slug}`} class="obj__thumb">
+                <figure class:list={['obj__thumb-media', { 'is-photo': p.imageKind === 'photo' }]}>
+                  <img src={p.image} alt={p.title} loading="lazy" />
+                </figure>
+                <p class="obj__thumb-title">{p.title}</p>
+                <p class="obj__thumb-year label">{p.yearLabel}</p>
+              </a>
+            ))}
+          </div>
+        </section>
+      )
+    }
+
+    <!-- ============ DOCUMENTATION ============ -->
+    <section class="obj__section">
+      <h2 class="label obj__section-title">Documentación de época</h2>
+      <div class="obj__row obj__row--docs">
+        {
+          docs.map((doc) => (
+            <div class="obj__thumb">
+              <figure class="obj__thumb-media is-photo">
+                <img src={doc.image} alt={doc.title} loading="lazy" />
+              </figure>
+              <p class="obj__thumb-title">{doc.title}</p>
+              <p class="obj__thumb-year label">{doc.sub}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    {
+      piece.periodId === 'new-look' && (
+        <a href="/muestra" class="obj__cta label">
+          Ver en la muestra «El New Look y la silueta de Posguerra» <span aria-hidden="true">→</span>
+        </a>
+      )
+    }
+  </article>
+</MainLayout>
+
+<style>
+  .obj {
+    background: var(--color-black);
+    color: var(--color-cream);
+    padding: var(--space-xl) var(--layout-gutter) var(--space-3xl);
+  }
+
+  .obj__crumb {
+    color: var(--color-muted);
+  }
+
+  .obj__crumb a:hover {
+    color: var(--color-red-bright);
+  }
+
+  .obj__crumb-current {
+    color: var(--color-cream);
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Framed catalogue card                                             */
+  /* ---------------------------------------------------------------- */
+  .obj__frame {
+    margin: var(--space-xl) auto 0;
+    max-width: 82rem;
+    border: 1px solid var(--color-cream);
+    padding: clamp(0.5rem, 1vw, 0.9rem);
+  }
+
+  .obj__card {
+    background: var(--color-cream);
+    color: var(--color-black);
+    display: grid;
+    grid-template-columns: minmax(0, 0.55fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 3vw, 3rem);
+    padding: clamp(1rem, 2vw, 2rem);
+  }
+
+  .obj__media {
+    margin: 0;
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(243, 238, 225, 0.14), transparent 70%),
+      var(--color-surface-dark);
+    display: grid;
+    place-items: center;
+    padding: var(--space-lg);
+    min-height: 30rem;
+  }
+
+  .obj__media img {
+    max-height: 34rem;
+    object-fit: contain;
+    filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.7));
+  }
+
+  .obj__media--photo {
+    padding: 0;
+  }
+
+  .obj__media--photo img {
+    width: 100%;
+    height: 100%;
+    max-height: none;
+    object-fit: cover;
+  }
+
+  .obj__title {
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    line-height: 1;
+  }
+
+  .obj__byline {
+    margin-top: var(--space-sm);
+    color: var(--color-red);
+    font-weight: var(--font-weight-semibold);
+    font-size: var(--font-size-lg);
+  }
+
+  .obj__rule {
+    width: 6rem;
+    border: 0;
+    border-top: 2px solid var(--color-black);
+    margin: var(--space-md) 0;
+  }
+
+  .obj__desc {
+    max-width: 46ch;
+    font-size: var(--font-size-sm);
+    line-height: 1.7;
+  }
+
+  .obj__meta {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-lg) var(--space-md);
+    margin: var(--space-2xl) 0 0;
+  }
+
+  .obj__meta-item dt {
+    color: var(--color-red);
+    border-top: 1px solid var(--color-border-cream);
+    padding-top: var(--space-2xs);
+  }
+
+  .obj__meta-item dd {
+    margin: var(--space-3xs) 0 0;
+    font-size: var(--font-size-sm);
+  }
+
+  /* ---------------------------------------------------------------- */
+  /* Related & documentation rows                                      */
+  /* ---------------------------------------------------------------- */
+  .obj__section {
+    margin-top: var(--space-3xl);
+  }
+
+  .obj__section-title {
+    color: var(--color-muted);
+  }
+
+  .obj__row {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: var(--space-lg);
+    margin-top: var(--space-lg);
+  }
+
+  .obj__row--docs {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .obj__thumb-media {
+    margin: 0;
+    aspect-ratio: 4 / 5;
+    background: var(--color-surface-dark);
+    display: grid;
+    place-items: center;
+    padding: var(--space-md);
+    transition: background var(--duration-fast) var(--ease-standard);
+  }
+
+  .obj__thumb:hover .obj__thumb-media {
+    background: #262421;
+  }
+
+  .obj__thumb-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .obj__thumb-media.is-photo {
+    padding: 0;
+  }
+
+  .obj__thumb-media.is-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .obj__thumb-title {
+    margin-top: var(--space-sm);
+    font-size: var(--font-size-sm);
+  }
+
+  .obj__thumb-year {
+    margin-top: var(--space-3xs);
+    color: var(--color-muted);
+  }
+
+  .obj__cta {
+    display: inline-block;
+    margin-top: var(--space-3xl);
+    color: var(--color-cream);
+    border-bottom: 1px solid var(--color-red-bright);
+    padding-bottom: 0.5em;
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+
+  .obj__cta:hover {
+    color: var(--color-red-bright);
+  }
+
+  @media (max-width: 900px) {
+    .obj__card {
+      grid-template-columns: 1fr;
+    }
+
+    .obj__meta {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .obj__row,
+    .obj__row--docs {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

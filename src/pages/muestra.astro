@@ -1,0 +1,271 @@
+---
+/**
+ * Muestra (/muestra) — temporary exhibition "El New Look y la silueta de Posguerra".
+ * Black hero + cream section with the four numbered curatorial cards.
+ */
+import MainLayout from '@layouts/MainLayout.astro';
+
+const cards = [
+  {
+    num: '01',
+    title: '12 de febrero de 1947',
+    image: '/images/catalogo/c01.png',
+    imageDark: true,
+    caption: 'Traje Bar, Christian Dior · 1947',
+    cols: [
+      'Una sola pieza definió el día: el tailleur «Bar». Chaqueta de shantung ceñida en la cintura, pollera de lana negra plisada hasta media pantorrilla. La modelo entró y la sala se quedó en silencio.',
+    ],
+  },
+  {
+    num: '02',
+    title: 'La silueta',
+    image: '/images/muestra/m03.jpg',
+    caption: 'Figurín de atelier · Maison Dior',
+    cols: [
+      'El New Look fue una ruptura: del racionamiento bélico a la abundancia de tela, del hombro cuadrado al redondeado, de la falda corta a la amplia bajo la rodilla.',
+      'La cintura volvió a ceñirse hasta extremos casi eduardianos; las caderas se rellenaron con crinolinas. Algunos modelos llevaban veinte metros de tela.',
+    ],
+  },
+  {
+    num: '03',
+    title: 'El atelier',
+    image: '/images/muestra/m04.jpg',
+    caption: 'Figurín de atelier · Maison Dior',
+    cols: [
+      'Figurines, patrones y documentos de trabajo del taller de la maison Dior. Cómo se construía la silueta desde el diseño.',
+      'El corsé interno, el relleno de cadera, los refuerzos: la estructura que el cuerpo no mostraba pero que sostenía la forma.',
+    ],
+  },
+  {
+    num: '04',
+    title: 'La imagen',
+    image: '/images/muestra/m15.webp',
+    caption: 'Fotografías por Henry Clarke, Vogue, septiembre 1951',
+    cols: [
+      'Henry Clarke, Willy Maywald y las páginas de Vogue Francia y Figaro Album difundieron el New Look por el mundo. La imagen hizo la revolución tanto como la prenda.',
+    ],
+  },
+];
+---
+
+<MainLayout
+  title="Muestra — El New Look y la silueta de Posguerra"
+  description="Muestra temporaria 1947–1957: la década que redefinió la silueta femenina de posguerra. Palais Galliera."
+>
+  <!-- ================= HERO ================= -->
+  <section class="mhero">
+    <div class="mhero__text">
+      <p class="label mhero__kicker">
+        <span class="mhero__range">1947 — 1957</span>
+        <span class="mhero__dot">·</span>
+        Muestra temporaria
+      </p>
+      <h1 class="mhero__title type-display-italic">El New Look<br />y la silueta<br />de Posguerra</h1>
+      <p class="mhero__copy">
+        Exhibición temático-cronológica que recorre la década que redefinió la silueta femenina de
+        posguerra, a través de prendas originales, figurines de atelier y fotografía editorial de
+        época del acervo del Palais Galliera. Una entrada al tiempo que cambió el cuerpo vestido.
+      </p>
+      <p class="label mhero__meta">
+        15 marzo – 28 julio 2026 <span class="mhero__dot">·</span> Salas del jardín bajo, Palais
+        Galliera
+      </p>
+    </div>
+
+    <figure class="mhero__media">
+      <img src="/images/muestra/m13.jpeg" alt="Desfile de Christian Dior, tailleur «Bar», 1947" />
+      <figcaption class="label">Christian Dior · «Bar» · 1947</figcaption>
+    </figure>
+  </section>
+
+  <!-- ============== CARDS ============== -->
+  <section class="mcards section-cream">
+    {
+      cards.map((card, i) => (
+        <article class:list={['mcard', `mcard--${i + 1}`]}>
+          <figure class:list={['mcard__media', { 'mcard__media--dark': card.imageDark }]}>
+            <span class="mcard__num label">{card.num}</span>
+            <img src={card.image} alt={card.caption} loading="lazy" />
+            <figcaption class="label">{card.caption}</figcaption>
+          </figure>
+          <div class="mcard__body">
+            <h2 class="mcard__title">{card.title}</h2>
+            <div class:list={['mcard__cols', { 'mcard__cols--two': card.cols.length > 1 }]}>
+              {card.cols.map((c) => (
+                <p>{c}</p>
+              ))}
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </section>
+</MainLayout>
+
+<style>
+  /* ================================================================ */
+  /* Hero                                                             */
+  /* ================================================================ */
+  .mhero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(2rem, 6vw, 6rem);
+    align-items: center;
+    background: var(--color-black);
+    color: var(--color-cream);
+    padding: clamp(3rem, 8vh, 6rem) var(--layout-gutter) clamp(3rem, 9vh, 7rem);
+  }
+
+  .mhero__kicker {
+    color: var(--color-red-bright);
+  }
+
+  .mhero__dot {
+    margin-inline: 0.75em;
+    color: var(--color-muted);
+  }
+
+  .mhero__title {
+    font-size: clamp(3rem, 7vw, 7.5rem);
+    margin-top: var(--space-lg);
+  }
+
+  .mhero__copy {
+    max-width: 44rem;
+    margin-top: var(--space-xl);
+    font-size: var(--font-size-sm);
+    line-height: 1.75;
+  }
+
+  .mhero__meta {
+    margin-top: var(--space-2xl);
+    color: var(--color-cream);
+  }
+
+  .mhero__media {
+    margin: 0;
+    position: relative;
+  }
+
+  .mhero__media img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.05);
+  }
+
+  .mhero__media figcaption {
+    position: absolute;
+    left: var(--space-md);
+    bottom: var(--space-md);
+    color: var(--color-cream);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.8);
+  }
+
+  /* ================================================================ */
+  /* Cards                                                            */
+  /* ================================================================ */
+  .mcards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(3rem, 6vw, 6rem) clamp(3rem, 8vw, 8rem);
+    padding: var(--space-3xl) var(--layout-gutter);
+  }
+
+  .mcard {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-lg);
+    align-items: start;
+  }
+
+  /* Alternate: text first on even cards, like the design's stagger. */
+  .mcard--3 .mcard__media,
+  .mcard--4 .mcard__body {
+    order: 2;
+  }
+
+  .mcard--2,
+  .mcard--4 {
+    margin-top: clamp(2rem, 6vh, 5rem);
+  }
+
+  .mcard__media {
+    margin: 0;
+    position: relative;
+    border: 1px solid var(--color-red);
+    padding: var(--space-2xs);
+  }
+
+  .mcard__media img {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .mcard__media--dark img {
+    object-fit: contain;
+    background:
+      radial-gradient(ellipse at 50% 30%, rgba(243, 238, 225, 0.12), transparent 70%),
+      var(--color-black);
+    padding: var(--space-lg);
+  }
+
+  .mcard__num {
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    background: var(--color-red);
+    color: var(--color-cream);
+    padding: 0.9em 1.1em;
+    z-index: 2;
+  }
+
+  .mcard__media figcaption {
+    position: absolute;
+    left: var(--space-sm);
+    bottom: var(--space-sm);
+    color: var(--color-black);
+    background: rgba(243, 238, 225, 0.85);
+    padding: 0.4em 0.7em;
+  }
+
+  .mcard__title {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 2.2vw, 2.2rem);
+    color: var(--color-red);
+    padding-bottom: var(--space-xs);
+    border-bottom: 1px solid var(--color-red);
+    display: inline-block;
+  }
+
+  .mcard__cols {
+    margin-top: var(--space-md);
+    display: grid;
+    gap: var(--space-md);
+    font-size: var(--font-size-sm);
+    line-height: 1.7;
+  }
+
+  .mcard__cols--two {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: 1000px) {
+    .mhero,
+    .mcards,
+    .mcard {
+      grid-template-columns: 1fr;
+    }
+
+    .mcard--3 .mcard__media,
+    .mcard--4 .mcard__body {
+      order: 0;
+    }
+
+    .mcard__cols--two {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

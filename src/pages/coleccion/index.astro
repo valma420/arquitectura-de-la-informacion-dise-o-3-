@@ -1,0 +1,272 @@
+---
+/**
+ * Colección (/coleccion) — red ornamented hero + full piece grid.
+ * Cells flip to a cream info card on hover. Supports ?tema= & ?tipo=
+ * filters (client-side) coming from /explorar.
+ */
+import MainLayout from '@layouts/MainLayout.astro';
+import { pieces, themes, docTypes } from '@data/collection';
+---
+
+<MainLayout
+  title="Colección"
+  description="La colección del Palais Galliera: 243.000 piezas, tres siglos de moda. Indumentaria, accesorios, fotografía y artes gráficas."
+>
+  <!-- ================= HERO ================= -->
+  <section class="chero">
+    <div class="chero__ornaments" aria-hidden="true">
+      <img src="/images/ornaments/orn-04.png" alt="" class="chero__orn chero__orn--1" />
+      <img src="/images/ornaments/orn-07.png" alt="" class="chero__orn chero__orn--2" />
+      <img src="/images/ornaments/orn-08.png" alt="" class="chero__orn chero__orn--3" />
+    </div>
+    <h1 class="chero__title type-display-italic">Colección</h1>
+    <a href="/explorar" class="chero__search label">Buscar por</a>
+    <p class="chero__filter-state label" data-filter-state hidden>
+      <span data-filter-label></span>
+      <a href="/coleccion" class="chero__filter-clear">✕ Quitar filtro</a>
+    </p>
+  </section>
+
+  <!-- ================= GRID ================= -->
+  <section class="cgrid" data-grid>
+    {
+      pieces.map((piece) => (
+        <a
+          href={`/coleccion/${piece.slug}`}
+          class="cell"
+          data-piece
+          data-themes={piece.themeIds.join(' ')}
+          data-doctype={piece.docTypeId}
+          data-period={piece.periodId}
+        >
+          <figure class:list={['cell__media', { 'cell__media--photo': piece.imageKind === 'photo' }]}>
+            <img src={piece.image} alt={piece.title} loading="lazy" />
+          </figure>
+          <div class="cell__card">
+            <p class="cell__year label">{piece.yearLabel}</p>
+            <p class="cell__title">{piece.title}</p>
+            {piece.designer && <p class="cell__designer">{piece.designer}</p>}
+          </div>
+        </a>
+      ))
+    }
+  </section>
+</MainLayout>
+
+<style>
+  /* ================================================================ */
+  /* Hero — red field with engraved flourishes                        */
+  /* ================================================================ */
+  .chero {
+    position: relative;
+    background: var(--color-red);
+    color: var(--color-cream);
+    padding: clamp(3rem, 10vh, 7rem) var(--layout-gutter) clamp(2.5rem, 7vh, 5rem);
+    overflow: hidden;
+  }
+
+  .chero__ornaments {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .chero__orn {
+    position: absolute;
+    mix-blend-mode: multiply;
+    opacity: 0.55;
+    filter: contrast(1.1);
+  }
+
+  .chero__orn--1 {
+    width: 30%;
+    right: 32%;
+    top: -12%;
+    transform: rotate(-8deg);
+  }
+
+  .chero__orn--2 {
+    width: 26%;
+    right: 4%;
+    top: -6%;
+    transform: scaleX(-1) rotate(6deg);
+  }
+
+  .chero__orn--3 {
+    width: 22%;
+    right: 18%;
+    bottom: -18%;
+    transform: rotate(4deg);
+  }
+
+  .chero__title {
+    position: relative;
+    font-size: var(--font-size-display);
+    z-index: 2;
+  }
+
+  .chero__search {
+    position: absolute;
+    right: var(--layout-gutter);
+    bottom: clamp(2rem, 6vh, 4rem);
+    z-index: 2;
+    border: 1px solid var(--color-cream);
+    padding: 0.9em 1.5em;
+    color: var(--color-cream);
+    transition:
+      background var(--duration-fast) var(--ease-standard),
+      color var(--duration-fast) var(--ease-standard);
+  }
+
+  .chero__search:hover {
+    background: var(--color-cream);
+    color: var(--color-red);
+  }
+
+  .chero__filter-state {
+    position: relative;
+    z-index: 2;
+    margin-top: var(--space-md);
+    display: flex;
+    gap: var(--space-md);
+  }
+
+  .chero__filter-clear {
+    text-decoration: underline;
+  }
+
+  /* ================================================================ */
+  /* Grid                                                             */
+  /* ================================================================ */
+  .cgrid {
+    background: var(--color-red);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: clamp(0.9rem, 1.4vw, 1.5rem);
+    padding: 0 var(--layout-gutter) var(--space-2xl);
+  }
+
+  .cell {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 5;
+  }
+
+  .cell__media {
+    margin: 0;
+    position: absolute;
+    inset: 0;
+    background: var(--color-black);
+    display: grid;
+    place-items: center;
+    padding: 12%;
+    transition: opacity var(--duration-fast) var(--ease-standard);
+  }
+
+  .cell__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.65));
+  }
+
+  .cell__media--photo {
+    padding: 0;
+  }
+
+  .cell__media--photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cell__card {
+    position: absolute;
+    inset: 0;
+    background: var(--color-cream);
+    color: var(--color-black);
+    padding: var(--space-md);
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity var(--duration-fast) var(--ease-standard);
+  }
+
+  .cell:hover .cell__card,
+  .cell:focus-visible .cell__card {
+    opacity: 1;
+  }
+
+  .cell:hover .cell__media,
+  .cell:focus-visible .cell__media {
+    opacity: 0;
+  }
+
+  .cell__year {
+    color: var(--color-red);
+  }
+
+  .cell__title {
+    margin-top: var(--space-2xs);
+    font-size: var(--font-size-md);
+    line-height: 1.25;
+  }
+
+  .cell__designer {
+    margin-top: auto;
+    font-size: var(--font-size-sm);
+  }
+
+  .cell.is-hidden {
+    display: none;
+  }
+</style>
+
+<script>
+  // Client-side filtering from /explorar (?tema=, ?tipo=, ?periodo=).
+  const params = new URLSearchParams(window.location.search);
+  const tema = params.get('tema');
+  const tipo = params.get('tipo');
+  const periodo = params.get('periodo');
+
+  const nameMaps: Record<string, Record<string, string>> = {
+    tema: Object.fromEntries(
+      (JSON.parse(document.getElementById('filter-names')?.textContent ?? '{}').themes ?? []).map(
+        (t: { id: string; name: string }) => [t.id, t.name],
+      ),
+    ),
+    tipo: Object.fromEntries(
+      (JSON.parse(document.getElementById('filter-names')?.textContent ?? '{}').docTypes ?? []).map(
+        (t: { id: string; name: string }) => [t.id, t.name],
+      ),
+    ),
+  };
+
+  if (tema || tipo || periodo) {
+    const cells = document.querySelectorAll<HTMLElement>('[data-piece]');
+    cells.forEach((cell) => {
+      const matchTema = !tema || (cell.dataset.themes ?? '').split(' ').includes(tema);
+      const matchTipo = !tipo || cell.dataset.doctype === tipo;
+      const matchPeriodo = !periodo || cell.dataset.period === periodo;
+      cell.classList.toggle('is-hidden', !(matchTema && matchTipo && matchPeriodo));
+    });
+
+    const state = document.querySelector<HTMLElement>('[data-filter-state]');
+    const label = document.querySelector<HTMLElement>('[data-filter-label]');
+    if (state && label) {
+      const parts: string[] = [];
+      if (tema) parts.push(`Tema — ${nameMaps.tema[tema] ?? tema}`);
+      if (tipo) parts.push(`Tipo — ${nameMaps.tipo[tipo] ?? tipo}`);
+      if (periodo) parts.push(`Período — ${periodo.replace(/-/g, ' ')}`);
+      label.textContent = parts.join(' · ');
+      state.hidden = false;
+    }
+  }
+</script>
+
+<script
+  is:inline
+  type="application/json"
+  id="filter-names"
+  set:html={JSON.stringify({ themes, docTypes })}
+/>

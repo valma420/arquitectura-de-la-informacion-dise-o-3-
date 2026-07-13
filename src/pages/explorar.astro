@@ -1,0 +1,160 @@
+---
+/**
+ * Explorar (/explorar) — "Entrá a un tiempo." Three entry columns:
+ * por período, por tema y por tipo de documento.
+ */
+import MainLayout from '@layouts/MainLayout.astro';
+import { periods, themes, docTypes } from '@data/collection';
+---
+
+<MainLayout
+  title="Explorá la colección"
+  description="Elegí una vía de entrada y dejá que la colección se revele a través de su evidencia: por período, por tema o por tipo de documento."
+>
+  <section class="explore section-cream">
+    <p class="label explore__kicker">Explorá</p>
+    <h1 class="explore__title type-display-italic">Entrá a un tiempo.</h1>
+    <p class="explore__sub">
+      Elegí una vía de entrada y dejá que la colección se revele a través de su evidencia.
+    </p>
+
+    <div class="explore__cols">
+      <div class="explore__col">
+        <h2 class="label explore__col-title">Por período</h2>
+        <ul class="explore__list">
+          {
+            periods.map((p) => (
+              <li>
+                <a href={`/linea-de-tiempo?periodo=${p.id}`} class="explore__item">
+                  <span class="explore__item-year">{p.year}</span>
+                  <span class="explore__item-name">{p.name}</span>
+                  <span class="explore__item-arrow" aria-hidden="true">
+                    →
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="explore__col">
+        <h2 class="label explore__col-title">Por tema</h2>
+        <ul class="explore__list">
+          {
+            themes.map((t) => (
+              <li>
+                <a href={`/coleccion?tema=${t.id}`} class="explore__item">
+                  <span class="explore__item-name">{t.name}</span>
+                  <span class="explore__item-arrow" aria-hidden="true">
+                    →
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="explore__col">
+        <h2 class="label explore__col-title">Por tipo de documento</h2>
+        <ul class="explore__list">
+          {
+            docTypes.map((t) => (
+              <li>
+                <a href={`/coleccion?tipo=${t.id}`} class="explore__item">
+                  <span class="explore__item-name">{t.name}</span>
+                  <span class="explore__item-arrow" aria-hidden="true">
+                    →
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+</MainLayout>
+
+<style>
+  .explore {
+    min-height: calc(100svh - 92px);
+    padding: clamp(3rem, 8vh, 6rem) var(--layout-gutter) var(--space-3xl);
+  }
+
+  .explore__kicker {
+    color: var(--color-red);
+  }
+
+  .explore__title {
+    font-size: var(--font-size-display-md);
+    margin-top: var(--space-lg);
+  }
+
+  .explore__sub {
+    margin-top: var(--space-md);
+    font-size: var(--font-size-sm);
+    max-width: 48ch;
+  }
+
+  .explore__cols {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(2.5rem, 6vw, 6rem);
+    margin-top: clamp(3rem, 9vh, 7rem);
+  }
+
+  .explore__col-title {
+    color: var(--color-red);
+    border-bottom: 1px solid var(--color-red);
+    padding-bottom: var(--space-sm);
+  }
+
+  .explore__list {
+    list-style: none;
+    margin: var(--space-lg) 0 0;
+    padding: 0;
+  }
+
+  .explore__item {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-md);
+    padding-block: var(--space-xs);
+    font-size: clamp(1.4rem, 2vw, 1.9rem);
+    line-height: 1.4;
+    transition: color var(--duration-fast) var(--ease-standard);
+  }
+
+  .explore__item-year {
+    font-family: var(--font-display);
+    font-size: 0.95em;
+    min-width: 3.2ch;
+  }
+
+  .explore__item-arrow {
+    margin-left: auto;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition:
+      opacity var(--duration-fast) var(--ease-standard),
+      transform var(--duration-fast) var(--ease-standard);
+    color: var(--color-red);
+  }
+
+  .explore__item:hover {
+    color: var(--color-red);
+  }
+
+  .explore__item:hover .explore__item-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (max-width: 900px) {
+    .explore__cols {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
