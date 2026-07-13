@@ -1,0 +1,23 @@
+---
+/**
+ * PageTransition
+ *
+ * Wrapper + overlay element used to drive route/page transition animations
+ * (e.g. via GSAP + Astro View Transitions). Placeholder only — the overlay is
+ * inert and hidden until the transition logic is implemented.
+ */
+---
+
+<div class="page-transition" data-component="page-transition" aria-hidden="true"></div>
+
+<style>
+  .page-transition {
+    position: fixed;
+    inset: 0;
+    z-index: var(--z-overlay);
+    pointer-events: none;
+    /* Hidden by default; animation logic will reveal/animate this element. */
+    opacity: 0;
+    background-color: var(--color-background);
+  }
+</style>

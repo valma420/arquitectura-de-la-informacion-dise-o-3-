@@ -1,0 +1,62 @@
+---
+/**
+ * Agenda — exhibition program / schedule of events.
+ * Placeholder markup only.
+ */
+import type { AgendaEntry } from '@/types/index';
+import { formatDate } from '@utils/format';
+
+interface Props {
+  entries?: AgendaEntry[];
+}
+
+const { entries = [] } = Astro.props;
+---
+
+<section class="agenda" data-component="agenda">
+  <div class="container">
+    {
+      entries.length === 0 ? (
+        <p class="agenda__empty">No scheduled events yet.</p>
+      ) : (
+        <ul class="agenda__list">
+          {entries.map((entry) => (
+            <li class="agenda__item" data-id={entry.id}>
+              <time datetime={entry.date}>{formatDate(entry.date)}</time>
+              <span class="agenda__title">{entry.title}</span>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .agenda__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+
+  .agenda__item {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    align-items: baseline;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--space-md);
+  }
+
+  .agenda__item time {
+    font-family: var(--font-mono);
+    color: var(--color-muted);
+  }
+
+  .agenda__empty {
+    color: var(--color-muted);
+  }
+</style>

@@ -1,0 +1,47 @@
+---
+/**
+ * CollectionGrid — responsive grid of collection objects.
+ * Placeholder markup only; receives data once the content model is wired up.
+ */
+import type { ExhibitionObject } from '@/types/index';
+
+interface Props {
+  items?: ExhibitionObject[];
+}
+
+const { items = [] } = Astro.props;
+---
+
+<section class="collection-grid" data-component="collection-grid">
+  <div class="container">
+    {
+      items.length === 0 ? (
+        <p class="collection-grid__empty">No objects to display yet.</p>
+      ) : (
+        <ul class="collection-grid__list">
+          {items.map((item) => (
+            <li class="collection-grid__item" data-id={item.id}>
+              {/* TODO: render object card */}
+              <span>{item.title}</span>
+            </li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .collection-grid__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+    gap: var(--space-lg);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .collection-grid__empty {
+    color: var(--color-muted);
+  }
+</style>

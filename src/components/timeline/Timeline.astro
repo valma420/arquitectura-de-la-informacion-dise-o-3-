@@ -1,0 +1,60 @@
+---
+/**
+ * Timeline — chronological sequence of events.
+ * Placeholder markup only; scroll-driven animation to be implemented later.
+ */
+import type { TimelineEvent } from '@/types/index';
+
+interface Props {
+  events?: TimelineEvent[];
+}
+
+const { events = [] } = Astro.props;
+---
+
+<section class="timeline" data-component="timeline">
+  <div class="container">
+    {
+      events.length === 0 ? (
+        <p class="timeline__empty">No timeline events yet.</p>
+      ) : (
+        <ol class="timeline__list">
+          {events.map((event) => (
+            <li class="timeline__item" data-id={event.id}>
+              <span class="timeline__year">{event.year}</span>
+              <span class="timeline__title">{event.title}</span>
+            </li>
+          ))}
+        </ol>
+      )
+    }
+  </div>
+</section>
+
+<style>
+  .timeline__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .timeline__item {
+    display: flex;
+    gap: var(--space-md);
+    align-items: baseline;
+    border-left: 1px solid var(--color-border);
+    padding-left: var(--space-md);
+  }
+
+  .timeline__year {
+    font-family: var(--font-mono);
+    color: var(--color-accent);
+  }
+
+  .timeline__empty {
+    color: var(--color-muted);
+  }
+</style>

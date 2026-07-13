@@ -1,0 +1,71 @@
+/**
+ * Reusable CSS animations & keyframes.
+ *
+ * Lightweight, non-JS transitions live here (hover states, entrance hints,
+ * loaders). Complex, scroll-driven, or timeline-based motion is handled in
+ * JavaScript via GSAP — see `src/lib/animations.ts`.
+ *
+ * All timing reads from the tokens in variables.css.
+ */
+
+/* ---------------------------------------------------------------------- */
+/* Keyframes                                                              */
+/* ---------------------------------------------------------------------- */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+/* ---------------------------------------------------------------------- */
+/* Utility classes                                                       */
+/* ---------------------------------------------------------------------- */
+.animate-fade-in {
+  animation: fade-in var(--duration-base) var(--ease-out) both;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up var(--duration-slow) var(--ease-expo) both;
+}
+
+.animate-pulse-soft {
+  animation: pulse var(--duration-slower) var(--ease-in-out) infinite;
+}
+
+/* ---------------------------------------------------------------------- */
+/* Accessibility: respect reduced-motion preferences                     */
+/* ---------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

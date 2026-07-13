@@ -1,0 +1,58 @@
+---
+/**
+ * Footer — site-wide footer.
+ * Placeholder markup only.
+ */
+import { navigationLinks } from '@data/navigation';
+import { siteConfig } from '@data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer" data-component="footer">
+  <div class="footer__inner container">
+    <p class="footer__brand">{siteConfig.name}</p>
+    <nav aria-label="Footer">
+      <ul class="footer__links">
+        {
+          navigationLinks.map((link) => (
+            <li>
+              <a href={link.href}>{link.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <p class="footer__meta">© {year} · Universidad de Buenos Aires</p>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--color-border);
+    padding-block: var(--space-xl);
+    margin-top: var(--space-3xl);
+  }
+
+  .footer__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .footer__meta {
+    color: var(--color-muted);
+    font-size: var(--font-size-sm);
+  }
+</style>

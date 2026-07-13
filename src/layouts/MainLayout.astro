@@ -1,0 +1,31 @@
+---
+/**
+ * MainLayout
+ *
+ * The standard page shell: Navbar + main content + Footer, plus the page
+ * transition overlay and client-side smooth-scroll bootstrap. Use this for all
+ * content pages. Falls back to BaseLayout for bare/special pages.
+ */
+import BaseLayout from './BaseLayout.astro';
+import Navbar from '@components/navigation/Navbar.astro';
+import Footer from '@components/layout/Footer.astro';
+import PageTransition from '@components/common/PageTransition.astro';
+import type { SeoMeta } from '@/types/index';
+
+type Props = Partial<SeoMeta>;
+---
+
+<BaseLayout {...Astro.props}>
+  <PageTransition />
+  <Navbar />
+  <main id="main-content">
+    <slot />
+  </main>
+  <Footer />
+</BaseLayout>
+
+<script>
+  // Client-side only: initialize smooth scrolling once the page is ready.
+  import { initSmoothScroll } from '@lib/lenis';
+  initSmoothScroll();
+</script>

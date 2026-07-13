@@ -1,0 +1,61 @@
+---
+/**
+ * BaseLayout
+ *
+ * The lowest-level layout: renders the <html> skeleton, all <head> metadata
+ * (SEO, OpenGraph, favicon) and imports the global stylesheet. Every page
+ * should use this either directly or through MainLayout.
+ */
+import '@styles/global.css';
+import { siteConfig } from '@data/site';
+import type { SeoMeta } from '@/types/index';
+
+type Props = Partial<SeoMeta>;
+
+const {
+  title,
+  description = siteConfig.description,
+  ogImage = siteConfig.ogImage,
+  canonical,
+} = Astro.props;
+
+const pageTitle = title ? `${title} — ${siteConfig.name}` : siteConfig.name;
+const canonicalURL = new URL(canonical ?? Astro.url.pathname, Astro.site ?? Astro.url);
+const ogImageURL = new URL(ogImage, Astro.site ?? Astro.url);
+---
+
+<!doctype html>
+<html lang={siteConfig.locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary meta -->
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Favicon placeholder — replace with the final icon set. -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- OpenGraph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteConfig.name} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={ogImageURL} />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
+    <meta name="theme-color" content={siteConfig.themeColor} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

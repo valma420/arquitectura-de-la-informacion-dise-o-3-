@@ -1,0 +1,16 @@
+---
+/**
+ * Collection page (/collection)
+ */
+import MainLayout from '@layouts/MainLayout.astro';
+import CollectionFilters from '@components/filters/CollectionFilters.astro';
+import CollectionGrid from '@components/gallery/CollectionGrid.astro';
+---
+
+<MainLayout title="Collection" description="Browse the full collection of objects.">
+  <section class="container">
+    <h1>Collection</h1>
+    <CollectionFilters />
+    <CollectionGrid />
+  </section>
+</MainLayout>

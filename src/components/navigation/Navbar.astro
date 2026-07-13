@@ -1,0 +1,48 @@
+---
+/**
+ * Navbar — primary site navigation.
+ * Placeholder markup only; styling and interactions to be implemented.
+ */
+import { navigationLinks } from '@data/navigation';
+import { siteConfig } from '@data/site';
+---
+
+<header class="navbar" data-component="navbar">
+  <nav class="container" aria-label="Primary">
+    <a href="/" class="navbar__brand">{siteConfig.shortName}</a>
+    <ul class="navbar__links">
+      {
+        navigationLinks.map((link) => (
+          <li>
+            <a href={link.href} class="navbar__link">
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<style>
+  .navbar {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-navigation);
+  }
+
+  .navbar nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--space-sm);
+  }
+
+  .navbar__links {
+    display: flex;
+    gap: var(--space-md);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+</style>
