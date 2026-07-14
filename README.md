@@ -1,123 +1,128 @@
-# Digital Exhibition
+# Palais Galliera - Digital Exhibition
 
-An interactive digital exhibition / museum website built for a Graphic Design course at **Universidad de Buenos Aires**. The site presents a curated collection of objects through an immersive, animation-driven experience — gallery, timeline, exhibition viewer, catalog and program.
+Interactive fashion-museum experience created for **Diseño 3**, an advanced
+Graphic Design course at **Universidad de Buenos Aires**. It translates an
+evolving Figma design into a production-oriented, semi-functional website. It is
+inspired by the Palais Galliera, but it is not the museum's official website or
+live program.
 
-> **Status:** Functional visual prototype. The principal routes, editorial content, responsive layouts, navigation, interactive collection, timeline, New Look story and shared motion system are implemented. The remaining work is final Figma alignment and production content QA.
+> **Status:** Functional static prototype. The principal routes, collection,
+> object views, editorial stories, timeline, agenda, responsive layouts,
+> navigation and shared motion layer are implemented. The target is a polished
+> deployed prototype, not a production-grade museum information system.
 
----
+## Project goal
+
+The front-end experience is the deliverable. Visual fidelity to the available
+Figma screens, animation, interaction, responsive composition and overall
+aesthetic quality take priority over building a live content platform. Static
+curated data is intentional and sufficient for the prototype.
+
+Figma may continue evolving during the course. Each implemented surface should
+follow the latest approved reference available for that scope while keeping the
+site coherent and deployable between design iterations.
+
+## Implemented routes
+
+| Route                | Experience                                                   |
+| -------------------- | ------------------------------------------------------------ |
+| `/`                  | Editorial home and entry points into the exhibition.         |
+| `/coleccion/`        | Curated eighteenth-century collection catalogue.             |
+| `/coleccion/[slug]/` | Generated object detail and immersive viewer.                |
+| `/explorar/`         | Interactive reconstruction of the Rococo room.               |
+| `/historia/`         | Curatorial story about Rococo and the _robe à la française_. |
+| `/linea-de-tiempo/`  | Fashion silhouette timeline from 1870 to 1929.               |
+| `/muestra/`          | Digital exhibition about Dior's New Look.                    |
+| `/agenda/`           | Static academic program for June 2026.                       |
 
 ## Stack
 
-| Concern           | Tool                                                   |
-| ----------------- | ------------------------------------------------------ |
-| Framework         | [Astro](https://astro.build) (static, no UI framework) |
-| Language          | TypeScript (strict)                                    |
-| Styling           | TailwindCSS v4 (CSS-first) + CSS custom properties     |
-| Animation         | [GSAP](https://gsap.com) (+ ScrollTrigger)             |
-| Smooth scroll     | [Lenis](https://github.com/darkroomengineering/lenis)  |
-| Carousels/sliders | [Swiper](https://swiperjs.com)                         |
-| Icons             | [astro-icon](https://github.com/natemoo-re/astro-icon) |
-| SEO               | `@astrojs/sitemap`, OpenGraph metadata                 |
-| Optimization      | `@playform/compress` (asset compression)               |
-| Quality           | ESLint (flat config) + Prettier                        |
-| Package manager   | **npm**                                                |
+| Concern         | Tool                                                           |
+| --------------- | -------------------------------------------------------------- |
+| Framework       | Astro 5, static output and no UI framework                     |
+| Language        | TypeScript in strict mode                                      |
+| Styling         | Tailwind CSS 4 plus component CSS and shared custom properties |
+| Motion          | GSAP with ScrollTrigger and Lenis smooth scrolling             |
+| Icons           | `astro-icon`, configured for local SVG assets                  |
+| SEO             | Canonical metadata, OpenGraph and `@astrojs/sitemap`           |
+| Build output    | `@playform/compress` asset compression                         |
+| Quality         | ESLint and Prettier                                            |
+| Package manager | npm                                                            |
 
-> React is intentionally **not** used. Add a UI framework only if a feature genuinely requires it.
-
----
+Swiper is installed as a dependency but is not imported by the current
+application. No carousel should be considered implemented merely because the
+package is present.
 
 ## Requirements
 
-- Node.js `>= 18.20` (LTS recommended)
-- npm `>= 9`
+Astro's locked runtime accepts:
 
----
+- Node.js `18.20.8`, `^20.3.0` or `>=22.0.0`;
+- npm `>=9.6.5`.
 
-## Installation
+Node 22 is the recommended development runtime.
+
+## Setup
 
 ```bash
 npm install
 ```
 
-Then copy the environment template:
+Create a local `.env` from `.env.example` and set the public production origin:
 
-```bash
-cp .env.example .env
+```dotenv
+PUBLIC_SITE_URL="https://example.com"
 ```
 
-Set `PUBLIC_SITE_URL` in `.env` to your deployment URL. `astro.config.mjs` consumes it for canonical links, OpenGraph URLs and the sitemap.
+The value is used for canonical URLs, OpenGraph metadata and the sitemap. It is
+public configuration, not a secret. Local `.env*` files remain ignored by Git.
 
----
-
-## Development
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-Starts the dev server at `http://localhost:4321`.
+The default local URL is `http://localhost:4321`.
 
-| Script                 | Description                                     |
-| ---------------------- | ----------------------------------------------- |
-| `npm run dev`          | Start the local dev server                      |
-| `npm run build`        | Type-check (`astro check`) and build to `dist/` |
-| `npm run preview`      | Preview the production build locally            |
-| `npm run lint`         | Lint all source files                           |
-| `npm run lint:fix`     | Lint and auto-fix                               |
-| `npm run format`       | Format the codebase with Prettier               |
-| `npm run format:check` | Verify formatting without writing               |
+## Commands
 
----
+| Command                | Purpose                                                  |
+| ---------------------- | -------------------------------------------------------- |
+| `npm run dev`          | Start the Astro development server.                      |
+| `npm run build`        | Run `astro check` and create the static site in `dist/`. |
+| `npm run preview`      | Serve the generated production build locally.            |
+| `npm run lint`         | Lint JavaScript, TypeScript and Astro files.             |
+| `npm run lint:fix`     | Apply ESLint's automatic fixes.                          |
+| `npm run format`       | Format supported source and documentation files.         |
+| `npm run format:check` | Verify Prettier formatting without writing.              |
 
-## Build
+## Repository map
 
-```bash
-npm run build
-```
+| Path                     | Responsibility                                                   |
+| ------------------------ | ---------------------------------------------------------------- |
+| `src/pages/`             | File-based routes and route-specific editorial composition.      |
+| `src/components/`        | Shared navigation, layout and transition components.             |
+| `src/layouts/`           | HTML/SEO shell and the shared site layout.                       |
+| `src/data/collection.ts` | Collection records, periods and object relationships.            |
+| `src/data/navigation.ts` | Shared navigation links.                                         |
+| `src/data/site.ts`       | Site metadata and default SEO values.                            |
+| `src/lib/`               | Central GSAP registration, motion helpers and Lenis integration. |
+| `src/styles/`            | Global entry point, shared tokens, typography and CSS motion.    |
+| `public/images/`         | Active image assets grouped by experience.                       |
+| `src/assets/`            | Reserved build-processed assets; currently placeholders only.    |
 
-Outputs a static site to `dist/`, ready to deploy to Vercel (or any static host). The build runs `astro check` first, so type errors fail the build.
+Some editorial data remains inside its route file. In particular,
+`src/pages/agenda.astro` currently owns the rendered agenda; the separate
+`src/data/agenda.ts` module is not imported by the application.
 
----
+This static model is appropriate for the current prototype. A database, CMS or
+live museum API is not required unless the scope of the academic delivery
+changes.
 
-## Project structure
+Path aliases are defined in `tsconfig.json`:
 
-```text
-.
-├─ public/                 # Static assets served as-is (favicon, fonts, images, icons)
-├─ src/
-│  ├─ assets/              # Source assets processed by the build
-│  │  ├─ fonts/            # Custom font files (placeholders)
-│  │  ├─ images/           # Source images
-│  │  └─ icons/            # SVG icons consumed by astro-icon
-│  ├─ components/          # Reusable UI, grouped by domain
-│  │  ├─ layout/           # Structural pieces (Footer, …)
-│  │  ├─ navigation/       # Navbar and menus
-│  │  ├─ hero/             # Hero sections
-│  │  ├─ gallery/          # Collection grid & cards
-│  │  ├─ filters/          # Collection filtering UI
-│  │  ├─ timeline/         # Timeline visualisation
-│  │  ├─ popup/            # Modal / dialog shells
-│  │  ├─ agenda/           # Program / schedule
-│  │  ├─ exhibition/       # Object viewer & exhibition UI
-│  │  └─ common/           # Cross-cutting (PageTransition, …)
-│  ├─ layouts/             # Page shells (BaseLayout, MainLayout)
-│  ├─ pages/               # File-based routes
-│  ├─ styles/              # global.css, variables.css, animations.css, fonts.css
-│  ├─ lib/                 # Third-party integrations (gsap, lenis, animations)
-│  ├─ utils/               # Small framework-agnostic helpers
-│  ├─ data/                # Static/config data (navigation, site config)
-│  └─ types/               # Shared TypeScript types
-├─ astro.config.mjs        # Astro + integrations config
-├─ eslint.config.mjs       # ESLint flat config
-├─ tsconfig.json           # TypeScript config + path aliases
-└─ .prettierrc.json        # Prettier config
-```
-
-### Path aliases
-
-Configured in `tsconfig.json` for clean imports:
-
-| Alias           | Resolves to        |
+| Alias           | Target             |
 | --------------- | ------------------ |
 | `@/*`           | `src/*`            |
 | `@components/*` | `src/components/*` |
@@ -128,58 +133,72 @@ Configured in `tsconfig.json` for clean imports:
 | `@data/*`       | `src/data/*`       |
 | `@assets/*`     | `src/assets/*`     |
 
-Shared types live in `src/types` and are imported via `@/types/index` (the `@types` prefix is reserved by TypeScript for type-declaration packages, so it is intentionally avoided).
+## Visual system and motion
 
----
+`src/styles/variables.css` defines the shared semantic palette, typography,
+spacing, layout, radius, z-index and motion tokens. Components also use local
+values for composition-specific geometry; not every visual value is expected to
+be a global token.
 
-## Styling & design tokens
+The current typography is loaded from Google Fonts in `BaseLayout.astro`:
+Bodoni Moda approximates IvyBodoni for display text, while Inter is used for UI
+and body copy. `public/fonts/` is reserved for future local font files, and
+`fonts.css` currently provides typography utility classes rather than active
+`@font-face` declarations.
 
-All visual values live as CSS custom properties in `src/styles/variables.css` — colors, spacing, radius, typography, z-index, animation durations and scroll easing. **Always read from these tokens** (`var(--…)`) instead of hard-coding values, so the site can be re-themed from a single file. Selected tokens are also exposed to Tailwind via `@theme` in `global.css`.
+GSAP and ScrollTrigger are registered once in `src/lib/gsap.ts`. The implemented
+shared motion layer in `src/lib/animations.ts` handles reveals, parallax,
+page transitions and exhibition sequences. Lenis is initialized by
+`MainLayout.astro`. Both CSS and JavaScript motion preserve reduced-motion
+behavior.
 
-- `variables.css` — design tokens (single source of truth)
-- `fonts.css` — `@font-face` placeholders (add real font files to `public/fonts/`)
-- `animations.css` — CSS keyframes & reduced-motion handling
-- `global.css` — entry point: imports the above + Tailwind + base resets
+## Content and assets
 
----
+Visible editorial content is primarily Spanish and includes French fashion
+terms. Preserve accents, punctuation and established object names. Internal code,
+identifiers and technical documentation use English.
 
-## Animation
+When a Figma reference is available, it is the visual source for the surface in
+scope. Existing routes remain useful implementation evidence for behavior,
+responsive states and interactions that may not be visible in a single frame.
 
-- **GSAP** is centralised in `src/lib/gsap.ts` (single import point, plugins registered once). Import GSAP from there, never directly.
-- Reusable motion helpers live in `src/lib/animations.ts` (API defined; implementations to be filled in).
-- **Lenis** smooth scroll is set up in `src/lib/lenis.ts` and synced to GSAP's ticker + ScrollTrigger. It respects `prefers-reduced-motion`.
+Most active media is served directly from `public/images/`. When replacing an
+asset, preserve its public path or update every reference. The collection detail
+routes are generated from `src/data/collection.ts`; adding or renaming a slug
+changes its public URL.
 
----
+## Validation
 
-## Coding conventions
+Before handing off a change:
 
-- **English everywhere** — folders, files, variables, functions, types, components and comments.
-- **Components:** `PascalCase.astro`, grouped by domain under `src/components`.
-- **Utilities/helpers:** `camelCase` functions in `camelCase.ts` files.
-- **Types:** `PascalCase`, centralised in `src/types`.
-- **CSS:** BEM-ish class names scoped inside components; global values via CSS variables.
-- **Imports:** use path aliases (`@components/…`) over deep relative paths.
-- **Formatting/linting:** Prettier + ESLint run on save (see `.vscode/settings.json`); keep the tree clean before committing.
-- **Accessibility:** honour `prefers-reduced-motion`; prefer semantic elements (`<dialog>`, `<time>`, `<nav>`).
+```bash
+npm run lint
+npm run build
+npx prettier --check <changed-files>
+```
 
----
+`npm run format:check` performs the same formatting check across the complete
+repository and may also expose unrelated existing drift.
 
-## Roadmap
+For visual changes, also inspect every affected route at desktop and mobile
+sizes, including navigation, image loading, internal links, keyboard focus and
+`prefers-reduced-motion` behavior. There is currently no automated browser or
+unit-test suite.
 
-- [ ] Define the final design system (replace placeholder tokens & fonts)
-- [ ] Implement the Home hero and featured sections
-- [ ] Wire the collection content model and data source
-- [ ] Build collection filtering (client-side)
-- [ ] Implement the interactive object viewer (zoom / 3D / media)
-- [ ] Build the scroll-driven timeline
-- [ ] Implement GSAP reveal & page-transition animations
-- [ ] Add Swiper-based carousels where needed
-- [ ] Populate agenda / catalog content
-- [ ] SEO polish: real OG images, structured data
-- [ ] Deploy to Vercel
+## Deployment
 
----
+`npm run build` produces a static `dist/` directory suitable for Vercel or any
+static host. The intended delivery is a publicly accessible prototype. Set
+`PUBLIC_SITE_URL` to its final origin before the production build so canonical
+metadata and the sitemap do not use the local fallback.
+
+## Maintenance guidance
+
+Repository-specific implementation invariants live in [AGENTS.md](AGENTS.md).
+This README remains the human-facing source for setup, routes and project
+orientation.
 
 ## License
 
-Academic project — Universidad de Buenos Aires. Not licensed for redistribution.
+Academic project - Diseño 3, Universidad de Buenos Aires. Not licensed for
+redistribution.
