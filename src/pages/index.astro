@@ -71,7 +71,7 @@ const orbitObjects = [
   <section class="home-hero" data-home-hero>
     <div class="home-hero__pattern" aria-hidden="true"></div>
 
-    <h1 class="home-hero__title" aria-label="Palais Galliera">
+    <h1 class="home-hero__title" aria-label="Palais Galliera" data-home-hero-title>
       <span>Palais</span>
       <strong>Galliera</strong>
     </h1>
@@ -1313,27 +1313,51 @@ const orbitObjects = [
 
   const intro = document.querySelector<HTMLElement>('[data-home-intro]');
   const introTitle = intro?.querySelector<HTMLElement>('[data-home-intro-title]');
+  const hero = document.querySelector<HTMLElement>('[data-home-hero]');
+  const heroTitle = hero?.querySelector<HTMLElement>('[data-home-hero-title]');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  if (intro && introTitle && !reducedMotion.matches) {
-    const introContext = gsap.context(() => {
-      gsap
-        .timeline({
-          scrollTrigger: {
-            trigger: intro,
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: true,
-          },
-        })
-        .fromTo(
-          introTitle,
-          { clipPath: 'inset(100% 0 0 0)', opacity: 0 },
-          { clipPath: 'inset(0% 0 0 0)', opacity: 1, duration: 1, ease: 'none' }
-        );
-    }, intro);
+  if (!reducedMotion.matches) {
+    const homeContext = gsap.context(() => {
+      if (intro && introTitle) {
+        gsap
+          .timeline({
+            scrollTrigger: {
+              trigger: intro,
+              start: 'top top',
+              end: 'bottom bottom',
+              scrub: true,
+            },
+          })
+          .fromTo(
+            introTitle,
+            { clipPath: 'inset(100% 0 0 0)', opacity: 0 },
+            { clipPath: 'inset(0% 0 0 0)', opacity: 1, duration: 0.72, ease: 'none' }
+          )
+          .to(introTitle, { opacity: 1, duration: 0.12 })
+          .to(introTitle, { opacity: 0, duration: 0.16, ease: 'none' });
+      }
 
-    document.addEventListener('astro:before-swap', () => introContext.revert(), { once: true });
+      if (hero && heroTitle) {
+        gsap.fromTo(
+          heroTitle,
+          { autoAlpha: 0, y: '8svh' },
+          {
+            autoAlpha: 1,
+            y: 0,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: hero,
+              start: 'top 35%',
+              end: 'top top',
+              scrub: true,
+            },
+          }
+        );
+      }
+    });
+
+    document.addEventListener('astro:before-swap', () => homeContext.revert(), { once: true });
   }
 
   const portalElements = Array.from(document.querySelectorAll<HTMLElement>('[data-portal]'));
