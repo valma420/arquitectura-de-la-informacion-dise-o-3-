@@ -1,375 +1,891 @@
 ---
-/**
- * Línea de tiempo (/linea-de-tiempo) — period viewer + timeline scrubber.
- * The selected period's name/year and its pieces carousel update client-side;
- * supports deep-linking via ?periodo=<id>.
- */
 import MainLayout from '@layouts/MainLayout.astro';
-import { periods, pieces } from '@data/collection';
 
-const defaultPeriod = periods.find((p) => p.id === 'new-look') ?? periods[0];
+const overviewEras = [
+  {
+    name: 'Belle Époque',
+    range: '1871-1914',
+    image: '/images/timeline-agenda/timeline-1870.png',
+    tone: 'orange',
+  },
+  {
+    name: 'Annés Folles',
+    range: '1918-1929',
+    image: '/images/timeline-agenda/timeline-1918.png',
+    tone: 'blue',
+  },
+];
 
-const piecesLite = pieces.map((p) => ({
-  slug: p.slug,
-  title: p.title,
-  yearLabel: p.yearLabel,
-  year: p.year,
-  periodId: p.periodId,
-  image: p.image,
-  imageKind: p.imageKind,
-}));
+const detailCards = [
+  {
+    year: '1871-1914',
+    title: 'Belle Époque',
+    image: '/images/timeline-agenda/timeline-1870.png',
+  },
+  { year: '1890s', image: '/images/timeline-agenda/timeline-1890.png' },
+  { year: '1900s', image: '/images/timeline-agenda/timeline-1900.png' },
+];
+
+const description =
+  'La moda de la opulencia y el refinamiento. El corsé esculpe una silueta en S, pecho hacia adelante, cintura de avispa, cadera atrás, y el vestido se cubre de encajes, bordados y volúmenes.';
+
+const detailDescription =
+  'La moda de la opulencia y el refinamiento. El corsé esculpe una silueta en S, pecho hacia adelante, cintura de avispa, cadera atrás, y el vestido se cubre de encajes, bordados y volúmenes. París se consagra como capital de la moda y nace la alta costura moderna; hacia el final del período, Poiret empieza a liberar el cuerpo del corsé.';
 ---
 
 <MainLayout
+  immersive
   title="Línea de tiempo"
-  description="Navegá la colección del Palais Galliera por período: del siglo XVIII al posmoderno."
+  description="Un recorrido por las transformaciones de la silueta entre 1870 y 1929."
 >
-  <section class="tl">
-    <p class="label tl__kicker">Período seleccionado</p>
+  <div class="timeline-page" data-timeline>
+    <section class="timeline-overview" data-timeline-overview aria-label="Recorrido histórico">
+      <div class="timeline-overview__pattern" aria-hidden="true"></div>
 
-    <header class="tl__head">
-      <h1 class="tl__name type-display-italic" data-tl-name>{defaultPeriod.name}</h1>
-      <p class="tl__year type-display-italic" data-tl-year>{defaultPeriod.year}</p>
-    </header>
+      <div class="timeline-left" aria-hidden="true">
+        <div class="timeline-left__sticky">
+          <div class="timeline-rail">
+            <span class="timeline-rail__progress"></span>
+          </div>
+          <span class="timeline-chevron"></span>
+          <span class="timeline-century">1</span>
+          <div class="timeline-wheel">
+            <span class="timeline-wheel__year is-1870">870</span>
+            <span class="timeline-wheel__year is-1914">914</span>
+            <span class="timeline-wheel__year is-1918">918</span>
+          </div>
+        </div>
+      </div>
 
-    <p class="tl__desc" data-tl-desc>{defaultPeriod.description}</p>
-
-    <div class="tl__carousel" data-tl-carousel></div>
-
-    <p class="label tl__hint">
-      Deslizá para recorrer las piezas del período <span aria-hidden="true">→</span>
-    </p>
-
-    <div class="tl__scrubber">
-      <p class="label tl__scrubber-title">Línea de tiempo — navegá la colección por período</p>
-      <div class="tl__periods">
+      <div class="timeline-flow">
         {
-          periods.map((p) => (
-            <button
-              class="tl__period"
-              data-tl-period={p.id}
-              aria-pressed={p.id === defaultPeriod.id ? 'true' : 'false'}
-            >
-              <figure class="tl__period-thumb">
-                <img src={p.image} alt="" loading="lazy" />
-              </figure>
-              <span class="tl__tick" aria-hidden="true" />
-              <span class="tl__period-year">{p.year}</span>
-              <span class="tl__period-name label">{p.name}</span>
-            </button>
+          overviewEras.map((era) => (
+            <article class:list={['timeline-era', `is-${era.tone}`]}>
+              <span class="timeline-era__line timeline-era__line--top" aria-hidden="true" />
+              <h1>{era.name}</h1>
+              <p class="timeline-era__range">{era.range}</p>
+              <img class="timeline-era__image" src={era.image} alt="" />
+              <span class="timeline-era__line timeline-era__line--bottom" aria-hidden="true" />
+              <p class="timeline-era__description">{description}</p>
+            </article>
           ))
         }
       </div>
-    </div>
-  </section>
+    </section>
+
+    <section
+      class="timeline-details"
+      data-timeline-details
+      data-lenis-prevent-wheel
+      tabindex="0"
+      aria-label="Décadas de la Belle Époque. Deslizá horizontalmente para recorrerlas."
+    >
+      <span class="timeline-details__ghost" aria-hidden="true">1870</span>
+      <div class="timeline-details__track">
+        <span class="timeline-details__line timeline-details__line--top" aria-hidden="true"></span>
+        <span class="timeline-details__line timeline-details__line--bottom" aria-hidden="true"
+        ></span>
+
+        {
+          detailCards.map((card, index) => (
+            <article class="timeline-card">
+              {card.title && <h2>{card.title}</h2>}
+              <p class="timeline-card__year">{card.year}</p>
+              <img
+                class="timeline-card__image"
+                src={card.image}
+                alt=""
+                loading={index ? 'lazy' : 'eager'}
+              />
+              <p class="timeline-card__copy">{detailDescription}</p>
+              <div class="timeline-card__meta timeline-card__meta--silhouette">
+                <strong>SILUETA</strong>
+                <span>Corsé · silueta en S · cintura de avispa · falda con cola y volumen</span>
+              </div>
+              <div class="timeline-card__meta timeline-card__meta--figures">
+                <strong>FIGURAS CLAVE</strong>
+                <span>
+                  Charles Frederick Worth · Jacques Doucet · Jeanne Paquin · Callot Soeurs
+                </span>
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </section>
+  </div>
 </MainLayout>
 
-<script
-  is:inline
-  type="application/json"
-  id="tl-data"
-  set:html={JSON.stringify({ periods, pieces: piecesLite })}
-/>
-
 <style>
-  .tl {
-    background: var(--color-black);
-    color: var(--color-cream);
-    padding: var(--space-xl) 0 var(--space-2xl);
+  .timeline-page {
+    --tl-black: #141414;
+    --tl-cream: #f3eee1;
+    --tl-orange: #fd6500;
+    --tl-purple: #520345;
+    --tl-blue: #b9d6fe;
+    --tl-year-shift: 0px;
+    --tl-rail-shift: 0px;
+    --tl-pattern-x: -161px;
+    --tl-pattern-y: -76px;
+    --tl-detail-scroll: 0px;
+    --tl-detail-pattern-x: -251px;
+    position: relative;
+    isolation: isolate;
+    overflow: clip;
+    color: var(--tl-cream);
+    background: var(--tl-black);
+  }
+
+  .timeline-overview__pattern {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    width: 100vw;
+    height: 100vh;
+    margin-bottom: -100vh;
+    background-image: url('/images/timeline-agenda/timeline-pattern.svg');
+    background-position: var(--tl-pattern-x) var(--tl-pattern-y);
+    background-size: max(111.73vw, 1340px) max(204.81vw, 2457px);
+    background-repeat: no-repeat;
+    pointer-events: none;
+  }
+
+  .timeline-overview {
+    position: relative;
+    z-index: 1;
+    height: 2618px;
+  }
+
+  .timeline-left {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 50.52vw;
+    pointer-events: none;
+  }
+
+  .timeline-left__sticky {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    height: 100vh;
     overflow: hidden;
   }
 
-  .tl__kicker {
-    color: var(--color-muted);
-    padding-inline: var(--layout-gutter);
+  .timeline-rail {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 7.29vw;
+    width: 34px;
+    background: rgba(243, 238, 225, 0.05);
   }
 
-  .tl__head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--space-lg);
-    padding-inline: var(--layout-gutter);
-    margin-top: var(--space-md);
+  .timeline-rail__progress {
+    position: absolute;
+    top: 262px;
+    left: 0;
+    width: 100%;
+    height: 155px;
+    background: linear-gradient(180deg, rgba(253, 101, 0, 0.3), rgba(82, 3, 69, 0.3));
+    transform: translateY(var(--tl-rail-shift));
+    will-change: transform;
   }
 
-  .tl__name {
-    font-size: var(--font-size-display-md);
+  .timeline-chevron {
+    position: absolute;
+    top: 472px;
+    left: calc(7.29vw + 34px);
+    width: 38px;
+    height: 14px;
   }
 
-  .tl__year {
-    font-size: var(--font-size-display-md);
+  .timeline-chevron::before,
+  .timeline-chevron::after {
+    position: absolute;
+    left: 0;
+    width: 38px;
+    height: 1px;
+    background: var(--tl-orange);
+    content: '';
+    transform-origin: right;
   }
 
-  .tl__desc {
-    padding-inline: var(--layout-gutter);
-    margin-top: var(--space-sm);
-    max-width: 52ch;
-    font-size: var(--font-size-sm);
-    line-height: 1.7;
-    color: var(--color-cream);
+  .timeline-chevron::before {
+    top: 0;
+    transform: rotate(20deg);
   }
 
-  /* ---------------------------------------------------------------- */
-  /* Pieces carousel                                                   */
-  /* ---------------------------------------------------------------- */
-  .tl__carousel {
-    display: flex;
-    gap: var(--space-md);
-    margin-top: var(--space-xl);
-    padding-inline: var(--layout-gutter);
+  .timeline-chevron::after {
+    bottom: 0;
+    transform: rotate(-20deg);
+  }
+
+  .timeline-century,
+  .timeline-wheel__year,
+  .timeline-details__ghost {
+    font-family: var(--font-display);
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .timeline-century {
+    position: absolute;
+    top: 219px;
+    left: calc(15vw - 34px);
+    width: 130px;
+    font-size: 200px;
+    color: transparent;
+    background: linear-gradient(180deg, var(--tl-orange) 0%, var(--tl-purple) 86%);
+    background-clip: text;
+  }
+
+  .timeline-wheel {
+    position: absolute;
+    top: 219px;
+    left: 17.66vw;
+    width: 521px;
+    height: 299px;
+    transform: translateY(calc(-1 * var(--tl-year-shift)));
+    will-change: transform;
+  }
+
+  .timeline-wheel__year {
+    position: absolute;
+    left: 0;
+    width: 521px;
+    height: 299px;
+    font-size: 200px;
+  }
+
+  .timeline-wheel__year.is-1870 {
+    top: 0;
+    color: var(--tl-orange);
+  }
+
+  .timeline-wheel__year.is-1914 {
+    top: 663px;
+    color: transparent;
+    background: linear-gradient(180deg, var(--tl-orange), var(--tl-purple));
+    background-clip: text;
+  }
+
+  .timeline-wheel__year.is-1918 {
+    top: 1326px;
+    color: transparent;
+    background: linear-gradient(180deg, var(--tl-purple), var(--tl-blue));
+    background-clip: text;
+  }
+
+  .timeline-flow {
+    width: 49.48vw;
+    margin-left: 50.52vw;
+  }
+
+  .timeline-era {
+    position: relative;
+    height: 1309px;
+  }
+
+  .timeline-era__line {
+    position: absolute;
+    left: -20px;
+    width: calc(100% + 20px);
+    height: 4px;
+    background: currentColor;
+    clip-path: polygon(
+      0 34%,
+      2% 62%,
+      4% 40%,
+      6% 66%,
+      8% 37%,
+      10% 60%,
+      12% 39%,
+      14% 64%,
+      16% 36%,
+      18% 61%,
+      20% 40%,
+      22% 63%,
+      24% 39%,
+      26% 61%,
+      28% 37%,
+      30% 64%,
+      32% 39%,
+      34% 62%,
+      36% 38%,
+      38% 64%,
+      40% 36%,
+      42% 62%,
+      44% 40%,
+      46% 63%,
+      48% 37%,
+      50% 64%,
+      52% 38%,
+      54% 61%,
+      56% 40%,
+      58% 64%,
+      60% 37%,
+      62% 62%,
+      64% 40%,
+      66% 64%,
+      68% 37%,
+      70% 61%,
+      72% 40%,
+      74% 63%,
+      76% 38%,
+      78% 64%,
+      80% 36%,
+      82% 62%,
+      84% 40%,
+      86% 64%,
+      88% 37%,
+      90% 62%,
+      92% 39%,
+      94% 64%,
+      96% 37%,
+      98% 62%,
+      100% 40%
+    );
+  }
+
+  .timeline-era__line--top {
+    top: 193px;
+  }
+
+  .timeline-era__line--bottom {
+    top: 878px;
+  }
+
+  .timeline-era.is-orange .timeline-era__line--top,
+  .timeline-era.is-orange .timeline-era__range {
+    color: var(--tl-orange);
+  }
+
+  .timeline-era.is-orange .timeline-era__line--bottom {
+    color: var(--tl-purple);
+  }
+
+  .timeline-era.is-blue .timeline-era__line,
+  .timeline-era.is-blue .timeline-era__range {
+    color: var(--tl-blue);
+  }
+
+  .timeline-era h1 {
+    position: absolute;
+    top: 210px;
+    left: 0;
+    font-family: var(--font-body);
+    font-size: 64px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .timeline-era__range {
+    position: absolute;
+    top: 319px;
+    left: 0;
+    font-size: 32px;
+    font-style: italic;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .timeline-era__image {
+    position: absolute;
+    top: 440px;
+    left: 0;
+    width: 435px;
+    height: 421px;
+    max-width: none;
+    object-fit: fill;
+  }
+
+  .timeline-era__description {
+    position: absolute;
+    top: 905px;
+    left: 0;
+    width: 500px;
+    font-size: 32px;
+    font-style: italic;
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+    text-align: justify;
+    transform: scaleX(0.868);
+    transform-origin: left top;
+  }
+
+  .timeline-details {
+    position: relative;
+    z-index: 2;
+    height: 1080px;
     overflow-x: auto;
-    scroll-snap-type: x mandatory;
+    overflow-y: hidden;
+    color: var(--tl-cream);
+    background: transparent;
+    scroll-behavior: smooth;
     scrollbar-width: none;
+    cursor: grab;
   }
 
-  .tl__carousel::-webkit-scrollbar {
+  .timeline-details::after {
+    position: absolute;
+    top: 0;
+    left: var(--tl-detail-scroll);
+    z-index: 10;
+    width: 100vw;
+    height: 100%;
+    content: '';
+    background-image: url('/images/timeline-agenda/timeline-pattern.svg');
+    background-position: var(--tl-detail-pattern-x) -87px;
+    background-size: max(111.73vw, 1340px) max(204.81vw, 2457px);
+    background-repeat: no-repeat;
+    pointer-events: none;
+  }
+
+  .timeline-details::-webkit-scrollbar {
     display: none;
   }
 
-  .tl__carousel :global(.tl-card) {
-    flex: 0 0 clamp(16rem, 24vw, 27rem);
-    scroll-snap-align: start;
+  .timeline-details.is-dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+    user-select: none;
+  }
+
+  .timeline-details__track {
+    position: relative;
+    display: flex;
+    width: 3411px;
+    height: 1080px;
+  }
+
+  .timeline-details__line {
+    position: absolute;
+    left: 288px;
+    z-index: 3;
+    width: calc(100% - 288px);
+    height: 4px;
+    background: currentColor;
+    clip-path: polygon(
+      0 35%,
+      2% 62%,
+      4% 38%,
+      6% 65%,
+      8% 36%,
+      10% 61%,
+      12% 39%,
+      14% 64%,
+      16% 37%,
+      18% 62%,
+      20% 39%,
+      22% 63%,
+      24% 38%,
+      26% 62%,
+      28% 36%,
+      30% 64%,
+      32% 39%,
+      34% 62%,
+      36% 38%,
+      38% 64%,
+      40% 36%,
+      42% 62%,
+      44% 40%,
+      46% 63%,
+      48% 37%,
+      50% 64%,
+      52% 38%,
+      54% 61%,
+      56% 40%,
+      58% 64%,
+      60% 37%,
+      62% 62%,
+      64% 40%,
+      66% 64%,
+      68% 37%,
+      70% 61%,
+      72% 40%,
+      74% 63%,
+      76% 38%,
+      78% 64%,
+      80% 36%,
+      82% 62%,
+      84% 40%,
+      86% 64%,
+      88% 37%,
+      90% 62%,
+      92% 39%,
+      94% 64%,
+      96% 37%,
+      98% 62%,
+      100% 40%
+    );
+    pointer-events: none;
+  }
+
+  .timeline-details__line--top {
+    top: 193px;
+    color: var(--tl-orange);
+  }
+
+  .timeline-details__line--bottom {
+    top: 878px;
+    color: var(--tl-cream);
+  }
+
+  .timeline-details__ghost {
+    position: absolute;
+    top: 219px;
+    left: -385px;
+    z-index: 4;
+    font-size: 268px;
+    color: var(--tl-orange);
+    pointer-events: none;
+  }
+
+  .timeline-card {
+    position: relative;
+    flex: 0 0 1137px;
+    height: 1080px;
+  }
+
+  .timeline-card:not(:first-of-type)::before {
+    position: absolute;
+    top: 197px;
+    left: 288px;
+    width: 1px;
+    height: 135px;
+    background: var(--tl-orange);
+    content: '';
+  }
+
+  .timeline-card h2 {
+    position: absolute;
+    top: 210px;
+    left: 288px;
+    font-family: var(--font-body);
+    font-size: 64px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .timeline-card__year {
+    position: absolute;
+    top: 301px;
+    left: 288px;
+    color: var(--tl-orange);
+    font-size: 32px;
+    font-style: italic;
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .timeline-card:not(:first-of-type) .timeline-card__year {
+    left: 268px;
+  }
+
+  .timeline-card__image {
+    position: absolute;
+    top: 440px;
+    left: 288px;
+    width: 435px;
+    height: 421px;
+    max-width: none;
+  }
+
+  .timeline-card__copy {
+    position: absolute;
+    top: 440px;
+    left: 744px;
+    width: 460px;
+    font-size: 18px;
+    line-height: 1.16;
+    transform: scaleX(0.833);
+    transform-origin: left top;
+  }
+
+  .timeline-card__meta {
+    position: absolute;
+    left: 744px;
+    width: 383px;
+    font-size: 16px;
+    line-height: 1.15;
+  }
+
+  .timeline-card__meta--silhouette {
+    top: 660px;
+  }
+
+  .timeline-card__meta--figures {
+    top: 730px;
+  }
+
+  .timeline-card__meta strong,
+  .timeline-card__meta span {
     display: block;
   }
 
-  .tl__carousel :global(.tl-card figure) {
-    margin: 0;
-    aspect-ratio: 1 / 1.05;
-    background:
-      radial-gradient(ellipse at 50% 30%, rgba(243, 238, 225, 0.08), transparent 70%),
-      var(--color-surface-dark);
-    display: grid;
-    place-items: center;
-    padding: var(--space-lg);
-    transition: background var(--duration-fast) var(--ease-standard);
+  .timeline-card__meta strong {
+    margin-bottom: 3px;
+    color: var(--tl-orange);
+    font-size: 14px;
+    letter-spacing: 0.035em;
   }
 
-  .tl__carousel :global(.tl-card:hover figure) {
-    background:
-      radial-gradient(ellipse at 50% 30%, rgba(243, 238, 225, 0.14), transparent 70%),
-      #232120;
-  }
-
-  .tl__carousel :global(.tl-card img) {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 14px 26px rgba(0, 0, 0, 0.7));
-  }
-
-  .tl__carousel :global(.tl-card.is-photo figure) {
-    padding: 0;
-  }
-
-  .tl__carousel :global(.tl-card.is-photo img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .tl__carousel :global(.tl-card .tl-card__title) {
-    margin-top: var(--space-sm);
-    font-size: var(--font-size-sm);
-  }
-
-  .tl__carousel :global(.tl-card .tl-card__year) {
-    margin-top: 2px;
-    font-size: var(--font-size-xs);
-    color: var(--color-muted);
-  }
-
-  .tl__hint {
-    padding-inline: var(--layout-gutter);
-    margin-top: var(--space-lg);
-    color: var(--color-muted);
-  }
-
-  /* ---------------------------------------------------------------- */
-  /* Scrubber                                                          */
-  /* ---------------------------------------------------------------- */
-  .tl__scrubber {
-    margin-top: var(--space-3xl);
-    padding-inline: var(--layout-gutter);
-  }
-
-  .tl__scrubber-title {
-    color: var(--color-muted);
-  }
-
-  .tl__periods {
-    display: grid;
-    grid-template-columns: repeat(8, minmax(0, 1fr));
-    gap: var(--space-sm);
-    margin-top: var(--space-lg);
-    position: relative;
-  }
-
-  .tl__period {
-    background: none;
-    border: 0;
-    padding: 0;
-    cursor: pointer;
-    color: var(--color-cream);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-2xs);
-    font-family: var(--font-body);
-  }
-
-  .tl__period-thumb {
-    margin: 0 0 var(--space-2xs);
-    width: clamp(3.5rem, 6vw, 6.5rem);
-    aspect-ratio: 1;
-    background: var(--color-surface-dark);
-    display: grid;
-    place-items: center;
-    padding: 12%;
-    opacity: 0.5;
-    transition: opacity var(--duration-fast) var(--ease-standard);
-  }
-
-  .tl__period-thumb img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-
-  .tl__tick {
-    width: 100%;
-    height: 9px;
-    position: relative;
-  }
-
-  .tl__tick::before {
-    content: '';
-    position: absolute;
-    left: -0.5rem;
-    right: -0.5rem;
-    top: 4px;
-    height: 1px;
-    background: rgba(243, 238, 225, 0.3);
-  }
-
-  .tl__tick::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 0;
-    width: 1.5px;
-    height: 9px;
-    background: var(--color-cream);
-    transform: translateX(-50%);
-    transition: background var(--duration-fast) var(--ease-standard);
-  }
-
-  .tl__period-year {
-    font-family: var(--font-display);
-    font-size: clamp(1.4rem, 2.4vw, 2.2rem);
-    line-height: 1.1;
-    transition: color var(--duration-fast) var(--ease-standard);
-  }
-
-  .tl__period-name {
-    color: var(--color-muted);
-    font-size: var(--label-size-sm);
-  }
-
-  .tl__period:hover .tl__period-thumb,
-  .tl__period[aria-pressed='true'] .tl__period-thumb {
-    opacity: 1;
-  }
-
-  .tl__period[aria-pressed='true'] .tl__period-year {
-    color: var(--color-red-bright);
-  }
-
-  .tl__period[aria-pressed='true'] .tl__tick::after {
-    background: var(--color-red-bright);
-    width: 2.5px;
-  }
-
-  @media (max-width: 900px) {
-    .tl__periods {
-      grid-template-columns: repeat(4, 1fr);
-      row-gap: var(--space-lg);
+  @media (max-width: 920px) {
+    .timeline-overview__pattern,
+    .timeline-details::after {
+      background-size: 200vw 366.61vw;
     }
 
-    .tl__head {
-      flex-direction: column;
-      align-items: flex-start;
+    .timeline-overview {
+      height: 2240px;
+    }
+
+    .timeline-left {
+      width: 100%;
+    }
+
+    .timeline-rail {
+      left: 1rem;
+      width: 16px;
+    }
+
+    .timeline-chevron {
+      left: 2rem;
+    }
+
+    .timeline-century {
+      top: 5.5rem;
+      left: 2.5rem;
+      font-size: clamp(7rem, 28vw, 11rem);
+      opacity: 0.45;
+    }
+
+    .timeline-wheel {
+      top: 5.5rem;
+      left: 4.9rem;
+      opacity: 0.45;
+    }
+
+    .timeline-wheel__year {
+      font-size: clamp(7rem, 28vw, 11rem);
+    }
+
+    .timeline-flow {
+      position: relative;
+      z-index: 2;
+      width: auto;
+      margin-left: 26vw;
+      padding-right: 1.25rem;
+    }
+
+    .timeline-era {
+      height: 1120px;
+    }
+
+    .timeline-era__line--top {
+      top: 180px;
+    }
+
+    .timeline-era h1 {
+      top: 200px;
+      font-size: clamp(2.6rem, 9vw, 4.5rem);
+    }
+
+    .timeline-era__range {
+      top: 280px;
+      font-size: 1.65rem;
+    }
+
+    .timeline-era__image {
+      top: 350px;
+      width: min(435px, 68vw);
+      height: auto;
+    }
+
+    .timeline-era__line--bottom {
+      top: 790px;
+    }
+
+    .timeline-era__description {
+      top: 815px;
+      width: min(28rem, 68vw);
+      font-size: clamp(1.35rem, 4.6vw, 2rem);
+      text-align: left;
+      transform: none;
+    }
+
+    .timeline-details,
+    .timeline-details__track,
+    .timeline-card {
+      height: 980px;
+    }
+
+    .timeline-details__track {
+      width: 300vw;
+    }
+
+    .timeline-card {
+      flex-basis: 100vw;
+    }
+
+    .timeline-details__line--top {
+      top: 88px;
+    }
+
+    .timeline-details__line--bottom {
+      top: 900px;
+    }
+
+    .timeline-details__ghost {
+      display: none;
+    }
+
+    .timeline-card h2 {
+      top: 108px;
+      left: 1.25rem;
+      font-size: clamp(2.8rem, 11vw, 4.5rem);
+    }
+
+    .timeline-card__year {
+      top: 185px;
+      left: 1.25rem;
+    }
+
+    .timeline-card__image {
+      top: 245px;
+      left: 1.25rem;
+      width: min(435px, calc(100vw - 2.5rem));
+      height: auto;
+    }
+
+    .timeline-card__copy {
+      top: 680px;
+      left: 1.25rem;
+      width: calc(100vw - 2.5rem);
+      transform: none;
+    }
+
+    .timeline-card__meta {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .timeline-details {
+      scroll-behavior: auto;
     }
   }
 </style>
 
 <script>
-  interface TlPeriod {
-    id: string;
-    year: number;
-    name: string;
-    description: string;
-    image: string;
+  const timeline = document.querySelector<HTMLElement>('[data-timeline]');
+  const overview = timeline?.querySelector<HTMLElement>('[data-timeline-overview]');
+  const details = timeline?.querySelector<HTMLElement>('[data-timeline-details]');
+
+  if (timeline && overview) {
+    let ticking = false;
+
+    const renderTimeline = () => {
+      const rect = overview.getBoundingClientRect();
+      const scroll = Math.max(0, Math.min(1326, -rect.top));
+      let railShift = 0;
+      let patternX = -103;
+      let patternY = 0;
+
+      if (scroll < 180) railShift = scroll * (224 / 180);
+      else if (scroll <= 648) railShift = 224;
+      else railShift = 224 + Math.min(202, ((scroll - 648) / 225) * 202);
+
+      if (scroll <= 224) {
+        const progress = scroll / 224;
+        patternX = -161 + 58 * progress;
+        patternY = -76 + 70 * progress;
+      } else if (scroll <= 648) {
+        patternY = -6 + 6 * ((scroll - 224) / 424);
+      } else if (scroll <= 873) {
+        patternY = -1000 * ((scroll - 648) / 225);
+      } else {
+        patternY = -1000;
+      }
+
+      timeline.style.setProperty('--tl-year-shift', `${scroll}px`);
+      timeline.style.setProperty('--tl-rail-shift', `${railShift}px`);
+      timeline.style.setProperty('--tl-pattern-x', `${patternX}px`);
+      timeline.style.setProperty('--tl-pattern-y', `${patternY}px`);
+      ticking = false;
+    };
+
+    const requestRender = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(renderTimeline);
+    };
+
+    renderTimeline();
+    window.addEventListener('scroll', requestRender, { passive: true });
+    window.addEventListener('resize', requestRender);
   }
 
-  interface TlPiece {
-    slug: string;
-    title: string;
-    yearLabel: string;
-    year: number;
-    periodId: string;
-    image: string;
-    imageKind: 'cutout' | 'photo';
-  }
+  if (details) {
+    let dragging = false;
+    let startX = 0;
+    let startScroll = 0;
 
-  const data = JSON.parse(document.getElementById('tl-data')?.textContent ?? '{}') as {
-    periods: TlPeriod[];
-    pieces: TlPiece[];
-  };
+    const renderDetailsPattern = () => {
+      const maxScroll = Math.max(1, details.scrollWidth - details.clientWidth);
+      const progress = Math.min(1, details.scrollLeft / maxScroll);
+      details.style.setProperty('--tl-detail-scroll', `${details.scrollLeft}px`);
+      details.style.setProperty('--tl-detail-pattern-x', `${-251 + 250 * progress}px`);
+    };
 
-  const nameEl = document.querySelector<HTMLElement>('[data-tl-name]');
-  const yearEl = document.querySelector<HTMLElement>('[data-tl-year]');
-  const descEl = document.querySelector<HTMLElement>('[data-tl-desc]');
-  const carousel = document.querySelector<HTMLElement>('[data-tl-carousel]');
-  const buttons = document.querySelectorAll<HTMLButtonElement>('[data-tl-period]');
+    renderDetailsPattern();
+    details.addEventListener('scroll', renderDetailsPattern, { passive: true });
 
-  function render(periodId: string) {
-    const period = data.periods.find((p) => p.id === periodId);
-    if (!period || !carousel) return;
-
-    if (nameEl) nameEl.textContent = period.name;
-    if (yearEl) yearEl.textContent = String(period.year);
-    if (descEl) descEl.textContent = period.description;
-
-    const items = data.pieces
-      .filter((p) => p.periodId === periodId)
-      .sort((a, b) => a.year - b.year);
-
-    carousel.innerHTML = items
-      .map(
-        (p) => `
-        <a href="/coleccion/${p.slug}" class="tl-card${p.imageKind === 'photo' ? ' is-photo' : ''}">
-          <figure><img src="${p.image}" alt="${p.title}" loading="lazy" /></figure>
-          <p class="tl-card__title">${p.title}</p>
-          <p class="tl-card__year">${p.yearLabel}</p>
-        </a>`,
-      )
-      .join('');
-
-    carousel.scrollTo({ left: 0 });
-
-    buttons.forEach((b) =>
-      b.setAttribute('aria-pressed', b.dataset.tlPeriod === periodId ? 'true' : 'false'),
+    details.addEventListener(
+      'wheel',
+      (event) => {
+        if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+        const atStart = details.scrollLeft <= 0 && event.deltaY < 0;
+        const atEnd =
+          details.scrollLeft >= details.scrollWidth - details.clientWidth - 1 && event.deltaY > 0;
+        if (atStart || atEnd) return;
+        event.preventDefault();
+        details.scrollLeft += event.deltaY;
+      },
+      { passive: false }
     );
 
-    const url = new URL(window.location.href);
-    url.searchParams.set('periodo', periodId);
-    history.replaceState(null, '', url);
+    details.addEventListener('pointerdown', (event) => {
+      // Touch already has native momentum scrolling; duplicating it here doubles the travel.
+      if (event.pointerType === 'touch') return;
+      dragging = true;
+      startX = event.clientX;
+      startScroll = details.scrollLeft;
+      details.classList.add('is-dragging');
+      details.setPointerCapture(event.pointerId);
+    });
+
+    details.addEventListener('pointermove', (event) => {
+      if (!dragging) return;
+      details.scrollLeft = startScroll - (event.clientX - startX);
+    });
+
+    const stopDragging = () => {
+      dragging = false;
+      details.classList.remove('is-dragging');
+    };
+
+    details.addEventListener('pointerup', stopDragging);
+    details.addEventListener('pointercancel', stopDragging);
+    details.addEventListener('keydown', (event) => {
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      details.scrollBy({ left: event.key === 'ArrowRight' ? 420 : -420, behavior: 'smooth' });
+    });
   }
-
-  buttons.forEach((b) => b.addEventListener('click', () => render(b.dataset.tlPeriod ?? '')));
-
-  const initial = new URLSearchParams(window.location.search).get('periodo') ?? 'new-look';
-  render(data.periods.some((p) => p.id === initial) ? initial : 'new-look');
 </script>

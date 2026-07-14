@@ -43,63 +43,31 @@ const orbitObjects = [
     rotate: 0,
   },
 ];
-
-const portals = [
-  {
-    id: 'acervo',
-    number: '01',
-    label: 'El acervo',
-    title: '243.000 piezas para mirar el tiempo de cerca.',
-    copy: 'Indumentaria, accesorios, fotografía y artes gráficas conservados como una memoria material de tres siglos.',
-    cta: 'Explorar la colección',
-    href: '/coleccion',
-    image: '/images/catalogo/c14.png',
-    caption: 'Robe à la française · ca. 1775',
-    tone: 'archive',
-  },
-  {
-    id: 'exposiciones',
-    number: '02',
-    label: 'Exposiciones',
-    title: 'New Look',
-    copy: 'La revolución de 1947 que volvió a dibujar la cintura, el volumen y la manera de mirar el cuerpo vestido.',
-    cta: 'Entrar a la muestra',
-    href: '/muestra',
-    image: '/images/muestra/m14.jpeg',
-    caption: 'Tailleur Bar · Christian Dior · 1947',
-    tone: 'exhibition',
-  },
-  {
-    id: 'memoria',
-    number: '03',
-    label: 'Memoria',
-    title: 'Las prendas también cuentan quiénes fuimos.',
-    copy: 'Biografías, archivos y relatos curatoriales conectan cada objeto con las personas y los gestos que le dieron sentido.',
-    cta: 'Leer la historia',
-    href: '/historia',
-    image: '/images/site/dior-portrait.png',
-    caption: 'Christian Dior · 1905–1957',
-    tone: 'memory',
-  },
-  {
-    id: 'agenda',
-    number: '04',
-    label: 'Agenda',
-    title: 'El museo está vivo hoy.',
-    copy: 'Recorridos, talleres, conversaciones y activaciones alrededor de la colección y de la muestra New Look.',
-    cta: 'Ver la agenda',
-    href: '/agenda',
-    image: '/images/site/palais.jpg',
-    caption: 'Palais Galliera · París',
-    tone: 'agenda',
-  },
-];
 ---
 
 <MainLayout
   title="Palais Galliera"
   description="Palais Galliera — conservar la moda es conservar el tiempo. Explorá el acervo, las exposiciones, la memoria y la agenda del museo."
+  immersive
 >
+  <section class="home-intro" data-home-intro aria-label="Introducción al Palais Galliera">
+    <div class="home-intro__sticky">
+      <img
+        class="home-intro__image home-intro__image--base"
+        src="/images/home/intro-gallery.png"
+        alt="Galería del Palais Galliera con indumentaria histórica"
+        loading="eager"
+      />
+      <img
+        class="home-intro__image home-intro__image--title"
+        src="/images/home/intro-title.png"
+        alt=""
+        loading="eager"
+        data-home-intro-title
+      />
+    </div>
+  </section>
+
   <section class="home-hero" data-home-hero>
     <div class="home-hero__pattern" aria-hidden="true"></div>
 
@@ -140,54 +108,250 @@ const portals = [
   </section>
 
   <section class="home-portals" id="recorridos" aria-label="Recorridos del museo">
-    {
-      portals.map((portal, index) => (
-        <article
-          class:list={['portal', `portal--${portal.tone}`, { 'is-active': index === 1 }]}
-          data-portal
+    <article class="portal portal--archive" data-portal>
+      <h2 class="portal__heading">
+        <button
+          class="portal__toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="portal-acervo"
+          data-portal-toggle
         >
-          <h2 class="portal__heading">
-            <button
-              class="portal__toggle"
-              type="button"
-              aria-expanded={index === 1 ? 'true' : 'false'}
-              aria-controls={`portal-${portal.id}`}
-              data-portal-toggle
-            >
-              <span class="portal__number label">{portal.number}</span>
-              <span class="portal__label">{portal.label}</span>
-              <span class="portal__icon" aria-hidden="true">
-                ↗
-              </span>
-            </button>
-          </h2>
+          <span class="portal__label">El acervo</span>
+        </button>
+      </h2>
 
-          <div class="portal__body" id={`portal-${portal.id}`}>
-            <div class="portal__body-inner">
-              <div class="portal__preview">
-                <div class="portal__copy">
-                  <p class="label">{portal.label}</p>
-                  <h3>{portal.title}</h3>
-                  <p>{portal.copy}</p>
-                  <a class="portal__cta label" href={portal.href}>
-                    {portal.cta} <span aria-hidden="true">→</span>
-                  </a>
-                </div>
+      <div class="portal__body" id="portal-acervo" aria-hidden="true" inert>
+        <div class="portal__body-inner">
+          <div class="acervo-panel">
+            <div class="acervo-panel__copy">
+              <p class="acervo-panel__lead">
+                200.000 piezas de indumentaria y accesorios, del siglo XVIII a hoy. La totalidad del
+                acervo del Palais Galliera, ordenada, buscable y accesible.
+              </p>
+              <p class="acervo-panel__note">
+                Recorré la colección por objeto o por relato.<br />Dos caminos, un mismo patrimonio.
+              </p>
+              <div class="portal-actions">
+                <a class="portal-cta" href="/coleccion">Colección permanente</a>
+                <a class="portal-cta" href="/linea-de-tiempo">Línea de tiempo</a>
+              </div>
+            </div>
 
-                <figure class="portal__media">
-                  <img src={portal.image} alt={portal.caption} loading="lazy" />
-                  <figcaption class="label">{portal.caption}</figcaption>
-                </figure>
+            <div class="acervo-panel__gallery" aria-hidden="true">
+              <img
+                class="acervo-panel__arch acervo-panel__arch--back"
+                src="/images/home/portal-acervo-01.png"
+                alt=""
+                loading="lazy"
+              />
+              <img
+                class="acervo-panel__arch acervo-panel__arch--middle"
+                src="/images/home/portal-acervo-02.png"
+                alt=""
+                loading="lazy"
+              />
+              <img
+                class="acervo-panel__arch acervo-panel__arch--front"
+                src="/images/home/portal-acervo-03.png"
+                alt=""
+                loading="lazy"
+              />
+              <div class="acervo-panel__timeline">
+                <span>1870</span><span>1870</span><span>1870</span><span>1870</span><span>1870</span
+                >
               </div>
             </div>
           </div>
-        </article>
-      ))
-    }
+        </div>
+      </div>
+    </article>
+
+    <article class="portal portal--exhibition" data-portal>
+      <h2 class="portal__heading">
+        <button
+          class="portal__toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="portal-exposiciones"
+          data-portal-toggle
+        >
+          <span class="portal__label">Exposiciones</span>
+        </button>
+      </h2>
+
+      <div class="portal__body" id="portal-exposiciones" aria-hidden="true" inert>
+        <div class="portal__body-inner">
+          <div class="exhibition-panel">
+            <img
+              class="exhibition-panel__image"
+              src="/images/home/portal-exposiciones.png"
+              alt="Doble página editorial con siluetas del New Look"
+              loading="lazy"
+            />
+            <div class="exhibition-panel__veil" aria-hidden="true"></div>
+            <div class="exhibition-panel__copy">
+              <h3>New Look</h3>
+              <p class="exhibition-panel__date">15 marzo · 28 julio · salas del jardín bajo</p>
+              <p class="exhibition-panel__description">
+                La moda parisina abrió paso a una nueva etapa.<br />Esta muestra recorre la década
+                del New Look a través de prendas, figurines y documentos del acervo del Galliera.
+              </p>
+              <a class="portal-cta" href="/muestra">Ver exposición</a>
+            </div>
+            <a class="exhibition-panel__arrow" href="/muestra" aria-label="Ver exposición New Look">
+              <img src="/images/home/portal-memory-arrow.svg" alt="" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="portal portal--memory" data-portal>
+      <h2 class="portal__heading">
+        <button
+          class="portal__toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="portal-memoria"
+          data-portal-toggle
+        >
+          <span class="portal__label">Memoria</span>
+        </button>
+      </h2>
+
+      <div class="portal__body" id="portal-memoria" aria-hidden="true" inert>
+        <div class="portal__body-inner">
+          <div class="memory-panel">
+            <a class="memory-card" href="/explorar">
+              <span class="memory-card__title">Reconstruír</span>
+              <span class="memory-card__number">01</span>
+              <span class="memory-card__media memory-card__media--dress">
+                <img
+                  src="/images/home/portal-memory-01.png"
+                  alt="Vestido histórico"
+                  loading="lazy"
+                />
+              </span>
+              <span class="memory-card__arrow" aria-hidden="true">
+                <img src="/images/home/portal-memory-arrow.svg" alt="" />
+              </span>
+              <span class="memory-card__copy"
+                >Reconocé las prendas de un período y armá su sala.</span
+              >
+            </a>
+
+            <a class="memory-card" href="/historia">
+              <span class="memory-card__title">Leer</span>
+              <span class="memory-card__number">02</span>
+              <span class="memory-card__media">
+                <img
+                  src="/images/home/portal-memory-02.png"
+                  alt="Ilustración de moda del siglo XIX"
+                  loading="lazy"
+                />
+              </span>
+              <span class="memory-card__arrow" aria-hidden="true">
+                <img src="/images/home/portal-memory-arrow.svg" alt="" />
+              </span>
+              <span class="memory-card__copy"
+                >Conocé la historia de las épocas icónicas para la moda.</span
+              >
+            </a>
+
+            <a class="memory-card" href="/coleccion">
+              <span class="memory-card__title">Vestir</span>
+              <span class="memory-card__number">03</span>
+              <span class="memory-card__media">
+                <img
+                  src="/images/home/portal-memory-03.png"
+                  alt="Audrey Hepburn con vestido de alta costura"
+                  loading="lazy"
+                />
+              </span>
+              <span class="memory-card__arrow" aria-hidden="true">
+                <img src="/images/home/portal-memory-arrow.svg" alt="" />
+              </span>
+              <span class="memory-card__copy"
+                >Conocé los vestuarios de personalidades icónicas.</span
+              >
+            </a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <article class="portal portal--agenda" data-portal>
+      <h2 class="portal__heading">
+        <button
+          class="portal__toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="portal-agenda"
+          data-portal-toggle
+        >
+          <span class="portal__label">Agenda</span>
+        </button>
+      </h2>
+
+      <div class="portal__body" id="portal-agenda" aria-hidden="true" inert>
+        <div class="portal__body-inner">
+          <div class="agenda-panel">
+            <h3>Hoy</h3>
+            <span class="agenda-panel__rule" aria-hidden="true">
+              <img src="/images/home/portal-agenda-rule.svg" alt="" />
+            </span>
+            <div class="agenda-panel__event">
+              <time class="agenda-panel__date" datetime="2026-07-09">
+                <span>09</span><small>Jul</small>
+              </time>
+              <p class="agenda-panel__title">Tejidos y técnicas</p>
+              <p class="agenda-panel__type">Visita guiada</p>
+              <time class="agenda-panel__time" datetime="17:00"
+                ><span>17</span><small>Hs.</small></time
+              >
+            </div>
+            <a class="portal-cta" href="/agenda">Ver agenda completa</a>
+          </div>
+        </div>
+      </div>
+    </article>
   </section>
 </MainLayout>
 
 <style>
+  .home-intro {
+    position: relative;
+    z-index: 5;
+    height: 220svh;
+    background: #141414;
+  }
+
+  .home-intro__sticky {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+    isolation: isolate;
+    background: #141414;
+  }
+
+  .home-intro__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .home-intro__image--title {
+    z-index: 1;
+    opacity: 0;
+    clip-path: inset(100% 0 0 0);
+    will-change: clip-path, opacity;
+  }
+
   .home-hero {
     position: relative;
     height: clamp(64rem, 106.46vw, 127.75rem);
@@ -337,58 +501,56 @@ const portals = [
   }
 
   .home-portals {
+    overflow: clip;
     background: var(--color-ink);
   }
 
   .portal {
+    position: relative;
     color: var(--color-cream);
   }
 
   .portal__heading {
     position: relative;
     z-index: 2;
+    margin: 0;
   }
 
   .portal__toggle {
     width: 100%;
-    min-height: clamp(5.25rem, 10vw, 8rem);
-    display: grid;
-    grid-template-columns: auto 1fr auto;
+    height: clamp(8rem, 11.6667vw, 14rem);
+    display: flex;
     align-items: center;
-    gap: var(--space-md);
-    padding: 0.45rem var(--layout-gutter);
+    padding: 0 var(--layout-gutter);
     border: 0;
+    border-top: 1px solid var(--color-ink);
     color: inherit;
     text-align: left;
     cursor: pointer;
+    transition: filter var(--duration-fast) var(--ease-standard);
   }
 
-  .portal__number {
-    align-self: start;
-    padding-top: 0.7rem;
+  .portal:last-child .portal__toggle {
+    border-bottom: 1px solid var(--color-ink);
+  }
+
+  .portal__toggle:hover,
+  .portal__toggle:focus-visible {
+    filter: brightness(1.06);
   }
 
   .portal__label {
     font-family: var(--font-display);
-    font-size: clamp(3.1rem, 7vw, 7.5rem);
-    line-height: 0.92;
-    letter-spacing: -0.045em;
-  }
-
-  .portal__icon {
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 4vw, 4rem);
-    transition: transform var(--duration-base) var(--ease-expo);
-  }
-
-  .portal.is-active .portal__icon {
-    transform: rotate(90deg);
+    font-size: clamp(4.5rem, 7.2917vw, 8.75rem);
+    font-weight: var(--font-weight-regular);
+    line-height: 0.86;
+    letter-spacing: -0.02em;
   }
 
   .portal__body {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows 0.8s var(--ease-expo);
+    transition: grid-template-rows 0.85s var(--ease-expo);
   }
 
   .portal.is-active .portal__body {
@@ -396,106 +558,440 @@ const portals = [
   }
 
   .portal__body-inner {
+    min-height: 0;
     overflow: hidden;
   }
 
-  .portal__preview {
-    min-height: clamp(27rem, 58svh, 44rem);
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(18rem, 0.8fr);
-    gap: clamp(2rem, 8vw, 9rem);
-    align-items: center;
-    padding: clamp(2.5rem, 7vh, 6rem) var(--layout-gutter);
-  }
-
-  .portal__copy {
-    max-width: 48rem;
-  }
-
-  .portal__copy > .label {
-    opacity: 0.72;
-  }
-
-  .portal__copy h3 {
-    margin-top: var(--space-md);
-    font-size: clamp(3rem, 7vw, 7rem);
-    line-height: 0.95;
-    max-width: 12ch;
-  }
-
-  .portal__copy > p:not(.label) {
-    margin-top: var(--space-lg);
-    max-width: 48ch;
-    line-height: 1.65;
-  }
-
-  .portal__cta {
-    display: inline-flex;
-    gap: 1rem;
-    align-items: center;
-    margin-top: var(--space-lg);
-    padding: 0.9rem 1.2rem;
-    border: 1px solid currentColor;
+  .portal__body-inner > * {
+    opacity: 0;
+    transform: translateY(-1.5rem);
     transition:
-      color var(--duration-fast) var(--ease-standard),
-      background var(--duration-fast) var(--ease-standard);
+      opacity 0.35s var(--ease-standard),
+      transform 0.85s var(--ease-expo);
   }
 
-  .portal__cta:hover {
-    color: var(--color-ink);
-    background: var(--color-cream);
+  .portal.is-active .portal__body-inner > * {
+    opacity: 1;
+    transform: translateY(0);
+    transition-delay: 0.16s;
   }
 
-  .portal__media {
+  .portal-cta {
     position: relative;
-    width: min(100%, 27rem);
-    margin: 0 auto;
+    z-index: 1;
+    width: min(16.4375rem, 100%);
+    height: 2.833rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.15rem 1.2rem 0;
+    background: url('/images/home/portal-cta.svg') center / 100% 100% no-repeat;
+    color: var(--color-cream);
+    font-size: 0.875rem;
+    font-weight: var(--font-weight-medium);
+    letter-spacing: 0.06em;
+    line-height: 1;
+    text-align: center;
+    text-transform: uppercase;
+    transition: transform var(--duration-fast) var(--ease-standard);
   }
 
-  .portal__media img {
-    width: 100%;
-    height: clamp(22rem, 48vw, 35rem);
-    object-fit: cover;
-    object-position: top;
-    border-radius: 48% 48% 0 0 / 18% 18% 0 0;
-    filter: saturate(0.82) contrast(1.04);
+  .portal-cta:hover,
+  .portal-cta:focus-visible {
+    transform: translateY(-0.15rem);
   }
 
-  .portal__media figcaption {
+  .portal--archive .portal__toggle {
+    background: linear-gradient(100deg, #141414 0%, #9e3600 48%, #fd6500 100%);
+  }
+
+  .portal--exhibition .portal__toggle {
+    color: #fd6500;
+    background: linear-gradient(100deg, #a52a24 0%, #520345 72%);
+  }
+
+  .portal--memory .portal__toggle {
+    color: #520345;
+    background: linear-gradient(100deg, #8f6aae 0%, #b9d6fe 100%);
+  }
+
+  .portal--agenda .portal__toggle {
+    color: #141414;
+    background: linear-gradient(100deg, #dfe8ef 0%, #f3eee1 100%);
+  }
+
+  .acervo-panel {
+    position: relative;
+    height: clamp(34rem, 38.2292vw, 45.875rem);
+    overflow: hidden;
+    background:
+      radial-gradient(circle at 96% 100%, rgba(253, 101, 0, 0.72), transparent 26%),
+      linear-gradient(100deg, #fd6500 0%, #8f3000 43%, #141414 100%);
+  }
+
+  .acervo-panel__copy {
     position: absolute;
+    z-index: 7;
+    left: var(--layout-gutter);
+    top: 39.24%;
+    width: min(34.53125%, 41.4375rem);
+  }
+
+  .acervo-panel__lead {
+    max-width: 34ch;
+    font-size: clamp(1.3rem, 1.6667vw, 2rem);
+    font-style: italic;
+    line-height: 1.16;
+  }
+
+  .acervo-panel__note {
+    margin-top: clamp(2rem, 3.3vw, 4rem);
+    font-size: clamp(0.875rem, 0.9375vw, 1.125rem);
+    line-height: 1.15;
+  }
+
+  .portal-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(1rem, 1.72vw, 2.0625rem);
+    margin-top: clamp(2.25rem, 4.6vw, 5.5rem);
+  }
+
+  .acervo-panel__gallery {
+    position: absolute;
+    inset: 0;
+  }
+
+  .acervo-panel__arch {
+    position: absolute;
+    top: 0;
+    width: 34.53125%;
+    height: 100%;
+    object-fit: fill;
+    pointer-events: none;
+  }
+
+  .acervo-panel__arch--back {
+    z-index: 1;
+    left: 62.34375%;
+  }
+
+  .acervo-panel__arch--middle {
+    z-index: 2;
+    left: 50.52083%;
+  }
+
+  .acervo-panel__arch--front {
+    z-index: 3;
+    left: 38.64583%;
+  }
+
+  .acervo-panel__timeline {
+    position: absolute;
+    z-index: 6;
+    left: 38.64583%;
     right: 0;
-    bottom: 0;
-    max-width: 85%;
-    padding: 0.65rem 0.8rem;
-    background: var(--color-ink);
+    top: 86.24%;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    border-top: 2px solid #141414;
+    color: #141414;
+    font-size: clamp(1.2rem, 1.6667vw, 2rem);
+    font-style: italic;
+  }
+
+  .acervo-panel__timeline span {
+    transform: translateY(-0.15em);
+  }
+
+  .exhibition-panel {
+    position: relative;
+    height: clamp(42rem, 48.1771vw, 57.8125rem);
+    overflow: hidden;
+    background: #520345;
     color: var(--color-cream);
   }
 
-  .portal--archive .portal__toggle,
-  .portal--archive .portal__preview {
-    background: linear-gradient(105deg, #1d120a, #8f3000 46%, #ff5a00);
+  .exhibition-panel__image,
+  .exhibition-panel__veil {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 155.7%;
   }
 
-  .portal--exhibition .portal__toggle,
-  .portal--exhibition .portal__preview {
+  .exhibition-panel__image {
+    object-fit: cover;
+    object-position: top center;
+  }
+
+  .exhibition-panel__veil {
     background:
-      linear-gradient(115deg, rgba(255, 90, 0, 0.15), transparent 38%),
-      linear-gradient(100deg, var(--color-purple-deep), var(--color-purple));
+      linear-gradient(90deg, rgba(82, 3, 69, 0.82), rgba(82, 3, 69, 0.5)),
+      linear-gradient(180deg, rgba(82, 3, 69, 0.1), rgba(20, 20, 20, 0.28));
+    mix-blend-mode: multiply;
   }
 
-  .portal--memory .portal__toggle,
-  .portal--memory .portal__preview {
-    color: var(--color-purple-deep);
-    background: linear-gradient(110deg, #b69ad9, var(--color-blue));
+  .exhibition-panel__copy {
+    position: absolute;
+    z-index: 2;
+    left: var(--layout-gutter);
+    top: 49.5%;
+    width: min(31%, 36rem);
   }
 
-  .portal--agenda .portal__toggle,
-  .portal--agenda .portal__preview {
-    color: var(--color-purple);
-    background: linear-gradient(115deg, var(--color-cream) 30%, var(--color-blue));
+  .exhibition-panel__copy h3 {
+    font-family: var(--font-body);
+    font-size: clamp(4.25rem, 5.9896vw, 7.1875rem);
+    font-weight: var(--font-weight-regular);
+    line-height: 0.95;
+  }
+
+  .exhibition-panel__date {
+    margin-top: 0.25rem;
+    font-size: clamp(0.8rem, 0.9375vw, 1.125rem);
+    text-transform: uppercase;
+  }
+
+  .exhibition-panel__description {
+    margin-top: clamp(1.6rem, 2.25vw, 2.7rem);
+    font-size: clamp(0.875rem, 0.9375vw, 1.125rem);
+    line-height: 1.15;
+  }
+
+  .exhibition-panel__copy .portal-cta {
+    margin-top: clamp(2.5rem, 4.1vw, 4.9rem);
+  }
+
+  .exhibition-panel__arrow {
+    position: absolute;
+    z-index: 2;
+    right: var(--layout-gutter);
+    bottom: clamp(2rem, 3vw, 3.6rem);
+    width: 5.0625rem;
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    border: 3px solid var(--color-cream);
+    border-radius: 50%;
+    transition: transform var(--duration-fast) var(--ease-standard);
+  }
+
+  .exhibition-panel__arrow:hover,
+  .exhibition-panel__arrow:focus-visible {
+    transform: translateX(0.3rem);
+  }
+
+  .exhibition-panel__arrow img {
+    width: 66%;
+  }
+
+  .memory-panel {
+    height: clamp(38rem, 35.0521vw, 42.0625rem);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 4.3%;
+    padding: clamp(10rem, 11.25vw, 13.5rem) 5% 4.25rem;
+    color: var(--color-cream);
+    background: linear-gradient(180deg, #b9d6fe 0%, #9170b0 42%, #520345 100%);
+  }
+
+  .memory-card {
+    position: relative;
+    min-width: 0;
+    color: inherit;
+  }
+
+  .memory-card:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 0.2rem;
+    right: -8.4%;
+    bottom: 0;
+    width: 1px;
+    background: var(--color-cream);
+  }
+
+  .memory-card__title {
+    position: relative;
+    z-index: 3;
+    display: block;
+    font-size: clamp(2.5rem, 3.3333vw, 4rem);
+    font-style: italic;
+    line-height: 1;
+  }
+
+  .memory-card__number {
+    position: relative;
+    z-index: 3;
+    display: block;
+    margin-top: -0.35rem;
+    font-family: var(--font-display);
+    font-size: clamp(5.25rem, 7.2917vw, 8.75rem);
+    line-height: 1;
+  }
+
+  .memory-card__media {
+    position: absolute;
+    z-index: 1;
+    top: 4.8125rem;
+    right: 0;
+    width: min(10.78125vw, 12.9375rem);
+    aspect-ratio: 207 / 266;
+    display: block;
+    overflow: hidden;
+  }
+
+  .memory-card:nth-child(2) .memory-card__media {
+    right: 8%;
+  }
+
+  .memory-card__media--dress {
+    border-radius: 50% 50% 0 0 / 18% 18% 0 0;
+    background: #141414;
+  }
+
+  .memory-card__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+  }
+
+  .memory-card__media--dress img {
+    object-fit: contain;
+  }
+
+  .memory-card__arrow {
+    position: absolute;
+    z-index: 4;
+    top: -0.15rem;
+    right: 0;
+    width: clamp(3.5rem, 4.21875vw, 5.0625rem);
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    border: 2px solid var(--color-cream);
+    border-radius: 50%;
+    transition: transform var(--duration-fast) var(--ease-standard);
+  }
+
+  .memory-card:hover .memory-card__arrow,
+  .memory-card:focus-visible .memory-card__arrow {
+    transform: translateX(0.3rem);
+  }
+
+  .memory-card__arrow img {
+    width: 66%;
+  }
+
+  .memory-card__copy {
+    position: absolute;
+    z-index: 3;
+    left: 0;
+    bottom: 0;
+    width: max-content;
+    max-width: 100%;
+    font-size: clamp(0.78rem, 0.9375vw, 1.125rem);
+    line-height: 1.15;
+  }
+
+  .agenda-panel {
+    position: relative;
+    height: clamp(38rem, 35vw, 42rem);
+    overflow: hidden;
+    color: #520345;
+    background: linear-gradient(180deg, #f3eee1 0%, #dfe8ef 36%, #b9d6fe 100%);
+  }
+
+  .agenda-panel h3 {
+    position: absolute;
+    left: var(--layout-gutter);
+    top: 26%;
+    font-family: var(--font-body);
+    font-size: clamp(4.25rem, 5.9896vw, 7.1875rem);
+    font-weight: var(--font-weight-regular);
+    line-height: 0.95;
+  }
+
+  .agenda-panel__rule {
+    position: absolute;
+    left: 25.2083%;
+    top: 39.88%;
+    width: 74.7917%;
+    height: 0.875rem;
+    pointer-events: none;
+  }
+
+  .agenda-panel__rule img {
+    position: absolute;
+    left: 0;
+    top: 0.875rem;
+    width: 0.875rem;
+    height: min(74.7917vw, 89.75rem);
+    max-width: none;
+    transform: rotate(-90deg);
+    transform-origin: left top;
+  }
+
+  .agenda-panel__event {
+    position: absolute;
+    left: 3.7%;
+    right: 3.1%;
+    top: 49.55%;
+    display: grid;
+    grid-template-columns: 22% 44% 22% 12%;
+    align-items: center;
+  }
+
+  .agenda-panel__date,
+  .agenda-panel__time {
+    display: flex;
+    align-items: baseline;
+    gap: 0.8rem;
+    font-style: italic;
+    text-transform: uppercase;
+  }
+
+  .agenda-panel__date span,
+  .agenda-panel__time span {
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 3.3333vw, 4rem);
+  }
+
+  .agenda-panel__date small,
+  .agenda-panel__time small {
+    font-size: clamp(1.25rem, 1.6667vw, 2rem);
+  }
+
+  .agenda-panel__title {
+    font-size: clamp(2.25rem, 3.3333vw, 4rem);
+    font-style: italic;
+  }
+
+  .agenda-panel__type {
+    font-size: clamp(0.8rem, 0.9375vw, 1.125rem);
+    text-transform: uppercase;
+  }
+
+  .agenda-panel__time {
+    justify-self: end;
+  }
+
+  .agenda-panel > .portal-cta {
+    position: absolute;
+    left: var(--layout-gutter);
+    bottom: clamp(3rem, 3.8vw, 4.55rem);
   }
 
   @media (max-width: 800px) {
+    .home-intro {
+      height: 200svh;
+    }
+
+    .home-intro__image {
+      object-position: 51% center;
+    }
+
     .home-hero {
       height: max(45rem, calc(100svh - 72px));
       min-height: 45rem;
@@ -554,63 +1050,312 @@ const portals = [
     }
 
     .portal__toggle {
-      min-height: 5.25rem;
-      gap: var(--space-sm);
+      height: clamp(5.75rem, 24vw, 8rem);
+      padding-inline: var(--layout-gutter);
     }
 
     .portal__label {
-      font-size: clamp(2.6rem, 14vw, 4.2rem);
+      max-width: 100%;
+      font-size: clamp(3rem, 13.2vw, 6rem);
+      white-space: nowrap;
     }
 
-    .portal__preview {
-      min-height: 40rem;
+    .portal-cta {
+      width: min(15rem, 100%);
+      height: 2.58rem;
+      font-size: 0.7rem;
+    }
+
+    .acervo-panel {
+      height: 50rem;
+      background:
+        radial-gradient(circle at 95% 100%, rgba(253, 101, 0, 0.86), transparent 32%),
+        linear-gradient(145deg, #fd6500 0%, #8f3000 44%, #141414 100%);
+    }
+
+    .acervo-panel__copy {
+      position: relative;
+      left: auto;
+      top: auto;
+      width: 100%;
+      padding: 2.25rem var(--layout-gutter) 0;
+    }
+
+    .acervo-panel__lead {
+      max-width: 28ch;
+      font-size: clamp(1.2rem, 5.7vw, 1.65rem);
+    }
+
+    .acervo-panel__note {
+      margin-top: 1.6rem;
+      font-size: 0.875rem;
+    }
+
+    .portal-actions {
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      margin-top: 1.8rem;
+    }
+
+    .acervo-panel__gallery {
+      top: 22rem;
+      height: 28rem;
+    }
+
+    .acervo-panel__arch {
+      width: 75%;
+      height: 100%;
+    }
+
+    .acervo-panel__arch--back {
+      left: 45%;
+    }
+
+    .acervo-panel__arch--middle {
+      left: 14%;
+    }
+
+    .acervo-panel__arch--front {
+      left: -17%;
+    }
+
+    .acervo-panel__timeline {
+      display: none;
+    }
+
+    .exhibition-panel {
+      height: 40rem;
+    }
+
+    .exhibition-panel__image,
+    .exhibition-panel__veil {
+      height: 100%;
+    }
+
+    .exhibition-panel__image {
+      object-position: 66% top;
+    }
+
+    .exhibition-panel__veil {
+      background: linear-gradient(180deg, rgba(82, 3, 69, 0.35), rgba(82, 3, 69, 0.92));
+      mix-blend-mode: normal;
+    }
+
+    .exhibition-panel__copy {
+      left: var(--layout-gutter);
+      right: var(--layout-gutter);
+      top: auto;
+      bottom: 2rem;
+      width: auto;
+    }
+
+    .exhibition-panel__copy h3 {
+      font-size: clamp(3.8rem, 18vw, 5.4rem);
+    }
+
+    .exhibition-panel__date,
+    .exhibition-panel__description {
+      font-size: 0.84rem;
+    }
+
+    .exhibition-panel__description {
+      max-width: 34ch;
+      margin-top: 1.35rem;
+    }
+
+    .exhibition-panel__copy .portal-cta {
+      margin-top: 2rem;
+    }
+
+    .exhibition-panel__arrow {
+      top: 1.5rem;
+      right: var(--layout-gutter);
+      bottom: auto;
+      width: 3.6rem;
+      border-width: 2px;
+    }
+
+    .memory-panel {
+      height: auto;
+      display: grid;
       grid-template-columns: 1fr;
-      align-content: start;
-      gap: var(--space-xl);
-      padding-block: var(--space-xl);
+      gap: 0;
+      padding: 0 var(--layout-gutter);
     }
 
-    .portal__copy h3 {
-      font-size: clamp(2.8rem, 14vw, 4.8rem);
+    .memory-card {
+      min-height: 22rem;
+      padding-top: 2rem;
+      border-bottom: 1px solid var(--color-cream);
     }
 
-    .portal__media {
-      width: min(78vw, 21rem);
+    .memory-card:last-child {
+      border-bottom: 0;
     }
 
-    .portal__media img {
-      height: 26rem;
+    .memory-card:not(:last-child)::after {
+      display: none;
+    }
+
+    .memory-card__title {
+      font-size: clamp(2.6rem, 12vw, 3.7rem);
+    }
+
+    .memory-card__number {
+      font-size: clamp(5.6rem, 26vw, 7.5rem);
+    }
+
+    .memory-card__media,
+    .memory-card:nth-child(2) .memory-card__media {
+      top: 5.8rem;
+      right: 0;
+      width: min(42vw, 10.5rem);
+    }
+
+    .memory-card__arrow {
+      top: 2rem;
+      right: 0;
+      width: 3.3rem;
+    }
+
+    .memory-card__copy {
+      bottom: 1.5rem;
+      max-width: 30ch;
+      padding-right: 1rem;
+      font-size: 0.8rem;
+    }
+
+    .agenda-panel {
+      height: 36rem;
+    }
+
+    .agenda-panel h3 {
+      top: 2.25rem;
+      font-size: clamp(4rem, 18vw, 5.5rem);
+    }
+
+    .agenda-panel__rule {
+      left: var(--layout-gutter);
+      top: 9.5rem;
+      width: calc(100% - 2 * var(--layout-gutter));
+    }
+
+    .agenda-panel__rule img {
+      height: calc(100vw - 2 * var(--layout-gutter));
+    }
+
+    .agenda-panel__event {
+      left: var(--layout-gutter);
+      right: var(--layout-gutter);
+      top: 12rem;
+      grid-template-columns: 1fr auto;
+      grid-template-areas:
+        'date time'
+        'title title'
+        'type type';
+      row-gap: 1.3rem;
+    }
+
+    .agenda-panel__date {
+      grid-area: date;
+    }
+
+    .agenda-panel__time {
+      grid-area: time;
+    }
+
+    .agenda-panel__title {
+      grid-area: title;
+      font-size: clamp(2.25rem, 11vw, 3.5rem);
+    }
+
+    .agenda-panel__type {
+      grid-area: type;
+    }
+
+    .agenda-panel__date span,
+    .agenda-panel__time span {
+      font-size: 3.5rem;
+    }
+
+    .agenda-panel__date small,
+    .agenda-panel__time small {
+      font-size: 1.35rem;
+    }
+
+    .agenda-panel > .portal-cta {
+      bottom: 2rem;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .portal__body {
+    .home-intro {
+      height: 100svh;
+    }
+
+    .home-intro__image--title {
+      opacity: 1;
+      clip-path: inset(0);
+      will-change: auto;
+    }
+
+    .portal__body,
+    .portal__body-inner > *,
+    .memory-card__arrow,
+    .exhibition-panel__arrow {
       transition: none;
     }
   }
 </style>
 
 <script>
-  const portalElements = Array.from(document.querySelectorAll<HTMLElement>('[data-portal]'));
-  const hoverQuery = window.matchMedia('(hover: hover) and (pointer: fine)');
+  import { gsap } from '@lib/gsap';
 
-  function activatePortal(target: HTMLElement) {
+  const intro = document.querySelector<HTMLElement>('[data-home-intro]');
+  const introTitle = intro?.querySelector<HTMLElement>('[data-home-intro-title]');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (intro && introTitle && !reducedMotion.matches) {
+    const introContext = gsap.context(() => {
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: intro,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: true,
+          },
+        })
+        .fromTo(
+          introTitle,
+          { clipPath: 'inset(100% 0 0 0)', opacity: 0 },
+          { clipPath: 'inset(0% 0 0 0)', opacity: 1, duration: 1, ease: 'none' }
+        );
+    }, intro);
+
+    document.addEventListener('astro:before-swap', () => introContext.revert(), { once: true });
+  }
+
+  const portalElements = Array.from(document.querySelectorAll<HTMLElement>('[data-portal]'));
+
+  function activatePortal(target: HTMLElement | null) {
     portalElements.forEach((portal) => {
       const active = portal === target;
       portal.classList.toggle('is-active', active);
       portal
         .querySelector<HTMLButtonElement>('[data-portal-toggle]')
         ?.setAttribute('aria-expanded', String(active));
+      const body = portal.querySelector<HTMLElement>('.portal__body');
+      body?.setAttribute('aria-hidden', String(!active));
+      body?.toggleAttribute('inert', !active);
     });
   }
 
   portalElements.forEach((portal) => {
     portal
       .querySelector<HTMLButtonElement>('[data-portal-toggle]')
-      ?.addEventListener('click', () => activatePortal(portal));
-
-    portal.addEventListener('pointerenter', () => {
-      if (hoverQuery.matches) activatePortal(portal);
-    });
+      ?.addEventListener('click', () =>
+        activatePortal(portal.classList.contains('is-active') ? null : portal)
+      );
   });
 </script>

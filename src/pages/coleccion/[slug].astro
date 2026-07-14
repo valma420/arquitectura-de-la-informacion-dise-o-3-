@@ -1,10 +1,10 @@
 ---
 /**
- * Ficha de objeto (/coleccion/[slug]) — framed catalogue card with the
- * piece image, metadata grid, related pieces and period documentation.
+ * Ficha de objeto — traducción de los frames Figma 15:3009 y
+ * 1:1187 / 1:1207 / 1:1227 / 1:1247 / 1:1267.
  */
 import MainLayout from '@layouts/MainLayout.astro';
-import { pieces, getPeriod, pieceNeighbours } from '@data/collection';
+import { getPeriod, pieces } from '@data/collection';
 
 export function getStaticPaths() {
   return pieces.map((piece) => ({ params: { slug: piece.slug }, props: { piece } }));
@@ -12,317 +12,948 @@ export function getStaticPaths() {
 
 const { piece } = Astro.props;
 const period = getPeriod(piece.periodId);
-const { group = [] } = pieceNeighbours(piece.slug);
-const related = group.filter((p) => p.slug !== piece.slug).slice(0, 5);
+const isFigmaFeature = piece.slug === 'robe-francaise-1760';
 
-const meta = [
-  ['Diseñador', piece.designer ?? 'Anónimo'],
-  ['Casa', piece.house ?? '—'],
-  ['Año', piece.yearLabel],
-  ['Línea', piece.line ?? '—'],
-  ['Técnica', piece.technique ?? '—'],
-  ['Material', piece.material ?? '—'],
-  ['Origen', piece.origin ?? '—'],
-  ['N.º inv.', piece.inv ?? '—'],
-  ['Adquisición', piece.acquisition ?? '—'],
-  ['Estado', piece.state ?? '—'],
-  ['Sección', piece.section ?? '—'],
-  ['Dimensiones', piece.dimensions ?? '—'],
+const catalogueImages: Record<string, string> = {
+  'robe-francaise-1730': '/images/catalogo/c01.png',
+  'vestido-corte': '/images/catalogo/c02.png',
+  'caraco-falda': '/images/catalogo/c03.png',
+  'robe-francaise-1760': '/images/catalogo/c14.png',
+  'casaca-bordada': '/images/catalogo/c05.png',
+  redingote: '/images/catalogo/c06.png',
+  'robe-anglaise': '/images/catalogo/c07.png',
+  'robe-polonaise': '/images/catalogo/c08.png',
+  'vestido-gasa-1790': '/images/catalogo/c09.png',
+  'chaleco-courtois': '/images/catalogo/c10.png',
+};
+
+const featureImage = catalogueImages[piece.slug] ?? piece.image;
+const yearMatches = piece.yearLabel.match(/\d{4}/g) ?? [String(piece.year)];
+const firstYear = isFigmaFeature ? '1755' : yearMatches[0];
+const lastYear = isFigmaFeature ? '1765' : (yearMatches.at(-1) ?? yearMatches[0]);
+const displayTitle = isFigmaFeature ? 'Robe à la française' : piece.title;
+const displayByline = isFigmaFeature
+  ? 'ANÓNIMO · FRANCIA, C. 1755–1765'
+  : `${piece.designer ?? 'ANÓNIMO'} · ${piece.origin ?? 'FRANCIA'}, ${piece.yearLabel}`.toUpperCase();
+const periodCaption = isFigmaFeature
+  ? 'SIGLO XVIII — REINADO DE LUIS XV'
+  : `${period?.name ?? 'COLECCIÓN'} — ${piece.section ?? 'INDUMENTARIA'}`.toUpperCase();
+const description = isFigmaFeature
+  ? 'Conjunto de vestido y falda «à la française», la silueta cortesana por excelencia del siglo XVIII. Corpiño abierto que forma cola, frentes ribeteados con falbalás acolchados en algodón; espalda con dobles pliegues planos (pliegue Watteau). Se llevaba sobre paniers laterales.'
+  : piece.description;
+
+const metadata = [
+  ['N° DE INVENTARIO', isFigmaFeature ? 'GAL1958.86.2' : (piece.inv ?? '—')],
+  ['DENOMINACIÓN', displayTitle],
+  ['AUTOR', isFigmaFeature ? 'Anónimo' : (piece.designer ?? 'Anónimo')],
+  ['DATACIÓN', isFigmaFeature ? 'c. 1755–1765' : piece.yearLabel],
+  ['PERÍODO', isFigmaFeature ? 'Luis XV (1715–1774)' : (period?.name ?? '—')],
+  ['MATERIALES', isFigmaFeature ? 'Lampás, seda, tafetán, lino' : (piece.material ?? '—')],
+  ['TÉCNICA', isFigmaFeature ? 'Tejido façonné · pasamanería' : (piece.technique ?? '—')],
+  ['ADQUISICIÓN', isFigmaFeature ? '28 / 03 / 1958' : (piece.acquisition ?? '—')],
 ];
 
-const docs = [
-  { image: '/images/muestra/m03.jpg', title: 'Figurín de atelier', sub: 'Maison Dior, 1947' },
-  { image: '/images/muestra/m11.jpg', title: 'Vogue Francia', sub: 'octubre 1957' },
-  { image: '/images/muestra/m13.jpeg', title: 'Fotografía', sub: 'Henry Clarke' },
-  { image: '/images/muestra/m08.jpg', title: 'Carta / archivo', sub: 'Centro de Documentación' },
+const exactDetails = [
+  {
+    title: 'Corpiño Abierto',
+    description: "Abierto al frente sobre un peto (pièce d'estomac).",
+    crop: '50% 20%',
+    size: '410%',
+    thumb: '/images/catalogo/c05.png',
+  },
+  {
+    title: 'Mangas en Sabot',
+    description: 'Tres cuartos, con volante y encajes (engageantes).',
+    crop: '68% 32%',
+    size: '390%',
+    thumb: '/images/catalogo/c13.png',
+  },
+  {
+    title: 'Falbalás',
+    description: 'Volantes fruncidos y acolchados que ribetean los frentes.',
+    crop: '50% 48%',
+    size: '420%',
+    thumb: '/images/catalogo/c10.png',
+  },
+  {
+    title: 'Lampás de seda',
+    description: 'Motivos ondulados, palmas y ramilletes florales (fresas).',
+    crop: '72% 65%',
+    size: '440%',
+    thumb: '/images/catalogo/c06.png',
+  },
+  {
+    title: 'Silueta · Panier',
+    description: 'La falda se extiende sobre paniers laterales.',
+    crop: '34% 45%',
+    size: '360%',
+    thumb: '/images/catalogo/c01.png',
+  },
 ];
 
-const crumbAuthor = (piece.designer ?? piece.house ?? period?.name ?? '').toUpperCase();
+const genericDetails = [
+  {
+    ...exactDetails[0],
+    title: 'Construcción',
+    description: piece.technique ?? 'Confección y terminaciones realizadas a mano.',
+  },
+  {
+    ...exactDetails[1],
+    title: 'Mangas',
+    description: 'Volumen, caída y terminaciones que estructuran la parte superior.',
+  },
+  {
+    ...exactDetails[2],
+    title: 'Ornamento',
+    description: piece.material ?? 'Textiles y ornamentos seleccionados para la pieza.',
+  },
+  {
+    ...exactDetails[3],
+    title: 'Materia',
+    description: piece.material ?? 'Textiles conservados por el Palais Galliera.',
+  },
+  {
+    ...exactDetails[4],
+    title: 'Silueta',
+    description: piece.description,
+  },
+];
+
+const details = isFigmaFeature ? exactDetails : genericDetails;
+const hotspots = [
+  { x: 29, y: 32 },
+  { x: 50, y: 23 },
+  { x: 60, y: 32 },
+  { x: 59, y: 52 },
+  { x: 82, y: 65 },
+];
 ---
 
-<MainLayout title={`${piece.title} — Colección`} description={piece.description}>
-  <article class="obj">
-    <p class="obj__crumb label">
-      <a href="/coleccion">Colección</a>
-      <span> — </span>
-      {crumbAuthor && <span>{crumbAuthor} — </span>}
-      <span class="obj__crumb-current">{piece.title}</span>
-    </p>
+<MainLayout immersive title={`${displayTitle} — Colección`} description={description}>
+  <article class="object" data-object-page>
+    <a class="object__back" href="/coleccion">
+      <span>Volver a la colección</span>
+    </a>
 
-    <!-- ============ FRAMED CARD ============ -->
-    <div class="obj__frame">
-      <div class="obj__card">
-        <figure class:list={['obj__media', { 'obj__media--photo': piece.imageKind === 'photo' }]}>
-          <img src={piece.image} alt={piece.title} />
-        </figure>
-
-        <div class="obj__info">
-          <h1 class="obj__title">{piece.title}</h1>
-          <p class="obj__byline">
-            {piece.designer ?? 'Anónimo'} · {piece.yearLabel}
-          </p>
-          <hr class="obj__rule" />
-          <p class="obj__desc">{piece.description}</p>
-
-          <dl class="obj__meta">
-            {
-              meta.map(([k, v]) => (
-                <div class="obj__meta-item">
-                  <dt class="label">{k}</dt>
-                  <dd>{v}</dd>
-                </div>
-              ))
-            }
-          </dl>
-        </div>
-      </div>
+    <div class="object__timeline" aria-hidden="true">
+      <span class="object__year object__year--first">{firstYear}</span>
+      <img
+        class="object__year-flower object__year-flower--first"
+        src="/images/collection-fidelity/hotspot-flower.svg"
+        alt=""
+      />
+      <span class="object__timeline-line"></span>
+      <span class="object__year object__year--last">{lastYear}</span>
+      <img
+        class="object__year-flower object__year-flower--last"
+        src="/images/collection-fidelity/hotspot-flower.svg"
+        alt=""
+      />
     </div>
 
-    <!-- ============ RELATED ============ -->
-    {
-      related.length > 0 && (
-        <section class="obj__section">
-          <h2 class="label obj__section-title">Piezas vinculadas — por taller, técnica y contexto</h2>
-          <div class="obj__row">
-            {related.map((p) => (
-              <a href={`/coleccion/${p.slug}`} class="obj__thumb">
-                <figure class:list={['obj__thumb-media', { 'is-photo': p.imageKind === 'photo' }]}>
-                  <img src={p.image} alt={p.title} loading="lazy" />
-                </figure>
-                <p class="obj__thumb-title">{p.title}</p>
-                <p class="obj__thumb-year label">{p.yearLabel}</p>
-              </a>
-            ))}
-          </div>
-        </section>
-      )
-    }
+    <section class="object__copy" aria-labelledby="object-title">
+      <p class="object__period">{periodCaption}</p>
+      <h1 id="object-title">{displayTitle}</h1>
+      <p class="object__byline">{displayByline}</p>
+      <p class="object__description">{description}</p>
 
-    <!-- ============ DOCUMENTATION ============ -->
-    <section class="obj__section">
-      <h2 class="label obj__section-title">Documentación de época</h2>
-      <div class="obj__row obj__row--docs">
+      <dl class="object__meta">
         {
-          docs.map((doc) => (
-            <div class="obj__thumb">
-              <figure class="obj__thumb-media is-photo">
-                <img src={doc.image} alt={doc.title} loading="lazy" />
-              </figure>
-              <p class="obj__thumb-title">{doc.title}</p>
-              <p class="obj__thumb-year label">{doc.sub}</p>
+          metadata.map(([label, value]) => (
+            <div class="object__meta-row">
+              <dt>{label}</dt>
+              <dd>{value}</dd>
             </div>
           ))
         }
-      </div>
+      </dl>
     </section>
 
-    {
-      piece.periodId === 'new-look' && (
-        <a href="/muestra" class="obj__cta label">
-          Ver en la muestra «El New Look y la silueta de Posguerra» <span aria-hidden="true">→</span>
-        </a>
-      )
-    }
+    <figure class="object__media">
+      <img src={featureImage} alt={displayTitle} />
+      <figcaption class="sr-only">
+        Seleccioná los puntos celestes para explorar detalles de la pieza.
+      </figcaption>
+      {
+        hotspots.map((hotspot, index) => (
+          <button
+            class="object__hotspot"
+            type="button"
+            style={`--hotspot-x:${hotspot.x}%;--hotspot-y:${hotspot.y}%;`}
+            data-hotspot
+            data-index={index}
+            data-label={details[index].title}
+            aria-label={`Explorar detalle: ${details[index].title}`}
+            aria-controls="object-detail-viewer"
+          >
+            <img src="/images/collection-fidelity/hotspot-flower.svg" alt="" />
+          </button>
+        ))
+      }
+    </figure>
+
+    <button
+      class="object__detail-entry"
+      type="button"
+      data-detail-entry
+      aria-label="Explorar detalles"
+    >
+      <img src="/images/collection-fidelity/museum-arrow.svg" alt="" />
+    </button>
   </article>
+
+  <section
+    class="detail-viewer"
+    id="object-detail-viewer"
+    data-detail-viewer
+    data-index="0"
+    style={`--detail-image:url('${featureImage}');`}
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="detail-title"
+    aria-hidden="true"
+    hidden
+  >
+    <a class="detail-viewer__back" href="/coleccion">
+      <span>Volver a la colección</span>
+    </a>
+
+    <button
+      class="detail-viewer__close"
+      type="button"
+      data-detail-close
+      aria-label="Cerrar detalle"
+    >
+      <span aria-hidden="true">×</span>
+    </button>
+
+    <div class="detail-viewer__progress" aria-hidden="true">
+      <span data-progress-segment></span>
+    </div>
+
+    <div class="detail-viewer__thumbs" aria-label="Otros detalles">
+      {
+        [4, 0, 1].map((detailIndex) => (
+          <button type="button" data-detail-thumb data-index={detailIndex}>
+            <img src={details[detailIndex].thumb} alt="" data-detail-thumb-image />
+          </button>
+        ))
+      }
+    </div>
+
+    <div
+      class="detail-viewer__focus"
+      data-detail-focus
+      style={`--crop:${details[0].crop};--crop-size:${details[0].size};`}
+      aria-hidden="true"
+    >
+    </div>
+
+    <div class="detail-viewer__copy">
+      <h2 id="detail-title" data-detail-title>{details[0].title}</h2>
+      <p data-detail-description>{details[0].description}</p>
+    </div>
+  </section>
 </MainLayout>
 
+<script is:inline type="application/json" id="object-details" set:html={JSON.stringify(details)} />
+
 <style>
-  .obj {
-    background: var(--color-black);
-    color: var(--color-cream);
-    padding: var(--space-xl) var(--layout-gutter) var(--space-3xl);
+  .object,
+  .detail-viewer {
+    --ink: #141414;
+    --orange: #fd6500;
+    --cream: #f3eee1;
+    --blue: #b9d6fe;
+    --purple: #520345;
   }
 
-  .obj__crumb {
-    color: var(--color-muted);
-  }
-
-  .obj__crumb a:hover {
-    color: var(--color-red-bright);
-  }
-
-  .obj__crumb-current {
-    color: var(--color-cream);
-  }
-
-  /* ---------------------------------------------------------------- */
-  /* Framed catalogue card                                             */
-  /* ---------------------------------------------------------------- */
-  .obj__frame {
-    margin: var(--space-xl) auto 0;
-    max-width: 82rem;
-    border: 1px solid var(--color-cream);
-    padding: clamp(0.5rem, 1vw, 0.9rem);
-  }
-
-  .obj__card {
-    background: var(--color-cream);
-    color: var(--color-black);
-    display: grid;
-    grid-template-columns: minmax(0, 0.55fr) minmax(0, 1fr);
-    gap: clamp(1.5rem, 3vw, 3rem);
-    padding: clamp(1rem, 2vw, 2rem);
-  }
-
-  .obj__media {
-    margin: 0;
-    background:
-      radial-gradient(ellipse at 50% 30%, rgba(243, 238, 225, 0.14), transparent 70%),
-      var(--color-surface-dark);
-    display: grid;
-    place-items: center;
-    padding: var(--space-lg);
-    min-height: 30rem;
-  }
-
-  .obj__media img {
-    max-height: 34rem;
-    object-fit: contain;
-    filter: drop-shadow(0 16px 30px rgba(0, 0, 0, 0.7));
-  }
-
-  .obj__media--photo {
-    padding: 0;
-  }
-
-  .obj__media--photo img {
+  .object {
+    position: relative;
     width: 100%;
-    height: 100%;
-    max-height: none;
-    object-fit: cover;
+    min-height: 45rem;
+    height: 100svh;
+    overflow: hidden;
+    color: var(--cream);
+    background: var(--ink);
+    isolation: isolate;
   }
 
-  .obj__title {
-    font-family: var(--font-display);
-    font-size: clamp(3rem, 6vw, 5.5rem);
+  .object__back,
+  .detail-viewer__back {
+    position: absolute;
+    z-index: 12;
+    top: 5.25%;
+    left: 3%;
+    display: grid;
+    width: 13.4rem;
+    height: 2.75rem;
+    place-items: center;
+    color: var(--cream);
+    background: var(--purple) url('/images/collection-fidelity/back-frame.svg') center / 100% 100%
+      no-repeat;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: transform 180ms ease;
+  }
+
+  .object__back:hover,
+  .object__back:focus-visible,
+  .detail-viewer__back:hover,
+  .detail-viewer__back:focus-visible {
+    transform: translateY(-2px);
+  }
+
+  .object__timeline {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .object__timeline-line {
+    position: absolute;
+    top: 14.6%;
+    bottom: -2.5%;
+    left: 6.55%;
+    width: 2px;
+    background: var(--orange);
+  }
+
+  .object__year {
+    position: absolute;
+    left: 1.9%;
+    color: var(--orange);
+    font-size: 2rem;
+    font-style: italic;
+    font-weight: 300;
     line-height: 1;
   }
 
-  .obj__byline {
-    margin-top: var(--space-sm);
-    color: var(--color-red);
-    font-weight: var(--font-weight-semibold);
-    font-size: var(--font-size-lg);
+  .object__year--first {
+    top: 13.55%;
   }
 
-  .obj__rule {
-    width: 6rem;
-    border: 0;
-    border-top: 2px solid var(--color-black);
-    margin: var(--space-md) 0;
+  .object__year--last {
+    top: 59%;
+    left: 1.45%;
   }
 
-  .obj__desc {
-    max-width: 46ch;
-    font-size: var(--font-size-sm);
-    line-height: 1.7;
+  .object__year-flower {
+    position: absolute;
+    left: 5.82%;
+    width: 1.5rem;
+    height: 1.5rem;
+    filter: brightness(0) saturate(100%) invert(44%) sepia(99%) saturate(3475%) hue-rotate(358deg)
+      brightness(101%) contrast(105%);
   }
 
-  .obj__meta {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: var(--space-lg) var(--space-md);
-    margin: var(--space-2xl) 0 0;
+  .object__year-flower--first {
+    top: 13.5%;
   }
 
-  .obj__meta-item dt {
-    color: var(--color-red);
-    border-top: 1px solid var(--color-border-cream);
-    padding-top: var(--space-2xs);
+  .object__year-flower--last {
+    top: 59.1%;
   }
 
-  .obj__meta-item dd {
-    margin: var(--space-3xs) 0 0;
-    font-size: var(--font-size-sm);
+  .object__copy {
+    position: absolute;
+    z-index: 5;
+    top: 13.9%;
+    left: 9.3%;
+    width: 24.3%;
+    min-width: 25rem;
   }
 
-  /* ---------------------------------------------------------------- */
-  /* Related & documentation rows                                      */
-  /* ---------------------------------------------------------------- */
-  .obj__section {
-    margin-top: var(--space-3xl);
-  }
-
-  .obj__section-title {
-    color: var(--color-muted);
-  }
-
-  .obj__row {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: var(--space-lg);
-    margin-top: var(--space-lg);
-  }
-
-  .obj__row--docs {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .obj__thumb-media {
+  .object__period,
+  .object__byline,
+  .object__meta dt {
     margin: 0;
-    aspect-ratio: 4 / 5;
-    background: var(--color-surface-dark);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .object__period {
+    color: var(--orange);
+  }
+
+  .object__copy h1 {
+    margin: 0.5rem 0 0;
+    color: var(--blue);
+    font-family: var(--font-display);
+    font-size: clamp(3.6rem, 3.35vw, 4rem);
+    font-style: italic;
+    font-weight: 100;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+  }
+
+  .object__byline {
+    margin-top: 0.75rem;
+    color: var(--cream);
+  }
+
+  .object__description {
+    max-width: 28rem;
+    margin: 1rem 0 0;
+    font-size: 1rem;
+    line-height: 1.15;
+  }
+
+  .object__meta {
+    width: 100%;
+    margin: 2.15rem 0 0;
+  }
+
+  .object__meta-row {
     display: grid;
-    place-items: center;
-    padding: var(--space-md);
-    transition: background var(--duration-fast) var(--ease-standard);
+    grid-template-columns: 46% 54%;
+    align-items: center;
+    min-height: 3.4rem;
+    border-bottom: 1px solid var(--blue);
   }
 
-  .obj__thumb:hover .obj__thumb-media {
-    background: #262421;
+  .object__meta-row dd {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.15;
   }
 
-  .obj__thumb-media img {
+  .object__media {
+    position: absolute;
+    z-index: 2;
+    top: 2.8%;
+    left: 34.15%;
+    width: 43.75%;
+    height: 97.2%;
+    margin: 0;
+  }
+
+  .object__media > img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    object-position: center bottom;
+    filter: drop-shadow(0 20px 24px rgb(0 0 0 / 30%));
   }
 
-  .obj__thumb-media.is-photo {
+  .object__hotspot {
+    position: absolute;
+    z-index: 7;
+    top: var(--hotspot-y);
+    left: var(--hotspot-x);
+    display: grid;
+    width: 2.75rem;
+    height: 2.75rem;
     padding: 0;
+    place-items: center;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
   }
 
-  .obj__thumb-media.is-photo img {
+  .object__hotspot > img {
+    width: 1.55rem;
+    height: 1.55rem;
+    filter: drop-shadow(0 3px 8px rgb(20 20 20 / 50%));
+    animation: hotspot-breathe 2.8s ease-in-out infinite;
+  }
+
+  .object__hotspot:nth-of-type(2) > img {
+    animation-delay: -0.55s;
+  }
+
+  .object__hotspot:nth-of-type(3) > img {
+    animation-delay: -1.1s;
+  }
+
+  .object__hotspot:nth-of-type(4) > img {
+    animation-delay: -1.65s;
+  }
+
+  .object__hotspot:nth-of-type(5) > img {
+    animation-delay: -2.2s;
+  }
+
+  .object__hotspot::after {
+    position: absolute;
+    top: calc(100% + 0.1rem);
+    left: 50%;
+    padding: 0.4rem 0.55rem;
+    color: var(--cream);
+    background: rgb(20 20 20 / 90%);
+    border: 1px solid rgb(185 214 254 / 55%);
+    font-size: 0.625rem;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    content: attr(data-label);
+    opacity: 0;
+    transform: translate(-50%, -0.2rem);
+    transition:
+      opacity 150ms ease,
+      transform 150ms ease;
+    pointer-events: none;
+  }
+
+  .object__hotspot:hover::after,
+  .object__hotspot:focus-visible::after {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  .object__detail-entry {
+    position: absolute;
+    z-index: 8;
+    bottom: 4.8%;
+    left: 9.25%;
+    width: 2.6rem;
+    height: 2.6rem;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .object__detail-entry img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    transform: rotate(-90deg);
+    transition: transform 180ms ease;
   }
 
-  .obj__thumb-title {
-    margin-top: var(--space-sm);
-    font-size: var(--font-size-sm);
+  .object__detail-entry:hover img,
+  .object__detail-entry:focus-visible img {
+    transform: translateY(0.25rem) rotate(-90deg);
   }
 
-  .obj__thumb-year {
-    margin-top: var(--space-3xs);
-    color: var(--color-muted);
+  .detail-viewer {
+    position: fixed;
+    z-index: 9999;
+    inset: 0;
+    overflow: hidden;
+    color: var(--cream);
+    background: var(--ink);
+    opacity: 0;
+    transition: opacity 320ms ease;
+    isolation: isolate;
   }
 
-  .obj__cta {
-    display: inline-block;
-    margin-top: var(--space-3xl);
-    color: var(--color-cream);
-    border-bottom: 1px solid var(--color-red-bright);
-    padding-bottom: 0.5em;
-    transition: color var(--duration-fast) var(--ease-standard);
+  .detail-viewer[hidden] {
+    display: none;
   }
 
-  .obj__cta:hover {
-    color: var(--color-red-bright);
+  .detail-viewer::before {
+    position: absolute;
+    z-index: -2;
+    inset: -22%;
+    background-image: var(--detail-image);
+    background-position: center 23%;
+    background-size: 145% auto;
+    background-repeat: no-repeat;
+    content: '';
+    opacity: 0.2;
+    filter: brightness(0.55);
+    transform: scale(1.03);
+  }
+
+  .detail-viewer::after {
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    background: rgb(20 20 20 / 26%);
+    content: '';
+  }
+
+  .detail-viewer.is-open {
+    opacity: 1;
+  }
+
+  .detail-viewer__close {
+    position: absolute;
+    z-index: 15;
+    top: 5.25%;
+    right: 3%;
+    display: grid;
+    width: 2.6rem;
+    height: 2.6rem;
+    padding: 0 0 0.15rem;
+    place-items: center;
+    color: var(--cream);
+    background: rgb(20 20 20 / 55%);
+    border: 1px solid var(--cream);
+    border-radius: 50%;
+    cursor: pointer;
+    font-family: var(--font-body);
+    font-size: 1.55rem;
+    font-weight: 200;
+  }
+
+  .detail-viewer__progress {
+    position: absolute;
+    top: 12.8%;
+    bottom: 5.4%;
+    left: 3.1%;
+    width: 1px;
+    background: var(--cream);
+  }
+
+  .detail-viewer__progress span {
+    position: absolute;
+    top: 0;
+    left: -1px;
+    width: 3px;
+    height: 20%;
+    background: var(--orange);
+    transform: translateY(0);
+    transition: transform 420ms cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  .detail-viewer__thumbs {
+    position: absolute;
+    z-index: 5;
+    top: 36.5%;
+    left: 21.65%;
+    display: grid;
+    gap: 3rem;
+    width: 6.15%;
+    min-width: 6.5rem;
+  }
+
+  .detail-viewer__thumbs button {
+    width: 100%;
+    aspect-ratio: 118 / 137;
+    padding: 0;
+    overflow: hidden;
+    background: rgb(20 20 20 / 45%);
+    border: 0;
+    border-radius: 250px 250px 0 0;
+    cursor: pointer;
+    opacity: 0.85;
+    transition:
+      opacity 160ms ease,
+      transform 160ms ease;
+  }
+
+  .detail-viewer__thumbs button:hover,
+  .detail-viewer__thumbs button:focus-visible {
+    opacity: 1;
+    transform: translateX(0.4rem);
+  }
+
+  .detail-viewer__thumbs img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transform: scale(1.5);
+  }
+
+  .detail-viewer__focus {
+    position: absolute;
+    z-index: 4;
+    top: 14.2%;
+    left: 30.5%;
+    width: 34.85%;
+    height: 70%;
+    overflow: hidden;
+    background-image: var(--detail-image);
+    background-position: var(--crop);
+    background-size: var(--crop-size) auto;
+    background-repeat: no-repeat;
+    border-radius: 1000px 1000px 0 0;
+    box-shadow: 0 20px 60px rgb(0 0 0 / 28%);
+    transform: scale(0.96);
+    transition:
+      background-position 500ms cubic-bezier(0.76, 0, 0.24, 1),
+      background-size 500ms cubic-bezier(0.76, 0, 0.24, 1),
+      transform 600ms cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  .detail-viewer.is-open .detail-viewer__focus {
+    transform: none;
+  }
+
+  .detail-viewer__copy {
+    position: absolute;
+    z-index: 6;
+    right: 8.8%;
+    bottom: 15.5%;
+    width: 23.8%;
+    min-width: 26rem;
+    text-shadow: 0 2px 14px rgb(0 0 0 / 55%);
+  }
+
+  .detail-viewer__copy h2 {
+    margin: 0;
+    color: var(--blue);
+    font-family: var(--font-display);
+    font-size: clamp(3.4rem, 3.35vw, 4rem);
+    font-style: italic;
+    font-weight: 100;
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .detail-viewer__copy p {
+    margin: 0.8rem 0 0;
+    font-size: clamp(1.45rem, 1.67vw, 2rem);
+    font-style: italic;
+    line-height: 1.1;
+  }
+
+  :global(html.detail-open) {
+    overflow: hidden;
+  }
+
+  @keyframes hotspot-breathe {
+    0%,
+    100% {
+      transform: scale(0.9) rotate(-3deg);
+    }
+    50% {
+      transform: scale(1.08) rotate(3deg);
+    }
   }
 
   @media (max-width: 900px) {
-    .obj__card {
-      grid-template-columns: 1fr;
+    .object {
+      height: auto;
+      min-height: 100svh;
+      padding: 6.5rem 1.25rem 4rem;
+      overflow-x: hidden;
+      overflow-y: visible;
     }
 
-    .obj__meta {
-      grid-template-columns: repeat(2, 1fr);
+    .object__back,
+    .detail-viewer__back {
+      top: 1rem;
+      left: 1rem;
+      width: 12rem;
+      height: 2.5rem;
+      font-size: 0.65rem;
     }
 
-    .obj__row,
-    .obj__row--docs {
-      grid-template-columns: repeat(2, 1fr);
+    .object__timeline {
+      display: none;
+    }
+
+    .object__copy {
+      position: relative;
+      top: auto;
+      left: auto;
+      width: 100%;
+      min-width: 0;
+    }
+
+    .object__copy h1 {
+      font-size: clamp(3.2rem, 14vw, 5rem);
+      white-space: normal;
+    }
+
+    .object__description {
+      max-width: 36rem;
+      font-size: 0.95rem;
+      line-height: 1.3;
+    }
+
+    .object__meta {
+      max-width: 36rem;
+      margin-top: 1.5rem;
+    }
+
+    .object__meta-row {
+      min-height: 3rem;
+    }
+
+    .object__meta dt {
+      font-size: 0.65rem;
+    }
+
+    .object__meta-row dd {
+      font-size: 0.78rem;
+    }
+
+    .object__media {
+      position: relative;
+      top: auto;
+      left: 50%;
+      width: min(44rem, 118vw);
+      height: min(44rem, 96svh);
+      margin-top: -4rem;
+      transform: translateX(-50%);
+    }
+
+    .object__hotspot {
+      width: 3rem;
+      height: 3rem;
+    }
+
+    .object__hotspot > img {
+      width: 1.45rem;
+      height: 1.45rem;
+    }
+
+    .object__detail-entry {
+      bottom: 2rem;
+      left: 1.25rem;
+    }
+
+    .detail-viewer__close {
+      top: 1rem;
+      right: 1rem;
+    }
+
+    .detail-viewer__progress {
+      top: 5.5rem;
+      bottom: 1.5rem;
+      left: 1.25rem;
+    }
+
+    .detail-viewer__thumbs {
+      display: none;
+    }
+
+    .detail-viewer__focus {
+      top: 14%;
+      left: 14%;
+      width: 72%;
+      height: 52%;
+    }
+
+    .detail-viewer__copy {
+      right: 1.5rem;
+      bottom: 7%;
+      left: 2.75rem;
+      width: auto;
+      min-width: 0;
+    }
+
+    .detail-viewer__copy h2 {
+      font-size: clamp(3rem, 14vw, 4.6rem);
+    }
+
+    .detail-viewer__copy p {
+      max-width: 26rem;
+      font-size: 1.25rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .object *,
+    .detail-viewer *,
+    .object *::before,
+    .object *::after,
+    .detail-viewer *::before,
+    .detail-viewer *::after {
+      animation: none !important;
+      transition-duration: 0.01ms !important;
     }
   }
 </style>
+
+<script>
+  type DetailState = {
+    title: string;
+    description: string;
+    crop: string;
+    size: string;
+    thumb: string;
+  };
+
+  const viewer = document.querySelector<HTMLElement>('[data-detail-viewer]');
+  const detailsData = document.getElementById('object-details')?.textContent ?? '[]';
+  const detailStates = JSON.parse(detailsData) as DetailState[];
+
+  if (viewer && detailStates.length > 0) {
+    const title = viewer.querySelector<HTMLElement>('[data-detail-title]');
+    const description = viewer.querySelector<HTMLElement>('[data-detail-description]');
+    const focus = viewer.querySelector<HTMLElement>('[data-detail-focus]');
+    const progress = viewer.querySelector<HTMLElement>('[data-progress-segment]');
+    const closeButton = viewer.querySelector<HTMLButtonElement>('[data-detail-close]');
+    const thumbButtons = [...viewer.querySelectorAll<HTMLButtonElement>('[data-detail-thumb]')];
+    let activeIndex = 0;
+    let lastFocus: HTMLElement | null = null;
+    let closeTimer = 0;
+
+    const normalized = (index: number) => (index + detailStates.length) % detailStates.length;
+
+    const renderDetail = (nextIndex: number) => {
+      activeIndex = normalized(nextIndex);
+      const state = detailStates[activeIndex];
+      viewer.dataset.index = String(activeIndex);
+      if (title) title.textContent = state.title;
+      if (description) description.textContent = state.description;
+      if (focus) {
+        focus.style.setProperty('--crop', state.crop);
+        focus.style.setProperty('--crop-size', state.size);
+      }
+      if (progress) progress.style.transform = `translateY(${activeIndex * 100}%)`;
+
+      const thumbOffsets = [-1, 0, 1];
+      thumbButtons.forEach((button, index) => {
+        const thumbIndex = normalized(activeIndex + thumbOffsets[index]);
+        const thumbState = detailStates[thumbIndex];
+        const image = button.querySelector<HTMLImageElement>('[data-detail-thumb-image]');
+        button.dataset.index = String(thumbIndex);
+        button.setAttribute('aria-label', `Ver detalle: ${thumbState.title}`);
+        button.setAttribute('aria-current', thumbIndex === activeIndex ? 'true' : 'false');
+        if (image) image.src = thumbState.thumb;
+      });
+    };
+
+    const openDetail = (index: number, trigger?: HTMLElement) => {
+      window.clearTimeout(closeTimer);
+      lastFocus =
+        trigger ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);
+      renderDetail(index);
+      viewer.hidden = false;
+      viewer.setAttribute('aria-hidden', 'false');
+      document.documentElement.classList.add('detail-open');
+      requestAnimationFrame(() => {
+        viewer.classList.add('is-open');
+        closeButton?.focus();
+      });
+    };
+
+    const closeDetail = () => {
+      viewer.classList.remove('is-open');
+      viewer.setAttribute('aria-hidden', 'true');
+      document.documentElement.classList.remove('detail-open');
+      closeTimer = window.setTimeout(() => {
+        viewer.hidden = true;
+        lastFocus?.focus();
+      }, 320);
+    };
+
+    document.querySelectorAll<HTMLButtonElement>('[data-hotspot]').forEach((button) => {
+      button.addEventListener('click', () => openDetail(Number(button.dataset.index ?? 0), button));
+    });
+
+    document
+      .querySelector<HTMLButtonElement>('[data-detail-entry]')
+      ?.addEventListener('click', (event) => {
+        openDetail(0, event.currentTarget as HTMLElement);
+      });
+
+    thumbButtons.forEach((button) => {
+      button.addEventListener('click', () =>
+        renderDetail(Number(button.dataset.index ?? activeIndex))
+      );
+    });
+
+    closeButton?.addEventListener('click', closeDetail);
+
+    document.addEventListener('keydown', (event) => {
+      if (viewer.hidden) return;
+      if (event.key === 'Escape') closeDetail();
+      if (event.key === 'ArrowLeft') renderDetail(activeIndex - 1);
+      if (event.key === 'ArrowRight') renderDetail(activeIndex + 1);
+    });
+  }
+</script>

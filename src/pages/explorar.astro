@@ -1,160 +1,881 @@
 ---
-/**
- * Explorar (/explorar) — "Entrá a un tiempo." Three entry columns:
- * por período, por tema y por tipo de documento.
- */
 import MainLayout from '@layouts/MainLayout.astro';
-import { periods, themes, docTypes } from '@data/collection';
+
+const assembled = [
+  {
+    name: 'Robe à la française',
+    year: 'c. 1755',
+    image: '/images/reconstruction/placed-robe-1755.png',
+    height: 279,
+  },
+  {
+    name: 'Robe à la française',
+    year: 'c. 1770',
+    image: '/images/reconstruction/placed-robe-1770.png',
+    height: 319,
+  },
+  {
+    name: "Robe à l'anglaise",
+    year: 'c. 1785',
+    image: '/images/reconstruction/placed-anglaise.png',
+    height: 286,
+  },
+  {
+    name: 'Caraco et jupe',
+    year: 'c. 1760',
+    image: '/images/reconstruction/placed-yellow.png',
+    height: 316,
+  },
+];
+
+const reserve = [
+  {
+    id: 'pink',
+    image: '/images/reconstruction/reserve-pink.png',
+    alt: 'Vestido rosado transparente',
+    correct: false,
+  },
+  {
+    id: 'skirt',
+    image: '/images/reconstruction/reserve-skirt.png',
+    alt: 'Falda a cuadros',
+    correct: false,
+  },
+  {
+    id: 'green',
+    image: '/images/reconstruction/reserve-green.png',
+    alt: 'Robe verde del siglo XVIII',
+    correct: true,
+    name: 'Robe à la française',
+    year: 'c. 1765',
+  },
+  {
+    id: 'corset',
+    image: '/images/reconstruction/reserve-corset.png',
+    alt: 'Corset con cintas azules',
+    correct: false,
+  },
+  {
+    id: 'cape',
+    image: '/images/reconstruction/reserve-cape.png',
+    alt: 'Manteau de cour del siglo XVIII',
+    correct: true,
+    name: 'Manteau de cour',
+    year: 'c. 1775',
+  },
+  {
+    id: 'coat',
+    image: '/images/reconstruction/reserve-coat.png',
+    alt: 'Abrigo marrón',
+    correct: false,
+  },
+  {
+    id: 'silver',
+    image: '/images/reconstruction/reserve-silver.png',
+    alt: 'Robe plateada del siglo XVIII',
+    correct: true,
+    name: 'Robe de cour',
+    year: 'c. 1780',
+  },
+  {
+    id: 'black',
+    image: '/images/reconstruction/reserve-black.png',
+    alt: 'Vestido negro',
+    correct: false,
+  },
+  {
+    id: 'red',
+    image: '/images/reconstruction/reserve-red.png',
+    alt: 'Robe brocada del siglo XVIII',
+    correct: true,
+    name: 'Robe à la française',
+    year: 'c. 1740',
+  },
+  {
+    id: 'bodice',
+    image: '/images/reconstruction/reserve-bodice.png',
+    alt: 'Corpiño blanco',
+    correct: false,
+  },
+];
 ---
 
 <MainLayout
-  title="Explorá la colección"
-  description="Elegí una vía de entrada y dejá que la colección se revele a través de su evidencia: por período, por tema o por tipo de documento."
+  title="Reconstruí el período"
+  description="Reconocé las prendas del siglo XVIII y reunilas para reconstruir la sala Rococó."
+  immersive
 >
-  <section class="explore section-cream">
-    <p class="label explore__kicker">Explorá</p>
-    <h1 class="explore__title type-display-italic">Entrá a un tiempo.</h1>
-    <p class="explore__sub">
-      Elegí una vía de entrada y dejá que la colección se revele a través de su evidencia.
-    </p>
+  <div class="reconstruction" data-reconstruction data-motion-owned>
+    <img
+      class="reconstruction__pattern"
+      src="/images/reconstruction/floral-pattern.svg"
+      alt=""
+      aria-hidden="true"
+    />
 
-    <div class="explore__cols">
-      <div class="explore__col">
-        <h2 class="label explore__col-title">Por período</h2>
-        <ul class="explore__list">
-          {
-            periods.map((p) => (
-              <li>
-                <a href={`/linea-de-tiempo?periodo=${p.id}`} class="explore__item">
-                  <span class="explore__item-year">{p.year}</span>
-                  <span class="explore__item-name">{p.name}</span>
-                  <span class="explore__item-arrow" aria-hidden="true">
-                    →
-                  </span>
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+    <a class="reconstruction__logo" href="/" aria-label="Volver al inicio">
+      <img src="/images/reconstruction/museum-logo.svg" alt="" />
+    </a>
 
-      <div class="explore__col">
-        <h2 class="label explore__col-title">Por tema</h2>
-        <ul class="explore__list">
-          {
-            themes.map((t) => (
-              <li>
-                <a href={`/coleccion?tema=${t.id}`} class="explore__item">
-                  <span class="explore__item-name">{t.name}</span>
-                  <span class="explore__item-arrow" aria-hidden="true">
-                    →
-                  </span>
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+    <header class="reconstruction__header">
+      <h1>Reconstruí el Período</h1>
+      <p>
+        Reconocé las prendas del siglo XVIII entre las demás y reunilas para reconstruir la sala.
+      </p>
+      <strong>La sala · Rococó, siglo XVIII</strong>
+    </header>
 
-      <div class="explore__col">
-        <h2 class="label explore__col-title">Por tipo de documento</h2>
-        <ul class="explore__list">
-          {
-            docTypes.map((t) => (
-              <li>
-                <a href={`/coleccion?tipo=${t.id}`} class="explore__item">
-                  <span class="explore__item-name">{t.name}</span>
-                  <span class="explore__item-arrow" aria-hidden="true">
-                    →
-                  </span>
-                </a>
-              </li>
-            ))
-          }
-        </ul>
-      </div>
+    <aside class="reconstruction__guide" data-guide>
+      <p class="reconstruction__guide-title">Cómo reconocerla</p>
+      <p data-guide-copy>
+        Panier · talle ceñido · escote cuadrado · pliegue Watteau · seda labrada
+      </p>
+    </aside>
+
+    <div class="reconstruction__progress" aria-live="polite">
+      <span><b data-progress-count>4</b> / 8 piezas reunidas</span>
+      <span class="reconstruction__progress-track" aria-hidden="true"
+        ><i data-progress-bar></i></span
+      >
     </div>
-  </section>
+
+    <section
+      class="reconstruction__room"
+      aria-label="Sala Rococó: prendas reunidas"
+      data-motion-owned
+    >
+      {
+        assembled.map((garment) => (
+          <article class="room-card room-card--filled" style={`--arch-height:${garment.height}`}>
+            <div class="room-card__arch">
+              <img src={garment.image} alt={garment.name} />
+            </div>
+            <p>{garment.name}</p>
+            <strong>{garment.year}</strong>
+          </article>
+        ))
+      }
+
+      {
+        [260, 280, 316, 260].map((height, index) => (
+          <article
+            class="room-card room-card--empty"
+            style={`--arch-height:${height}`}
+            data-drop-slot
+            data-slot-index={index}
+          >
+            <div class="room-card__arch" tabindex="0">
+              <span class="room-card__plus">+</span>
+              <span class="room-card__drop-label">arrastrá aquí</span>
+            </div>
+            <p data-slot-name aria-hidden="true">
+              &nbsp;
+            </p>
+            <strong data-slot-year aria-hidden="true">
+              &nbsp;
+            </strong>
+          </article>
+        ))
+      }
+    </section>
+
+    <img
+      class="reconstruction__divider"
+      src="/images/reconstruction/divider.svg"
+      alt=""
+      aria-hidden="true"
+    />
+
+    <section class="reconstruction__reserve" aria-labelledby="reserve-title" data-motion-owned>
+      <header>
+        <h2 id="reserve-title">Reserva · Acervo del siglo XVIII</h2>
+        <p>Arrastrá a la sala solo las del siglo XVIII.</p>
+      </header>
+
+      <button
+        class="reserve-arrow reserve-arrow--left"
+        type="button"
+        data-reserve-left
+        aria-label="Ver prendas anteriores"
+      >
+        <img src="/images/reconstruction/arrow-left.svg" alt="" />
+      </button>
+
+      <div class="reserve-list" data-reserve-list>
+        {
+          reserve.map((garment) => (
+            <button
+              class="reserve-garment"
+              type="button"
+              draggable="true"
+              data-garment
+              data-id={garment.id}
+              data-correct={String(garment.correct)}
+              data-name={garment.name ?? ''}
+              data-year={garment.year ?? ''}
+              aria-label={`${garment.alt}. ${garment.correct ? 'Seleccionar para llevar a la sala' : 'Seleccionar prenda'}`}
+            >
+              <img src={garment.image} alt={garment.alt} />
+            </button>
+          ))
+        }
+      </div>
+
+      <button
+        class="reserve-arrow reserve-arrow--right"
+        type="button"
+        data-reserve-right
+        aria-label="Ver prendas siguientes"
+      >
+        <img src="/images/reconstruction/arrow-right.svg" alt="" />
+      </button>
+    </section>
+
+    <p class="sr-only" aria-live="assertive" data-game-status></p>
+  </div>
 </MainLayout>
 
+<script>
+  const root = document.querySelector<HTMLElement>('[data-reconstruction]');
+
+  if (root) {
+    const list = root.querySelector<HTMLElement>('[data-reserve-list]');
+    const garments = Array.from(root.querySelectorAll<HTMLButtonElement>('[data-garment]'));
+    const slots = Array.from(root.querySelectorAll<HTMLElement>('[data-drop-slot]'));
+    const count = root.querySelector<HTMLElement>('[data-progress-count]');
+    const bar = root.querySelector<HTMLElement>('[data-progress-bar]');
+    const guide = root.querySelector<HTMLElement>('[data-guide]');
+    const guideCopy = root.querySelector<HTMLElement>('[data-guide-copy]');
+    const status = root.querySelector<HTMLElement>('[data-game-status]');
+    let selected: HTMLButtonElement | null = null;
+    let completed = 4;
+
+    const setGuide = (copy: string, isError = false) => {
+      if (!guideCopy || !guide) return;
+      guideCopy.textContent = copy;
+      guide.classList.toggle('is-error', isError);
+    };
+
+    const placeGarment = (garment: HTMLButtonElement, target?: HTMLElement) => {
+      if (garment.dataset.correct !== 'true') {
+        garment.classList.remove('is-wrong');
+        void garment.offsetWidth;
+        garment.classList.add('is-wrong');
+        setGuide('Mirá la silueta: esta prenda no pertenece al siglo XVIII.', true);
+        if (status) status.textContent = 'Esa prenda no pertenece a la sala Rococó.';
+        return;
+      }
+
+      const slot = target ?? slots.find((candidate) => !candidate.classList.contains('is-filled'));
+      if (!slot || slot.classList.contains('is-filled')) return;
+
+      const arch = slot.querySelector<HTMLElement>('.room-card__arch');
+      const originalImage = garment.querySelector<HTMLImageElement>('img');
+      const name = garment.dataset.name ?? 'Pieza del siglo XVIII';
+      const year = garment.dataset.year ?? '';
+      if (!arch || !originalImage) return;
+
+      arch.replaceChildren();
+      const image = document.createElement('img');
+      image.src = originalImage.src;
+      image.alt = name;
+      arch.append(image);
+
+      const nameNode = slot.querySelector<HTMLElement>('[data-slot-name]');
+      const yearNode = slot.querySelector<HTMLElement>('[data-slot-year]');
+      if (nameNode) {
+        nameNode.textContent = name;
+        nameNode.removeAttribute('aria-hidden');
+      }
+      if (yearNode) {
+        yearNode.textContent = year;
+        yearNode.removeAttribute('aria-hidden');
+      }
+
+      slot.classList.add('is-filled');
+      slot.classList.remove('room-card--empty');
+      garment.classList.add('is-placed');
+      garment.disabled = true;
+      completed += 1;
+      if (count) count.textContent = String(completed);
+      if (bar) bar.style.width = `${(completed / 8) * 100}%`;
+      selected = null;
+
+      if (completed === 8) {
+        setGuide('Sala reconstruida · reuniste las ocho piezas del período.');
+        root.classList.add('is-complete');
+        if (status) status.textContent = 'Sala reconstruida. Reuniste las ocho piezas del período.';
+      } else {
+        setGuide('Panier · talle ceñido · escote cuadrado · pliegue Watteau · seda labrada');
+        if (status)
+          status.textContent = `${name} incorporada a la sala. ${completed} de 8 piezas reunidas.`;
+      }
+    };
+
+    garments.forEach((garment) => {
+      garment.addEventListener('dragstart', (event) => {
+        selected = garment;
+        event.dataTransfer?.setData('text/plain', garment.dataset.id ?? '');
+        event.dataTransfer?.setDragImage(
+          garment,
+          garment.offsetWidth / 2,
+          garment.offsetHeight / 2
+        );
+      });
+      garment.addEventListener('dragend', () => {
+        slots.forEach((slot) => slot.classList.remove('is-dragover'));
+      });
+      garment.addEventListener('click', () => {
+        garments.forEach((item) => item.classList.remove('is-selected'));
+        garment.classList.add('is-selected');
+        selected = garment;
+        placeGarment(garment);
+      });
+    });
+
+    slots.forEach((slot) => {
+      slot.addEventListener('dragover', (event) => {
+        if (slot.classList.contains('is-filled')) return;
+        event.preventDefault();
+        slot.classList.add('is-dragover');
+      });
+      slot.addEventListener('dragleave', () => slot.classList.remove('is-dragover'));
+      slot.addEventListener('drop', (event) => {
+        event.preventDefault();
+        slot.classList.remove('is-dragover');
+        const id = event.dataTransfer?.getData('text/plain');
+        const garment = garments.find((item) => item.dataset.id === id) ?? selected;
+        if (garment) placeGarment(garment, slot);
+      });
+      slot.querySelector<HTMLElement>('.room-card__arch')?.addEventListener('keydown', (event) => {
+        if ((event.key === 'Enter' || event.key === ' ') && selected) {
+          event.preventDefault();
+          placeGarment(selected, slot);
+        }
+      });
+    });
+
+    root.querySelector('[data-reserve-left]')?.addEventListener('click', () => {
+      list?.scrollBy({ left: -(list.clientWidth * 0.75), behavior: 'smooth' });
+    });
+    root.querySelector('[data-reserve-right]')?.addEventListener('click', () => {
+      list?.scrollBy({ left: list.clientWidth * 0.75, behavior: 'smooth' });
+    });
+  }
+</script>
+
 <style>
-  .explore {
-    min-height: calc(100svh - 92px);
-    padding: clamp(3rem, 8vh, 6rem) var(--layout-gutter) var(--space-3xl);
+  .reconstruction {
+    --purple: #520345;
+    --blue: #b9d6fe;
+    --cream: #f3eee1;
+    --orange: #fd6500;
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    min-height: 720px;
+    overflow: hidden;
+    color: var(--purple);
+    background: linear-gradient(180deg, var(--blue) 0%, #d8e5f2 61%, var(--cream) 100%);
   }
 
-  .explore__kicker {
-    color: var(--color-red);
+  .reconstruction__pattern {
+    position: absolute;
+    z-index: 0;
+    top: 34.4%;
+    left: 51.05%;
+    width: 90.3vh;
+    height: 137.3vw;
+    object-fit: fill;
+    pointer-events: none;
+    transform: translate(-50%, -50%) rotate(90deg);
   }
 
-  .explore__title {
-    font-size: var(--font-size-display-md);
-    margin-top: var(--space-lg);
+  .reconstruction__logo {
+    position: absolute;
+    z-index: 4;
+    top: 3.6%;
+    left: 3.13%;
+    width: 3.2vw;
+    min-width: 48px;
+    aspect-ratio: 1;
+    transition: transform 180ms ease;
   }
 
-  .explore__sub {
-    margin-top: var(--space-md);
-    font-size: var(--font-size-sm);
-    max-width: 48ch;
+  .reconstruction__logo:hover {
+    transform: scale(1.06);
+  }
+  .reconstruction__logo img {
+    width: 100%;
+    height: 100%;
   }
 
-  .explore__cols {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(2.5rem, 6vw, 6rem);
-    margin-top: clamp(3rem, 9vh, 7rem);
+  .reconstruction__header {
+    position: absolute;
+    z-index: 2;
+    top: 13.6%;
+    left: 3.13%;
   }
 
-  .explore__col-title {
-    color: var(--color-red);
-    border-bottom: 1px solid var(--color-red);
-    padding-bottom: var(--space-sm);
-  }
-
-  .explore__list {
-    list-style: none;
-    margin: var(--space-lg) 0 0;
-    padding: 0;
-  }
-
-  .explore__item {
-    display: flex;
-    align-items: baseline;
-    gap: var(--space-md);
-    padding-block: var(--space-xs);
-    font-size: clamp(1.4rem, 2vw, 1.9rem);
-    line-height: 1.4;
-    transition: color var(--duration-fast) var(--ease-standard);
-  }
-
-  .explore__item-year {
+  .reconstruction__header h1 {
+    margin: 0;
     font-family: var(--font-display);
-    font-size: 0.95em;
-    min-width: 3.2ch;
+    font-size: clamp(3.4rem, 3.34vw, 4rem);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.045em;
+    line-height: 1;
   }
 
-  .explore__item-arrow {
-    margin-left: auto;
-    opacity: 0;
-    transform: translateX(-8px);
+  .reconstruction__header p {
+    margin: 0.55rem 0 0;
+    font-size: clamp(0.88rem, 0.94vw, 1.125rem);
+  }
+
+  .reconstruction__header strong,
+  .reconstruction__reserve h2,
+  .reconstruction__progress,
+  .reconstruction__guide-title {
+    font-size: clamp(0.68rem, 0.73vw, 0.875rem);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .reconstruction__header strong {
+    display: block;
+    margin-top: 0.55rem;
+    color: var(--orange);
+  }
+
+  .reconstruction__guide {
+    position: absolute;
+    z-index: 3;
+    top: 12.4%;
+    left: 71.78%;
+    width: 28.65%;
+    min-height: 6.3%;
+    padding: 1rem 1.35rem 0.85rem;
+    color: var(--cream);
+    border: 2px solid var(--purple);
+    border-radius: 4px;
+    background: var(--purple);
+    box-shadow:
+      -4px -4px 0 var(--blue),
+      -4px -4px 0 2px var(--purple);
     transition:
-      opacity var(--duration-fast) var(--ease-standard),
-      transform var(--duration-fast) var(--ease-standard);
-    color: var(--color-red);
+      background 180ms ease,
+      color 180ms ease;
   }
 
-  .explore__item:hover {
-    color: var(--color-red);
+  .reconstruction__guide.is-error {
+    background: var(--orange);
+    color: var(--purple);
+  }
+  .reconstruction__guide p {
+    margin: 0;
+    font-size: clamp(0.68rem, 0.84vw, 1rem);
+    line-height: 1.15;
+  }
+  .reconstruction__guide-title {
+    color: var(--blue);
+    margin-bottom: 0.1rem !important;
   }
 
-  .explore__item:hover .explore__item-arrow {
-    opacity: 1;
-    transform: translateX(0);
+  .reconstruction__progress {
+    position: absolute;
+    z-index: 3;
+    top: 20.35%;
+    left: 72.75%;
+    right: 3.1%;
+    display: flex;
+    align-items: center;
+    gap: 1.1rem;
+  }
+
+  .reconstruction__progress-track {
+    flex: 1;
+    height: 4px;
+    overflow: hidden;
+    border-radius: 2px;
+    background: var(--purple);
+  }
+
+  .reconstruction__progress-track i {
+    display: block;
+    width: 50%;
+    height: 100%;
+    background: var(--orange);
+    transition: width 500ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .reconstruction__room {
+    position: absolute;
+    z-index: 2;
+    top: 29.7%;
+    left: 3.38%;
+    right: 3.12%;
+    height: 35.1%;
+    display: grid;
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+    gap: 1.18vw;
+    align-items: end;
+  }
+
+  .room-card {
+    min-width: 0;
+    align-self: end;
+    font-size: clamp(0.68rem, 0.84vw, 1rem);
+  }
+
+  .room-card__arch {
+    position: relative;
+    display: flex;
+    height: calc(var(--arch-height) * 100vw / 1920);
+    max-height: calc(var(--arch-height) * 1.1px);
+    min-height: 150px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid var(--purple);
+    border-radius: 999px 999px 0 0;
+    transition:
+      border-color 180ms ease,
+      background 180ms ease,
+      transform 180ms ease;
+  }
+
+  .room-card__arch img {
+    width: 104%;
+    height: 96%;
+    object-fit: contain;
+    object-position: center bottom;
+    animation: garment-arrives 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .room-card:nth-child(4) .room-card__arch img {
+    width: 76%;
+    height: 91%;
+  }
+
+  .room-card p {
+    min-height: 1em;
+    margin: 0.95rem 0 0;
+    line-height: 1.05;
+  }
+
+  .room-card strong {
+    display: block;
+    min-height: 1em;
+    margin-top: 0.25rem;
+    color: var(--orange);
+    font-size: 0.88em;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .room-card--empty .room-card__arch {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .room-card--empty .room-card__arch:hover,
+  .room-card--empty.is-dragover .room-card__arch {
+    border-color: var(--orange);
+    background: rgb(243 238 225 / 28%);
+    transform: translateY(-4px);
+  }
+
+  .room-card__plus {
+    color: var(--orange);
+    font-size: 1.35rem;
+    line-height: 1;
+  }
+  .room-card__drop-label {
+    font-size: clamp(0.7rem, 0.84vw, 1rem);
+  }
+
+  .reconstruction__divider {
+    position: absolute;
+    z-index: 2;
+    top: 68.75%;
+    left: 0;
+    width: 100%;
+    height: 1.1%;
+    object-fit: fill;
+  }
+
+  .reconstruction__reserve {
+    position: absolute;
+    z-index: 2;
+    inset: 72.7% 0 0;
+  }
+
+  .reconstruction__reserve header {
+    margin-left: 4.17%;
+  }
+  .reconstruction__reserve h2 {
+    margin: 0;
+    color: var(--orange);
+  }
+  .reconstruction__reserve header p {
+    margin: 0.45rem 0 0;
+    font-size: clamp(0.72rem, 0.84vw, 1rem);
+  }
+
+  .reserve-list {
+    position: absolute;
+    right: 5.5%;
+    bottom: 4.7%;
+    left: 5.5%;
+    height: 57%;
+    display: flex;
+    align-items: end;
+    justify-content: space-around;
+    gap: 1.6vw;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .reserve-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .reserve-garment {
+    flex: 0 0 clamp(5.2rem, 7.7vw, 9.3rem);
+    height: 100%;
+    padding: 0;
+    border: 0;
+    color: inherit;
+    background: transparent;
+    cursor: grab;
+    transition:
+      opacity 250ms ease,
+      transform 220ms cubic-bezier(0.22, 1, 0.36, 1),
+      filter 180ms ease;
+  }
+
+  .reserve-garment img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center bottom;
+    pointer-events: none;
+  }
+  .reserve-garment:hover,
+  .reserve-garment.is-selected {
+    transform: translateY(-10px) scale(1.04);
+    filter: drop-shadow(0 8px 12px rgb(82 3 69 / 18%));
+  }
+  .reserve-garment.is-placed {
+    opacity: 0;
+    transform: translateY(-40px) scale(0.72);
+    pointer-events: none;
+  }
+  .reserve-garment.is-wrong {
+    animation: wrong-garment 420ms ease;
+  }
+
+  .reserve-arrow {
+    position: absolute;
+    z-index: 4;
+    bottom: 11.5%;
+    width: 41px;
+    height: 41px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+    transition: transform 180ms ease;
+  }
+
+  .reserve-arrow:hover {
+    transform: scale(1.08);
+  }
+  .reserve-arrow img {
+    width: 100%;
+    height: 100%;
+  }
+  .reserve-arrow--right img {
+    transform: rotate(180deg);
+  }
+  .reserve-arrow--left {
+    left: 3.13%;
+  }
+  .reserve-arrow--right {
+    right: 3.5%;
+  }
+
+  @keyframes garment-arrives {
+    from {
+      opacity: 0;
+      transform: translateY(40px) scale(0.82);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes wrong-garment {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(-9px) rotate(-2deg);
+    }
+    75% {
+      transform: translateX(9px) rotate(2deg);
+    }
   }
 
   @media (max-width: 900px) {
-    .explore__cols {
-      grid-template-columns: 1fr;
+    .reconstruction {
+      height: auto;
+      min-height: 100svh;
+      overflow: hidden;
+      padding: 1.25rem 0 2rem;
+      background: linear-gradient(180deg, var(--blue) 0, #dce7ee 58rem, var(--cream) 100%);
+    }
+
+    .reconstruction__pattern {
+      top: -2rem;
+      left: -55%;
+      width: 220%;
+      height: 34rem;
+      object-fit: cover;
+      opacity: 0.74;
+      transform: none;
+    }
+    .reconstruction__logo {
+      position: relative;
+      top: auto;
+      left: auto;
+      display: block;
+      width: 3rem;
+      margin-left: 1.25rem;
+    }
+    .reconstruction__header {
+      position: relative;
+      top: auto;
+      left: auto;
+      margin: 2.4rem 1.25rem 0;
+    }
+    .reconstruction__header h1 {
+      max-width: 8ch;
+      font-size: clamp(3.2rem, 15vw, 4.8rem);
+      line-height: 0.9;
+    }
+    .reconstruction__header p {
+      max-width: 32rem;
+      margin-top: 1.2rem;
+      line-height: 1.25;
+    }
+    .reconstruction__header strong {
+      margin-top: 0.8rem;
+    }
+
+    .reconstruction__guide {
+      position: relative;
+      top: auto;
+      left: auto;
+      width: auto;
+      min-height: 0;
+      margin: 1.8rem 1.25rem 0;
+      padding: 0.9rem 1rem;
+    }
+
+    .reconstruction__progress {
+      position: relative;
+      top: auto;
+      left: auto;
+      right: auto;
+      margin: 1rem 1.25rem 0;
+    }
+
+    .reconstruction__room {
+      position: relative;
+      top: auto;
+      left: auto;
+      right: auto;
+      height: 27rem;
+      margin-top: 1.5rem;
+      padding: 0 1.25rem 1rem;
+      display: flex;
+      align-items: end;
+      gap: 1rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      scroll-snap-type: x proximity;
+    }
+
+    .reconstruction__room::-webkit-scrollbar {
+      display: none;
+    }
+    .room-card {
+      flex: 0 0 9rem;
+      scroll-snap-align: start;
+    }
+    .room-card__arch {
+      height: calc(var(--arch-height) * 0.93px);
+      min-height: 0;
+    }
+    .room-card p {
+      margin-top: 0.65rem;
+    }
+    .reconstruction__divider {
+      position: relative;
+      top: auto;
+      left: auto;
+      display: block;
+      height: 7px;
+      margin-top: 0.5rem;
+      object-fit: cover;
+    }
+
+    .reconstruction__reserve {
+      position: relative;
+      inset: auto;
+      padding: 2rem 0 0;
+    }
+    .reconstruction__reserve header {
+      margin: 0 1.25rem;
+    }
+    .reserve-list {
+      position: relative;
+      right: auto;
+      bottom: auto;
+      left: auto;
+      height: 12rem;
+      margin-top: 1.4rem;
+      padding: 0 3.8rem;
+      justify-content: flex-start;
+      gap: 1rem;
+      scroll-snap-type: x mandatory;
+    }
+
+    .reserve-garment {
+      flex-basis: 7.8rem;
+      scroll-snap-align: center;
+    }
+    .reserve-arrow {
+      bottom: 4.2rem;
+      width: 36px;
+      height: 36px;
+    }
+    .reserve-arrow--left {
+      left: 0.65rem;
+    }
+    .reserve-arrow--right {
+      right: 0.65rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .room-card__arch img,
+    .reserve-garment.is-wrong {
+      animation: none;
     }
   }
 </style>

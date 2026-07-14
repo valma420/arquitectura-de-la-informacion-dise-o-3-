@@ -1,363 +1,1195 @@
 ---
 /**
- * Colección (/coleccion) — red ornamented hero + full piece grid.
- * Cells flip to a cream info card on hover. Supports ?tema= & ?tipo=
- * filters (client-side) coming from /explorar.
+ * Colección (/coleccion) — visor curatorial basado en los frames Figma
+ * 1:291 (portada) y 1:1348 (pieza seleccionada).
  */
 import MainLayout from '@layouts/MainLayout.astro';
-import { pieces, themes, docTypes } from '@data/collection';
+import { pieces } from '@data/collection';
+
+const curated = [
+  {
+    slug: 'vestido-gasa-1790',
+    image: '/images/catalogo/c10.png',
+    title: 'Robe à la française',
+    year: 'c. 1760–1775',
+  },
+  {
+    slug: 'redingote',
+    image: '/images/catalogo/c06.png',
+    title: 'Robe et tablier de jupe de robe',
+    year: 'c. 1730–1750',
+  },
+  {
+    slug: 'casaca-bordada',
+    image: '/images/catalogo/c05.png',
+    title: 'Robe et tablier de jupe à la française',
+    year: 'c. 1730',
+  },
+  {
+    slug: 'robe-francaise-1760',
+    image: '/images/catalogo/c04.png',
+    title: 'Ensemble (habillement)',
+    year: 'c. 1755–1765',
+    byline: 'Anónimo · c. 1755–1765 · lampás de seda',
+    section: 'Vêtements et accessoires de vêtement',
+  },
+  {
+    slug: 'vestido-corte',
+    image: '/images/catalogo/c02.png',
+    title: 'Robe à la française',
+    year: 'c. 1780',
+  },
+  {
+    slug: 'robe-polonaise',
+    image: '/images/catalogo/c11.png',
+    title: 'Robe à la française',
+    year: 'c. 1760–1775',
+  },
+  {
+    slug: 'robe-anglaise',
+    image: '/images/catalogo/c07.png',
+    title: 'Robe à la française',
+    year: 'c. 1755–1765',
+  },
+  {
+    slug: 'chaleco-courtois',
+    image: '/images/catalogo/c09.png',
+    title: 'Robe à la française',
+    year: 'c. 1770',
+  },
+  {
+    slug: 'robe-francaise-1730',
+    image: '/images/catalogo/c03.png',
+    title: 'Robe à la française',
+    year: 'c. 1760–1775',
+  },
+  {
+    slug: 'robe-francaise-1730',
+    image: '/images/catalogo/c12.png',
+    title: 'Robe et tablier de jupe de robe',
+    year: 'c. 1730–1750',
+  },
+  {
+    slug: 'caraco-falda',
+    image: '/images/catalogo/c14.png',
+    title: 'Robe à la française',
+    year: 'c. 1755–1765',
+  },
+];
+
+const catalogueItems = curated.flatMap((entry) => {
+  const piece = pieces.find((candidate) => candidate.slug === entry.slug);
+  if (!piece) return [];
+
+  return [
+    {
+      ...entry,
+      byline: entry.byline ?? `${piece.designer ?? 'Anónimo'} · ${entry.year} · ${piece.material}`,
+      section: entry.section ?? piece.section ?? 'Vêtements et accessoires de vêtement',
+      themeIds: piece.themeIds,
+      docTypeId: piece.docTypeId,
+      periodId: piece.periodId,
+    },
+  ];
+});
+
+const initialIndex = 3;
+const initialItem = catalogueItems[initialIndex];
+const introOrder = [9, 10, 0, 1, 2, 3, 4, 5, 6, 7, 8];
+const introPositions = [
+  { x: 14.3, y: 92.5, w: 5.1 },
+  { x: 16.9, y: 71.4, w: 6 },
+  { x: 21.4, y: 51.4, w: 5.7 },
+  { x: 29.6, y: 36.6, w: 5.9 },
+  { x: 39.4, y: 28.3, w: 5.2 },
+  { x: 49.7, y: 22.9, w: 5.2 },
+  { x: 60.6, y: 29.1, w: 5.9 },
+  { x: 71, y: 37, w: 5.3 },
+  { x: 79.3, y: 51.4, w: 5.4 },
+  { x: 82.9, y: 71, w: 5.7 },
+  { x: 85.3, y: 92.2, w: 6.1 },
+];
 ---
 
 <MainLayout
-  title="Colección"
-  description="La colección del Palais Galliera: 243.000 piezas, tres siglos de moda. Indumentaria, accesorios, fotografía y artes gráficas."
+  title="Colección — Robe à la française"
+  description="Una selección inmersiva de indumentaria del siglo XVIII del acervo del Palais Galliera."
+  immersive
 >
-  <!-- ================= HERO ================= -->
-  <section class="chero">
-    <div class="chero__ornaments" aria-hidden="true">
-      <img src="/images/ornaments/orn-04.png" alt="" class="chero__orn chero__orn--1" />
-      <img src="/images/ornaments/orn-07.png" alt="" class="chero__orn chero__orn--2" />
-      <img src="/images/ornaments/orn-08.png" alt="" class="chero__orn chero__orn--3" />
-    </div>
-    <h1 class="chero__title type-display-italic">Colección</h1>
-    <a href="/explorar" class="chero__search label">Buscar por</a>
-    <p class="chero__filter-state label" data-filter-state hidden>
-      <span data-filter-label></span>
-      <a href="/coleccion" class="chero__filter-clear">✕ Quitar filtro</a>
-    </p>
-  </section>
+  <div class="collection-shell">
+    <header class="collection-nav">
+      <a class="collection-nav__logo" href="/" aria-label="Palais Galliera — Inicio">
+        <img src="/images/collection-fidelity/catalogue-logo.svg" alt="" />
+      </a>
 
-  <!-- ================= GRID ================= -->
-  <section class="cgrid" data-grid>
-    {
-      pieces.map((piece) => (
-        <a
-          href={`/coleccion/${piece.slug}`}
-          class="cell"
-          data-piece
-          data-themes={piece.themeIds.join(' ')}
-          data-doctype={piece.docTypeId}
-          data-period={piece.periodId}
-        >
-          <figure
-            class:list={['cell__media', { 'cell__media--photo': piece.imageKind === 'photo' }]}
-          >
-            <img src={piece.image} alt={piece.title} loading="lazy" />
-          </figure>
-          <div class="cell__card">
-            <p class="cell__year label">{piece.yearLabel}</p>
-            <p class="cell__title">{piece.title}</p>
-            {piece.designer && <p class="cell__designer">{piece.designer}</p>}
-            <p class="cell__hint label">Tocá otra vez para abrir</p>
-          </div>
+      <nav class="collection-nav__bar" aria-label="Principal">
+        <a href="/historia">Visitar</a>
+        <a href="/muestra">Exposiciones</a>
+        <a class="is-active" href="/coleccion" aria-current="page">Colecciones</a>
+        <a href="/historia">El museo</a>
+        <a href="/agenda">Agenda</a>
+        <a class="collection-nav__tickets" href="/agenda">Entradas</a>
+        <a class="collection-nav__search" href="/coleccion" aria-label="Buscar en la colección">
+          <img src="/images/collection-fidelity/catalogue-search.svg" alt="" />
         </a>
-      ))
-    }
-  </section>
+      </nav>
+    </header>
+
+    <section class="catalogue" data-catalogue data-mode="intro" aria-labelledby="catalogue-title">
+      <div class="catalogue__arch" aria-hidden="true"></div>
+
+      <div class="catalogue__intro" data-intro-view>
+        <div class="catalogue__orbit" aria-label="Piezas de la selección">
+          {
+            introOrder.map((itemIndex, orbitIndex) => {
+              const item = catalogueItems[itemIndex];
+              const position = introPositions[orbitIndex];
+              return (
+                <button
+                  class="catalogue__orbit-piece"
+                  type="button"
+                  data-orbit-piece
+                  data-index={itemIndex}
+                  style={`--piece-x:${position.x}%;--piece-y:${position.y}%;--piece-w:${position.w}%;`}
+                  aria-label={`Ver ${item.title}, ${item.year}`}
+                >
+                  <img src={item.image} alt="" />
+                </button>
+              );
+            })
+          }
+        </div>
+
+        <h1 class="catalogue__title" id="catalogue-title">
+          <img src="/images/collection-fidelity/catalogue-title.png" alt="" aria-hidden="true" />
+          <span class="sr-only">Robe à la française</span>
+        </h1>
+
+        <div class="catalogue__intro-meta">
+          <p>
+            <img
+              src="/images/collection-fidelity/catalogue-selection.png"
+              alt=""
+              aria-hidden="true"
+            />
+            <span class="sr-only">Selección siglo XVIII, 1700 a 1800, 42 piezas</span>
+          </p>
+          <button class="catalogue__discover" type="button" data-discover aria-label="Descubrir">
+            <img
+              src="/images/collection-fidelity/catalogue-discover.png"
+              alt=""
+              aria-hidden="true"
+            />
+          </button>
+        </div>
+      </div>
+
+      <div class="catalogue__selected" data-selected-view aria-hidden="true">
+        <div class="catalogue__piece-copy">
+          <p class="catalogue__eyebrow" data-piece-number>PIEZA 05/ 42</p>
+          <h2 data-piece-title data-exact-title>{initialItem.title}</h2>
+          <p class="catalogue__byline" data-piece-byline>{initialItem.byline}</p>
+          <p class="catalogue__section" data-piece-section>{initialItem.section}</p>
+          <span class="catalogue__rule" aria-hidden="true"></span>
+          <a class="catalogue__piece-link" href={`/coleccion/${initialItem.slug}`} data-piece-link>
+            Ver ficha <span aria-hidden="true">→</span>
+          </a>
+          <p class="catalogue__count">
+            <span data-count-current>05</span>
+            <em>/ 42</em>
+          </p>
+        </div>
+
+        <p class="catalogue__selection-meta">
+          COLECCIÓN · ROBE À LA FRANÇAISE — SIGLO XVIII<br />
+          1700 — 1800 · 42 PIEZAS
+        </p>
+
+        <figure class="catalogue__main-piece">
+          <img src={initialItem.image} alt={initialItem.title} data-main-image />
+        </figure>
+
+        <div class="catalogue__neighbours" aria-label="Piezas próximas">
+          {
+            [-2, -1, 1, 2].map((offset) => {
+              const index = (initialIndex + offset + catalogueItems.length) % catalogueItems.length;
+              const item = catalogueItems[index];
+              return (
+                <button
+                  class="catalogue__neighbour"
+                  type="button"
+                  data-side-card
+                  data-index={index}
+                >
+                  <img src={item.image} alt="" data-side-image />
+                  <span class="catalogue__neighbour-title" data-side-title>
+                    {item.title}
+                  </span>
+                  <span class="catalogue__neighbour-year" data-side-year>
+                    {item.year}
+                  </span>
+                </button>
+              );
+            })
+          }
+        </div>
+      </div>
+
+      <div class="catalogue__controls" aria-label="Navegar por la colección">
+        <button type="button" data-previous aria-label="Pieza anterior">
+          <img src="/images/collection-fidelity/museum-arrow.svg" alt="" />
+        </button>
+        <button type="button" data-next aria-label="Pieza siguiente">
+          <img src="/images/collection-fidelity/museum-arrow.svg" alt="" />
+        </button>
+      </div>
+
+      <p class="sr-only" aria-live="polite" data-live-region></p>
+    </section>
+  </div>
 </MainLayout>
 
+<script
+  is:inline
+  type="application/json"
+  id="catalogue-items"
+  set:html={JSON.stringify(catalogueItems)}
+/>
+
 <style>
-  /* ================================================================ */
-  /* Hero — red field with engraved flourishes                        */
-  /* ================================================================ */
-  .chero {
+  .collection-shell {
     position: relative;
-    background: var(--color-red);
-    color: var(--color-cream);
-    padding: clamp(3rem, 10vh, 7rem) var(--layout-gutter) clamp(2.5rem, 7vh, 5rem);
+    width: 100%;
+    height: 100svh;
+    min-height: 49.5rem;
     overflow: hidden;
+    background: #141414;
   }
 
-  .chero__ornaments {
+  .collection-nav {
     position: absolute;
     inset: 0;
+    z-index: 30;
     pointer-events: none;
   }
 
-  .chero__orn {
+  .collection-nav__logo {
     position: absolute;
-    mix-blend-mode: multiply;
-    opacity: 0.55;
-    filter: contrast(1.1);
+    top: 3.61%;
+    left: 3.125%;
+    width: max(3.177%, 3rem);
+    aspect-ratio: 1;
+    pointer-events: auto;
+    transition: transform 180ms ease;
   }
 
-  .chero__orn--1 {
-    width: 30%;
-    right: 32%;
-    top: -12%;
-    transform: rotate(-8deg);
+  .collection-nav__logo:hover,
+  .collection-nav__logo:focus-visible {
+    transform: scale(1.06);
   }
 
-  .chero__orn--2 {
-    width: 26%;
-    right: 4%;
-    top: -6%;
-    transform: scaleX(-1) rotate(6deg);
+  .collection-nav__logo img {
+    width: 100%;
+    height: 100%;
   }
 
-  .chero__orn--3 {
-    width: 22%;
-    right: 18%;
-    bottom: -18%;
-    transform: rotate(4deg);
-  }
-
-  .chero__title {
-    position: relative;
-    font-size: var(--font-size-display);
-    z-index: 2;
-  }
-
-  .chero__search {
+  .collection-nav__bar {
     position: absolute;
-    right: var(--layout-gutter);
-    bottom: clamp(2rem, 6vh, 4rem);
-    z-index: 2;
-    border: 1px solid var(--color-cream);
-    padding: 0.9em 1.5em;
-    color: var(--color-cream);
+    top: 3.61%;
+    left: 26.3%;
+    width: 46.35%;
+    height: clamp(3.5rem, 5.65vh, 3.8125rem);
+    color: #f3eee1;
+    background: #fd6500;
+    pointer-events: auto;
+  }
+
+  .collection-nav__bar > a {
+    position: absolute;
+    top: 50%;
+    color: inherit;
+    font-size: clamp(0.65rem, 0.729vw, 0.875rem);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    text-transform: uppercase;
+    transform: translateY(-50%);
     transition:
-      background var(--duration-fast) var(--ease-standard),
-      color var(--duration-fast) var(--ease-standard);
+      color 160ms ease,
+      background-color 160ms ease;
   }
 
-  .chero__search:hover {
-    background: var(--color-cream);
-    color: var(--color-red);
+  .collection-nav__bar > a:hover,
+  .collection-nav__bar > a:focus-visible,
+  .collection-nav__bar > a.is-active {
+    color: #141414;
   }
 
-  .chero__filter-state {
-    position: relative;
-    z-index: 2;
-    margin-top: var(--space-md);
-    display: flex;
-    gap: var(--space-md);
+  .collection-nav__bar > a:nth-child(1) {
+    left: 4.382%;
+  }
+  .collection-nav__bar > a:nth-child(2) {
+    left: 14.944%;
+  }
+  .collection-nav__bar > a:nth-child(3) {
+    left: 30.787%;
+  }
+  .collection-nav__bar > a:nth-child(4) {
+    left: 46.18%;
+  }
+  .collection-nav__bar > a:nth-child(5) {
+    left: 58.54%;
   }
 
-  .chero__filter-clear {
-    text-decoration: underline;
-  }
-
-  /* ================================================================ */
-  /* Grid                                                             */
-  /* ================================================================ */
-  .cgrid {
-    background: var(--color-red);
+  .collection-nav__bar > .collection-nav__tickets {
+    top: 22.95%;
+    left: 75.73%;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: clamp(0.9rem, 1.4vw, 1.5rem);
-    padding: 0 var(--layout-gutter) var(--space-2xl);
+    width: 12.36%;
+    height: 52.46%;
+    place-items: center;
+    color: #f3eee1;
+    border-radius: 2px;
+    background: #141414;
+    transform: none;
   }
 
-  .cell {
-    position: relative;
-    display: block;
-    aspect-ratio: 4 / 5;
+  .collection-nav__bar > .collection-nav__tickets:hover,
+  .collection-nav__bar > .collection-nav__tickets:focus-visible {
+    color: #141414;
+    background: #f3eee1;
   }
 
-  .cell__media {
-    margin: 0;
+  .collection-nav__bar > .collection-nav__search {
+    right: 4.28%;
+    width: 2.14%;
+    height: 33%;
+  }
+
+  .collection-nav__search img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .catalogue {
+    --ink: #141414;
+    --orange: #fd6500;
+    --cream: #f3eee1;
+    position: absolute;
+    top: clamp(4rem, 5vw, 4.5rem);
+    right: 0;
+    left: 0;
+    min-height: calc(100svh - clamp(4rem, 5vw, 4.5rem));
+    height: min(1079px, calc(100svh - clamp(4rem, 5vw, 4.5rem)));
+    overflow: hidden;
+    color: var(--cream);
+    background: var(--ink);
+    isolation: isolate;
+  }
+
+  .catalogue__arch {
+    position: absolute;
+    z-index: -1;
+    top: 25.8%;
+    left: 50%;
+    width: 71.25%;
+    height: 102.1%;
+    border: 1px solid var(--orange);
+    border-radius: 1000px 1000px 0 0;
+    box-shadow:
+      5px 4px 0 -4px var(--ink),
+      6px 4px 0 -4px var(--orange);
+    transform: translateX(-50%);
+    transition:
+      top 700ms cubic-bezier(0.76, 0, 0.24, 1),
+      width 700ms cubic-bezier(0.76, 0, 0.24, 1),
+      height 700ms cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  .catalogue[data-mode='selected'] .catalogue__arch {
+    top: 46%;
+    width: calc(100% - 2.25rem);
+    height: 165%;
+  }
+
+  .catalogue__intro,
+  .catalogue__selected {
     position: absolute;
     inset: 0;
-    background: var(--color-black);
-    display: grid;
-    place-items: center;
-    padding: 12%;
-    transition: opacity var(--duration-fast) var(--ease-standard);
+    transition:
+      opacity 500ms ease,
+      transform 700ms cubic-bezier(0.76, 0, 0.24, 1),
+      visibility 0s linear 500ms;
   }
 
-  .cell__media img {
+  .catalogue__intro {
+    opacity: 1;
+    transform: none;
+  }
+
+  .catalogue__selected {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(3rem);
+  }
+
+  .catalogue[data-mode='selected'] .catalogue__intro {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.96);
+  }
+
+  .catalogue[data-mode='selected'] .catalogue__selected {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    transition-delay: 180ms, 120ms, 0s;
+  }
+
+  .catalogue__title {
+    position: absolute;
+    top: 49.3%;
+    left: 50%;
+    width: min(42.5625rem, 35.5vw);
+    margin: 0;
+    transform: translateX(-50%);
+  }
+
+  .catalogue__title img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .catalogue__orbit {
+    position: absolute;
+    inset: 0;
+  }
+
+  .catalogue__orbit-piece {
+    position: absolute;
+    top: var(--piece-y);
+    left: var(--piece-x);
+    width: var(--piece-w);
+    height: 16%;
+    padding: 0;
+    overflow: visible;
+    color: inherit;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    transition: transform 260ms ease;
+  }
+
+  .catalogue__orbit-piece:hover,
+  .catalogue__orbit-piece:focus-visible {
+    z-index: 3;
+    transform: translate(-50%, -50%) scale(1.12);
+  }
+
+  .catalogue__orbit-piece img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.65));
+    filter: drop-shadow(0 10px 15px rgb(0 0 0 / 36%));
   }
 
-  .cell__media--photo {
+  .catalogue__intro-meta {
+    position: absolute;
+    bottom: 8.55%;
+    left: 35%;
+    width: 29.27%;
+    height: min(2rem, 1.67vw);
+    color: var(--cream);
+  }
+
+  .catalogue__intro-meta p,
+  .catalogue__eyebrow,
+  .catalogue__selection-meta,
+  .catalogue__piece-link,
+  .catalogue__neighbour-year {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .catalogue__intro-meta p {
+    position: absolute;
+    top: 21.875%;
+    left: 0;
+    width: 70.82%;
+    height: 46.875%;
+    font-size: min(1rem, 0.833vw);
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.06em;
+    text-align: right;
+    text-transform: capitalize;
+    white-space: pre;
+  }
+
+  .catalogue__discover {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 19.57%;
+    height: 100%;
     padding: 0;
+    color: var(--cream);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
   }
 
-  .cell__media--photo img {
+  .catalogue__intro-meta p > img,
+  .catalogue__discover > img {
+    display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: fill;
   }
 
-  .cell__card {
+  .catalogue__piece-copy {
+    position: absolute;
+    z-index: 4;
+    top: 9%;
+    left: 3.1%;
+    width: min(41%, 49rem);
+    text-shadow: 0 1px 5px rgb(0 0 0 / 70%);
+  }
+
+  .catalogue__eyebrow {
+    color: var(--orange);
+  }
+
+  .catalogue__piece-copy h2 {
+    max-width: 44rem;
+    margin: 0.5rem 0 0;
+    color: var(--cream);
+    font-family: var(--font-display);
+    font-size: clamp(5.25rem, 6.7vw, 8rem);
+    font-weight: 100;
+    line-height: 0.953;
+    letter-spacing: -0.025em;
+  }
+
+  .catalogue__piece-copy h2[data-exact-title] {
+    width: 36.4375rem;
+    max-width: none;
+    height: auto;
+    aspect-ratio: 583 / 244;
+    margin-top: 0.9375rem;
+    color: transparent;
+    background: url('/images/collection-fidelity/catalogue-piece-title.png') left top / 100% 100%
+      no-repeat;
+    font-size: 0;
+    line-height: 0;
+    text-shadow: none;
+  }
+
+  .catalogue__piece-copy h2[data-exact-title] + .catalogue__byline {
+    margin-top: 1.375rem;
+  }
+
+  .catalogue__byline,
+  .catalogue__section {
+    margin: 1.65rem 0 0;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.15;
+  }
+
+  .catalogue__section {
+    margin-top: 0.1rem;
+  }
+
+  .catalogue__rule {
+    display: block;
+    width: 2.5rem;
+    height: 1px;
+    margin-top: 1.1rem;
+    background: var(--cream);
+  }
+
+  .catalogue__piece-link {
+    display: inline-flex;
+    gap: 0.4rem;
+    margin-top: 1rem;
+    color: var(--cream);
+  }
+
+  .catalogue__piece-link:hover {
+    color: var(--orange);
+  }
+
+  .catalogue__count {
+    margin: 3.55rem 0 0;
+    font-size: 1rem;
+    font-weight: 300;
+  }
+
+  .catalogue__count em {
+    color: var(--orange);
+    font-style: normal;
+  }
+
+  .catalogue__selection-meta {
+    position: absolute;
+    z-index: 4;
+    top: 9.5%;
+    right: 3.5%;
+    color: var(--orange);
+    line-height: 1.55;
+    text-align: right;
+  }
+
+  .catalogue__main-piece {
+    position: absolute;
+    z-index: 2;
+    top: 0.6%;
+    left: 29.79%;
+    width: 40.47%;
+    height: 103%;
+    margin: 0;
+  }
+
+  .catalogue__main-piece img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 18px 24px rgb(0 0 0 / 32%));
+    transition:
+      opacity 180ms ease,
+      transform 500ms cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  .catalogue.is-changing .catalogue__main-piece img {
+    opacity: 0;
+    transform: translateY(1rem) scale(0.97);
+  }
+
+  .catalogue__neighbours {
     position: absolute;
     inset: 0;
-    background: var(--color-cream);
-    color: var(--color-black);
-    padding: var(--space-md);
+  }
+
+  .catalogue__neighbour {
+    position: absolute;
+    z-index: 3;
+    width: 10%;
+    padding: 0;
+    color: var(--cream);
+    text-align: left;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    transition:
+      opacity 180ms ease,
+      transform 260ms ease;
+  }
+
+  .catalogue__neighbour:hover,
+  .catalogue__neighbour:focus-visible {
+    transform: translateY(-0.75rem);
+  }
+
+  .catalogue__neighbour:nth-child(1) {
+    top: 62%;
+    left: 9.8%;
+  }
+
+  .catalogue__neighbour:nth-child(2) {
+    top: 45%;
+    left: 23.3%;
+  }
+
+  .catalogue__neighbour:nth-child(3) {
+    top: 44%;
+    right: 22.8%;
+  }
+
+  .catalogue__neighbour:nth-child(4) {
+    top: 65%;
+    right: 8.7%;
+  }
+
+  .catalogue__neighbour img {
+    display: block;
+    width: 100%;
+    height: 21vh;
+    max-height: 15rem;
+    object-fit: contain;
+  }
+
+  .catalogue__neighbour-title,
+  .catalogue__neighbour-year {
+    display: block;
+  }
+
+  .catalogue__neighbour-title {
+    margin-top: 0.4rem;
+    font-size: 1rem;
+    line-height: 1.1;
+  }
+
+  .catalogue__neighbour-year {
+    margin-top: 0.35rem;
+    color: var(--orange);
+  }
+
+  .catalogue__controls {
+    position: absolute;
+    z-index: 8;
+    right: 3.2%;
+    bottom: 14%;
+    left: 3.2%;
     display: flex;
-    flex-direction: column;
-    opacity: 0;
-    transition: opacity var(--duration-fast) var(--ease-standard);
+    justify-content: space-between;
+    pointer-events: none;
   }
 
-  .cell:hover .cell__card,
-  .cell:focus-visible .cell__card,
-  .cell.is-revealed .cell__card {
-    opacity: 1;
+  .catalogue__controls button {
+    width: 2.6rem;
+    height: 2.6rem;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: transform 200ms ease;
   }
 
-  .cell:hover .cell__media,
-  .cell:focus-visible .cell__media,
-  .cell.is-revealed .cell__media {
-    opacity: 0;
+  .catalogue__controls button:hover,
+  .catalogue__controls button:focus-visible {
+    transform: scale(1.12);
   }
 
-  .cell__year {
-    color: var(--color-red);
+  .catalogue__controls button:last-child img {
+    transform: rotate(180deg);
   }
 
-  .cell__title {
-    margin-top: var(--space-2xs);
-    font-size: var(--font-size-md);
-    line-height: 1.25;
+  .catalogue__controls img {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
-  .cell__designer {
-    margin-top: auto;
-    font-size: var(--font-size-sm);
-  }
-
-  .cell__hint {
-    display: none;
-    margin-top: auto;
-    color: var(--color-red);
-  }
-
-  .cell__designer + .cell__hint {
-    margin-top: var(--space-xs);
-  }
-
-  .cell.is-hidden {
-    display: none;
-  }
-
-  @media (hover: none), (pointer: coarse) {
-    .cell:hover:not(.is-revealed):not(:focus-visible) .cell__card {
-      opacity: 0;
+  @media (min-width: 901px) {
+    .catalogue__neighbour {
+      width: var(--card-width);
     }
 
-    .cell:hover:not(.is-revealed):not(:focus-visible) .cell__media {
-      opacity: 1;
+    .catalogue__neighbour img {
+      width: var(--image-width);
+      height: auto;
+      max-height: none;
     }
 
-    .cell__hint {
+    .catalogue__neighbour-title,
+    .catalogue__neighbour-year {
+      width: var(--copy-width);
+      margin-left: var(--copy-offset);
+    }
+
+    .catalogue__neighbour-title {
+      margin-top: var(--copy-gap);
+    }
+
+    .catalogue__neighbour-year {
+      margin-top: var(--year-gap);
+    }
+
+    .catalogue__neighbour:nth-child(1) {
+      --card-width: min(11.302vw, 13.5625rem);
+      --image-width: min(8.802vw, 10.5625rem);
+      --copy-width: min(10.521vw, 12.625rem);
+      --copy-offset: min(0.781vw, 0.9375rem);
+      --copy-gap: -0.25rem;
+      --year-gap: 0.625rem;
+      top: 60.775%;
+      left: 9.844%;
+    }
+
+    .catalogue__neighbour:nth-child(2) {
+      --card-width: min(11.354vw, 13.625rem);
+      --image-width: min(7.969vw, 9.5625rem);
+      --copy-width: min(10.573vw, 12.6875rem);
+      --copy-offset: min(0.781vw, 0.9375rem);
+      --copy-gap: 0;
+      --year-gap: 0.625rem;
+      top: 42.701%;
+      left: 23.281%;
+    }
+
+    .catalogue__neighbour:nth-child(3) {
+      --card-width: min(12.031vw, 14.4375rem);
+      --image-width: min(9.74vw, 11.6875rem);
+      --copy-width: min(10.521vw, 12.625rem);
+      --copy-offset: min(1.51vw, 1.8125rem);
+      --copy-gap: -0.125rem;
+      --year-gap: 0.3125rem;
+      top: 41.51%;
+      right: auto;
+      left: 67.344%;
+    }
+
+    .catalogue__neighbour:nth-child(4) {
+      --card-width: min(11.354vw, 13.625rem);
+      --image-width: min(8.125vw, 9.75rem);
+      --copy-width: min(10.573vw, 12.6875rem);
+      --copy-offset: min(0.781vw, 0.9375rem);
+      --copy-gap: 0.4375rem;
+      --year-gap: 0.625rem;
+      top: 63.754%;
+      right: auto;
+      left: 83.073%;
+    }
+
+    .catalogue__controls button:last-child {
+      transform: translateY(2.5rem);
+    }
+
+    .catalogue__controls button:last-child:hover,
+    .catalogue__controls button:last-child:focus-visible {
+      transform: translateY(2.5rem) scale(1.12);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .collection-shell {
+      min-height: 51rem;
+    }
+
+    .collection-nav__logo {
+      top: 1rem;
+      left: 1.25rem;
+      width: 3rem;
+    }
+
+    .collection-nav__bar {
+      top: 1rem;
+      right: 1.25rem;
+      left: 5rem;
+      width: auto;
+      height: 3rem;
+    }
+
+    .collection-nav__bar > a {
+      display: none;
+    }
+
+    .collection-nav__bar > a.is-active {
+      left: 1rem;
       display: block;
     }
+
+    .collection-nav__bar > .collection-nav__tickets {
+      top: 0.625rem;
+      right: 3rem;
+      left: auto;
+      display: grid;
+      width: 4.25rem;
+      height: 1.75rem;
+      font-size: 0.65rem;
+    }
+
+    .collection-nav__bar > .collection-nav__search {
+      right: 1rem;
+      display: block;
+      width: 1.15rem;
+      height: 1.25rem;
+    }
+
+    .catalogue {
+      min-height: 47rem;
+      height: calc(100svh - 4rem);
+      max-height: 54rem;
+    }
+
+    .catalogue__arch {
+      top: 29%;
+      width: 110%;
+      height: 105%;
+    }
+
+    .catalogue[data-mode='selected'] .catalogue__arch {
+      top: 48%;
+      width: 145%;
+    }
+
+    .catalogue__title {
+      top: 45%;
+      width: 90%;
+    }
+
+    .catalogue__orbit-piece {
+      width: calc(var(--piece-w) * 1.9);
+      height: 13%;
+    }
+
+    .catalogue__orbit-piece:nth-child(1),
+    .catalogue__orbit-piece:nth-child(11) {
+      display: none;
+    }
+
+    .catalogue__intro-meta {
+      right: 1.25rem;
+      bottom: 5.5%;
+      left: 1.25rem;
+      display: flex;
+      width: auto;
+      height: auto;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.625rem;
+      transform: none;
+    }
+
+    .catalogue__intro-meta p {
+      position: static;
+      width: 100%;
+      max-width: 24.8125rem;
+      height: auto;
+      font-size: 0.58rem;
+      line-height: 1.25;
+      text-align: left;
+      white-space: normal;
+    }
+
+    .catalogue__discover {
+      position: relative;
+      width: 6.95rem;
+      height: 2.1rem;
+      flex: 0 0 auto;
+    }
+
+    .catalogue__piece-copy {
+      top: 4.5%;
+      right: 1.25rem;
+      left: 1.25rem;
+      width: auto;
+    }
+
+    .catalogue__piece-copy h2 {
+      max-width: 8ch;
+      font-size: clamp(3.25rem, 14vw, 5rem);
+    }
+
+    .catalogue__piece-copy h2[data-exact-title] {
+      width: 100%;
+      max-width: 36.4375rem;
+      font-size: 0;
+    }
+
+    .catalogue__byline,
+    .catalogue__section {
+      max-width: 23rem;
+      margin-top: 0.8rem;
+      font-size: 0.78rem;
+    }
+
+    .catalogue__selection-meta {
+      top: auto;
+      right: 1.25rem;
+      bottom: 3.5%;
+      font-size: 0.58rem;
+    }
+
+    .catalogue__count {
+      margin-top: 1.5rem;
+    }
+
+    .catalogue__main-piece {
+      top: 22%;
+      left: 13%;
+      width: 74%;
+      height: 78%;
+    }
+
+    .catalogue__neighbour:nth-child(1),
+    .catalogue__neighbour:nth-child(4) {
+      display: none;
+    }
+
+    .catalogue__neighbour:nth-child(2),
+    .catalogue__neighbour:nth-child(3) {
+      top: 61%;
+      width: 18%;
+    }
+
+    .catalogue__neighbour:nth-child(2) {
+      left: 1.5%;
+    }
+
+    .catalogue__neighbour:nth-child(3) {
+      right: 1.5%;
+    }
+
+    .catalogue__neighbour img {
+      height: 8rem;
+    }
+
+    .catalogue__neighbour-title,
+    .catalogue__neighbour-year {
+      display: none;
+    }
+
+    .catalogue__controls {
+      right: 1.25rem;
+      bottom: 8%;
+      left: 1.25rem;
+    }
+
+    .catalogue[data-mode='intro'] .catalogue__controls {
+      bottom: 13%;
+    }
   }
 
-  @media (max-width: 600px) {
-    .chero {
-      padding-top: var(--space-xl);
-      padding-bottom: var(--space-xl);
-    }
-
-    .chero__title {
-      font-size: clamp(4rem, 21vw, 6rem);
-      line-height: 0.95;
-    }
-
-    .chero__search {
-      position: relative;
-      right: auto;
-      bottom: auto;
-      display: inline-flex;
-      margin-top: var(--space-lg);
-    }
-
-    .chero__filter-state {
-      align-items: flex-start;
-      flex-direction: column;
-      gap: var(--space-xs);
+  @media (prefers-reduced-motion: reduce) {
+    .catalogue *,
+    .catalogue *::before,
+    .catalogue *::after {
+      scroll-behavior: auto !important;
+      transition-duration: 0.01ms !important;
     }
   }
 </style>
 
 <script>
-  // Client-side filtering from /explorar (?tema=, ?tipo=, ?periodo=).
-  const params = new URLSearchParams(window.location.search);
-  const tema = params.get('tema');
-  const tipo = params.get('tipo');
-  const periodo = params.get('periodo');
-
-  const nameMaps: Record<string, Record<string, string>> = {
-    tema: Object.fromEntries(
-      (JSON.parse(document.getElementById('filter-names')?.textContent ?? '{}').themes ?? []).map(
-        (t: { id: string; name: string }) => [t.id, t.name]
-      )
-    ),
-    tipo: Object.fromEntries(
-      (JSON.parse(document.getElementById('filter-names')?.textContent ?? '{}').docTypes ?? []).map(
-        (t: { id: string; name: string }) => [t.id, t.name]
-      )
-    ),
+  type CatalogueItem = {
+    slug: string;
+    image: string;
+    title: string;
+    year: string;
+    byline: string;
+    section: string;
+    themeIds: string[];
+    docTypeId: string;
+    periodId: string;
   };
 
-  if (tema || tipo || periodo) {
-    const cells = document.querySelectorAll<HTMLElement>('[data-piece]');
-    cells.forEach((cell) => {
-      const matchTema = !tema || (cell.dataset.themes ?? '').split(' ').includes(tema);
-      const matchTipo = !tipo || cell.dataset.doctype === tipo;
-      const matchPeriodo = !periodo || cell.dataset.period === periodo;
-      cell.classList.toggle('is-hidden', !(matchTema && matchTipo && matchPeriodo));
+  const catalogue = document.querySelector<HTMLElement>('[data-catalogue]');
+  const data = document.getElementById('catalogue-items')?.textContent ?? '[]';
+  const items = JSON.parse(data) as CatalogueItem[];
+
+  if (catalogue && items.length > 0) {
+    const mainImage = catalogue.querySelector<HTMLImageElement>('[data-main-image]');
+    const title = catalogue.querySelector<HTMLElement>('[data-piece-title]');
+    const byline = catalogue.querySelector<HTMLElement>('[data-piece-byline]');
+    const section = catalogue.querySelector<HTMLElement>('[data-piece-section]');
+    const pieceNumber = catalogue.querySelector<HTMLElement>('[data-piece-number]');
+    const countCurrent = catalogue.querySelector<HTMLElement>('[data-count-current]');
+    const pieceLink = catalogue.querySelector<HTMLAnchorElement>('[data-piece-link]');
+    const selectedView = catalogue.querySelector<HTMLElement>('[data-selected-view]');
+    const introView = catalogue.querySelector<HTMLElement>('[data-intro-view]');
+    const liveRegion = catalogue.querySelector<HTMLElement>('[data-live-region]');
+    const sideCards = [...catalogue.querySelectorAll<HTMLButtonElement>('[data-side-card]')];
+    const sideOffsets = [-2, -1, 1, 2];
+    let currentIndex = 3;
+    let changeTimer = 0;
+
+    const normalized = (index: number) => (index + items.length) % items.length;
+
+    const render = (nextIndex: number, announce = true) => {
+      currentIndex = normalized(nextIndex);
+      const current = items[currentIndex];
+      const visibleNumber = String(currentIndex + 2).padStart(2, '0');
+
+      catalogue.classList.add('is-changing');
+      window.clearTimeout(changeTimer);
+      changeTimer = window.setTimeout(() => {
+        if (mainImage) {
+          mainImage.src = current.image;
+          mainImage.alt = current.title;
+        }
+        if (title) {
+          title.textContent = current.title;
+          title.toggleAttribute('data-exact-title', currentIndex === 3);
+        }
+        if (byline) byline.textContent = current.byline;
+        if (section) section.textContent = current.section;
+        if (pieceNumber) pieceNumber.textContent = `PIEZA ${visibleNumber}/ 42`;
+        if (countCurrent) countCurrent.textContent = visibleNumber;
+        if (pieceLink) pieceLink.href = `/coleccion/${current.slug}`;
+
+        sideCards.forEach((card, cardIndex) => {
+          const sideIndex = normalized(currentIndex + sideOffsets[cardIndex]);
+          const side = items[sideIndex];
+          const image = card.querySelector<HTMLImageElement>('[data-side-image]');
+          const sideTitle = card.querySelector<HTMLElement>('[data-side-title]');
+          const sideYear = card.querySelector<HTMLElement>('[data-side-year]');
+          card.dataset.index = String(sideIndex);
+          card.setAttribute('aria-label', `Ver ${side.title}, ${side.year}`);
+          if (image) image.src = side.image;
+          if (sideTitle) sideTitle.textContent = side.title;
+          if (sideYear) sideYear.textContent = side.year;
+        });
+
+        if (announce && liveRegion) liveRegion.textContent = `${current.title}, ${current.year}`;
+        catalogue.classList.remove('is-changing');
+      }, 160);
+    };
+
+    const selectMode = () => {
+      catalogue.dataset.mode = 'selected';
+      introView?.setAttribute('aria-hidden', 'true');
+      selectedView?.setAttribute('aria-hidden', 'false');
+      render(currentIndex, false);
+    };
+
+    catalogue.querySelector('[data-discover]')?.addEventListener('click', selectMode);
+
+    catalogue.querySelectorAll<HTMLButtonElement>('[data-orbit-piece]').forEach((button) => {
+      button.addEventListener('click', () => {
+        currentIndex = Number(button.dataset.index ?? currentIndex);
+        selectMode();
+      });
     });
 
-    const state = document.querySelector<HTMLElement>('[data-filter-state]');
-    const label = document.querySelector<HTMLElement>('[data-filter-label]');
-    if (state && label) {
-      const parts: string[] = [];
-      if (tema) parts.push(`Tema — ${nameMaps.tema[tema] ?? tema}`);
-      if (tipo) parts.push(`Tipo — ${nameMaps.tipo[tipo] ?? tipo}`);
-      if (periodo) parts.push(`Período — ${periodo.replace(/-/g, ' ')}`);
-      label.textContent = parts.join(' · ');
-      state.hidden = false;
+    sideCards.forEach((card) => {
+      card.addEventListener('click', () => render(Number(card.dataset.index ?? currentIndex)));
+    });
+
+    catalogue.querySelector('[data-previous]')?.addEventListener('click', () => {
+      if (catalogue.dataset.mode !== 'selected') selectMode();
+      else render(currentIndex - 1);
+    });
+
+    catalogue.querySelector('[data-next]')?.addEventListener('click', () => {
+      if (catalogue.dataset.mode !== 'selected') selectMode();
+      else render(currentIndex + 1);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') render(currentIndex - 1);
+      if (event.key === 'ArrowRight') render(currentIndex + 1);
+      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') selectMode();
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    const theme = params.get('tema');
+    const type = params.get('tipo');
+    const period = params.get('periodo');
+    if (theme || type || period) {
+      const filteredIndex = items.findIndex(
+        (item) =>
+          (!theme || item.themeIds.includes(theme)) &&
+          (!type || item.docTypeId === type) &&
+          (!period || item.periodId === period)
+      );
+      if (filteredIndex >= 0) {
+        currentIndex = filteredIndex;
+        selectMode();
+      }
     }
   }
-
-  // Touch devices use a deliberate two-tap pattern: reveal details first,
-  // then follow the link. Tapping elsewhere or pressing Escape closes it.
-  const touchQuery = window.matchMedia('(hover: none), (pointer: coarse)');
-  const collectionCells = document.querySelectorAll<HTMLAnchorElement>('[data-piece]');
-  let revealedCell: HTMLAnchorElement | null = null;
-
-  const closeRevealedCell = () => {
-    revealedCell?.classList.remove('is-revealed');
-    revealedCell = null;
-  };
-
-  collectionCells.forEach((cell) => {
-    cell.addEventListener('click', (event) => {
-      if (!touchQuery.matches || cell.classList.contains('is-revealed')) return;
-
-      event.preventDefault();
-      closeRevealedCell();
-      cell.classList.add('is-revealed');
-      revealedCell = cell;
-    });
-
-    cell.addEventListener('keydown', (event) => {
-      if (event.key !== 'Escape') return;
-      closeRevealedCell();
-      cell.blur();
-    });
-  });
-
-  document.addEventListener('pointerdown', (event) => {
-    const targetCell =
-      event.target instanceof Element
-        ? event.target.closest<HTMLAnchorElement>('[data-piece]')
-        : null;
-    if (revealedCell && targetCell !== revealedCell) closeRevealedCell();
-  });
 </script>
-
-<script
-  is:inline
-  type="application/json"
-  id="filter-names"
-  set:html={JSON.stringify({ themes, docTypes })}
-/>

@@ -1,810 +1,1222 @@
 ---
 import MainLayout from '@layouts/MainLayout.astro';
 
-const decadeMoments = [
-  {
-    year: '1947',
-    title: 'La línea Corolle',
-    copy: 'Dior presenta su primera colección y el tailleur Bar convierte la cintura en el centro de una nueva arquitectura.',
-    image: '/images/muestra/m14.jpeg',
-  },
-  {
-    year: '1948',
-    title: 'La casa se expande',
-    copy: 'Alta costura, perfume y accesorios construyen un universo completo alrededor de la silueta.',
-    image: '/images/muestra/m08.jpg',
-  },
-  {
-    year: '1951',
-    title: 'La imagen viaja',
-    copy: 'Fotógrafos, revistas y clientas hacen circular el New Look mucho más allá de París.',
-    image: '/images/muestra/m11.jpg',
-  },
-];
-
 const hotspots = [
   {
-    id: 'hombros',
+    id: 'sombrero',
     number: '01',
-    title: 'Hombro redondeado',
-    copy: 'Desaparece la hombrera militar. La línea cae con suavidad para devolverle curva al torso.',
-    x: 34,
-    y: 31,
+    label: 'Sombrero',
+    title: 'Ala ancha',
+    copy: 'Sombrero de rafia con ala redonda que enmarcaba la cabeza y devolvía la formalidad prohibida durante la guerra.',
+    x: 50,
+    y: 7,
+    side: 'right',
+  },
+  {
+    id: 'chaqueta',
+    number: '02',
+    label: 'Chaqueta',
+    title: 'Shantung crudo',
+    copy: 'Seda salvaje cruda, ceñida al torso. Ausencia total de hombreras militares —el gran quiebre respecto a los años de guerra.',
+    x: 31,
+    y: 26.4,
+    side: 'left',
   },
   {
     id: 'cintura',
-    number: '02',
-    title: 'Cintura avispa',
-    copy: 'Una estructura interior ciñe el talle y amplifica el contraste con el volumen de la cadera.',
-    x: 51,
-    y: 43,
-  },
-  {
-    id: 'falda',
     number: '03',
-    title: 'Falda corola',
-    copy: 'Metros de lana plisada abren la falda bajo la rodilla. La escasez de guerra deja lugar a la abundancia.',
-    x: 57,
-    y: 66,
+    label: 'Cintura',
+    title: 'Cinchada',
+    copy: 'Ajuste extremo. Las clientas debían usar corselete debajo. Una cintura de 55 cm era el estándar.',
+    x: 59.1,
+    y: 41.6,
+    side: 'right',
   },
   {
-    id: 'sombrero',
+    id: 'caderas',
     number: '04',
-    title: 'Ala ancha',
-    copy: 'El sombrero prolonga la silueta y encuadra el rostro como parte de una composición total.',
-    x: 53,
-    y: 14,
+    label: 'Caderas',
+    title: 'Relleno',
+    copy: 'Caderas redondeadas por un sistema de relleno interno, invisible desde afuera. La curvatura era artificial.',
+    x: 31,
+    y: 51.2,
+    side: 'left',
+  },
+  {
+    id: 'pollera',
+    number: '05',
+    label: 'Pollera',
+    title: 'Corolla plisada',
+    copy: 'Lana negra, plisada radialmente. Veinte metros de tela por vestido —un escándalo mientras Europa aún racionaba.',
+    x: 59.1,
+    y: 74.2,
+    side: 'right',
+  },
+  {
+    id: 'largo',
+    number: '06',
+    label: 'Largo',
+    title: '78 centímetros',
+    copy: 'Corte a media pantorrilla. Ni cortas ni largas: la nueva medida que ninguna moda había establecido antes.',
+    x: 31,
+    y: 96.2,
+    side: 'left',
   },
 ];
 ---
 
 <MainLayout
+  immersive
   title="New Look — La revolución del cuerpo vestido"
   description="Una muestra digital sobre el New Look de Christian Dior, la silueta Bar y la década que transformó el cuerpo vestido."
 >
-  <section class="nl-hero" data-nl-hero>
-    <div class="nl-hero__glow" aria-hidden="true"></div>
-    <p class="nl-hero__meta label" data-reveal>La revolución del cuerpo vestido · 1947–1957</p>
-    <h1 class="nl-hero__title" data-reveal>
-      <span>New</span>
-      <span>Look</span>
-    </h1>
-    <p class="nl-hero__subtitle type-display-italic" data-reveal>
-      Una nueva forma de mirar el cuerpo.<br />Una nueva forma de construirlo.
-    </p>
-    <a class="nl-hero__scroll label" href="#origen">
-      Comenzar el recorrido <span aria-hidden="true">↓</span>
-    </a>
-  </section>
+  <section class="nl-intro-sequence" data-muestra-intro data-motion-owned>
+    <div class="nl-intro">
+      <div class="nl-intro__circle" data-muestra-circle aria-hidden="true"></div>
+      <div class="nl-intro__cream" data-muestra-cream aria-hidden="true"></div>
 
-  <section class="nl-origin" id="origen">
-    <p class="label nl-origin__kicker" data-reveal>París · 12 de febrero de 1947</p>
-    <blockquote data-reveal>
-      <p class="type-display-italic">
-        “It’s quite a revolution, dear Christian. Your dresses have such a
-        <em>New Look</em>.”
-      </p>
-      <cite class="label">Carmel Snow · Harper’s Bazaar</cite>
-    </blockquote>
-    <div class="nl-origin__story" data-reveal>
-      <p>
-        Christian Dior presentó su primera colección en el 30 de Avenue Montaigne. La llamó
-        <em>Corolle</em> —por la forma de las flores—, pero el mundo la recordó por dos palabras.
-      </p>
-      <p>
-        Después de años de racionamiento, hombros cuadrados y faldas estrechas, aparecieron la
-        cintura ceñida, las caderas redondeadas y una falda construida con una abundancia casi
-        provocadora de tela.
-      </p>
+      <div class="nl-intro__meta nl-intro__meta--left label" data-muestra-meta>
+        <p>Curaduría</p>
+        <p>María S. Camargo<br />Conservadora del acervo</p>
+      </div>
+
+      <div class="nl-intro__meta nl-intro__meta--right label" data-muestra-meta>
+        <p>Piezas en exhibición</p>
+        <p>90 modelos originales<br />5 salas · 135 días</p>
+      </div>
+
+      <div class="nl-intro__cover" data-muestra-cover-copy>
+        <p class="nl-intro__eyebrow">La silueta de posguerra</p>
+        <h1>New Look</h1>
+        <p class="nl-intro__subtitle type-display-italic">y la revolución del cuerpo vestido</p>
+        <p class="nl-intro__date">15 marzo · 28 julio · Salas del jardín bajo</p>
+      </div>
+
+      <blockquote class="nl-intro__quote" data-muestra-quote>
+        <span class="nl-intro__quote-rule" data-muestra-quote-rule aria-hidden="true"></span>
+        <p class="nl-intro__quote-lead type-display-italic">
+          “It’s quite a revolution, dear Christian.<br />Your dresses have such a
+        </p>
+        <strong>New Look<span class="nl-intro__closing-quote" aria-hidden="true">”</span></strong>
+        <cite>— Carmel Snow · Harper’s Bazaar · 12 febrero 1947 —</cite>
+      </blockquote>
     </div>
-    <div class="nl-origin__gradient" aria-hidden="true"></div>
   </section>
 
-  <section class="nl-decade">
-    <header class="nl-decade__head" data-reveal>
-      <p class="label">Archivo de una transformación</p>
+  <section class="nl-curatorial" data-motion-owned>
+    <p class="type-display-italic">
+      <span>Christian Dior</span> presentó su primera colección el 12 de febrero de 1947.<br />
+      La había bautizado "Corolle" —por la forma de las flores— y estaba<br class="desktop-only" />
+      compuesta por vestidos de talle avispa, hombros suaves y faldas amplias<br
+        class="desktop-only"
+      />
+      que devolvían al cuerpo femenino todo lo que la guerra le había<br class="desktop-only" />
+      prohibido: telas, curvas, tiempo, ornamento. La colección duró apenas<br
+        class="desktop-only"
+      />
+      dos horas en su nombre original. Al final del defilé, Carmel Snow le dijo a<br
+        class="desktop-only"
+      />
+      Dior la frase que se volvería su epitafio: <span>"New Look".</span><br />
+      Ese nombre, dicho al pasar, se quedó para siempre.
+    </p>
+  </section>
+
+  <section class="nl-decade" data-decade-carousel data-motion-owned>
+    <img
+      class="nl-decade__vine nl-decade__vine--left"
+      src="/images/muestra/decade-vine.png"
+      alt=""
+    />
+    <img
+      class="nl-decade__vine nl-decade__vine--right"
+      src="/images/muestra/decade-vine.png"
+      alt=""
+    />
+    <img
+      class="nl-decade__flower nl-decade__flower--one"
+      src="/images/muestra/decade-flower.png"
+      alt=""
+    />
+    <img
+      class="nl-decade__flower nl-decade__flower--two"
+      src="/images/muestra/decade-flower-small.png"
+      alt=""
+    />
+
+    <header class="nl-decade__header">
       <h2>Diez años, una casa.</h2>
-      <p>
+      <p class="type-display-italic">
         El New Look no fue una colección: fue el punto de partida de una hegemonía absoluta de diez
         años.
       </p>
     </header>
 
-    <div class="nl-decade__cards">
+    <div class="nl-decade__stage" aria-live="polite">
+      <div class="nl-decade__state is-active" data-decade-state="0" aria-hidden="false">
+        <figure class="nl-decade__card nl-decade__card--main nl-decade__card--center">
+          <img src="/images/muestra/figma-3760.png" alt="1947, presentación de la línea Corolle" />
+        </figure>
+        <figure class="nl-decade__card nl-decade__card--small nl-decade__card--right">
+          <img src="/images/muestra/figma-3740.png" alt="1948, apertura de la boutique Dior" />
+        </figure>
+      </div>
+
+      <div class="nl-decade__state" data-decade-state="1" aria-hidden="true">
+        <figure class="nl-decade__card nl-decade__card--small nl-decade__card--left">
+          <img src="/images/muestra/figma-4237.png" alt="1947, presentación de la línea Corolle" />
+        </figure>
+        <figure class="nl-decade__card nl-decade__card--main nl-decade__card--center">
+          <img
+            src="/images/muestra/figma-4257.png"
+            alt="1948, la expansión internacional de Dior"
+          />
+        </figure>
+        <figure class="nl-decade__card nl-decade__card--small nl-decade__card--right">
+          <img src="/images/muestra/figma-4211.png" alt="1951, nueva silueta Dior" />
+        </figure>
+      </div>
+
+      <div class="nl-decade__state" data-decade-state="2" aria-hidden="true">
+        <figure class="nl-decade__card nl-decade__card--small nl-decade__card--left">
+          <img src="/images/muestra/figma-4310.png" alt="1948, apertura de la boutique Dior" />
+        </figure>
+        <figure class="nl-decade__card nl-decade__card--main nl-decade__card--center">
+          <img src="/images/muestra/figma-4287.png" alt="1951, nueva silueta Dior" />
+        </figure>
+        <a
+          class="nl-decade__card nl-decade__card--small nl-decade__card--right nl-decade__timeline"
+          href="/linea-de-tiempo"
+        >
+          <span>Recorré otras décadas</span>
+          <img src="/images/muestra/figma-4330.png" alt="Línea de tiempo" />
+        </a>
+      </div>
+    </div>
+
+    <button
+      class="nl-decade__arrow nl-decade__arrow--previous"
+      type="button"
+      data-decade-previous
+      aria-label="Ver año anterior">←</button
+    >
+    <button
+      class="nl-decade__arrow nl-decade__arrow--next"
+      type="button"
+      data-decade-next
+      aria-label="Ver año siguiente">→</button
+    >
+  </section>
+
+  <section class="nl-bar" data-bar-explorer data-motion-owned>
+    <header class="nl-bar__header">
+      <p class="label">La pieza ícono</p>
+      <h2>Bar</h2>
+      <p class="type-display-italic">El tailleur que redibujó el cuerpo.</p>
+      <span class="label">Christian Dior · S/S 1947 · Colección "Corolle"</span>
+    </header>
+
+    <div class="nl-bar__stage">
+      <img
+        class="nl-bar__hat"
+        src="/images/muestra/bar-hat.png"
+        alt="Sombrero de rafia del conjunto Bar"
+      />
+      <img
+        class="nl-bar__outfit"
+        src="/images/muestra/bar-outfit.png"
+        alt="Conjunto Bar de Christian Dior, 1947"
+      />
+
       {
-        decadeMoments.map((moment, index) => (
-          <article class:list={['nl-moment', { 'nl-moment--accent': index === 1 }]} data-reveal>
-            <p class="nl-moment__year type-display-italic">{moment.year}</p>
-            <figure>
-              <img src={moment.image} alt={moment.title} loading="lazy" />
-            </figure>
-            <h3>{moment.title}</h3>
-            <p>{moment.copy}</p>
+        hotspots.map((hotspot) => (
+          <button
+            class="nl-bar__hotspot"
+            type="button"
+            style={`--hx:${hotspot.x}%;--hy:${hotspot.y}%;`}
+            data-hotspot={hotspot.id}
+            aria-label={`${hotspot.number}. ${hotspot.label}: ${hotspot.title}`}
+            aria-controls={`callout-${hotspot.id}`}
+            aria-pressed="false"
+          >
+            <img src="/images/muestra/hotspot-flower.png" alt="" />
+          </button>
+        ))
+      }
+
+      {
+        hotspots.map((hotspot) => (
+          <article
+            class:list={['nl-bar__callout', `nl-bar__callout--${hotspot.side}`]}
+            id={`callout-${hotspot.id}`}
+            style={`--hx:${hotspot.x}%;--hy:${hotspot.y}%;`}
+            data-callout={hotspot.id}
+            hidden
+          >
+            <span class="nl-bar__connector" aria-hidden="true" />
+            <img class="nl-bar__callout-shape" src="/images/muestra/bar-callout.png" alt="" />
+            <p class="nl-bar__callout-label label">
+              {hotspot.number}/ {hotspot.label}
+            </p>
+            <h3>{hotspot.title}</h3>
+            <p class="nl-bar__callout-copy type-display-italic">{hotspot.copy}</p>
           </article>
         ))
       }
     </div>
+
+    <a class="nl-bar__cta" href="/coleccion/traje-bar">
+      <img src="/images/muestra/bar-cta.png" alt="Ver ficha completa" />
+    </a>
   </section>
 
-  <section class="nl-bar" data-bar-explorer>
-    <header class="nl-bar__head" data-reveal>
-      <p class="label">La pieza ícono</p>
-      <h2>Bar</h2>
-      <p class="type-display-italic">El tailleur que redibujó el cuerpo.</p>
-      <span class="label">Christian Dior · Línea Corolle · 1947</span>
-    </header>
-
-    <div class="nl-bar__layout">
-      <div class="nl-bar__panels" aria-live="polite">
-        {
-          hotspots.map((hotspot, index) => (
-            <article
-              class:list={['nl-callout', { 'is-active': index === 0 }]}
-              id={`callout-${hotspot.id}`}
-              data-callout={hotspot.id}
-              hidden={index !== 0}
-            >
-              <p class="label">{hotspot.number} · Detalle</p>
-              <h3>{hotspot.title}</h3>
-              <p>{hotspot.copy}</p>
-            </article>
-          ))
-        }
-      </div>
-
-      <figure class="nl-bar__figure" data-reveal>
-        <img src="/images/muestra/m14.jpeg" alt="Tailleur Bar de Christian Dior, 1947" />
-        {
-          hotspots.map((hotspot, index) => (
-            <button
-              class:list={['nl-hotspot', { 'is-active': index === 0 }]}
-              type="button"
-              style={`--x:${hotspot.x}%;--y:${hotspot.y}%;`}
-              aria-label={`Ver detalle: ${hotspot.title}`}
-              aria-controls={`callout-${hotspot.id}`}
-              aria-pressed={index === 0 ? 'true' : 'false'}
-              data-hotspot={hotspot.id}
-            >
-              <span>{hotspot.number}</span>
-            </button>
-          ))
-        }
-        <figcaption class="label">Seleccioná los puntos para reconstruir la silueta</figcaption>
-      </figure>
-
-      <aside class="nl-bar__facts" data-reveal>
-        <p class="label">La forma en cifras</p>
-        <dl>
-          <div>
-            <dt>20 m</dt>
-            <dd>de tela en algunos modelos</dd>
-          </div>
-          <div>
-            <dt>42</dt>
-            <dd>años tenía Dior al presentarlo</dd>
-          </div>
-          <div>
-            <dt>10</dt>
-            <dd>años duró su revolución</dd>
-          </div>
-        </dl>
-      </aside>
-    </div>
-  </section>
-
-  <section class="nl-quote">
-    <blockquote data-reveal>
-      <p class="type-display-italic">
+  <section class="nl-quote" data-motion-owned>
+    <img class="nl-quote__desktop" src="/images/muestra/quote-exact.png" alt="" />
+    <blockquote class="nl-quote__mobile type-display-italic">
+      <p>
         “Concibo mi trabajo como una arquitectura efímera dedicada a la belleza del cuerpo
         femenino.”
       </p>
-      <cite class="label">Christian Dior · Conferencia en La Sorbonne · 1955</cite>
+      <cite class="label">Christian Dior · Declaración a la prensa · Febrero 1947</cite>
     </blockquote>
+    <p class="sr-only">
+      “Concibo mi trabajo como una arquitectura efímera dedicada a la belleza del cuerpo femenino.”
+      Christian Dior, declaración a la prensa, febrero de 1947.
+    </p>
   </section>
 
-  <section class="nl-close">
-    <div class="nl-close__pattern" aria-hidden="true"></div>
-    <p class="label" data-reveal>Explorá las piezas de la colección</p>
-    <div class="nl-close__disc" data-reveal>
+  <section class="nl-close" data-motion-owned>
+    <img class="nl-close__pattern" src="/images/muestra/close-pattern.png" alt="" />
+    <p class="nl-close__kicker label">Explorar las piezas de la colección</p>
+    <div class="nl-close__disc">
       <h2>New Look</h2>
-      <p class="label">Una selección del archivo Galliera · 1947–1957</p>
-      <a class="nl-close__cta label" href="/linea-de-tiempo?periodo=new-look">
-        Ver la colección completa <span aria-hidden="true">→</span>
+      <p class="label">Selección colección Corolle · 1947 — 1957 · 42 piezas</p>
+      <a href="/coleccion">
+        <span class="label">Ver colección completa</span>
       </a>
     </div>
   </section>
 </MainLayout>
 
 <style>
-  .nl-hero {
+  :global(body) {
+    background: #141414;
+  }
+
+  .nl-intro-sequence {
     position: relative;
-    min-height: calc(100svh - 72px);
-    display: grid;
-    place-items: center;
-    align-content: center;
+    height: 300svh;
+    background: #141414;
+  }
+
+  .nl-intro {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    min-height: 42rem;
     overflow: hidden;
     isolation: isolate;
-    padding: var(--space-2xl) var(--layout-gutter);
-    background: var(--color-ink);
-    color: var(--color-cream);
+    background: #141414;
+    color: #f3eee1;
+  }
+
+  .nl-intro__circle {
+    --cream-stop: 23.08%;
+    position: absolute;
+    z-index: 1;
+    top: 77.1%;
+    left: 50%;
+    width: 90.625vw;
+    aspect-ratio: 1740 / 1763;
+    border-radius: 50%;
+    background: radial-gradient(
+      ellipse at center,
+      #f3eee1 0,
+      #f3eee1 var(--cream-stop),
+      #141414 100%
+    );
+    transform: translateX(-50%);
+    will-change: top, width;
+  }
+
+  .nl-intro__cream {
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    background: #f3eee1;
+    opacity: 0;
+  }
+
+  .nl-intro__meta {
+    position: absolute;
+    z-index: 6;
+    top: 7.2%;
+    max-width: 20rem;
+    color: #f3eee1;
+    font-size: clamp(0.625rem, 0.73vw, 0.875rem);
+    line-height: 1.18;
+  }
+
+  .nl-intro__meta p + p {
+    margin-top: 1.25rem;
+  }
+
+  .nl-intro__meta--left {
+    left: 3.1%;
+  }
+
+  .nl-intro__meta--right {
+    right: 3.1%;
+    text-align: right;
+  }
+
+  .nl-intro__cover {
+    position: absolute;
+    z-index: 5;
+    top: 27.1%;
+    left: 50%;
+    width: min(66rem, 72vw);
+    transform: translateX(-50%);
     text-align: center;
   }
 
-  .nl-hero__glow {
-    position: absolute;
-    z-index: -1;
-    left: 50%;
-    bottom: -37vw;
-    width: min(90vw, 78rem);
-    aspect-ratio: 1;
-    transform: translateX(-50%);
-    border-radius: 50%;
-    background: radial-gradient(
-      circle,
-      rgba(243, 238, 225, 0.98) 0 31%,
-      rgba(243, 238, 225, 0.72) 42%,
-      rgba(255, 90, 0, 0.1) 58%,
-      transparent 70%
-    );
-    filter: blur(0.6rem);
-  }
-
-  .nl-hero__meta {
-    color: rgba(243, 238, 225, 0.64);
-  }
-
-  .nl-hero__title {
+  .nl-intro__eyebrow {
     display: flex;
-    gap: 0.2em;
-    margin-top: var(--space-lg);
-    color: var(--color-orange);
-    font-size: clamp(5.5rem, 14vw, 14rem);
-    line-height: 0.77;
-    letter-spacing: -0.07em;
+    align-items: center;
+    gap: 0.75rem;
+    color: #f3eee1;
+    font-size: clamp(0.7rem, 0.94vw, 1.125rem);
     text-transform: uppercase;
   }
 
-  .nl-hero__title span:last-child {
-    font-style: italic;
-    font-weight: var(--font-weight-regular);
+  .nl-intro__eyebrow::before,
+  .nl-intro__eyebrow::after {
+    content: '';
+    flex: 1;
+    border-top: 1px solid rgba(243, 238, 225, 0.82);
   }
 
-  .nl-hero__subtitle {
-    max-width: 38rem;
-    margin-top: clamp(2rem, 6vh, 5rem);
-    color: var(--color-ink);
-    font-size: clamp(1.8rem, 3.2vw, 3.4rem);
+  .nl-intro__cover h1,
+  .nl-intro__quote strong {
+    display: block;
+    color: #fd6500;
+    font-family: var(--font-display);
+    font-size: clamp(6.4rem, 10.42vw, 12.5rem);
+    font-weight: 400;
+    line-height: 0.91;
+    letter-spacing: -0.055em;
+    text-transform: uppercase;
+  }
+
+  .nl-intro__quote strong {
     position: relative;
-    z-index: 2;
   }
 
-  .nl-hero__scroll {
+  .nl-intro__closing-quote {
     position: absolute;
-    right: var(--layout-gutter);
-    bottom: var(--space-lg);
-    display: inline-flex;
-    gap: 0.75rem;
-    color: var(--color-orange);
+    top: -0.15em;
+    right: -0.45em;
+    color: #141414;
+    font-size: 0.28em;
+    letter-spacing: 0;
   }
 
-  .nl-origin {
-    position: relative;
-    min-height: 52rem;
-    overflow: hidden;
-    padding: clamp(5rem, 11vh, 9rem) var(--layout-gutter) clamp(10rem, 20vh, 15rem);
-    background: var(--color-cream);
-    color: var(--color-ink);
+  .nl-intro__cover h1 {
+    margin-top: clamp(2.2rem, 3.4vw, 4.1rem);
+  }
+
+  .nl-intro__subtitle {
+    margin-top: clamp(1rem, 1.65vw, 2rem);
+    color: #f3eee1;
+    font-size: clamp(2.1rem, 3.33vw, 4rem);
+    line-height: 1;
+  }
+
+  .nl-intro__date {
+    width: 86%;
+    margin: clamp(2.4rem, 3.6vw, 4.3rem) auto 0;
+    padding-top: clamp(2rem, 2.6vw, 3.1rem);
+    border-top: 1px solid rgba(243, 238, 225, 0.82);
+    font-size: clamp(0.7rem, 0.94vw, 1.125rem);
+    text-transform: uppercase;
+  }
+
+  .nl-intro__quote {
+    position: absolute;
+    z-index: 5;
+    top: 31%;
+    left: 50%;
+    width: min(66rem, 74vw);
+    margin: 0;
+    color: #141414;
+    text-align: center;
+    transform: translateX(-50%);
+    opacity: 0;
+  }
+
+  .nl-intro__quote-lead {
+    font-size: clamp(2.1rem, 3.33vw, 4rem);
+    line-height: 1.08;
+  }
+
+  .nl-intro__quote-rule {
+    position: absolute;
+    top: -1.65rem;
+    left: 15%;
+    width: 70%;
+    border-top: 1px dotted rgba(20, 20, 20, 0.45);
+    opacity: 0;
+  }
+
+  .nl-intro__quote strong {
+    margin-top: 0.35rem;
+  }
+
+  .nl-intro__quote cite {
+    display: block;
+    margin-top: clamp(1.4rem, 2.6vw, 3.1rem);
+    color: #520345;
+    font-family: var(--font-body);
+    font-size: clamp(0.625rem, 0.73vw, 0.875rem);
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .nl-curatorial {
+    min-height: 100svh;
+    display: grid;
+    place-items: start center;
+    padding: clamp(2rem, 4.5vh, 3.1rem) 3vw 4rem;
+    background: linear-gradient(to bottom, #f3eee1 0%, #f3eee1 45%, #b9d6fe 100%);
+    color: #141414;
     text-align: center;
   }
 
-  .nl-origin__kicker {
-    color: var(--color-purple);
+  .nl-curatorial p {
+    max-width: min(98vw, 118rem);
+    font-size: clamp(2.25rem, 3.05vw, 3.65rem);
+    line-height: 1.18;
   }
 
-  .nl-origin blockquote {
-    position: relative;
-    z-index: 2;
-    max-width: 62rem;
-    margin: var(--space-xl) auto 0;
-  }
-
-  .nl-origin blockquote p {
-    font-size: clamp(2.4rem, 5.6vw, 6rem);
-  }
-
-  .nl-origin blockquote em {
-    color: var(--color-orange);
-    font-weight: inherit;
-  }
-
-  .nl-origin blockquote cite {
-    display: block;
-    margin-top: var(--space-lg);
-    color: var(--color-purple);
-    font-style: normal;
-  }
-
-  .nl-origin__story {
-    position: relative;
-    z-index: 2;
-    max-width: 56rem;
-    margin: clamp(4rem, 10vh, 8rem) auto 0;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(2rem, 5vw, 5rem);
-    text-align: left;
-  }
-
-  .nl-origin__story p {
-    line-height: 1.75;
-  }
-
-  .nl-origin__story em {
-    color: var(--color-orange);
-  }
-
-  .nl-origin__gradient {
-    position: absolute;
-    left: -10%;
-    right: -10%;
-    bottom: -18rem;
-    height: 32rem;
-    border-radius: 50% 50% 0 0;
-    background: radial-gradient(ellipse at center, var(--color-blue) 0 45%, transparent 72%);
-    filter: blur(0.8rem);
+  .nl-curatorial span {
+    color: #fd6500;
   }
 
   .nl-decade {
     position: relative;
-    padding: clamp(4rem, 10vh, 8rem) var(--layout-gutter) var(--space-3xl);
+    height: clamp(48rem, 62.5vw, 75rem);
     overflow: hidden;
-    background: var(--color-blue);
-    color: var(--color-ink);
+    isolation: isolate;
+    background: #b9d6fe;
+    color: #141414;
   }
 
-  .nl-decade::before,
-  .nl-close__pattern {
-    content: '';
+  .nl-decade__header {
+    position: relative;
+    z-index: 4;
+  }
+
+  .nl-decade__header h2 {
     position: absolute;
-    inset: 0;
-    opacity: 0.16;
-    background-image: url('/images/ornaments/orn-04.png');
-    background-position: center;
-    background-size: 36rem;
-    filter: grayscale(1) sepia(1) hue-rotate(170deg);
+    top: 2.2vw;
+    left: 2vw;
+    font-size: clamp(5rem, 6.2vw, 7.45rem);
+    line-height: 0.98;
+  }
+
+  .nl-decade__header p {
+    position: absolute;
+    top: 7.35vw;
+    right: 1.4vw;
+    width: 35%;
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 1.67vw, 2rem);
+    line-height: 1.08;
+  }
+
+  .nl-decade__vine,
+  .nl-decade__flower {
+    position: absolute;
+    z-index: 0;
     pointer-events: none;
   }
 
-  .nl-decade__head {
-    position: relative;
-    max-width: 70rem;
+  .nl-decade__vine {
+    top: 24.7%;
+    left: 0;
+    width: 30.1%;
   }
 
-  .nl-decade__head > .label {
-    color: var(--color-purple);
+  .nl-decade__vine--right {
+    right: 0;
+    left: auto;
+    transform: scaleX(-1);
   }
 
-  .nl-decade__head h2 {
-    margin-top: var(--space-md);
-    font-size: clamp(4rem, 10vw, 10rem);
-    letter-spacing: -0.055em;
+  .nl-decade__flower--one {
+    left: 23.3%;
+    top: 43.5%;
+    width: 11.6%;
   }
 
-  .nl-decade__head > p:last-child {
-    max-width: 34rem;
-    margin: var(--space-md) 0 0 auto;
-    line-height: 1.65;
+  .nl-decade__flower--two {
+    right: 15.9%;
+    top: 26.8%;
+    width: 7.9%;
   }
 
-  .nl-decade__cards {
-    position: relative;
-    margin-top: clamp(3rem, 8vh, 7rem);
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(1.25rem, 3vw, 3rem);
-  }
-
-  .nl-moment {
-    min-height: 34rem;
-    display: flex;
-    flex-direction: column;
-    padding: clamp(1rem, 2.2vw, 2rem);
-    border: 1px solid rgba(17, 16, 15, 0.28);
-    border-radius: 48% 48% 0 0 / 14% 14% 0 0;
-    background: rgba(243, 238, 225, 0.42);
-  }
-
-  .nl-moment--accent {
-    background: var(--color-orange);
-  }
-
-  .nl-moment__year {
-    color: var(--color-purple);
-    font-size: clamp(2.5rem, 5vw, 5rem);
-    line-height: 1;
-  }
-
-  .nl-moment figure {
-    margin: var(--space-md) 0 0;
-    height: 16rem;
-    overflow: hidden;
-    border-radius: 46% 46% 0 0 / 22% 22% 0 0;
-  }
-
-  .nl-moment img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: top;
-    filter: grayscale(1) contrast(1.03);
-    transition: transform var(--duration-slow) var(--ease-expo);
-  }
-
-  .nl-moment:hover img {
-    transform: scale(1.04);
-  }
-
-  .nl-moment h3 {
-    margin-top: var(--space-lg);
-    color: var(--color-purple);
-    font-size: clamp(1.9rem, 3.2vw, 3rem);
-  }
-
-  .nl-moment > p:last-child {
-    margin-top: var(--space-sm);
-    font-size: var(--font-size-sm);
-    line-height: 1.65;
-  }
-
-  .nl-bar {
-    min-height: 100svh;
-    padding: clamp(4rem, 9vh, 7rem) var(--layout-gutter) var(--space-3xl);
-    overflow: hidden;
-    background: var(--color-ink);
-    color: var(--color-cream);
-  }
-
-  .nl-bar__head {
-    text-align: center;
-  }
-
-  .nl-bar__head > .label:first-child {
-    color: var(--color-blue);
-  }
-
-  .nl-bar__head h2 {
-    margin-top: var(--space-xs);
-    color: var(--color-orange);
-    font-size: clamp(4rem, 8vw, 8rem);
-  }
-
-  .nl-bar__head > p:not(.label) {
-    margin-top: var(--space-xs);
-    font-size: clamp(1.8rem, 3.3vw, 3.5rem);
-  }
-
-  .nl-bar__head > span {
-    display: block;
-    margin-top: var(--space-md);
-    color: rgba(243, 238, 225, 0.58);
-  }
-
-  .nl-bar__layout {
-    max-width: 86rem;
-    margin: var(--space-xl) auto 0;
-    display: grid;
-    grid-template-columns: minmax(13rem, 0.68fr) minmax(24rem, 1.2fr) minmax(13rem, 0.68fr);
-    gap: clamp(1.25rem, 4vw, 4rem);
-    align-items: center;
-  }
-
-  .nl-bar__panels {
-    min-height: 19rem;
-    display: grid;
-    align-items: center;
-  }
-
-  .nl-callout {
-    grid-area: 1 / 1;
-    min-height: 17rem;
-    padding: clamp(1.5rem, 2.5vw, 2.4rem);
-    border-radius: 48% 48% 0.25rem 0.25rem / 30% 30% 0.25rem 0.25rem;
-    background: var(--color-orange);
-    color: var(--color-ink);
-  }
-
-  .nl-callout[hidden] {
-    display: block;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(1rem);
-  }
-
-  .nl-callout.is-active {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-    transition:
-      opacity var(--duration-base) var(--ease-expo),
-      transform var(--duration-base) var(--ease-expo);
-  }
-
-  .nl-callout h3 {
-    margin-top: var(--space-sm);
-    font-size: clamp(2rem, 3.2vw, 3.2rem);
-  }
-
-  .nl-callout > p:last-child {
-    margin-top: var(--space-md);
-    font-size: var(--font-size-sm);
-    line-height: 1.65;
-  }
-
-  .nl-bar__figure {
-    position: relative;
-    width: min(100%, 34rem);
-    margin: 0 auto;
-  }
-
-  .nl-bar__figure > img {
-    width: 100%;
-    max-height: 42rem;
-    object-fit: cover;
-    object-position: top;
-    -webkit-mask-image: radial-gradient(ellipse at center, #000 47%, transparent 78%);
-    mask-image: radial-gradient(ellipse at center, #000 47%, transparent 78%);
-    filter: grayscale(1) contrast(1.16);
-  }
-
-  .nl-bar__figure figcaption {
-    margin-top: var(--space-sm);
-    color: rgba(243, 238, 225, 0.58);
-    text-align: center;
-  }
-
-  .nl-hotspot {
+  .nl-decade__stage,
+  .nl-decade__state {
     position: absolute;
-    left: var(--x);
-    top: var(--y);
-    width: 1.6rem;
-    height: 1.6rem;
+    inset: 0;
+  }
+
+  .nl-decade__state {
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.55s ease;
+  }
+
+  .nl-decade__state.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .nl-decade__card {
+    position: absolute;
+    z-index: 2;
+    margin: 0;
+    transition: transform 0.55s var(--ease-expo);
+  }
+
+  .nl-decade__card img {
+    width: 100%;
+    height: auto;
+  }
+
+  .nl-decade__card--main {
+    top: 29%;
+    width: 29.3%;
+  }
+
+  .nl-decade__card--small {
+    top: 35.5%;
+    width: 22.66%;
+  }
+
+  .nl-decade__card--left {
+    left: 3.44%;
+  }
+
+  .nl-decade__card--center {
+    left: 35.36%;
+  }
+
+  .nl-decade__card--right {
+    right: 3.12%;
+  }
+
+  .nl-decade__timeline {
+    color: #b9d6fe;
+    text-align: center;
+  }
+
+  .nl-decade__timeline span {
+    position: absolute;
+    z-index: 2;
+    top: 38%;
+    left: 50%;
+    width: 100%;
+    transform: translateX(-50%);
+    font-size: clamp(1rem, 1.45vw, 1.75rem);
+    font-style: italic;
+  }
+
+  .nl-decade__arrow {
+    position: absolute;
+    z-index: 6;
+    bottom: 6.9%;
+    width: 2.14rem;
+    height: 2.14rem;
     display: grid;
     place-items: center;
     padding: 0;
-    border: 1px solid var(--color-blue);
+    border: 1px solid #141414;
     border-radius: 50%;
-    background: rgba(17, 16, 15, 0.62);
-    color: var(--color-blue);
+    background: transparent;
+    color: #141414;
     cursor: pointer;
-    transform: translate(-50%, -50%);
-    transition:
-      background var(--duration-fast) var(--ease-standard),
-      color var(--duration-fast) var(--ease-standard),
-      transform var(--duration-fast) var(--ease-expo);
   }
 
-  .nl-hotspot::after {
-    content: '';
+  .nl-decade__arrow--previous {
+    left: 3.12%;
+  }
+
+  .nl-decade__arrow--next {
+    right: 3.12%;
+  }
+
+  .nl-decade__arrow:disabled {
+    visibility: hidden;
+  }
+
+  .nl-bar {
+    position: relative;
+    height: clamp(101rem, 128.18vw, 153.82rem);
+    overflow: hidden;
+    background: #141414;
+    color: #f3eee1;
+  }
+
+  .nl-bar__header {
     position: absolute;
-    inset: -0.55rem;
-    border: 1px solid rgba(199, 220, 255, 0.34);
-    border-radius: 50%;
-    animation: hotspot-pulse 2s var(--ease-in-out) infinite;
+    z-index: 2;
+    top: 6.9%;
+    left: 50%;
+    width: min(60rem, 72vw);
+    text-align: center;
+    transform: translateX(-50%);
   }
 
-  .nl-hotspot span {
-    font-size: 0.55rem;
+  .nl-bar__header > .label:first-child {
+    position: absolute;
+    top: 1.7rem;
+    left: 50%;
+    color: #b9d6fe;
+    transform: translateX(-50%);
   }
 
-  .nl-hotspot:hover,
-  .nl-hotspot.is-active {
-    background: var(--color-blue);
-    color: var(--color-ink);
-    transform: translate(-50%, -50%) scale(1.16);
-  }
-
-  .nl-bar__facts > .label {
-    color: var(--color-orange);
-  }
-
-  .nl-bar__facts dl {
-    margin: var(--space-lg) 0 0;
-  }
-
-  .nl-bar__facts dl > div {
-    padding-block: var(--space-md);
-    border-top: 1px solid rgba(243, 238, 225, 0.18);
-  }
-
-  .nl-bar__facts dt {
-    font-family: var(--font-display);
-    color: var(--color-orange);
-    font-size: clamp(2.4rem, 4vw, 4rem);
+  .nl-bar__header h2 {
+    color: #fd6500;
+    font-size: clamp(8rem, 10.42vw, 12.5rem);
     line-height: 1;
   }
 
-  .nl-bar__facts dd {
-    margin: 0.3rem 0 0;
-    color: rgba(243, 238, 225, 0.62);
-    font-size: var(--font-size-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.09em;
+  .nl-bar__header > p:nth-of-type(2) {
+    margin-top: 0.5rem;
+    font-size: clamp(2.5rem, 3.33vw, 4rem);
+    line-height: 1;
+  }
+
+  .nl-bar__header > span {
+    display: block;
+    margin-top: clamp(1.6rem, 2.1vw, 2.5rem);
+  }
+
+  .nl-bar__stage {
+    position: absolute;
+    z-index: 2;
+    top: 30.07%;
+    left: 50%;
+    width: min(34.32vw, 41.2rem);
+    aspect-ratio: 659 / 1310;
+    transform: translateX(-50%);
+  }
+
+  .nl-bar__hat,
+  .nl-bar__outfit {
+    position: absolute;
+  }
+
+  .nl-bar__hat {
+    top: 0;
+    left: 14.1%;
+    width: 67.07%;
+  }
+
+  .nl-bar__outfit {
+    top: 15.8%;
+    left: 0;
+    width: 100%;
+  }
+
+  .nl-bar__hotspot {
+    position: absolute;
+    z-index: 5;
+    top: var(--hy);
+    left: var(--hx);
+    width: clamp(1.25rem, 1.3vw, 1.56rem);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    transition:
+      transform 0.2s ease,
+      filter 0.2s ease;
+  }
+
+  .nl-bar__hotspot img {
+    width: 100%;
+  }
+
+  .nl-bar__hotspot:hover,
+  .nl-bar__hotspot.is-active {
+    filter: drop-shadow(0 0 0.7rem rgba(185, 214, 254, 0.85));
+    transform: translate(-50%, -50%) scale(1.32);
+  }
+
+  .nl-bar__callout {
+    position: absolute;
+    z-index: 4;
+    top: var(--hy);
+    width: 66.16%;
+    aspect-ratio: 436 / 493;
+    color: #141414;
+    text-align: center;
+    transform: translateY(-50%);
+  }
+
+  .nl-bar__callout--right {
+    left: 120.49%;
+  }
+
+  .nl-bar__callout--left {
+    right: 120.49%;
+  }
+
+  .nl-bar__callout-shape {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .nl-bar__connector {
+    position: absolute;
+    z-index: -1;
+    top: 50%;
+    border-top: 1px solid #f3eee1;
+  }
+
+  .nl-bar__callout--right .nl-bar__connector {
+    right: 100%;
+    width: 142%;
+  }
+
+  .nl-bar__callout--left .nl-bar__connector {
+    left: 100%;
+    width: 111%;
+  }
+
+  .nl-bar__callout-label,
+  .nl-bar__callout h3,
+  .nl-bar__callout-copy {
+    position: absolute;
+    z-index: 2;
+    left: 7%;
+    width: 86%;
+  }
+
+  .nl-bar__callout-label {
+    top: 31.4%;
+    font-size: clamp(0.5rem, 0.73vw, 0.875rem);
+  }
+
+  .nl-bar__callout h3 {
+    top: 35.8%;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 3.33vw, 4rem);
+    line-height: 1.1;
+  }
+
+  .nl-bar__callout-copy {
+    top: 62%;
+    font-family: var(--font-body);
+    font-size: clamp(0.72rem, 1.15vw, 1.38rem);
+    line-height: 1.28;
+  }
+
+  .nl-bar__cta {
+    position: absolute;
+    z-index: 4;
+    top: 89.43%;
+    left: 50%;
+    width: min(13.7vw, 16.45rem);
+    transform: translateX(-50%);
+    transition: transform 0.25s ease;
+  }
+
+  .nl-bar__cta:hover {
+    transform: translateX(-50%) scale(1.04);
   }
 
   .nl-quote {
     position: relative;
-    overflow: hidden;
-    padding: clamp(5rem, 12vh, 9rem) var(--layout-gutter);
-    background: var(--color-purple);
-    color: var(--color-cream);
+    background: #520345;
   }
 
-  .nl-quote::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    opacity: 0.16;
-    background-image: url('/images/ornaments/orn-07.png');
-    background-size: 32rem;
-    background-position: center;
-    filter: grayscale(1);
+  .nl-quote__desktop {
+    width: 100%;
   }
 
-  .nl-quote blockquote {
-    position: relative;
-    max-width: 68rem;
-    margin: 0 auto;
-    text-align: center;
-  }
-
-  .nl-quote blockquote p {
-    font-size: clamp(2.2rem, 5vw, 5.5rem);
-  }
-
-  .nl-quote cite {
-    display: block;
-    margin-top: var(--space-lg);
-    color: var(--color-blue);
-    font-style: normal;
+  .nl-quote__mobile {
+    display: none;
   }
 
   .nl-close {
     position: relative;
-    min-height: 42rem;
+    height: clamp(42rem, 54.79vw, 65.75rem);
     overflow: hidden;
-    padding: var(--space-3xl) var(--layout-gutter) 0;
-    background: var(--color-cream);
-    color: var(--color-ink);
-    text-align: center;
+    isolation: isolate;
+    background: #f3eee1;
+    color: #141414;
   }
 
-  .nl-close > .label {
-    position: relative;
-    z-index: 2;
-    color: var(--color-purple);
+  .nl-close__pattern {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .nl-close__kicker {
+    position: absolute;
+    z-index: 3;
+    top: 29.2%;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .nl-close__disc {
     position: absolute;
-    left: 50%;
-    bottom: -29rem;
-    width: min(86rem, 112vw);
-    height: 55rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: clamp(5rem, 11vw, 10rem);
-    border-radius: 50% 50% 0 0;
-    background: var(--color-ink);
-    color: var(--color-cream);
-    transform: translateX(-50%);
+    z-index: 2;
+    top: 33.94%;
+    left: -0.7%;
+    width: 101.4%;
+    aspect-ratio: 1947 / 932;
+    padding-top: 4.7%;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+    background: #141414;
+    color: #f3eee1;
+    text-align: center;
   }
 
   .nl-close__disc h2 {
-    font-size: clamp(4.5rem, 11vw, 11rem);
-    letter-spacing: -0.06em;
+    font-size: clamp(7rem, 9.25vw, 11.1rem);
+    line-height: 1;
   }
 
   .nl-close__disc > p {
-    margin-top: var(--space-sm);
-    color: var(--color-blue);
+    margin-top: 1.1rem;
   }
 
-  .nl-close__cta {
+  .nl-close__disc a {
     display: inline-flex;
-    gap: 1rem;
-    margin-top: var(--space-lg);
-    padding: 0.9rem 1.25rem;
-    border: 1px solid var(--color-blue);
-    color: var(--color-blue);
-  }
-
-  @keyframes hotspot-pulse {
-    0%,
-    100% {
-      transform: scale(0.86);
-      opacity: 0.25;
-    }
-    50% {
-      transform: scale(1.12);
-      opacity: 0.85;
-    }
+    align-items: center;
+    justify-content: center;
+    min-width: 13.7%;
+    min-height: 2.84rem;
+    margin-top: clamp(3rem, 4.8vw, 5.75rem);
+    padding: 0.75rem 1.5rem;
+    border: 1px solid #b9d6fe;
+    border-radius: 50%;
+    background: #b9d6fe;
+    color: #141414;
+    box-shadow:
+      0 0 0 3px #141414,
+      0 0 0 4px #b9d6fe;
   }
 
   @media (max-width: 900px) {
-    .nl-hero {
-      min-height: calc(100svh - 64px);
+    .nl-intro-sequence {
+      height: 260svh;
     }
 
-    .nl-hero__glow {
-      bottom: -19rem;
-      width: 48rem;
+    .nl-intro__meta {
+      top: 2.2rem;
+      font-size: 0.55rem;
     }
 
-    .nl-hero__title {
-      flex-direction: column;
-      gap: 0;
-      font-size: clamp(5rem, 27vw, 8rem);
+    .nl-intro__meta p + p {
+      margin-top: 0.75rem;
     }
 
-    .nl-hero__subtitle {
-      margin-top: 3rem;
-      font-size: clamp(1.65rem, 8vw, 2.6rem);
+    .nl-intro__cover {
+      top: 24%;
+      width: calc(100% - 2rem);
     }
 
-    .nl-origin__story,
-    .nl-decade__cards,
-    .nl-bar__layout {
-      grid-template-columns: 1fr;
+    .nl-intro__eyebrow {
+      font-size: 0.65rem;
     }
 
-    .nl-origin__story {
-      gap: var(--space-lg);
+    .nl-intro__cover h1,
+    .nl-intro__quote strong {
+      font-size: clamp(4.5rem, 22vw, 7rem);
     }
 
-    .nl-decade__head > p:last-child {
-      margin-left: 0;
+    .nl-intro__cover h1 {
+      margin-top: 3.2rem;
     }
 
-    .nl-moment {
-      min-height: 30rem;
+    .nl-intro__subtitle {
+      font-size: clamp(2rem, 9vw, 3rem);
     }
 
-    .nl-bar__layout {
-      display: flex;
-      flex-direction: column;
+    .nl-intro__date {
+      width: 90%;
+      margin-top: 3.2rem;
+      font-size: 0.62rem;
     }
 
-    .nl-bar__figure {
-      order: 1;
+    .nl-intro__circle {
+      top: 80%;
+      width: 130vw;
     }
 
-    .nl-bar__panels {
-      width: min(100%, 28rem);
-      min-height: 17rem;
-      order: 2;
+    .nl-intro__quote {
+      top: 28%;
+      width: calc(100% - 2rem);
     }
 
-    .nl-bar__facts {
-      width: min(100%, 28rem);
-      order: 3;
+    .nl-intro__quote-lead {
+      font-size: clamp(1.8rem, 8vw, 2.7rem);
+    }
+
+    .nl-intro__quote cite {
+      font-size: 0.58rem;
+    }
+
+    .nl-curatorial {
+      min-height: 100svh;
+      padding: 3rem 1.25rem;
+      background: linear-gradient(to bottom, #f3eee1 0%, #f3eee1 20%, #b9d6fe 100%);
+    }
+
+    .nl-curatorial p {
+      font-size: clamp(2rem, 8.8vw, 3.2rem);
+      line-height: 1.13;
+    }
+
+    .desktop-only {
+      display: none;
+    }
+
+    .nl-decade {
+      height: 58rem;
+    }
+
+    .nl-decade__header h2 {
+      top: 1.5rem;
+      left: 1rem;
+      width: calc(100% - 2rem);
+      font-size: clamp(4rem, 18vw, 6rem);
+    }
+
+    .nl-decade__header p {
+      top: 11rem;
+      right: 1rem;
+      width: 72%;
+      font-size: 1.1rem;
+    }
+
+    .nl-decade__vine {
+      top: 32%;
+      width: 73%;
+    }
+
+    .nl-decade__flower {
+      display: none;
+    }
+
+    .nl-decade__card--small {
+      top: 35%;
+      width: 45%;
+      opacity: 0.55;
+    }
+
+    .nl-decade__card--main {
+      z-index: 3;
+      top: 31%;
+      left: 50%;
+      width: min(74%, 22rem);
+      transform: translateX(-50%);
+    }
+
+    .nl-decade__card--left {
+      left: -27%;
+    }
+
+    .nl-decade__card--right {
+      right: -27%;
+    }
+
+    .nl-decade__timeline span {
+      font-size: 1rem;
+    }
+
+    .nl-decade__arrow {
+      bottom: 1.5rem;
+      width: 2.5rem;
+      height: 2.5rem;
+    }
+
+    .nl-bar {
+      height: 104rem;
+    }
+
+    .nl-bar__header {
+      top: 4rem;
+      width: calc(100% - 2rem);
+    }
+
+    .nl-bar__header > .label:first-child {
+      top: 1.4rem;
+    }
+
+    .nl-bar__header h2 {
+      font-size: 8rem;
+    }
+
+    .nl-bar__header > p:nth-of-type(2) {
+      font-size: 2.4rem;
+    }
+
+    .nl-bar__header > span {
+      font-size: 0.58rem;
+    }
+
+    .nl-bar__stage {
+      top: 27rem;
+      width: min(78vw, 27rem);
+    }
+
+    .nl-bar__hotspot {
+      width: 1.35rem;
+    }
+
+    .nl-bar__callout {
+      z-index: 4;
+      left: 50%;
+      right: auto;
+      width: min(76vw, 20rem);
+      min-height: 15rem;
+      aspect-ratio: auto;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .nl-bar__connector {
+      display: none;
+    }
+
+    .nl-bar__callout-shape {
+      object-fit: fill;
+    }
+
+    .nl-bar__callout-label {
+      top: 29%;
+      font-size: 0.56rem;
+    }
+
+    .nl-bar__callout h3 {
+      top: 34%;
+      font-size: 2.4rem;
+    }
+
+    .nl-bar__callout-copy {
+      top: 61%;
+      font-size: 0.78rem;
+    }
+
+    .nl-bar__cta {
+      top: auto;
+      bottom: 4rem;
+      width: 13rem;
+    }
+
+    .nl-quote__desktop {
+      display: none;
+    }
+
+    .nl-quote__mobile {
+      min-height: 31rem;
+      display: grid;
+      align-content: center;
+      margin: 0;
+      padding: 3rem 1.5rem;
+      color: #f3eee1;
+      text-align: center;
+    }
+
+    .nl-quote__mobile p {
+      font-size: clamp(2.3rem, 10vw, 3.8rem);
+      line-height: 1.04;
+    }
+
+    .nl-quote__mobile cite {
+      margin-top: 2.5rem;
+      color: #b9d6fe;
+      font-size: 0.65rem;
+      font-style: normal;
     }
 
     .nl-close {
-      min-height: 36rem;
+      height: 44rem;
+    }
+
+    .nl-close__kicker {
+      top: 8.5rem;
+      width: 100%;
+      font-size: 0.66rem;
+      text-align: center;
     }
 
     .nl-close__disc {
-      bottom: -31rem;
-      width: 135vw;
-      height: 55rem;
+      top: 13rem;
+      left: -45%;
+      width: 190%;
+      height: 48rem;
       padding-top: 6rem;
+      aspect-ratio: auto;
+    }
+
+    .nl-close__disc h2 {
+      font-size: clamp(5.2rem, 23vw, 8rem);
+    }
+
+    .nl-close__disc > p {
+      width: 48%;
+      margin-inline: auto;
+      font-size: 0.58rem;
+    }
+
+    .nl-close__disc a {
+      margin-top: 4rem;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .nl-hotspot::after {
-      animation: none;
+    .nl-intro-sequence {
+      height: 100svh;
+    }
+
+    .nl-intro {
+      background: #f3eee1;
+    }
+
+    .nl-intro__circle,
+    .nl-intro__cover,
+    .nl-intro__meta {
+      display: none;
+    }
+
+    .nl-intro__cream,
+    .nl-intro__quote {
+      opacity: 1;
+    }
+
+    .nl-decade__state,
+    .nl-decade__card,
+    .nl-bar__hotspot,
+    .nl-bar__cta {
+      transition: none;
     }
   }
 </style>
@@ -814,20 +1226,60 @@ const hotspots = [
   const callouts = Array.from(document.querySelectorAll<HTMLElement>('[data-callout]'));
 
   function activateHotspot(id: string) {
+    const selectedButton = hotspotButtons.find((button) => button.dataset.hotspot === id);
+    const shouldOpen = selectedButton?.getAttribute('aria-pressed') !== 'true';
+
     hotspotButtons.forEach((button) => {
-      const active = button.dataset.hotspot === id;
+      const active = shouldOpen && button.dataset.hotspot === id;
       button.classList.toggle('is-active', active);
       button.setAttribute('aria-pressed', String(active));
     });
 
     callouts.forEach((callout) => {
-      const active = callout.dataset.callout === id;
+      const active = shouldOpen && callout.dataset.callout === id;
       callout.hidden = !active;
-      callout.classList.toggle('is-active', active);
     });
   }
 
   hotspotButtons.forEach((button) => {
     button.addEventListener('click', () => activateHotspot(button.dataset.hotspot ?? ''));
   });
+
+  const decadeStates = Array.from(document.querySelectorAll<HTMLElement>('[data-decade-state]'));
+  const previousButton = document.querySelector<HTMLButtonElement>('[data-decade-previous]');
+  const nextButton = document.querySelector<HTMLButtonElement>('[data-decade-next]');
+  let decadeIndex = 0;
+
+  function renderDecade() {
+    decadeStates.forEach((state, index) => {
+      const active = index === decadeIndex;
+      state.classList.toggle('is-active', active);
+      state.setAttribute('aria-hidden', String(!active));
+    });
+
+    if (previousButton) previousButton.disabled = decadeIndex === 0;
+    if (nextButton) {
+      nextButton.setAttribute(
+        'aria-label',
+        decadeIndex === decadeStates.length - 1 ? 'Abrir la línea de tiempo' : 'Ver año siguiente'
+      );
+    }
+  }
+
+  previousButton?.addEventListener('click', () => {
+    decadeIndex = Math.max(0, decadeIndex - 1);
+    renderDecade();
+  });
+
+  nextButton?.addEventListener('click', () => {
+    if (decadeIndex === decadeStates.length - 1) {
+      window.location.assign('/linea-de-tiempo');
+      return;
+    }
+
+    decadeIndex += 1;
+    renderDecade();
+  });
+
+  renderDecade();
 </script>

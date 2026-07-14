@@ -131,6 +131,7 @@ export function initSiteMotion(): () => void {
     animateTransitionIn(overlay, arrivedThroughTransition);
     initEditorialEntrances(arrivedThroughTransition ? 0.2 : 0.05);
     initHomeParallax();
+    initMuestraMotion();
   });
 
   const removeNavigationTransitions = initNavigationTransitions(overlay);
@@ -153,7 +154,7 @@ export function initSiteMotion(): () => void {
 
 function initEditorialEntrances(delay: number): void {
   const intro = document.querySelector<HTMLElement>(
-    'main > section:first-child, main > article:first-child'
+    'main > section:first-child:not([data-motion-owned]), main > article:first-child:not([data-motion-owned])'
   );
 
   if (intro) {
@@ -176,7 +177,7 @@ function initEditorialEntrances(delay: number): void {
 
   const followupSections = new Set(
     document.querySelectorAll<HTMLElement>(
-      'main > section:not(:first-child), main > article section'
+      'main > section:not(:first-child):not([data-motion-owned]), main > article section:not([data-motion-owned])'
     )
   );
 
@@ -197,6 +198,65 @@ function initEditorialEntrances(delay: number): void {
       stagger,
     });
   });
+}
+
+/** Reproduce the three consecutive Figma states of the New Look opening. */
+function initMuestraMotion(): void {
+  const sequence = document.querySelector<HTMLElement>('[data-muestra-intro]');
+  if (!sequence) return;
+
+  const circle = sequence.querySelector<HTMLElement>('[data-muestra-circle]');
+  const centralCopy = sequence.querySelector<HTMLElement>('[data-muestra-cover-copy]');
+  const meta = sequence.querySelectorAll<HTMLElement>('[data-muestra-meta]');
+  const quote = sequence.querySelector<HTMLElement>('[data-muestra-quote]');
+  const quoteRule = sequence.querySelector<HTMLElement>('[data-muestra-quote-rule]');
+  const creamWash = sequence.querySelector<HTMLElement>('[data-muestra-cream]');
+
+  if (!circle || !centralCopy || !quote || !creamWash) return;
+
+  if (prefersReducedMotion()) {
+    gsap.set([centralCopy, meta], { autoAlpha: 0 });
+    gsap.set([quote, creamWash], { autoAlpha: 1 });
+    if (quoteRule) gsap.set(quoteRule, { autoAlpha: 0 });
+    return;
+  }
+
+  gsap.set(quote, { autoAlpha: 0 });
+  if (quoteRule) gsap.set(quoteRule, { autoAlpha: 0 });
+  gsap.set(creamWash, { autoAlpha: 0 });
+
+  const timeline = gsap.timeline({
+    defaults: { ease: 'none' },
+    scrollTrigger: {
+      trigger: sequence,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 0.65,
+      invalidateOnRefresh: true,
+    },
+  });
+
+  timeline
+    .to(
+      circle,
+      {
+        top: '-6.1%',
+        width: '105.32vw',
+        '--cream-stop': '64.4%',
+        duration: 0.42,
+      },
+      0
+    )
+    .to(centralCopy, { autoAlpha: 0, duration: 0.2 }, 0.22)
+    .to(quote, { autoAlpha: 1, duration: 0.2 }, 0.29)
+    .to(meta, { autoAlpha: 0, duration: 0.18 }, 0.55)
+    .to(creamWash, { autoAlpha: 1, duration: 0.3 }, 0.62);
+
+  if (quoteRule) {
+    timeline
+      .to(quoteRule, { autoAlpha: 1, duration: 0.12 }, 0.29)
+      .to(quoteRule, { autoAlpha: 0, duration: 0.12 }, 0.56);
+  }
 }
 
 function initHomeParallax(): void {

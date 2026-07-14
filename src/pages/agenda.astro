@@ -1,337 +1,782 @@
 ---
-/**
- * Agenda (/agenda) — June 2026 calendar grid, cream cells on black,
- * red hairline borders, Didone day numbers, photo cells for open days.
- */
 import MainLayout from '@layouts/MainLayout.astro';
-import { agendaEvents, agendaInfo } from '@data/agenda';
 
-const dayNames = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+const events = [
+  {
+    day: '01',
+    kind: 'visita guiada',
+    title: 'Recorrido inaugural',
+    time: '11 H',
+    category: 'visitas',
+  },
+  {
+    day: '02',
+    kind: 'EXPOSICIÓN',
+    title: 'Retratos de moda',
+    time: '10–20 H',
+    category: 'exposiciones',
+  },
+  {
+    day: '04',
+    kind: 'charla',
+    title: 'Vestir el siglo XIX',
+    time: '18 H',
+    category: 'charlas',
+    featured: true,
+  },
+  { day: '05', kind: 'visita guiada', title: 'Colección', time: '11 H', category: 'visitas' },
+  { day: '07', kind: 'taller', title: 'Estampación textil', time: '15 H', category: 'talleres' },
+  {
+    day: '09',
+    kind: 'visita guiada',
+    title: 'Tejidos y técnicas',
+    time: '17 H',
+    category: 'visitas',
+  },
+  {
+    day: '11',
+    kind: 'exposición',
+    title: 'El New Look',
+    time: '10-20 H',
+    category: 'exposiciones',
+  },
+  { day: '13', kind: 'charla', title: 'Encajes y Bordados', time: '16 H', category: 'charlas' },
+  { day: '14', kind: 'charla', title: 'El cuerpo vestido', time: '18 H', category: 'charlas' },
+  {
+    day: '16',
+    kind: 'Proyección',
+    title: 'Cristóbal Balenciaga',
+    time: '19 H',
+    category: 'proyecciones',
+  },
+  {
+    day: '17',
+    kind: 'Visita guiada',
+    title: 'Alta Costura 1947–1957',
+    time: '17 H',
+    category: 'visitas',
+  },
+  { day: '19', kind: 'taller', title: 'El Figurín', time: '16 H', category: 'talleres' },
+  {
+    day: '20',
+    kind: 'visita guiada',
+    title: 'Siluetas del siglo XVIII',
+    time: '12 H',
+    category: 'visitas',
+  },
+  { day: '21', kind: 'proyección', title: 'Música y moda', time: '20 H', category: 'proyecciones' },
+  { day: '23', kind: 'teller', title: 'Atelier abierto', time: '15 H', category: 'talleres' },
+  {
+    day: '24',
+    kind: 'visita guiada',
+    title: 'Una pieza, 30 min',
+    time: '13 H',
+    category: 'visitas',
+  },
+  {
+    day: '25',
+    kind: 'exposición',
+    title: 'Moda en movimiento',
+    time: '10-20 H',
+    category: 'exposiciones',
+  },
+  {
+    day: '26',
+    kind: 'proyección',
+    title: 'Dior, el modisto',
+    time: '16 H',
+    category: 'proyecciones',
+  },
+  { day: '27', kind: 'taller', title: 'Patronaje histórico', time: '18 H', category: 'talleres' },
+  { day: '29', kind: 'visita guiada', title: 'Nocturna', time: '19-23 H', category: 'visitas' },
+];
 
-/** June 2026: starts on Monday, 30 days → 5 rows. */
-const totalDays = 30;
-const days = Array.from({ length: totalDays }, (_, i) => i + 1);
-
-const eventsForDay = (day: number) => agendaEvents.filter((e) => e.day === day);
-
-/** Days covered by a multi-day span (skip rendering their own cell). */
-const spanned = new Set<number>();
-for (const e of agendaEvents) {
-  if (e.span && e.span > 1) {
-    for (let d = e.day + 1; d < e.day + e.span; d++) spanned.add(d);
-  }
-}
+const filters = [
+  ['todo', 'TODO'],
+  ['exposiciones', 'EXPOSICIONES'],
+  ['visitas', 'VISITAS'],
+  ['talleres', 'TALLERES'],
+  ['proyecciones', 'PROYECCIONES'],
+  ['charlas', 'CHARLAS'],
+];
 ---
 
 <MainLayout
+  immersive
   title="Agenda — Junio 2026"
-  description="Programa de junio 2026: charlas, visitas temáticas, talleres y proyecciones en torno a la muestra El New Look."
+  description="Agenda de junio de 2026 del Palais Galliera."
 >
-  <section class="ag">
-    <h1 class="ag__title type-display-italic">Agenda Junio 2026</h1>
+  <section class="agenda-page" data-agenda>
+    <nav class="agenda-nav" aria-label="Principal">
+      <a class="agenda-nav__logo" href="/" aria-label="Palais Galliera — Inicio">
+        <svg viewBox="0 0 36 21" aria-hidden="true">
+          <path
+            d="M1 19.5h34M3 18V6.5h30V18M7 17V8.5m5 8.5V8.5m6 8.5V8.5m6 8.5V8.5m5 8.5V8.5M2 5h32L18 1 2 5Z"
+          ></path>
+        </svg>
+      </a>
+      <div class="agenda-nav__bar">
+        <a href="/visitar">VISITAR</a>
+        <a href="/muestra">EXPOSICIONES</a>
+        <a href="/coleccion">COLECCIONES</a>
+        <a href="/museo">EL MUSEO</a>
+        <a class="is-active" href="/agenda" aria-current="page">AGENDA</a>
+        <a class="agenda-nav__tickets" href="#evento-04">ENTRADAS</a>
+        <span class="agenda-nav__search" aria-hidden="true"></span>
+      </div>
+    </nav>
 
-    <div class="ag__layout">
-      <aside class="ag__side">
-        <p class="label ag__side-kicker">Muestra abierta</p>
-        <p class="ag__side-info">
-          {agendaInfo.hours}<br />
-          {agendaInfo.note}
-        </p>
-      </aside>
+    <div class="agenda-layout">
+      <header class="agenda-heading">
+        <p>AGENDA</p>
+        <h1>Junio 2026</h1>
+      </header>
 
-      <div class="ag__cal">
-        <div class="ag__weekdays">
-          {dayNames.map((d) => <p class="label ag__weekday">{d}</p>)}
+      <div class="agenda-program">
+        <div class="agenda-filters" role="group" aria-label="Filtrar eventos">
+          <div class="agenda-filters__options">
+            {
+              filters.map(([value, label]) => (
+                <button
+                  type="button"
+                  class="agenda-filter"
+                  data-agenda-filter={value}
+                  aria-pressed={value === 'todo' ? 'true' : 'false'}
+                >
+                  {label}
+                </button>
+              ))
+            }
+          </div>
+          <p><span data-agenda-count>{events.length}</span> EVENTOS</p>
         </div>
 
-        <div class="ag__grid">
+        <div class="agenda-rule" aria-hidden="true"></div>
+
+        <div class="agenda-list" data-agenda-list>
           {
-            days.map((day) => {
-              if (spanned.has(day)) return null;
-              const events = eventsForDay(day);
-              const spanEvent = events.find((e) => e.span && e.span > 1);
-              const imgEvent = events.find((e) => e.image);
-              return (
-                <div
-                  class:list={['ag__cell', { 'ag__cell--photo': !!imgEvent }]}
-                  style={spanEvent ? `grid-column: span ${spanEvent.span};` : undefined}
+            events.map((event) => (
+              <article
+                class:list={['agenda-row', { 'is-featured': event.featured }]}
+                data-agenda-row
+                data-category={event.category}
+                id={event.featured ? 'evento-04' : undefined}
+              >
+                <button
+                  class="agenda-row__header"
+                  type="button"
+                  aria-expanded="false"
+                  data-agenda-toggle={event.featured ? 'true' : undefined}
                 >
-                  {imgEvent && (
-                    <img class="ag__cell-img" src={imgEvent.image} alt="" loading="lazy" />
-                  )}
-                  <div class="ag__cell-content">
-                    {events.map((e) => (
-                      <div class="ag__event">
-                        <p class="label ag__event-kind">{e.kind}</p>
-                        {e.title && <p class="ag__event-title">{e.title}</p>}
-                        {e.time && <p class="label ag__event-time">{e.time}</p>}
-                      </div>
-                    ))}
-                  </div>
-                  <span class="ag__daynum" aria-hidden="true">
-                    {spanEvent
-                      ? Array.from({ length: spanEvent.span ?? 1 }, (_, i) => day + i).join('   ')
-                      : day}
+                  <span class="agenda-row__date">
+                    <strong>{event.day}</strong>
+                    <span>JUN</span>
                   </span>
-                </div>
-              );
-            })
+                  <span class="agenda-row__kind">{event.kind}</span>
+                  <span class="agenda-row__title">{event.title}</span>
+                  <span class="agenda-row__time">{event.time}</span>
+                </button>
+
+                {event.featured && (
+                  <div class="agenda-row__detail" aria-hidden="true">
+                    <img
+                      class="agenda-row__piece"
+                      src="/images/timeline-agenda/agenda-detail.png"
+                      alt="Vestido floral del acervo del Palais Galliera"
+                    />
+                    <div class="agenda-row__copy">
+                      <p>
+                        Una charla que recorre cómo el vestir del siglo XIX construyó identidad y
+                        posición social a través de la silueta: del corsé y la crinolina al polisón,
+                        cada estructura moldeó el cuerpo según los códigos de su época. A partir de
+                        piezas del acervo Galliera, figurines y prensa de moda, se revisa la
+                        transición del taller artesanal a los primeros sistemas de alta costura, y
+                        el modo en que la indumentaria volvió visibles las reglas de género y clase
+                        del período.
+                      </p>
+                      <dl>
+                        <div>
+                          <dt>DURACIÓN</dt>
+                          <dd>90 min</dd>
+                        </div>
+                        <div>
+                          <dt>LUGAR</dt>
+                          <dd>Auditorio</dd>
+                        </div>
+                        <div>
+                          <dt>HORARIO</dt>
+                          <dd>18:00 h</dd>
+                        </div>
+                      </dl>
+                      <button
+                        class="agenda-row__reserve"
+                        type="button"
+                        aria-label="Reservar entradas"
+                      >
+                        <img src="/images/timeline-agenda/agenda-ticket.png" alt="" />
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </article>
+            ))
           }
         </div>
-      </div>
-
-      <div class="ag__list" role="list" aria-label="Eventos de junio de 2026">
-        {
-          agendaEvents.map((event) => {
-            const endDay = event.day + (event.span ?? 1) - 1;
-            const dayLabel = endDay > event.day ? `${event.day}—${endDay}` : String(event.day);
-
-            return (
-              <article class="ag__list-card" role="listitem">
-                {event.image && (
-                  <figure class="ag__list-media">
-                    <img src={event.image} alt="" loading="lazy" />
-                  </figure>
-                )}
-                <div class="ag__list-date">
-                  <time datetime={`2026-06-${String(event.day).padStart(2, '0')}`}>{dayLabel}</time>
-                  <span class="label">Junio</span>
-                </div>
-                <div class="ag__list-event">
-                  <p class="label ag__event-kind">{event.kind}</p>
-                  {event.title && <h2>{event.title}</h2>}
-                  {event.time && <p class="label ag__event-time">{event.time}</p>}
-                </div>
-              </article>
-            );
-          })
-        }
       </div>
     </div>
   </section>
 </MainLayout>
 
 <style>
-  .ag {
-    background: var(--color-black);
-    color: var(--color-cream);
-    padding: clamp(2.5rem, 7vh, 5rem) var(--layout-gutter) var(--space-3xl);
-  }
-
-  .ag__title {
-    font-size: var(--font-size-display-md);
-    color: var(--color-cream);
-  }
-
-  .ag__layout {
-    display: grid;
-    grid-template-columns: minmax(10rem, 0.14fr) minmax(0, 1fr);
-    gap: var(--space-lg);
-    margin-top: var(--space-xl);
-    align-items: start;
-  }
-
-  .ag__side {
-    padding-top: 3.2rem;
-    text-align: right;
-  }
-
-  .ag__side-kicker {
-    color: var(--color-red-bright);
-  }
-
-  .ag__side-info {
-    margin-top: var(--space-sm);
-    font-size: var(--font-size-sm);
-    line-height: 1.7;
-  }
-
-  /* ---------------------------------------------------------------- */
-  /* Calendar                                                          */
-  /* ---------------------------------------------------------------- */
-  .ag__weekdays {
-    display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: 0;
-    margin-bottom: var(--space-2xs);
-  }
-
-  .ag__weekday {
-    color: var(--color-cream);
-    padding-inline: var(--space-2xs);
-  }
-
-  .ag__grid {
-    display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    border: 1px solid var(--color-red);
-  }
-
-  .ag__cell {
+  .agenda-page {
+    --agenda-black: #141414;
+    --agenda-cream: #f3eee1;
+    --agenda-orange: #fd6500;
+    --agenda-purple: #520345;
+    --agenda-blue: #b9d6fe;
     position: relative;
-    min-height: clamp(8rem, 15.5vw, 13.5rem);
-    background: var(--color-cream);
-    color: var(--color-black);
-    border-right: 1px solid var(--color-red);
-    border-bottom: 1px solid var(--color-red);
-    padding: var(--space-sm);
-    overflow: hidden;
+    isolation: isolate;
+    min-height: 100vh;
+    overflow: clip;
+    color: var(--agenda-black);
+    background-color: var(--agenda-cream);
+    background-image:
+      url('/images/timeline-agenda/agenda-pattern-view.png'),
+      linear-gradient(180deg, var(--agenda-cream) 0%, var(--agenda-blue) 100%);
+    background-position:
+      0 0,
+      0 0;
+    background-size:
+      100vw 1080px,
+      100% 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
 
-  .ag__cell--photo {
-    color: var(--color-cream);
+  .agenda-nav {
+    position: relative;
+    z-index: 102;
+    display: grid;
+    grid-template-columns: 61px minmax(0, 889px);
+    gap: min(20.05vw, 385px);
+    width: min(calc(100% - 6.25vw), 1345px);
+    height: 61px;
+    margin: 39px 0 0 3.125vw;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
   }
 
-  .ag__cell-img {
+  .agenda-nav__logo {
+    display: grid;
+    place-items: center;
+    width: 61px;
+    height: 61px;
+    color: var(--agenda-cream);
+    background: var(--agenda-orange);
+    border-radius: 50%;
+  }
+
+  .agenda-nav__logo svg {
+    width: 36px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.2;
+  }
+
+  .agenda-nav__bar {
+    display: flex;
+    align-items: center;
+    gap: 37px;
+    width: 889px;
+    height: 61px;
+    padding: 0 39px;
+    color: var(--agenda-cream);
+    background: var(--agenda-black);
+    transition: color 160ms ease;
+  }
+
+  .agenda-nav__bar a {
+    flex: 0 0 auto;
+  }
+
+  .agenda-nav__bar .is-active {
+    color: var(--agenda-orange);
+  }
+
+  .agenda-nav__tickets {
+    display: grid;
+    place-items: center;
+    width: 110px;
+    height: 32px;
+    margin-left: auto;
+    color: var(--agenda-cream) !important;
+    background: var(--agenda-orange);
+    border-radius: 2px;
+  }
+
+  .agenda-nav__search {
+    position: relative;
+    width: 21px;
+    height: 21px;
+    margin-left: 10px;
+  }
+
+  .agenda-nav__search::before,
+  .agenda-nav__search::after {
+    position: absolute;
+    content: '';
+  }
+
+  .agenda-nav__search::before {
+    inset: 0 5px 5px 0;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+  }
+
+  .agenda-nav__search::after {
+    right: 1px;
+    bottom: 1px;
+    width: 7px;
+    height: 1px;
+    background: currentColor;
+    transform: rotate(45deg);
+    transform-origin: right;
+  }
+
+  .agenda-layout {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 38.7vw minmax(0, 1120px);
+    align-items: start;
+    margin-top: 119px;
+  }
+
+  .agenda-heading {
+    padding-left: 3.125vw;
+  }
+
+  .agenda-heading p {
+    position: relative;
+    z-index: 1;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+
+  .agenda-heading h1 {
+    margin-top: 8px;
+    color: var(--agenda-orange);
+    font-size: clamp(5.8rem, 7.3vw, 8.75rem);
+    font-style: normal;
+    font-weight: 400;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    transform: scaleX(0.83);
+    transform-origin: left center;
+  }
+
+  .agenda-program {
+    min-width: 0;
+  }
+
+  .agenda-filters {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    height: 39px;
+    padding: 0 8px 0 13px;
+  }
+
+  .agenda-filters__options {
+    display: flex;
+    align-items: center;
+    gap: clamp(1.7rem, 4.3vw, 5rem);
+  }
+
+  .agenda-filter {
+    padding: 0;
+    color: var(--agenda-black);
+    background: none;
+    border: 0;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .agenda-filter[aria-pressed='true'] {
+    color: var(--agenda-orange);
+  }
+
+  .agenda-filters > p {
+    padding-right: 1px;
+    font-size: 18px;
+    white-space: nowrap;
+  }
+
+  .agenda-rule {
+    width: calc(100% + 8px);
+    height: 4px;
+    margin-left: 0;
+    background: repeating-linear-gradient(90deg, var(--agenda-black) 0 8px, transparent 8px 12px);
+    clip-path: polygon(0 45%, 100% 0, 100% 55%, 0 100%);
+  }
+
+  .agenda-list {
+    position: relative;
+    width: 100%;
+    background: var(--agenda-cream);
+  }
+
+  .agenda-row {
+    position: relative;
+    height: 110px;
+    color: var(--agenda-black);
+    background: var(--agenda-cream);
+    border-bottom: 1px solid var(--agenda-black);
+    transition:
+      height 420ms cubic-bezier(0.16, 1, 0.3, 1),
+      background 220ms ease;
+  }
+
+  .agenda-row[hidden] {
+    display: none;
+  }
+
+  .agenda-row:not(.is-open):hover {
+    z-index: 101;
+    color: var(--agenda-cream);
+    background: linear-gradient(180deg, var(--agenda-purple) 0%, var(--agenda-orange) 100%);
+  }
+
+  .agenda-row.is-open {
+    height: 424px;
+    color: var(--agenda-cream);
+    background: linear-gradient(180deg, var(--agenda-purple) 0%, var(--agenda-orange) 100%);
+  }
+
+  .agenda-row__header {
+    display: grid;
+    grid-template-columns: 180px 240px minmax(0, 1fr) 157px;
+    align-items: center;
+    width: 100%;
+    height: 110px;
+    padding: 0;
+    color: inherit;
+    text-align: left;
+    background: none;
+    border: 0;
+    cursor: default;
+  }
+
+  .is-featured .agenda-row__header {
+    cursor: pointer;
+  }
+
+  .agenda-row__date {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding-left: 18px;
+  }
+
+  .agenda-row__date strong {
+    min-width: 67px;
+    font-family: var(--font-display);
+    font-size: 64px;
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: -0.035em;
+  }
+
+  .agenda-row__date span,
+  .agenda-row__kind,
+  .agenda-row__time {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .agenda-row__kind {
+    justify-self: center;
+    color: var(--agenda-orange);
+  }
+
+  .agenda-row__title {
+    padding-left: 30px;
+    font-size: 32px;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.035em;
+  }
+
+  .agenda-row__time {
+    justify-self: center;
+  }
+
+  .agenda-row__detail {
+    position: absolute;
+    inset: 110px 0 0;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 250ms ease 90ms,
+      visibility 250ms ease 90ms;
+  }
+
+  .agenda-row.is-open .agenda-row__detail {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .agenda-row__piece {
+    position: absolute;
+    top: -8px;
+    left: 127px;
+    width: 290px;
+    max-width: none;
+  }
+
+  .agenda-row__copy {
+    position: absolute;
+    top: 8px;
+    left: 450px;
+    width: 520px;
+  }
+
+  .agenda-row__copy > p {
+    width: 540px;
+    font-size: 16px;
+    line-height: 1.08;
+    transform: scaleX(0.83);
+    transform-origin: left top;
+  }
+
+  .agenda-row__copy dl {
+    position: absolute;
+    top: 159px;
+    left: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    width: 520px;
+    margin: 0;
+  }
+
+  .agenda-row__copy dt {
+    color: var(--agenda-blue);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+
+  .agenda-row__copy dd {
+    margin: 1px 0 0;
+    font-size: 16px;
+  }
+
+  .agenda-row__reserve {
+    position: absolute;
+    top: 230px;
+    left: 0;
+    display: grid;
+    place-items: center;
+    width: 214px;
+    height: 44px;
+    margin: 0;
+    padding: 0;
+    color: var(--agenda-cream);
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .agenda-row__reserve img {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
   }
 
-  .ag__cell--photo::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(10, 9, 8, 0.1) 40%, rgba(10, 9, 8, 0.65));
-  }
-
-  .ag__cell-content {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-  }
-
-  .ag__cell--photo .ag__cell-content {
-    position: absolute;
-    left: var(--space-sm);
-    bottom: var(--space-sm);
-    right: var(--space-sm);
-  }
-
-  .ag__event-kind {
-    color: var(--color-red);
-  }
-
-  .ag__cell--photo .ag__event-kind {
-    color: var(--color-cream);
-  }
-
-  .ag__event-title {
-    margin-top: var(--space-3xs);
-    font-size: var(--font-size-sm);
-    line-height: 1.4;
-    max-width: 20ch;
-  }
-
-  .ag__event-time {
-    margin-top: var(--space-3xs);
-    color: var(--color-black);
-    opacity: 0.75;
-  }
-
-  .ag__daynum {
-    position: absolute;
-    right: var(--space-sm);
-    bottom: var(--space-2xs);
-    z-index: 2;
-    font-family: var(--font-display);
-    font-size: clamp(1.5rem, 2.2vw, 2.2rem);
-    line-height: 1;
-    white-space: pre;
-  }
-
-  .ag__cell--photo .ag__daynum {
-    color: var(--color-cream);
-  }
-
-  .ag__list {
-    display: none;
-  }
-
-  @media (max-width: 900px) {
-    .ag__layout {
-      grid-template-columns: 1fr;
+  @media (max-width: 1120px) {
+    .agenda-nav {
+      grid-template-columns: 52px 1fr;
+      gap: 1.25rem;
+      width: calc(100% - 2.5rem);
+      margin: 1.25rem;
     }
 
-    .ag__side {
-      text-align: left;
-      padding-top: 0;
+    .agenda-nav__logo {
+      width: 52px;
+      height: 52px;
     }
 
-    .ag__cal {
+    .agenda-nav__bar {
+      width: 100%;
+      height: 52px;
+      gap: 1.25rem;
+      padding-inline: 1.25rem;
+    }
+
+    .agenda-nav__bar a:not(.is-active):not(.agenda-nav__tickets) {
       display: none;
     }
 
-    .ag__list {
-      display: grid;
-      border: 1px solid var(--color-red);
+    .agenda-layout {
+      grid-template-columns: 1fr;
+      margin-top: 4rem;
     }
 
-    .ag__list-card {
-      display: grid;
-      grid-template-columns: clamp(5rem, 24vw, 6.5rem) minmax(0, 1fr);
-      background: var(--color-cream);
-      color: var(--color-black);
-      border-bottom: 1px solid var(--color-red);
+    .agenda-heading {
+      padding: 0 1.25rem 2.5rem;
     }
 
-    .ag__list-card:last-child {
-      border-bottom: 0;
+    .agenda-heading h1 {
+      font-size: clamp(4.5rem, 18vw, 8rem);
     }
 
-    .ag__list-media {
-      grid-column: 1 / -1;
-      height: clamp(8rem, 42vw, 12rem);
-      margin: 0;
-      border-bottom: 1px solid var(--color-red);
-      background: var(--color-black);
-      overflow: hidden;
+    .agenda-program {
+      padding-left: 1.25rem;
     }
 
-    .ag__list-media img {
+    .agenda-filters {
+      gap: 2rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .agenda-filters__options {
+      gap: 1.5rem;
+    }
+
+    .agenda-row__header {
+      grid-template-columns: 8.5rem minmax(0, 1fr) 4.5rem;
+      padding-right: 1rem;
+    }
+
+    .agenda-row__kind {
+      display: none;
+    }
+
+    .agenda-row__title {
+      padding-left: 0;
+      font-size: clamp(1.35rem, 4vw, 2rem);
+    }
+
+    .agenda-row__date {
+      gap: 0.25rem;
+      padding-left: 0.75rem;
+    }
+
+    .agenda-row__date strong {
+      min-width: 3.9rem;
+      font-size: 3.4rem;
+    }
+
+    .agenda-row.is-open {
+      height: 680px;
+    }
+
+    .agenda-row__piece {
+      top: 0;
+      left: 1rem;
+      width: 245px;
+    }
+
+    .agenda-row__copy {
+      top: 260px;
+      left: 1rem;
+      width: calc(100% - 2rem);
+    }
+
+    .agenda-row__copy > p,
+    .agenda-row__copy dl {
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      filter: grayscale(0.25) contrast(1.05);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .agenda-nav__bar {
+      justify-content: flex-end;
     }
 
-    .ag__list-date {
-      display: flex;
-      min-height: 8.5rem;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: var(--space-sm);
-      border-right: 1px solid var(--color-red);
-      color: var(--color-red);
+    .agenda-nav__bar .is-active,
+    .agenda-nav__search {
+      display: none;
     }
 
-    .ag__list-date time {
-      font-family: var(--font-display);
-      font-size: clamp(2.5rem, 11vw, 4rem);
-      line-height: 0.9;
-      letter-spacing: -0.04em;
+    .agenda-filters > p {
+      display: none;
     }
 
-    .ag__list-event {
-      min-width: 0;
-      padding: var(--space-sm);
+    .agenda-row__header {
+      grid-template-columns: 7.25rem minmax(0, 1fr) 3.5rem;
     }
 
-    .ag__list-event h2 {
-      margin-top: var(--space-xs);
-      font-family: var(--font-body);
-      font-size: clamp(1.1rem, 5vw, 1.45rem);
-      font-weight: 400;
-      line-height: 1.25;
+    .agenda-row__date span,
+    .agenda-row__time {
+      font-size: 0.65rem;
     }
 
-    .ag__list-event .ag__event-time {
-      margin-top: var(--space-md);
-      line-height: 1.55;
+    .agenda-row__copy dl {
+      gap: 0.5rem;
+    }
+  }
+
+  @media (hover: none) {
+    .agenda-row:not(.is-open):hover {
+      z-index: auto;
+      color: var(--agenda-black);
+      background: var(--agenda-cream);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .agenda-row,
+    .agenda-row__detail {
+      transition-duration: 0.01ms;
     }
   }
 </style>
+
+<script>
+  const agenda = document.querySelector<HTMLElement>('[data-agenda]');
+
+  if (agenda) {
+    const rows = Array.from(agenda.querySelectorAll<HTMLElement>('[data-agenda-row]'));
+    const count = agenda.querySelector<HTMLElement>('[data-agenda-count]');
+    const filters = agenda.querySelectorAll<HTMLButtonElement>('[data-agenda-filter]');
+    const featuredToggle = agenda.querySelector<HTMLButtonElement>('[data-agenda-toggle]');
+    const featuredRow = featuredToggle?.closest<HTMLElement>('[data-agenda-row]');
+    const detail = featuredRow?.querySelector<HTMLElement>('.agenda-row__detail');
+
+    filters.forEach((filter) => {
+      filter.addEventListener('click', () => {
+        const value = filter.dataset.agendaFilter ?? 'todo';
+        let visible = 0;
+
+        filters.forEach((item) => item.setAttribute('aria-pressed', String(item === filter)));
+        rows.forEach((row) => {
+          const show = value === 'todo' || row.dataset.category === value;
+          row.hidden = !show;
+          if (show) visible += 1;
+        });
+
+        if (count) count.textContent = String(visible);
+      });
+    });
+
+    featuredToggle?.addEventListener('click', () => {
+      const open = !featuredRow?.classList.contains('is-open');
+      featuredRow?.classList.toggle('is-open', open);
+      featuredToggle.setAttribute('aria-expanded', String(open));
+      detail?.setAttribute('aria-hidden', String(!open));
+    });
+  }
+</script>

@@ -1,234 +1,838 @@
 ---
 /**
- * Historia (/historia) — texto curatorial "Christian Dior 1905–1957".
- * Cream editorial page: giant red display name, portrait, two-column article.
+ * Historia (/historia) — recorrido Rococó.
+ *
+ * Desktop reproduces the two authored Figma frames at their native proportions.
+ * Mobile has no authored board, so it keeps the same palette, hierarchy and
+ * ornamental language while reflowing the content into one readable column.
  */
 import MainLayout from '@layouts/MainLayout.astro';
 
-const sections = [
-  {
-    heading: 'Antes del 12 de febrero',
-    paragraphs: [
-      'Christian Dior tenía 42 años cuando presentó la colección que le iba a dar nombre a una era. Hasta entonces, su vida había sido la de un hombre que casi no parecía destinado a la moda. Nacido en Granville, Normandía, en 1905, creció en una familia de fabricantes de fertilizantes que perdió todo en el crac del 29. Antes de convertirse en couturier, Dior fue galerista en París, vendió bocetos de sombreros para sobrevivir, y trabajó como asistente en las casas de Robert Piguet y Lucien Lelong durante los años de la ocupación alemana.',
-      'Recién en 1946, con el respaldo financiero del magnate textil Marcel Boussac, abrió su propia casa en el número 30 de la Avenue Montaigne. Tenía un año para preparar la primera colección. La armó con un equipo pequeño, en pisos prestados, con una ambición desproporcionada: devolverle a la moda parisina algo que la guerra le había sacado. El lujo, la frivolidad, la exuberancia.',
-    ],
-  },
-  {
-    heading: '12 de febrero de 1947',
-    paragraphs: [
-      'La presentación fue en los salones del 30 Avenue Montaigne. El público era acotado: editoras de moda, compradoras norteamericanas, clientas de la alta sociedad. La colección se llamaba "Corolle": corola, como el cáliz de una flor, pero nadie la iba a recordar por ese nombre. Una sola pieza definió el día. El tailleur "Bar". Una chaqueta de shantung de seda crudo, ceñida en la cintura, con caderas redondeadas por relleno interno; una pollera de lana negra plisada, larga hasta media pantorrilla, ancha como una corola dada vuelta. La modelo entró al salón y, según las crónicas, la sala se quedó en silencio.',
-      'Carmel Snow, directora de Harper\'s Bazaar, se acercó al final y dijo una frase que cambió todo: "It\'s quite a revolution, dear Christian. Your dresses have such a new look." Esas dos últimas palabras se imprimieron al día siguiente en los diarios del mundo. El New Look había nacido.',
-    ],
-  },
-  {
-    heading: 'La silueta como manifiesto',
-    paragraphs: [
-      'Para entender por qué fue una revolución hay que pensar en lo que existía antes. Durante la guerra, el cuerpo vestido había sido un cuerpo de escasez: hombros cuadrados con hombreras militarizadas, polleras rectas y cortas por el racionamiento de tela, cinturas sin marcar. La moda imitaba al uniforme.',
-      'Dior propuso lo contrario en cada decisión. La cintura volvió a apretarse hasta extremos casi eduardianos. Las caderas se rellenaron con crinolinas y refuerzos para acentuar la curva. Las polleras se hicieron amplias y largas: algunos modelos usaban hasta veinte metros de tela. Los hombros, en lugar de hombreras, se volvieron redondos y suaves. El escote bajó, el cuello se descubrió, las telas pasaron de ásperas a sedosas. La polémica fue inmediata. En el Reino Unido, donde el racionamiento de tela seguía vigente, el ministro Sir Stafford Cripps acusó al New Look de ser un derroche inmoral. En Chicago, un grupo de mujeres salió a la calle con carteles que pedían "menos tela y más sentido común". Pero las clientas votaron con sus armarios. Después de seis años de uniformes, las mujeres querían vestirse otra vez como mujeres. La crítica política se ahogó en la demanda.',
-      'Lo que Dior había entendido, y lo que ningún otro couturier vio con esa claridad, era que la posguerra no necesitaba más austeridad. Necesitaba lo opuesto: una promesa de retorno a la vida.',
-    ],
-  },
-  {
-    heading: 'Lo que Galliera guarda',
-    paragraphs: [
-      'El acervo del Palais Galliera conserva 47 piezas firmadas por Christian Dior entre 1947 y 1957, donadas en su mayoría por las clientas originales que las usaron. Entre ellas, dos versiones del tailleur Bar, varios vestidos de gala de la línea Corolle, accesorios de las primeras temporadas, y un archivo de figurines, fotografías de prensa y correspondencia que documenta cómo París, y el mundo, recibió la revolución de aquel febrero.',
-      'Estas piezas, por su fragilidad, no pueden estar expuestas de forma continua. La luz, la humedad, el simple peso de los años obligan a mantenerlas en reserva la mayor parte del tiempo. Pero en este sitio están todas accesibles, una por una, con sus fotografías, sus fichas técnicas y los documentos que las acompañan. Es, en algún sentido, la forma en que un acervo histórico encuentra su lugar en el presente. No como objeto en vitrina, sino como memoria abierta.',
-    ],
-  },
+const navigation = [
+  { label: 'Visitar', href: '/' },
+  { label: 'Exposiciones', href: '/muestra' },
+  { label: 'Colecciones', href: '/coleccion' },
+  { label: 'El museo', href: '/historia' },
+  { label: 'Agenda', href: '/agenda' },
 ];
 ---
 
 <MainLayout
-  title="Historia — Christian Dior 1905–1957"
-  description="Texto curatorial: Christian Dior, el 12 de febrero de 1947 y la década que reinventó el cuerpo vestido."
+  immersive
+  title="Rococó — 1715–1789"
+  description="Texto curatorial sobre el Rococó, la robe à la française y la memoria de la indumentaria del siglo XVIII."
 >
-  <article class="hist section-cream">
-    <p class="hist__meta label">
-      Texto curatorial · Por María Stella Camargo, conservadora · 8 min de lectura · Junio 2026 ·
-      Piezas relacionadas en el acervo: 47
-    </p>
+  <section
+    id="selector-de-epoca"
+    class="era-selector era-selector--desktop"
+    aria-label="Seleccionar época: Rococó, 1715 a 1789"
+    data-motion-owned
+  >
+    <img
+      class="era-selector__figma"
+      src="/images/history-fidelity/selector.png"
+      alt=""
+      width="1920"
+      height="1080"
+      fetchpriority="high"
+      aria-hidden="true"
+    />
 
-    <div class="hist__grid">
-      <header class="hist__left">
-        <h1 class="hist__name type-display-italic">
-          <span class="hist__name-line">Christian</span>
-          <span class="hist__name-line hist__name-line--2">Dior</span>
-        </h1>
-        <figure class="hist__portrait">
-          <img src="/images/site/dior-portrait.png" alt="Retrato de Christian Dior" />
-          <figcaption>
-            <span class="hist__dates">1905 – 1957</span>
-            <span class="hist__caption">
-              El año en que la silueta cambió<br />
-              Dior, 1947, y la década que reinventó el cuerpo vestido.
-            </span>
-          </figcaption>
-        </figure>
+    <nav class="desktop-hit-nav" aria-label="Principal">
+      <a class="desktop-hit desktop-hit--logo" href="/" aria-label="Palais Galliera — Inicio"></a>
+      <a class="desktop-hit desktop-hit--visitar" href="/" aria-label="Visitar"></a>
+      <a class="desktop-hit desktop-hit--exposiciones" href="/muestra" aria-label="Exposiciones"
+      ></a>
+      <a class="desktop-hit desktop-hit--colecciones" href="/coleccion" aria-label="Colecciones"
+      ></a>
+      <a class="desktop-hit desktop-hit--museo" href="/historia" aria-label="El museo"></a>
+      <a class="desktop-hit desktop-hit--agenda" href="/agenda" aria-label="Agenda"></a>
+      <a class="desktop-hit desktop-hit--entradas" href="/agenda" aria-label="Entradas"></a>
+      <a
+        class="desktop-hit desktop-hit--search"
+        href="/coleccion"
+        aria-label="Buscar en la colección"></a>
+    </nav>
 
-        <section class="hist__decade">
-          <h2 class="hist__decade-title">Una década Dior</h2>
-          <p>
-            Durante los diez años que separaron la primera colección de su muerte, Dior diseñó dos
-            temporadas por año, y cada una propuso una silueta nueva: la línea A, la línea H, la
-            línea Y, la línea Flecha. Cada cambio era noticia. La casa abrió boutiques en Londres,
-            Nueva York, Caracas. Lanzó perfumes, Miss Dior en 1947, el mismo año que la primera
-            colección. Firmó licencias para medias, guantes, lencería, accesorios. Para fines de
-            los 50, una de cada dos prendas de alta costura exportadas desde París venía de Dior.
-          </p>
-          <p>
-            El 24 de octubre de 1957, Christian Dior murió de un infarto en Montecatini Terme,
-            Italia. Tenía 52 años. La sucesión cayó en un asistente de 21: Yves Saint Laurent. La
-            era Dior, en sentido estricto, había durado solo una década. Pero esa década había
-            reescrito completamente las reglas del oficio.
-          </p>
-        </section>
-      </header>
+    <a
+      class="desktop-hit desktop-hit--read"
+      href="#historia-rococo"
+      aria-label="Leer el texto curatorial sobre el Rococó"
+      data-read-history></a>
+  </section>
 
-      <div class="hist__article">
-        {
-          sections.map((s) => (
-            <section class="hist__section">
-              <h2 class="hist__heading">{s.heading}</h2>
-              {s.paragraphs.map((p) => (
-                <p>{p}</p>
-              ))}
-            </section>
-          ))
-        }
-      </div>
+  <section
+    class="era-selector era-selector--mobile"
+    aria-labelledby="mobile-era-title"
+    data-motion-owned
+  >
+    <header class="mobile-nav" data-mobile-history-nav>
+      <a class="mobile-nav__logo" href="/" aria-label="Palais Galliera — Inicio">
+        <svg viewBox="0 0 61 61" aria-hidden="true">
+          <circle cx="30.5" cy="30.5" r="30.5" fill="#141414"></circle>
+          <g fill="none" stroke="#f3eee1" stroke-width="2">
+            <path d="M14 25.5h33M14 39h33M17 28v8m7-8v8m7-8v8m7-8v8m7-8v8"></path>
+            <path d="m15 23 15.5-6L46 23Z"></path>
+          </g>
+        </svg>
+      </a>
+      <button
+        class="mobile-nav__toggle"
+        type="button"
+        aria-label="Abrir menú"
+        aria-controls="history-mobile-menu"
+        aria-expanded="false"
+        data-mobile-history-toggle
+      >
+        <span></span><span></span>
+      </button>
+      <nav class="mobile-nav__menu" id="history-mobile-menu" aria-label="Principal" hidden>
+        {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+        <a class="mobile-nav__ticket" href="/agenda">Entradas</a>
+      </nav>
+    </header>
+
+    <div class="mobile-era-rail" aria-label="Épocas disponibles">
+      <span>1700–1715</span>
+      <span class="mobile-era-rail__arrow" aria-hidden="true">←</span>
+      <strong>1715–1789</strong>
+      <span class="mobile-era-rail__arrow" aria-hidden="true">→</span>
+      <span>1795–1830</span>
     </div>
 
-    <img src="/images/ornaments/orn-04.png" alt="" class="hist__ornament" aria-hidden="true" />
+    <div class="mobile-era-copy">
+      <h1 id="mobile-era-title">Rococó</h1>
+      <p>
+        Del reinado de Luis XV al estallido de la Revolución. Robe à la française, panier, pliegue
+        Watteau, sedas de Lyon.
+      </p>
+      <a class="mobile-read" href="#historia-rococo" data-read-history>
+        <img src="/images/history-fidelity/read-button.svg" alt="" aria-hidden="true" />
+        <span>Leer</span>
+      </a>
+    </div>
+  </section>
+
+  <article
+    id="historia-rococo"
+    class="rococo-article"
+    aria-label="Texto curatorial: Rococó, 1715 a 1789"
+    data-motion-owned
+  >
+    <div class="rococo-article__desktop">
+      <img
+        class="rococo-article__figma"
+        src="/images/history-fidelity/article.png"
+        alt=""
+        width="1920"
+        height="2314"
+        loading="eager"
+        aria-hidden="true"
+      />
+      <a class="article-hit article-hit--back" href="#selector-de-epoca">Ver más épocas</a>
+      <a class="article-hit article-hit--discover" href="/coleccion">Descubrir la selección</a>
+    </div>
+
+    <div class="rococo-article__mobile">
+      <header class="mobile-article-hero">
+        <img
+          class="mobile-article-hero__floral"
+          src="/images/history-fidelity/header-floral.svg"
+          alt=""
+          aria-hidden="true"
+        />
+        <a href="#selector-de-epoca">Ver más épocas</a>
+        <div class="mobile-article-hero__title">
+          <p>1715 — 1789</p>
+          <h2>Rococó</h2>
+        </div>
+        <div class="mobile-article-hero__byline">
+          <span>17 de julio, 2026</span>
+          <em>María S. Camargo</em>
+        </div>
+      </header>
+
+      <section class="mobile-article-copy">
+        <blockquote>
+          “Cada época deja atrás una manera de estar en el cuerpo. La del siglo XVIII no cabe en
+          ningún cuerpo actual.”
+        </blockquote>
+        <p class="mobile-article-copy__credit">
+          — Pascale Gorguet-Ballesteros, conservadora · Palais Galliera
+        </p>
+
+        <div class="mobile-article-copy__gallery">
+          <div class="mobile-gallery-photo">
+            <img
+              src="/images/history-fidelity/gallery.jpg"
+              alt="Vestidos del siglo XVIII exhibidos en el Palais Galliera"
+            />
+          </div>
+          <img
+            class="mobile-gallery-frame"
+            src="/images/history-fidelity/gallery-frame.svg"
+            alt=""
+            aria-hidden="true"
+          />
+        </div>
+
+        <div class="mobile-article-copy__body">
+          <p>
+            En los retratos de <a href="/coleccion">Élisabeth Vigée Le Brun</a>, la vestimenta ocupa
+            tanto espacio como el rostro. La pintura terminó preservando aquello que el tiempo no
+            pudo conservar: la caída de una tela, el brillo de un bordado, el volumen de unos
+            paniers. Cuando los textiles originales desaparecen, las pinturas continúan actuando
+            como archivos visuales capaces de mantener viva la memoria de formas, colores y
+            texturas.
+          </p>
+          <p>
+            Con el paso de los siglos, gran parte de ese universo desapareció. Permanecieron algunos
+            vestidos, fragmentos textiles, retratos y documentos capaces de reconstruir apenas una
+            parte del relato. Cada pieza conservada por el
+            <a class="is-purple" href="/">Palais Galliera</a> funciona como un fragmento de memoria: no
+            cuenta toda la historia, pero permite activar conexiones entre personas, materiales y contextos
+            que continúan dialogando con el presente.
+          </p>
+          <p>
+            Quizás por eso observar una prenda del siglo XVIII nunca consiste únicamente en mirar un
+            objeto antiguo. Cada costura, cada pliegue y cada bordado siguen conteniendo información
+            que espera ser recordada. La memoria no permanece inmóvil dentro del museo: vuelve a
+            activarse cada vez que alguien decide detenerse sobre un detalle y descubrir que, detrás
+            de una tela aparentemente silenciosa, todavía sobreviven historias que continúan
+            resonando en el presente.
+          </p>
+        </div>
+      </section>
+
+      <footer class="mobile-discover">
+        <h2>Robe à la française</h2>
+        <p>Una selección de piezas exclusivas de esta época</p>
+        <a href="/coleccion">
+          <img src="/images/history-fidelity/discover-arrow.svg" alt="" aria-hidden="true" />
+          <span>Descubrir</span>
+        </a>
+      </footer>
+    </div>
   </article>
 </MainLayout>
 
 <style>
-  .hist {
+  :global(body) {
+    background: #fd6500;
+  }
+
+  .era-selector {
     position: relative;
-    padding: var(--space-xl) var(--layout-gutter) var(--space-3xl);
-    overflow: hidden;
-  }
-
-  .hist__meta {
-    max-width: 26rem;
-    margin-left: auto;
-    color: var(--color-black);
-    line-height: 1.8;
-  }
-
-  .hist__grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: clamp(3rem, 8vw, 9rem);
-    margin-top: var(--space-lg);
-  }
-
-  /* ---------------------------------------------------------------- */
-  /* Left column: name, portrait, decade                               */
-  /* ---------------------------------------------------------------- */
-  .hist__name {
-    color: var(--color-red);
-    font-size: clamp(4rem, 9vw, 9.5rem);
-    line-height: 0.9;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .hist__name-line--2 {
-    align-self: flex-end;
-    margin-right: -0.5em;
-    margin-top: -0.08em;
-  }
-
-  .hist__portrait {
-    margin: calc(-1 * clamp(1.5rem, 4vw, 4rem)) 0 0;
-    max-width: 34rem;
-  }
-
-  .hist__portrait img {
     width: 100%;
+    overflow: clip;
   }
 
-  .hist__portrait figcaption {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-sm);
-    margin-top: var(--space-sm);
+  .era-selector--desktop {
+    aspect-ratio: 16 / 9;
+    min-height: 100svh;
+    background: #fd6500;
   }
 
-  .hist__dates {
-    font-family: var(--font-body);
-    font-size: var(--font-size-lg);
-    letter-spacing: 0.06em;
-  }
-
-  .hist__caption {
-    color: var(--color-red);
-    font-size: var(--font-size-sm);
-    line-height: 1.6;
-  }
-
-  .hist__decade {
-    margin-top: var(--space-3xl);
-    max-width: 40rem;
-  }
-
-  .hist__decade-title {
-    font-family: var(--font-display);
-    font-size: clamp(2.5rem, 4.5vw, 4.5rem);
-    color: var(--color-red);
-    line-height: 1;
-  }
-
-  .hist__decade p {
-    margin-top: var(--space-md);
-    font-size: var(--font-size-sm);
-    line-height: 1.75;
-  }
-
-  /* ---------------------------------------------------------------- */
-  /* Right column: article                                             */
-  /* ---------------------------------------------------------------- */
-  .hist__article {
-    max-width: 44rem;
-    padding-top: clamp(2rem, 12vh, 10rem);
-  }
-
-  .hist__section + .hist__section {
-    margin-top: var(--space-2xl);
-  }
-
-  .hist__heading {
-    font-family: var(--font-body);
-    font-weight: var(--font-weight-semibold);
-    font-size: var(--font-size-xl);
-    color: var(--color-red);
-    letter-spacing: -0.01em;
-  }
-
-  .hist__section p {
-    margin-top: var(--space-md);
-    font-size: var(--font-size-sm);
-    line-height: 1.8;
-  }
-
-  .hist__ornament {
+  .era-selector__figma {
     position: absolute;
-    right: -4%;
-    bottom: -6%;
-    width: clamp(16rem, 34vw, 34rem);
-    mix-blend-mode: multiply;
-    opacity: 0.75;
-    pointer-events: none;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
   }
 
-  @media (max-width: 1000px) {
-    .hist__grid {
-      grid-template-columns: 1fr;
+  .desktop-hit,
+  .article-hit {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    color: transparent;
+    font-size: 0;
+  }
+
+  .desktop-hit:focus-visible,
+  .article-hit:focus-visible {
+    outline: 3px solid #f3eee1;
+    outline-offset: 3px;
+  }
+
+  .desktop-hit--logo {
+    top: 3.61%;
+    left: 3.125%;
+    width: 3.18%;
+    height: 5.65%;
+    border-radius: 50%;
+  }
+
+  .desktop-hit--visitar,
+  .desktop-hit--exposiciones,
+  .desktop-hit--colecciones,
+  .desktop-hit--museo,
+  .desktop-hit--agenda,
+  .desktop-hit--entradas,
+  .desktop-hit--search {
+    top: 3.61%;
+    height: 5.65%;
+  }
+
+  .desktop-hit--visitar {
+    left: 28.2%;
+    width: 4.25%;
+  }
+
+  .desktop-hit--exposiciones {
+    left: 32.5%;
+    width: 7.25%;
+  }
+
+  .desktop-hit--colecciones {
+    left: 39.75%;
+    width: 7.2%;
+  }
+
+  .desktop-hit--museo {
+    left: 46.95%;
+    width: 5.75%;
+  }
+
+  .desktop-hit--agenda {
+    left: 52.7%;
+    width: 5.2%;
+  }
+
+  .desktop-hit--entradas {
+    left: 61.45%;
+    width: 5.75%;
+  }
+
+  .desktop-hit--search {
+    left: 68.35%;
+    width: 4.3%;
+  }
+
+  .desktop-hit--read {
+    top: 77.78%;
+    left: 44.79%;
+    width: 10.42%;
+    height: 4.2%;
+    border-radius: 999px;
+  }
+
+  .era-selector--mobile {
+    display: none;
+  }
+
+  .rococo-article {
+    position: relative;
+    width: 100%;
+    scroll-margin-top: 0;
+    background: #b9d6fe;
+  }
+
+  .rococo-article__desktop {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1920 / 2314;
+  }
+
+  .rococo-article__figma {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+  }
+
+  .article-hit--back {
+    top: 3.8%;
+    left: 3.1%;
+    width: 11.5%;
+    height: 4.5%;
+  }
+
+  .article-hit--discover {
+    right: 43.8%;
+    bottom: 1.8%;
+    width: 12.5%;
+    height: 7.2%;
+  }
+
+  .rococo-article__mobile {
+    display: none;
+  }
+
+  @media (max-width: 47.99rem) {
+    :global(body) {
+      background: #b9d6fe;
     }
 
-    .hist__article {
-      padding-top: 0;
+    .era-selector--desktop,
+    .rococo-article__desktop {
+      display: none;
+    }
+
+    .era-selector--mobile {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      min-height: 100svh;
+      padding: 1.15rem 1.15rem 2.25rem;
+      color: #141414;
+      background: #fd6500;
+    }
+
+    .mobile-nav {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .mobile-nav__logo {
+      width: 3rem;
+      height: 3rem;
+      flex: 0 0 auto;
+    }
+
+    .mobile-nav__toggle {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      place-content: center;
+      gap: 0.35rem;
+      width: 3rem;
+      height: 3rem;
+      padding: 0;
+      color: #f3eee1;
+      background: #141414;
+      border: 0;
+      border-radius: 50%;
+    }
+
+    .mobile-nav__toggle span {
+      width: 1.15rem;
+      height: 1px;
+      background: currentColor;
+      transition: transform 240ms ease;
+    }
+
+    .mobile-nav__toggle[aria-expanded='true'] span:first-child {
+      transform: translateY(0.18rem) rotate(45deg);
+    }
+
+    .mobile-nav__toggle[aria-expanded='true'] span:last-child {
+      transform: translateY(-0.18rem) rotate(-45deg);
+    }
+
+    .mobile-nav__menu {
+      position: absolute;
+      top: -0.25rem;
+      right: -0.25rem;
+      left: -0.25rem;
+      display: grid;
+      gap: 0;
+      padding: 4.5rem 1.25rem 1.15rem;
+      color: #f3eee1;
+      background: #141414;
+      border-radius: 1.25rem;
+      box-shadow: 0 1.25rem 4rem rgb(20 20 20 / 22%);
+    }
+
+    .mobile-nav__menu[hidden] {
+      display: none;
+    }
+
+    .mobile-nav__menu a {
+      padding: 0.72rem 0;
+      border-top: 1px solid rgb(243 238 225 / 20%);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .mobile-nav__menu .mobile-nav__ticket {
+      margin-top: 0.6rem;
+      padding: 0.75rem 0.9rem;
+      color: #141414;
+      background: #fd6500;
+      border-top: 0;
+      border-radius: 0.15rem;
+      text-align: center;
+    }
+
+    .mobile-era-rail {
+      align-self: start;
+      display: grid;
+      grid-template-columns: 1fr auto auto auto 1fr;
+      align-items: center;
+      gap: 0.55rem;
+      margin-top: clamp(4.5rem, 14vh, 7rem);
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-style: italic;
+      line-height: 1;
+    }
+
+    .mobile-era-rail > span:first-child,
+    .mobile-era-rail > span:last-child {
+      opacity: 0.42;
+    }
+
+    .mobile-era-rail > span:last-child {
+      text-align: right;
+    }
+
+    .mobile-era-rail strong {
+      font-family: var(--font-display);
+      font-size: 1.13rem;
+      font-weight: 400;
+    }
+
+    .mobile-era-rail__arrow {
+      display: grid;
+      place-items: center;
+      width: 1.55rem;
+      height: 1.55rem;
+      border: 1px solid #141414;
+      border-radius: 50%;
+      font-family: var(--font-body);
+      font-style: normal;
+    }
+
+    .mobile-era-copy {
+      align-self: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: -3.5rem;
+      text-align: center;
+    }
+
+    .mobile-era-copy h1 {
+      color: #b9d6fe;
+      font-size: clamp(5.4rem, 26vw, 7rem);
+      font-weight: 400;
+      line-height: 0.82;
+      letter-spacing: -0.055em;
+    }
+
+    .mobile-era-copy p {
+      max-width: 22rem;
+      margin-top: 2.25rem;
+      font-size: 1rem;
+      font-style: italic;
+      line-height: 1.24;
+    }
+
+    .mobile-read {
+      position: relative;
+      display: grid;
+      place-items: center;
+      width: 10.5rem;
+      height: 2.45rem;
+      margin-top: 2.5rem;
+      text-transform: uppercase;
+    }
+
+    .mobile-read img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .mobile-read span {
+      position: relative;
+      z-index: 1;
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+    }
+
+    .rococo-article__mobile {
+      display: block;
+      color: #141414;
+      background: linear-gradient(to bottom, #f3eee1 13rem, #b9d6fe 48rem);
+    }
+
+    .mobile-article-hero {
+      position: relative;
+      isolation: isolate;
+      min-height: 25rem;
+      padding: 2.2rem 1.2rem 1.5rem;
+      overflow: hidden;
+      background: #b9d6fe;
+      border-bottom: 1px solid #141414;
+    }
+
+    .mobile-article-hero__floral {
+      position: absolute;
+      top: -1rem;
+      right: -5rem;
+      z-index: -1;
+      width: 42rem;
+      max-width: none;
+      opacity: 0.8;
+      transform: scaleX(-1);
+    }
+
+    .mobile-article-hero > a {
+      display: inline-block;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .mobile-article-hero__title {
+      position: absolute;
+      right: 1.2rem;
+      bottom: 2.25rem;
+      left: 1.2rem;
+    }
+
+    .mobile-article-hero__title p {
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 13vw, 4rem);
+      font-style: italic;
+      line-height: 0.9;
+    }
+
+    .mobile-article-hero__title h2 {
+      margin-top: 0.2rem;
+      color: #fd6500;
+      font-size: clamp(5.5rem, 27vw, 8rem);
+      font-weight: 400;
+      line-height: 0.78;
+      letter-spacing: -0.055em;
+    }
+
+    .mobile-article-hero__byline {
+      position: absolute;
+      right: 1.2rem;
+      bottom: 1.2rem;
+      display: flex;
+      align-items: baseline;
+      gap: 0.55rem;
+      text-align: right;
+    }
+
+    .mobile-article-hero__byline span {
+      font-size: 0.5rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .mobile-article-hero__byline em {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+    }
+
+    .mobile-article-copy {
+      padding: 2.2rem 1.2rem 3rem;
+    }
+
+    .mobile-article-copy blockquote {
+      max-width: 22rem;
+      margin: 0;
+      color: #fd6500;
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 10.5vw, 3.2rem);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.02;
+      letter-spacing: -0.025em;
+    }
+
+    .mobile-article-copy__credit {
+      margin-top: 1.15rem;
+      font-size: 0.56rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      line-height: 1.45;
+      text-transform: uppercase;
+    }
+
+    .mobile-article-copy__gallery {
+      position: relative;
+      width: min(100%, 24rem);
+      aspect-ratio: 722.582 / 880;
+      margin: 3rem auto;
+    }
+
+    .mobile-gallery-photo {
+      position: absolute;
+      inset: 2.4% 3%;
+      overflow: hidden;
+      -webkit-mask: url('/images/history-fidelity/gallery-mask.svg') center / 100% 100% no-repeat;
+      mask: url('/images/history-fidelity/gallery-mask.svg') center / 100% 100% no-repeat;
+    }
+
+    .mobile-gallery-photo img {
+      position: absolute;
+      top: -14.88%;
+      left: -14.65%;
+      width: 129.37%;
+      height: 114.87%;
+      max-width: none;
+      object-fit: cover;
+    }
+
+    .mobile-gallery-frame {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .mobile-article-copy__body {
+      display: grid;
+      gap: 1.45rem;
+      font-size: 1rem;
+      font-style: italic;
+      line-height: 1.25;
+    }
+
+    .mobile-article-copy__body a {
+      color: #fd6500;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 0.08em;
+    }
+
+    .mobile-article-copy__body a.is-purple {
+      color: #520345;
+    }
+
+    .mobile-discover {
+      display: flex;
+      min-height: 29rem;
+      padding: 4.5rem 1.2rem 3.5rem;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      text-align: center;
+      background:
+        radial-gradient(
+          circle at 50% 80%,
+          #fd6500 0 15%,
+          rgb(253 101 0 / 58%) 25%,
+          transparent 58%
+        ),
+        #b9d6fe;
+      border-top: 2px solid #141414;
+    }
+
+    .mobile-discover h2 {
+      max-width: 22rem;
+      font-size: clamp(4rem, 20vw, 6rem);
+      font-weight: 400;
+      line-height: 0.86;
+      letter-spacing: -0.055em;
+    }
+
+    .mobile-discover p {
+      margin-top: 2rem;
+      font-size: 0.62rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .mobile-discover a {
+      display: flex;
+      margin-top: 2.4rem;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.55rem;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .mobile-discover a img {
+      width: 2.55rem;
+      height: 2.55rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .era-selector__figma,
+    .mobile-era-copy,
+    .mobile-era-rail {
+      animation: history-arrive 780ms cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .mobile-era-rail {
+      animation-delay: 80ms;
+    }
+
+    .mobile-era-copy {
+      animation-delay: 140ms;
+    }
+  }
+
+  @keyframes history-arrive {
+    from {
+      opacity: 0;
+      transform: translateY(0.75rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mobile-nav__toggle span {
+      transition-duration: 0.01ms;
     }
   }
 </style>
+
+<script>
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  document.querySelectorAll<HTMLAnchorElement>('[data-read-history]').forEach((link) => {
+    link.addEventListener('click', (event) => {
+      const target = document.querySelector<HTMLElement>('#historia-rococo');
+      if (!target) return;
+
+      event.preventDefault();
+      target.scrollIntoView({ behavior: prefersReducedMotion.matches ? 'auto' : 'smooth' });
+      history.replaceState(null, '', '#historia-rococo');
+    });
+  });
+
+  const mobileNav = document.querySelector<HTMLElement>('[data-mobile-history-nav]');
+  const mobileToggle = mobileNav?.querySelector<HTMLButtonElement>('[data-mobile-history-toggle]');
+  const mobileMenu = mobileNav?.querySelector<HTMLElement>('#history-mobile-menu');
+
+  if (mobileToggle && mobileMenu) {
+    const setMenuOpen = (open: boolean) => {
+      mobileToggle.setAttribute('aria-expanded', String(open));
+      mobileToggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+      mobileMenu.hidden = !open;
+    };
+
+    mobileToggle.addEventListener('click', () => {
+      setMenuOpen(mobileToggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    mobileMenu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => setMenuOpen(false));
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && mobileToggle.getAttribute('aria-expanded') === 'true') {
+        setMenuOpen(false);
+        mobileToggle.focus();
+      }
+    });
+  }
+</script>

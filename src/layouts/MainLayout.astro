@@ -12,16 +12,21 @@ import Footer from '@components/layout/Footer.astro';
 import PageTransition from '@components/common/PageTransition.astro';
 import type { SeoMeta } from '@/types/index';
 
-type Props = Partial<SeoMeta>;
+type Props = Partial<SeoMeta> & {
+  /** Hide the global navbar/footer for full-canvas exhibition experiences. */
+  immersive?: boolean;
+};
+
+const { immersive = false, ...seo } = Astro.props;
 ---
 
-<BaseLayout {...Astro.props}>
+<BaseLayout {...seo}>
   <PageTransition />
-  <Navbar />
+  {!immersive && <Navbar />}
   <main id="main-content">
     <slot />
   </main>
-  <Footer />
+  {!immersive && <Footer />}
 </BaseLayout>
 
 <script>
