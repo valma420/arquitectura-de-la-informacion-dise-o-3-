@@ -1,10 +1,9 @@
 # Palais Galliera - Digital Exhibition
 
-Interactive fashion-museum experience created for **Diseño 3**, an advanced
-Graphic Design course at **Universidad de Buenos Aires**. It translates an
-evolving Figma design into a production-oriented, semi-functional website. It is
-inspired by the Palais Galliera, but it is not the museum's official website or
-live program.
+Interactive fashion-museum experience created for **Diseño 3**, a Graphic Design 
+course at **Universidad de Buenos Aires**. It translates an evolving Figma design
+into a production-oriented, semi-functional website. It is inspired by the 
+Palais Galliera, but it is not the museum's official website or live program.
 
 > **Status:** Functional static prototype. The principal routes, collection,
 > object views, editorial stories, timeline, agenda, responsive layouts,
