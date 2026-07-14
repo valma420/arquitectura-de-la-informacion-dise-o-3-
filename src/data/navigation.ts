@@ -7,7 +7,7 @@ import type { NavLink } from '@/types/index';
 export const navigationLinks: NavLink[] = [
   { label: 'Home', href: '/' },
   { label: 'Muestra', href: '/muestra' },
-  { label: 'Colección', href: '/coleccion' },
+  { label: 'Colección', href: '/coleccion-permanente' },
   { label: 'Linea de tiempo', href: '/linea-de-tiempo' },
   { label: 'Historia', href: '/historia' },
   { label: 'Agenda', href: '/agenda' },

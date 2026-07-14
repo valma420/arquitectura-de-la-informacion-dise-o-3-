@@ -125,7 +125,7 @@ const introPositions = [
       <nav class="collection-nav__bar" aria-label="Principal">
         <a href="/historia">Visitar</a>
         <a href="/muestra">Exposiciones</a>
-        <a class="is-active" href="/coleccion" aria-current="page">Colecciones</a>
+        <a class="is-active" href="/coleccion-permanente">Colecciones</a>
         <a href="/historia">El museo</a>
         <a href="/agenda">Agenda</a>
         <a class="collection-nav__tickets" href="/agenda">Entradas</a>
@@ -150,8 +150,10 @@ const introPositions = [
                   type="button"
                   data-orbit-piece
                   data-index={itemIndex}
+                  data-position={orbitIndex}
                   style={`--piece-x:${position.x}%;--piece-y:${position.y}%;--piece-w:${position.w}%;`}
                   aria-label={`Ver ${item.title}, ${item.year}`}
+                  aria-current={orbitIndex === 5 ? 'true' : undefined}
                 >
                   <img src={item.image} alt="" />
                 </button>
@@ -205,9 +207,14 @@ const introPositions = [
           1700 — 1800 · 42 PIEZAS
         </p>
 
-        <figure class="catalogue__main-piece">
+        <a
+          class="catalogue__main-piece"
+          href={`/coleccion/${initialItem.slug}`}
+          data-main-link
+          aria-label={`Abrir ficha de ${initialItem.title}`}
+        >
           <img src={initialItem.image} alt={initialItem.title} data-main-image />
-        </figure>
+        </a>
 
         <div class="catalogue__neighbours" aria-label="Piezas próximas">
           {
@@ -254,6 +261,12 @@ const introPositions = [
   type="application/json"
   id="catalogue-items"
   set:html={JSON.stringify(catalogueItems)}
+/>
+<script
+  is:inline
+  type="application/json"
+  id="catalogue-orbit-positions"
+  set:html={JSON.stringify(introPositions)}
 />
 
 <style>
@@ -482,7 +495,25 @@ const introPositions = [
     border: 0;
     cursor: pointer;
     transform: translate(-50%, -50%);
-    transition: transform 260ms ease;
+    transition:
+      top 620ms cubic-bezier(0.76, 0, 0.24, 1),
+      left 620ms cubic-bezier(0.76, 0, 0.24, 1),
+      width 620ms cubic-bezier(0.76, 0, 0.24, 1),
+      opacity 220ms ease,
+      transform 260ms ease;
+  }
+
+  .catalogue.is-orbiting .catalogue__orbit-piece {
+    pointer-events: none;
+  }
+
+  .catalogue__orbit-piece.is-wrapping {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.72);
+  }
+
+  .catalogue__orbit-piece.is-teleporting {
+    transition: none;
   }
 
   .catalogue__orbit-piece:hover,
@@ -659,6 +690,7 @@ const introPositions = [
     width: 40.47%;
     height: 103%;
     margin: 0;
+    outline-offset: -0.25rem;
   }
 
   .catalogue__main-piece img {
@@ -674,6 +706,11 @@ const introPositions = [
   .catalogue.is-changing .catalogue__main-piece img {
     opacity: 0;
     transform: translateY(1rem) scale(0.97);
+  }
+
+  .catalogue__main-piece:hover img,
+  .catalogue__main-piece:focus-visible img {
+    transform: scale(1.015);
   }
 
   .catalogue__neighbours {
@@ -1080,6 +1117,8 @@ const introPositions = [
   const catalogue = document.querySelector<HTMLElement>('[data-catalogue]');
   const data = document.getElementById('catalogue-items')?.textContent ?? '[]';
   const items = JSON.parse(data) as CatalogueItem[];
+  const orbitData = document.getElementById('catalogue-orbit-positions')?.textContent ?? '[]';
+  const orbitPositions = JSON.parse(orbitData) as { x: number; y: number; w: number }[];
 
   if (catalogue && items.length > 0) {
     const mainImage = catalogue.querySelector<HTMLImageElement>('[data-main-image]');
@@ -1089,13 +1128,17 @@ const introPositions = [
     const pieceNumber = catalogue.querySelector<HTMLElement>('[data-piece-number]');
     const countCurrent = catalogue.querySelector<HTMLElement>('[data-count-current]');
     const pieceLink = catalogue.querySelector<HTMLAnchorElement>('[data-piece-link]');
+    const mainLink = catalogue.querySelector<HTMLAnchorElement>('[data-main-link]');
     const selectedView = catalogue.querySelector<HTMLElement>('[data-selected-view]');
     const introView = catalogue.querySelector<HTMLElement>('[data-intro-view]');
     const liveRegion = catalogue.querySelector<HTMLElement>('[data-live-region]');
     const sideCards = [...catalogue.querySelectorAll<HTMLButtonElement>('[data-side-card]')];
+    const orbitButtons = [...catalogue.querySelectorAll<HTMLButtonElement>('[data-orbit-piece]')];
     const sideOffsets = [-2, -1, 1, 2];
     let currentIndex = 3;
     let changeTimer = 0;
+    let orbitTimer = 0;
+    let orbitLocked = false;
 
     const normalized = (index: number) => (index + items.length) % items.length;
 
@@ -1120,6 +1163,10 @@ const introPositions = [
         if (pieceNumber) pieceNumber.textContent = `PIEZA ${visibleNumber}/ 42`;
         if (countCurrent) countCurrent.textContent = visibleNumber;
         if (pieceLink) pieceLink.href = `/coleccion/${current.slug}`;
+        if (mainLink) {
+          mainLink.href = `/coleccion/${current.slug}`;
+          mainLink.setAttribute('aria-label', `Abrir ficha de ${current.title}`);
+        }
 
         sideCards.forEach((card, cardIndex) => {
           const sideIndex = normalized(currentIndex + sideOffsets[cardIndex]);
@@ -1146,12 +1193,73 @@ const introPositions = [
       render(currentIndex, false);
     };
 
+    const setOrbitPosition = (button: HTMLButtonElement, positionIndex: number) => {
+      const position = orbitPositions[positionIndex];
+      if (!position) return;
+      button.dataset.position = String(positionIndex);
+      button.style.setProperty('--piece-x', `${position.x}%`);
+      button.style.setProperty('--piece-y', `${position.y}%`);
+      button.style.setProperty('--piece-w', `${position.w}%`);
+      if (positionIndex === 5) button.setAttribute('aria-current', 'true');
+      else button.removeAttribute('aria-current');
+    };
+
+    const rotateOrbit = (delta: number) => {
+      if (orbitLocked || orbitPositions.length !== orbitButtons.length) return;
+
+      orbitLocked = true;
+      catalogue.classList.add('is-orbiting');
+      window.clearTimeout(orbitTimer);
+
+      let centeredButton: HTMLButtonElement | undefined;
+      orbitButtons.forEach((button) => {
+        const position = Number(button.dataset.position ?? 0);
+        const rawTarget = position + delta;
+        const target =
+          ((rawTarget % orbitPositions.length) + orbitPositions.length) % orbitPositions.length;
+        const wraps = rawTarget < 0 || rawTarget >= orbitPositions.length;
+
+        if (target === 5) centeredButton = button;
+
+        if (!wraps) {
+          setOrbitPosition(button, target);
+          return;
+        }
+
+        button.classList.add('is-wrapping');
+        window.setTimeout(() => {
+          button.classList.add('is-teleporting');
+          setOrbitPosition(button, target);
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              button.classList.remove('is-teleporting', 'is-wrapping');
+            });
+          });
+        }, 230);
+      });
+
+      if (centeredButton) {
+        currentIndex = Number(centeredButton.dataset.index ?? currentIndex);
+        const current = items[currentIndex];
+        if (liveRegion) liveRegion.textContent = `Seleccionada ${current.title}, ${current.year}`;
+      }
+
+      orbitTimer = window.setTimeout(() => {
+        orbitLocked = false;
+        catalogue.classList.remove('is-orbiting');
+      }, 680);
+    };
+
     catalogue.querySelector('[data-discover]')?.addEventListener('click', selectMode);
 
-    catalogue.querySelectorAll<HTMLButtonElement>('[data-orbit-piece]').forEach((button) => {
+    orbitButtons.forEach((button) => {
       button.addEventListener('click', () => {
-        currentIndex = Number(button.dataset.index ?? currentIndex);
-        selectMode();
+        const position = Number(button.dataset.position ?? 5);
+        let delta = 5 - position;
+        const half = orbitButtons.length / 2;
+        if (delta > half) delta -= orbitButtons.length;
+        if (delta < -half) delta += orbitButtons.length;
+        if (delta !== 0) rotateOrbit(delta);
       });
     });
 
@@ -1160,19 +1268,24 @@ const introPositions = [
     });
 
     catalogue.querySelector('[data-previous]')?.addEventListener('click', () => {
-      if (catalogue.dataset.mode !== 'selected') selectMode();
+      if (catalogue.dataset.mode !== 'selected') rotateOrbit(1);
       else render(currentIndex - 1);
     });
 
     catalogue.querySelector('[data-next]')?.addEventListener('click', () => {
-      if (catalogue.dataset.mode !== 'selected') selectMode();
+      if (catalogue.dataset.mode !== 'selected') rotateOrbit(-1);
       else render(currentIndex + 1);
     });
 
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowLeft') render(currentIndex - 1);
-      if (event.key === 'ArrowRight') render(currentIndex + 1);
-      if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') selectMode();
+      if (event.key === 'ArrowLeft') {
+        if (catalogue.dataset.mode === 'selected') render(currentIndex - 1);
+        else rotateOrbit(1);
+      }
+      if (event.key === 'ArrowRight') {
+        if (catalogue.dataset.mode === 'selected') render(currentIndex + 1);
+        else rotateOrbit(-1);
+      }
     });
 
     const params = new URLSearchParams(window.location.search);

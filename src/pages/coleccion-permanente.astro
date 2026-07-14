@@ -1,0 +1,735 @@
+---
+/**
+ * Coleccion permanente — indice visual basado en los frames Figma
+ * 1:1384, 1:1458, 1:1566 y 1:1670.
+ */
+import MainLayout from '@layouts/MainLayout.astro';
+
+const collectionPieces = [
+  { image: 'c06', slug: 'redingote', x: 14.8, y: -3, w: 5.4, tags: 'rococo vestido seda' },
+  { image: 'c11', slug: 'robe-polonaise', x: 23, y: -6, w: 5.2, tags: 'rococo vestido seda' },
+  { image: 'c03', slug: 'caraco-falda', x: 33.5, y: -7, w: 5.8, tags: 'rococo abrigo bordado' },
+  {
+    image: 'c10',
+    slug: 'vestido-gasa-1790',
+    x: 44.2,
+    y: -8,
+    w: 5.3,
+    tags: 'neoclasico vestido seda',
+  },
+  { image: 'c05', slug: 'casaca-bordada', x: 54.8, y: -6, w: 5.2, tags: 'rococo abrigo bordado' },
+  { image: 'c13', slug: 'robe-anglaise', x: 66.5, y: -8, w: 5.5, tags: 'rococo vestido seda' },
+  {
+    image: 'c12',
+    slug: 'robe-francaise-1730',
+    x: 79.2,
+    y: -5,
+    w: 5.2,
+    tags: 'rococo vestido seda',
+  },
+  { image: 'c08', slug: 'robe-polonaise', x: 91, y: 0, w: 5.4, tags: 'rococo vestido bordado' },
+  { image: 'c02', slug: 'vestido-corte', x: 5.2, y: 10, w: 6.1, tags: 'rococo vestido seda' },
+  { image: 'c14', slug: 'caraco-falda', x: 20.2, y: 12, w: 5.2, tags: 'rococo vestido algodon' },
+  {
+    image: 'c04',
+    slug: 'robe-francaise-1760',
+    x: 34.6,
+    y: 12,
+    w: 5.7,
+    tags: 'rococo vestido seda',
+  },
+  { image: 'c07', slug: 'robe-anglaise', x: 46.1, y: 12, w: 5.2, tags: 'rococo vestido seda' },
+  { image: 'c09', slug: 'chaleco-courtois', x: 57.6, y: 11, w: 5.4, tags: 'rococo abrigo bordado' },
+  {
+    image: 'c01',
+    slug: 'robe-francaise-1730',
+    x: 68.6,
+    y: 12,
+    w: 5.3,
+    tags: 'rococo vestido seda',
+  },
+  {
+    image: 'c15',
+    slug: 'vestido-gasa-1790',
+    x: 81.5,
+    y: 13,
+    w: 5.6,
+    tags: 'neoclasico vestido encaje',
+  },
+  { image: 'c05', slug: 'casaca-bordada', x: -2.5, y: 31, w: 6.2, tags: 'rococo abrigo bordado' },
+  {
+    image: 'c10',
+    slug: 'vestido-gasa-1790',
+    x: 12.4,
+    y: 28,
+    w: 5.8,
+    tags: 'neoclasico vestido encaje',
+  },
+  { image: 'c14', slug: 'caraco-falda', x: 79, y: 28, w: 5.8, tags: 'rococo vestido algodon' },
+  {
+    image: 'c01',
+    slug: 'robe-francaise-1730',
+    x: 91.5,
+    y: 29,
+    w: 5.7,
+    tags: 'rococo vestido seda',
+  },
+  { image: 'c04', slug: 'robe-francaise-1760', x: 3, y: 54, w: 6, tags: 'rococo vestido seda' },
+  { image: 'c08', slug: 'robe-polonaise', x: 18.5, y: 59, w: 5.6, tags: 'rococo vestido bordado' },
+  {
+    image: 'c12',
+    slug: 'robe-francaise-1730',
+    x: 34.5,
+    y: 60,
+    w: 5.3,
+    tags: 'rococo vestido seda',
+  },
+  { image: 'c09', slug: 'chaleco-courtois', x: 56.5, y: 60, w: 5, tags: 'rococo abrigo bordado' },
+  { image: 'c03', slug: 'caraco-falda', x: 68, y: 60, w: 5.8, tags: 'rococo abrigo algodon' },
+  { image: 'c11', slug: 'robe-polonaise', x: 83, y: 58, w: 5.4, tags: 'rococo vestido seda' },
+  { image: 'c06', slug: 'redingote', x: 94.5, y: 56, w: 5.4, tags: 'neoclasico abrigo lana' },
+  { image: 'c02', slug: 'vestido-corte', x: -1, y: 78, w: 6.2, tags: 'rococo vestido seda' },
+  { image: 'c13', slug: 'robe-anglaise', x: 11.8, y: 76, w: 5.7, tags: 'rococo vestido seda' },
+  { image: 'c07', slug: 'robe-anglaise', x: 23, y: 81, w: 5.4, tags: 'rococo vestido seda' },
+  {
+    image: 'c15',
+    slug: 'vestido-gasa-1790',
+    x: 35,
+    y: 78,
+    w: 5.2,
+    tags: 'neoclasico vestido encaje',
+  },
+  { image: 'c14', slug: 'caraco-falda', x: 46, y: 79, w: 5.6, tags: 'rococo vestido algodon' },
+  { image: 'c05', slug: 'casaca-bordada', x: 57.5, y: 78, w: 5.3, tags: 'rococo abrigo bordado' },
+  {
+    image: 'c04',
+    slug: 'robe-francaise-1760',
+    x: 69.5,
+    y: 79,
+    w: 5.5,
+    tags: 'rococo vestido seda',
+  },
+  {
+    image: 'c10',
+    slug: 'vestido-gasa-1790',
+    x: 82,
+    y: 77,
+    w: 5.4,
+    tags: 'neoclasico vestido encaje',
+  },
+  { image: 'c08', slug: 'robe-polonaise', x: 94, y: 78, w: 5.5, tags: 'rococo vestido bordado' },
+];
+
+const permanentImages = [
+  '1968.png',
+  '1900.png',
+  '2011.png',
+  '1925.png',
+  '1730.png',
+  '1870.png',
+  '1850.png',
+  '1815.png',
+  '1930.png',
+  '1780.png',
+  '1760.png',
+  '1983.png',
+  '1790.png',
+  '1775.png',
+  '1992.png',
+  '1959.png',
+  '1830.png',
+  '1995.png',
+  'alaia.png',
+  '1730.png',
+  '1785.png',
+  '1968.png',
+  '1790-b.png',
+  '1775-b.png',
+  '1925.png',
+  '2011.png',
+  '1850.png',
+  '1900.png',
+  '1815.png',
+  '1870.png',
+  '1968.png',
+  '1780.png',
+  '1730.png',
+  '1760.png',
+  '1983.png',
+];
+
+const filters = [
+  {
+    label: 'Período',
+    options: [
+      ['Rococó', 'rococo'],
+      ['Neoclásico', 'neoclasico'],
+      ['Siglo XIX', 'siglo-xix'],
+      ['Belle Époque', 'belle-epoque'],
+      ['Années folles', 'annees-folles'],
+      ['Los años 30', 'anos-30'],
+      ['New Look', 'new-look'],
+      ['La Revolución juvenil', 'revolucion-juvenil'],
+    ],
+  },
+  {
+    label: 'Diseñador',
+    options: [
+      ['Anónimo', 'anonimo'],
+      ['Maison Worth', 'worth'],
+      ['Paul Poiret', 'poiret'],
+      ['Madeleine Vionnet', 'vionnet'],
+      ['Christian Dior', 'dior'],
+    ],
+  },
+  {
+    label: 'Tipología',
+    options: [
+      ['Vestido', 'vestido'],
+      ['Abrigo', 'abrigo'],
+      ['Traje', 'traje'],
+      ['Calzado', 'calzado'],
+      ['Sombrerería', 'sombrereria'],
+      ['Accesorios', 'accesorios'],
+      ['Partes de abajo', 'partes-abajo'],
+      ['Partes de arriba', 'partes-arriba'],
+    ],
+  },
+  {
+    label: 'Material',
+    options: [
+      ['Seda', 'seda'],
+      ['Algodón', 'algodon'],
+      ['Lana', 'lana'],
+      ['Encaje', 'encaje'],
+      ['Cuero', 'cuero'],
+      ['Bordado', 'bordado'],
+    ],
+  },
+  {
+    label: 'Color',
+    options: [
+      ['Claro', 'claro'],
+      ['Oscuro', 'oscuro'],
+      ['Azul', 'azul'],
+      ['Verde', 'verde'],
+      ['Rojo', 'rojo'],
+    ],
+  },
+];
+---
+
+<MainLayout
+  title="Colección permanente"
+  description="Índice visual de la colección permanente del prototipo Palais Galliera."
+  immersive
+>
+  <div class="permanent-collection" data-permanent-collection>
+    <header class="collection-nav">
+      <a class="collection-nav__logo" href="/" aria-label="Palais Galliera — Inicio">
+        <svg viewBox="0 0 61 61" aria-hidden="true">
+          <circle cx="30.5" cy="30.5" r="30.5" fill="currentColor"></circle>
+          <g fill="none" stroke="#f3eee1" stroke-width="1.5">
+            <path d="M17 26h27L30.5 19 17 26Z"></path>
+            <path d="M18 41h25M20 28v11m7-11v11m7-11v11m7-11v11"></path>
+          </g>
+        </svg>
+      </a>
+
+      <nav class="collection-nav__bar" aria-label="Principal">
+        <a href="/historia">Visitar</a>
+        <a href="/muestra">Exposiciones</a>
+        <a class="is-active" href="/coleccion-permanente" aria-current="page">Colecciones</a>
+        <a href="/historia">El museo</a>
+        <a href="/agenda">Agenda</a>
+        <a class="collection-nav__tickets" href="/agenda">Entradas</a>
+        <a class="collection-nav__search" href="#filtros" aria-label="Filtrar la colección">
+          <img src="/images/collection-fidelity/catalogue-search.svg" alt="" />
+        </a>
+      </nav>
+    </header>
+
+    <div class="permanent-collection__summary">
+      <p>22.071 prendas y accesorios</p>
+      <p>Indumentaria · siglo XVIII a la actualidad</p>
+    </div>
+
+    <div class="permanent-collection__pieces" aria-label="Objetos de la colección">
+      {
+        collectionPieces.map((piece, index) => (
+          <a
+            class="collection-piece"
+            href={index === 4 ? '/coleccion' : `/coleccion/${piece.slug}`}
+            style={`--piece-x:${piece.x}%;--piece-y:${piece.y}%;--piece-w:${piece.w}%;--piece-delay:${(index % 8) * 45}ms;`}
+            data-tags={piece.tags}
+            aria-label={
+              index === 4 ? 'Abrir selección Robe à la française' : 'Abrir ficha del objeto'
+            }
+          >
+            <img src={`/images/prendas/${permanentImages[index]}`} alt="" />
+          </a>
+        ))
+      }
+    </div>
+
+    <section class="permanent-collection__center" aria-labelledby="collection-title">
+      <h1 id="collection-title">Colección</h1>
+
+      <div class="collection-filters" id="filtros" aria-label="Filtrar la colección">
+        {
+          filters.map((filter) => (
+            <div class="collection-filter" data-filter>
+              <button type="button" aria-expanded="false" data-filter-toggle>
+                {filter.label}
+              </button>
+              <div class="collection-filter__menu" data-filter-menu hidden>
+                {filter.options.map(([label, value]) => (
+                  <label>
+                    <input type="radio" name={filter.label} value={value} data-filter-option />
+                    <span aria-hidden="true" />
+                    {label}
+                  </label>
+                ))}
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <p class="sr-only" aria-live="polite" data-filter-status></p>
+  </div>
+</MainLayout>
+
+<style>
+  .permanent-collection {
+    --purple: #520345;
+    --cream: #f3eee1;
+    --blue: #b9d6fe;
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    min-height: 49.5rem;
+    overflow: hidden;
+    color: var(--purple);
+    background: var(--cream);
+    isolation: isolate;
+  }
+
+  .collection-nav {
+    position: absolute;
+    z-index: 20;
+    top: 3.6%;
+    left: 3.1%;
+    display: flex;
+    align-items: center;
+    width: 70.1%;
+    min-width: 58rem;
+    height: 3.8125rem;
+  }
+
+  .collection-nav__logo {
+    display: block;
+    width: 3.8125rem;
+    height: 3.8125rem;
+    flex: 0 0 auto;
+    color: var(--purple);
+  }
+
+  .collection-nav__logo svg,
+  .collection-nav__search img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .collection-nav__bar {
+    display: flex;
+    align-items: center;
+    width: 55.6rem;
+    height: 100%;
+    margin-left: 24.1rem;
+    padding: 0 1.5rem 0 2.45rem;
+    color: var(--cream);
+    background: var(--purple);
+  }
+
+  .collection-nav__bar > a:not(.collection-nav__tickets, .collection-nav__search) {
+    margin-right: 2.35rem;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .collection-nav__bar > a.is-active {
+    color: var(--blue);
+  }
+
+  .collection-nav__tickets {
+    display: grid;
+    width: 6.85rem;
+    height: 2rem;
+    margin-left: auto;
+    place-items: center;
+    color: var(--purple);
+    background: var(--blue);
+    border-radius: 2px;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .collection-nav__search {
+    width: 1.35rem;
+    height: 1.35rem;
+    margin-left: 1.4rem;
+    filter: brightness(0) invert(1);
+  }
+
+  .permanent-collection__summary {
+    position: absolute;
+    z-index: 5;
+    top: 14.25%;
+    left: 3.1%;
+    font-size: 0.75rem;
+    line-height: 1.2;
+  }
+
+  .permanent-collection__summary p {
+    margin: 0;
+  }
+
+  .permanent-collection__pieces {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+  }
+
+  .collection-piece {
+    position: absolute;
+    top: var(--piece-y);
+    left: var(--piece-x);
+    display: block;
+    width: var(--piece-w);
+    min-width: 3.4rem;
+    height: 18.5%;
+    opacity: 1;
+    transform: translateX(-50%);
+    transition:
+      opacity 350ms ease,
+      transform 420ms cubic-bezier(0.76, 0, 0.24, 1),
+      filter 350ms ease;
+    animation: collection-piece-enter 650ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: var(--piece-delay);
+  }
+
+  .collection-piece img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0.25rem 0.2rem rgb(82 3 69 / 8%));
+  }
+
+  .collection-piece:hover,
+  .collection-piece:focus-visible {
+    z-index: 8;
+    filter: saturate(1.08);
+    transform: translateX(-50%) scale(1.15);
+  }
+
+  .permanent-collection.is-filtering .collection-piece {
+    opacity: 0.16;
+    filter: saturate(0.3);
+  }
+
+  .permanent-collection.is-filtering .collection-piece.is-match {
+    opacity: 1;
+    filter: none;
+  }
+
+  .permanent-collection__center {
+    position: absolute;
+    z-index: 10;
+    top: 34.8%;
+    left: 50%;
+    width: min(58rem, 56vw);
+    transform: translateX(-50%);
+  }
+
+  .permanent-collection h1 {
+    margin: 0;
+    color: var(--purple);
+    font-family: var(--font-display);
+    font-size: clamp(8rem, 10.42vw, 12.5rem);
+    font-style: normal;
+    font-weight: 100;
+    line-height: 0.8;
+    letter-spacing: -0.04em;
+    text-align: center;
+  }
+
+  .collection-filters {
+    display: flex;
+    justify-content: center;
+    gap: 0.7rem;
+    margin-top: 2.1rem;
+  }
+
+  .collection-filter {
+    position: relative;
+  }
+
+  .collection-filter > button {
+    min-width: 6.65rem;
+    height: 2rem;
+    padding: 0 1rem;
+    color: var(--purple);
+    background: var(--cream);
+    border: 1px solid var(--purple);
+    border-radius: 100px;
+    cursor: pointer;
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition:
+      color 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .collection-filter > button[aria-expanded='true'] {
+    color: var(--cream);
+    background: var(--purple);
+  }
+
+  .collection-filter__menu {
+    position: absolute;
+    top: calc(100% + 0.2rem);
+    left: 0;
+    width: max(100%, 9.5rem);
+    overflow: hidden;
+    color: var(--purple);
+    background: linear-gradient(to bottom, #d8bccb, var(--blue));
+    box-shadow: 0 0.75rem 1.5rem rgb(82 3 69 / 18%);
+  }
+
+  .collection-filter__menu label {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-height: 2.2rem;
+    padding: 0.35rem 0.7rem;
+    border-bottom: 1px solid rgb(82 3 69 / 18%);
+    cursor: pointer;
+    font-size: 0.72rem;
+    white-space: nowrap;
+  }
+
+  .collection-filter__menu label:hover {
+    background: rgb(243 238 225 / 38%);
+  }
+
+  .collection-filter__menu input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+  }
+
+  .collection-filter__menu label > span {
+    width: 0.65rem;
+    height: 0.65rem;
+    border: 1px solid var(--purple);
+  }
+
+  .collection-filter__menu input:checked + span {
+    background: var(--purple);
+    box-shadow: inset 0 0 0 2px var(--blue);
+  }
+
+  @keyframes collection-piece-enter {
+    from {
+      opacity: 0;
+      transform: translateX(-50%) translateY(1.5rem) scale(0.92);
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .collection-nav {
+      top: 1rem;
+      left: 1rem;
+      width: calc(100% - 2rem);
+      min-width: 0;
+    }
+
+    .collection-nav__bar {
+      justify-content: flex-end;
+      margin-left: auto;
+    }
+
+    .collection-nav__bar > a:not(.collection-nav__tickets, .collection-nav__search) {
+      display: none;
+    }
+
+    .permanent-collection__summary {
+      top: 6.4rem;
+      left: 1.25rem;
+    }
+
+    .permanent-collection__center {
+      top: 37%;
+      width: 92vw;
+    }
+
+    .permanent-collection h1 {
+      font-size: clamp(5rem, 19vw, 9rem);
+    }
+
+    .collection-filters {
+      flex-wrap: wrap;
+      width: min(38rem, 92vw);
+      margin-inline: auto;
+    }
+
+    .collection-filter__menu {
+      z-index: 30;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .permanent-collection {
+      min-height: 43rem;
+    }
+
+    .collection-nav__bar {
+      position: absolute;
+      right: 0;
+      width: 9.5rem;
+      margin-left: 0;
+      padding-left: 1rem;
+    }
+
+    .collection-nav__tickets {
+      width: 5.6rem;
+    }
+
+    .permanent-collection__summary {
+      font-size: 0.68rem;
+    }
+
+    .permanent-collection__center {
+      top: 35%;
+      width: calc(100vw - 2rem);
+    }
+
+    .permanent-collection h1 {
+      font-size: clamp(3rem, 14vw, 3.6rem);
+    }
+
+    .collection-filters {
+      gap: 0.45rem;
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+
+    .collection-filter {
+      min-width: 0;
+      flex: 0 0 calc(50% - 0.25rem);
+    }
+
+    .collection-filter > button {
+      width: 100%;
+      min-width: 0;
+      height: 1.8rem;
+      padding-inline: 0.35rem;
+      font-size: 0.5rem;
+    }
+
+    .collection-piece {
+      width: calc(var(--piece-w) * 1.65);
+      height: 15%;
+    }
+
+    .collection-piece:nth-child(3n) {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .collection-piece,
+    .collection-filter > button {
+      animation: none;
+      transition-duration: 0.01ms;
+    }
+  }
+</style>
+
+<script>
+  const collection = document.querySelector<HTMLElement>('[data-permanent-collection]');
+
+  if (collection) {
+    const filters = [...collection.querySelectorAll<HTMLElement>('[data-filter]')];
+    const pieces = [...collection.querySelectorAll<HTMLElement>('[data-tags]')];
+    const status = collection.querySelector<HTMLElement>('[data-filter-status]');
+    let selectedValue = '';
+
+    const closeMenus = (except?: HTMLElement) => {
+      filters.forEach((filter) => {
+        if (filter === except) return;
+        filter.querySelector<HTMLElement>('[data-filter-menu]')?.setAttribute('hidden', '');
+        filter
+          .querySelector<HTMLButtonElement>('[data-filter-toggle]')
+          ?.setAttribute('aria-expanded', 'false');
+      });
+    };
+
+    const applyFilter = (value: string, label: string) => {
+      selectedValue = value;
+      let matchCount = 0;
+      pieces.forEach((piece) => {
+        const matches = !selectedValue || (piece.dataset.tags ?? '').split(' ').includes(value);
+        piece.classList.toggle('is-match', matches);
+        if (matches) matchCount += 1;
+      });
+      collection.classList.toggle('is-filtering', Boolean(selectedValue));
+      if (status) status.textContent = `${label}: ${matchCount} objetos visibles`;
+    };
+
+    filters.forEach((filter) => {
+      const toggle = filter.querySelector<HTMLButtonElement>('[data-filter-toggle]');
+      const menu = filter.querySelector<HTMLElement>('[data-filter-menu]');
+
+      toggle?.addEventListener('click', () => {
+        const willOpen = toggle.getAttribute('aria-expanded') !== 'true';
+        closeMenus(filter);
+        toggle.setAttribute('aria-expanded', String(willOpen));
+        menu?.toggleAttribute('hidden', !willOpen);
+      });
+
+      filter.querySelectorAll<HTMLInputElement>('[data-filter-option]').forEach((option) => {
+        option.addEventListener('change', () => {
+          const label = option.closest('label')?.textContent?.trim() ?? option.value;
+          applyFilter(option.value, label);
+          if (toggle) toggle.textContent = label;
+          closeMenus();
+        });
+      });
+    });
+
+    document.addEventListener('click', (event) => {
+      if (
+        !(event.target instanceof Node) ||
+        collection.querySelector('.collection-filters')?.contains(event.target)
+      ) {
+        return;
+      }
+      closeMenus();
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') closeMenus();
+    });
+  }
+</script>
