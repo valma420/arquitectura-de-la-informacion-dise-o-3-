@@ -7,72 +7,165 @@ import MainLayout from '@layouts/MainLayout.astro';
   description="Explorá la colección, las exposiciones, la memoria y la agenda del Palais Galliera."
   immersive
 >
-  <section class="flower-home" data-flower-home aria-label="Palais Galliera: recorridos del museo">
-    <div class="flower-home__stage" data-home-stage>
-      <div class="flower-home__lens" data-home-lens aria-hidden="true"></div>
+  <section class="home" data-home aria-label="Palais Galliera: recorridos del museo">
+    <div class="home-canvas" data-home-canvas>
+      <h1 class="visually-hidden">Palais Galliera</h1>
 
-      <h1 class="flower-home__title" aria-label="Palais Galliera">
-        <span>Palais</span>
-        <span>Galliera</span>
-      </h1>
+      <div class="home-initial" aria-hidden="true">
+        <img
+          class="home-reference home-reference--initial"
+          src="/images/home/figma/initial.png"
+          alt=""
+          width="1920"
+          height="1080"
+          fetchpriority="high"
+        />
 
-      <nav class="flower-map" aria-label="Explorar el Palais Galliera">
+        <div class="home-dynamic">
+          <div class="home-dynamic__lens">
+            <img
+              src="/images/home/figma/lens.png"
+              alt=""
+              width="462"
+              height="468"
+              draggable="false"
+            />
+          </div>
+
+          <div class="home-dynamic__pattern-window">
+            <div class="home-dynamic__pattern">
+              <img
+                class="home-dynamic__pattern-piece home-dynamic__pattern-piece--a"
+                src="/images/home/figma/pattern-a.svg"
+                alt=""
+                width="964"
+                height="874"
+                draggable="false"
+              />
+              <img
+                class="home-dynamic__pattern-piece home-dynamic__pattern-piece--b"
+                src="/images/home/figma/pattern-b.svg"
+                alt=""
+                width="972"
+                height="873"
+                draggable="false"
+              />
+              <img
+                class="home-dynamic__pattern-piece home-dynamic__pattern-piece--c"
+                src="/images/home/figma/pattern-c.svg"
+                alt=""
+                width="972"
+                height="873"
+                draggable="false"
+              />
+              <img
+                class="home-dynamic__pattern-piece home-dynamic__pattern-piece--d"
+                src="/images/home/figma/pattern-d.svg"
+                alt=""
+                width="972"
+                height="873"
+                draggable="false"
+              />
+            </div>
+          </div>
+
+          <img
+            class="home-dynamic__title"
+            src="/images/home/figma/title.png"
+            alt=""
+            width="511"
+            height="339"
+            draggable="false"
+          />
+
+          <span class="home-dynamic__dot home-dynamic__dot--archive"></span>
+          <span class="home-dynamic__dot home-dynamic__dot--exhibition"></span>
+          <span class="home-dynamic__dot home-dynamic__dot--memory"></span>
+          <span class="home-dynamic__dot home-dynamic__dot--agenda"></span>
+        </div>
+      </div>
+
+      <div class="home-hover-states" aria-hidden="true">
+        <img
+          class="home-reference home-reference--hover"
+          src="/images/home/figma/collections-hover.png"
+          alt=""
+          width="1920"
+          height="1080"
+          loading="eager"
+          data-hover-reference="archive"
+        />
+        <img
+          class="home-reference home-reference--hover"
+          src="/images/home/figma/exhibitions-hover.png"
+          alt=""
+          width="1920"
+          height="1080"
+          loading="eager"
+          data-hover-reference="exhibition"
+        />
+        <img
+          class="home-reference home-reference--hover"
+          src="/images/home/figma/memory-hover.png"
+          alt=""
+          width="1920"
+          height="1080"
+          loading="eager"
+          data-hover-reference="memory"
+        />
+        <img
+          class="home-reference home-reference--hover"
+          src="/images/home/figma/agenda-hover.png"
+          alt=""
+          width="1920"
+          height="1080"
+          loading="eager"
+          data-hover-reference="agenda"
+        />
+      </div>
+
+      <nav class="home-map" aria-label="Explorar el Palais Galliera">
         <button
-          class="flower-trigger flower-trigger--archive"
+          class="home-trigger home-trigger--archive"
           type="button"
           aria-controls="home-panel-archive"
           aria-expanded="false"
           data-panel-trigger="archive"
         >
-          <span class="flower-trigger__mark" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span>
-          </span>
-          <span class="flower-trigger__label">Colecciones</span>
+          <span class="visually-hidden">Colecciones</span>
         </button>
-
         <button
-          class="flower-trigger flower-trigger--exhibition"
+          class="home-trigger home-trigger--exhibition"
           type="button"
           aria-controls="home-panel-exhibition"
           aria-expanded="false"
           data-panel-trigger="exhibition"
         >
-          <span class="flower-trigger__mark" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span>
-          </span>
-          <span class="flower-trigger__label">Exposiciones</span>
+          <span class="visually-hidden">Exposiciones</span>
         </button>
-
         <button
-          class="flower-trigger flower-trigger--memory"
+          class="home-trigger home-trigger--memory"
           type="button"
           aria-controls="home-panel-memory"
           aria-expanded="false"
           data-panel-trigger="memory"
         >
-          <span class="flower-trigger__mark" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span>
-          </span>
-          <span class="flower-trigger__label">Memoria</span>
+          <span class="visually-hidden">Memoria</span>
         </button>
-
         <button
-          class="flower-trigger flower-trigger--agenda"
+          class="home-trigger home-trigger--agenda"
           type="button"
           aria-controls="home-panel-agenda"
           aria-expanded="false"
           data-panel-trigger="agenda"
         >
-          <span class="flower-trigger__mark" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span>
-          </span>
-          <span class="flower-trigger__label">Agenda</span>
+          <span class="visually-hidden">Agenda</span>
         </button>
       </nav>
     </div>
 
     <section
-      class="flower-panel flower-panel--archive"
+      class="home-panel"
       id="home-panel-archive"
       role="dialog"
       aria-modal="true"
@@ -81,41 +174,38 @@ import MainLayout from '@layouts/MainLayout.astro';
       hidden
       inert
     >
-      <button class="flower-panel__close" type="button" data-panel-close>
-        <span aria-hidden="true">←</span>
-        Volver
-      </button>
-
-      <div class="flower-panel__single">
-        <div class="flower-panel__bloom" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span>
-        </div>
-        <div class="flower-panel__content flower-panel__content--archive">
+      <div class="home-canvas">
+        <img
+          class="home-reference"
+          src="/images/home/figma/collections-open.png"
+          alt=""
+          width="1920"
+          height="1080"
+          loading="eager"
+          aria-hidden="true"
+        />
+        <div class="visually-hidden">
           <h2 id="home-panel-archive-title">El acervo</h2>
-          <p class="flower-panel__copy">
+          <p>
             200.000 piezas de indumentaria y accesorios, del siglo XVIII a hoy. La totalidad del
             acervo del Palais Galliera, ordenada, buscable y accesible.
           </p>
-          <p class="flower-panel__copy">
-            Recorré la colección por objeto o por relato.<br />
-            Dos caminos, un mismo patrimonio.
-          </p>
-          <div class="flower-panel__actions">
-            <a class="flower-link" href="/coleccion-permanente">
-              <span>Colección permanente</span>
-              <span aria-hidden="true">↗</span>
-            </a>
-            <a class="flower-link" href="/linea-de-tiempo">
-              <span>Línea de tiempo</span>
-              <span aria-hidden="true">↗</span>
-            </a>
-          </div>
+          <p>Recorré la colección por objeto o por relato. Dos caminos, un mismo patrimonio.</p>
         </div>
+        <button class="panel-hotspot panel-hotspot--back" type="button" data-panel-close>
+          <span class="visually-hidden">Volver</span>
+        </button>
+        <a class="panel-hotspot panel-hotspot--archive-collection" href="/coleccion-permanente">
+          <span class="visually-hidden">Colección permanente</span>
+        </a>
+        <a class="panel-hotspot panel-hotspot--archive-timeline" href="/linea-de-tiempo">
+          <span class="visually-hidden">Línea de tiempo</span>
+        </a>
       </div>
     </section>
 
     <section
-      class="flower-panel flower-panel--exhibition"
+      class="home-panel"
       id="home-panel-exhibition"
       role="dialog"
       aria-modal="true"
@@ -124,34 +214,35 @@ import MainLayout from '@layouts/MainLayout.astro';
       hidden
       inert
     >
-      <button class="flower-panel__close" type="button" data-panel-close>
-        <span aria-hidden="true">←</span>
-        Volver
-      </button>
-
-      <div class="flower-panel__single">
-        <div class="flower-panel__bloom" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span>
-        </div>
-        <div class="flower-panel__content flower-panel__content--exhibition">
-          <p class="flower-panel__section">15 marzo – 28 julio · Salas del jardín bajo</p>
+      <div class="home-canvas">
+        <img
+          class="home-reference"
+          src="/images/home/figma/exhibitions-open.png"
+          alt=""
+          width="1920"
+          height="1080"
+          loading="eager"
+          aria-hidden="true"
+        />
+        <div class="visually-hidden">
+          <p>15 marzo – 28 julio · Salas del jardín bajo</p>
           <h2 id="home-panel-exhibition-title">New Look</h2>
-          <p class="flower-panel__copy">
+          <p>
             La moda parisina abrió paso a una nueva etapa. Esta muestra recorre la década del New
             Look a través de prendas, figurines y documentos del acervo del Galliera.
           </p>
-          <div class="flower-panel__actions flower-panel__actions--centered">
-            <a class="flower-link" href="/muestra">
-              <span>Ver exposición</span>
-              <span aria-hidden="true">↗</span>
-            </a>
-          </div>
         </div>
+        <button class="panel-hotspot panel-hotspot--back" type="button" data-panel-close>
+          <span class="visually-hidden">Volver</span>
+        </button>
+        <a class="panel-hotspot panel-hotspot--single-cta" href="/muestra">
+          <span class="visually-hidden">Ver exposición</span>
+        </a>
       </div>
     </section>
 
     <section
-      class="flower-panel flower-panel--memory"
+      class="home-panel"
       id="home-panel-memory"
       role="dialog"
       aria-modal="true"
@@ -160,51 +251,34 @@ import MainLayout from '@layouts/MainLayout.astro';
       hidden
       inert
     >
-      <button class="flower-panel__close" type="button" data-panel-close>
-        <span aria-hidden="true">←</span>
-        Volver
-      </button>
-
-      <div class="memory-panel">
+      <div class="home-canvas">
+        <img
+          class="home-reference"
+          src="/images/home/figma/memory-open.png"
+          alt=""
+          width="1920"
+          height="1080"
+          loading="eager"
+          aria-hidden="true"
+        />
         <h2 class="visually-hidden" id="home-panel-memory-title">Memoria</h2>
-
-        <a class="memory-flower" href="/explorar">
-          <span class="memory-flower__bloom" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span>
-          </span>
-          <span class="memory-flower__content">
-            <strong>Reconstruír</strong>
-            <span>Reconocé las prendas de un período y armá su sala.</span>
-            <span class="memory-flower__cta">Descubrir <span aria-hidden="true">↗</span></span>
-          </span>
+        <button class="panel-hotspot panel-hotspot--back" type="button" data-panel-close>
+          <span class="visually-hidden">Volver</span>
+        </button>
+        <a class="panel-hotspot panel-hotspot--memory-rebuild" href="/explorar">
+          <span class="visually-hidden">Reconstruir: descubrir</span>
         </a>
-
-        <a class="memory-flower" href="/historia">
-          <span class="memory-flower__bloom" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span>
-          </span>
-          <span class="memory-flower__content">
-            <strong>Leer</strong>
-            <span>Conocé la historia de las épocas icónicas para la moda.</span>
-            <span class="memory-flower__cta">Descubrir <span aria-hidden="true">↗</span></span>
-          </span>
+        <a class="panel-hotspot panel-hotspot--memory-read" href="/historia">
+          <span class="visually-hidden">Leer: descubrir</span>
         </a>
-
-        <a class="memory-flower" href="/guardarropas">
-          <span class="memory-flower__bloom" aria-hidden="true">
-            <span></span><span></span><span></span><span></span><span></span>
-          </span>
-          <span class="memory-flower__content">
-            <strong>Vestir</strong>
-            <span>Conocé los vestuarios de personalidades icónicas.</span>
-            <span class="memory-flower__cta">Descubrir <span aria-hidden="true">↗</span></span>
-          </span>
+        <a class="panel-hotspot panel-hotspot--memory-dress" href="/guardarropas">
+          <span class="visually-hidden">Vestir: descubrir</span>
         </a>
       </div>
     </section>
 
     <section
-      class="flower-panel flower-panel--agenda"
+      class="home-panel"
       id="home-panel-agenda"
       role="dialog"
       aria-modal="true"
@@ -213,42 +287,47 @@ import MainLayout from '@layouts/MainLayout.astro';
       hidden
       inert
     >
-      <button class="flower-panel__close" type="button" data-panel-close>
-        <span aria-hidden="true">←</span>
-        Volver
-      </button>
-
-      <div class="flower-panel__single">
-        <div class="flower-panel__bloom" aria-hidden="true">
-          <span></span><span></span><span></span><span></span><span></span>
-        </div>
-        <div class="flower-panel__content flower-panel__content--agenda">
-          <p class="flower-panel__section">Charla · 18hs · Auditorio</p>
+      <div class="home-canvas">
+        <img
+          class="home-reference"
+          src="/images/home/figma/agenda-open.png"
+          alt=""
+          width="1920"
+          height="1080"
+          loading="eager"
+          aria-hidden="true"
+        />
+        <div class="visually-hidden">
+          <p>Charla · 18hs · Auditorio</p>
           <h2 id="home-panel-agenda-title">Vestir el siglo XIX</h2>
-          <div class="flower-panel__actions flower-panel__actions--centered">
-            <a class="flower-link" href="/agenda">
-              <span>Ver agenda completa</span>
-              <span aria-hidden="true">↗</span>
-            </a>
-          </div>
         </div>
+        <button class="panel-hotspot panel-hotspot--back" type="button" data-panel-close>
+          <span class="visually-hidden">Volver</span>
+        </button>
+        <a class="panel-hotspot panel-hotspot--single-cta" href="/agenda">
+          <span class="visually-hidden">Ver agenda completa</span>
+        </a>
       </div>
     </section>
   </section>
 </MainLayout>
 
 <script>
-  const initializeFlowerHome = () => {
-    const home = document.querySelector<HTMLElement>('[data-flower-home]');
+  type HomePanelName = 'archive' | 'exhibition' | 'memory' | 'agenda';
+
+  const initializeHome = () => {
+    const home = document.querySelector<HTMLElement>('[data-home]');
 
     if (!home || home.dataset.initialized === 'true') return;
 
-    home.dataset.initialized = 'true';
-
-    const stage = home.querySelector<HTMLElement>('[data-home-stage]');
-    const lens = home.querySelector<HTMLElement>('[data-home-lens]');
+    const stage = home.querySelector<HTMLElement>('[data-home-canvas]');
     const triggers = Array.from(home.querySelectorAll<HTMLButtonElement>('[data-panel-trigger]'));
     const panels = Array.from(home.querySelectorAll<HTMLElement>('[data-home-panel]'));
+
+    if (!stage) return;
+
+    home.dataset.initialized = 'true';
+
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     const finePointer = window.matchMedia('(pointer: fine)');
     const controller = new AbortController();
@@ -256,39 +335,39 @@ import MainLayout from '@layouts/MainLayout.astro';
 
     let activePanel: HTMLElement | null = null;
     let returnFocus: HTMLButtonElement | null = null;
-    let lensPinned = false;
     let animationFrame = 0;
     let closeTimer = 0;
 
-    if (!stage || !lens) return;
+    const clearHoverState = () => {
+      delete home.dataset.hoverState;
+    };
+
+    const setHoverState = (panelName: HomePanelName) => {
+      home.dataset.hoverState = panelName;
+      delete home.dataset.dynamic;
+    };
 
     const setLensPosition = (clientX: number, clientY: number) => {
       const bounds = stage.getBoundingClientRect();
+
+      if (!bounds.width || !bounds.height) return;
+
       const x = Math.max(0, Math.min(bounds.width, clientX - bounds.left));
       const y = Math.max(0, Math.min(bounds.height, clientY - bounds.top));
-      const xPercent = (x / bounds.width) * 100;
-      const yPercent = (y / bounds.height) * 100;
-      const parallaxX = (x / bounds.width - 0.5) * -88;
-      const parallaxY = (y / bounds.height - 0.5) * -64;
+      const normalizedX = x / bounds.width;
+      const normalizedY = y / bounds.height;
+      const designScale = bounds.width / 1920;
+      const parallaxX = reducedMotion.matches ? 0 : (normalizedX - 0.5) * -48 * designScale;
+      const parallaxY = reducedMotion.matches ? 0 : (normalizedY - 0.5) * -36 * designScale;
 
       cancelAnimationFrame(animationFrame);
       animationFrame = requestAnimationFrame(() => {
-        home.style.setProperty('--lens-x', `${xPercent}%`);
-        home.style.setProperty('--lens-y', `${yPercent}%`);
-        home.style.setProperty('--pattern-x', `${parallaxX}px`);
-        home.style.setProperty('--pattern-y', `${parallaxY}px`);
+        home.style.setProperty('--lens-x', String(normalizedX * 100) + '%');
+        home.style.setProperty('--lens-y', String(normalizedY * 100) + '%');
+        home.style.setProperty('--pattern-x', String(parallaxX) + 'px');
+        home.style.setProperty('--pattern-y', String(parallaxY) + 'px');
+        home.dataset.dynamic = 'true';
       });
-    };
-
-    const centerLens = () => {
-      const bounds = stage.getBoundingClientRect();
-      setLensPosition(bounds.left + bounds.width / 2, bounds.top + bounds.height / 2);
-    };
-
-    const moveLensToTrigger = (trigger: HTMLButtonElement) => {
-      const mark = trigger.querySelector<HTMLElement>('.flower-trigger__mark');
-      const bounds = (mark ?? trigger).getBoundingClientRect();
-      setLensPosition(bounds.left + bounds.width / 2, bounds.top + bounds.height / 2);
     };
 
     const closePanel = () => {
@@ -296,19 +375,19 @@ import MainLayout from '@layouts/MainLayout.astro';
 
       const panelToClose = activePanel;
       const triggerToFocus = returnFocus;
-      const transitionDuration = reducedMotion.matches ? 0 : 420;
+      const transitionDuration = reducedMotion.matches ? 0 : 220;
 
       window.clearTimeout(closeTimer);
       panelToClose.classList.remove('is-visible');
       panelToClose.inert = true;
       stage.inert = false;
-      home.removeAttribute('data-panel-open');
-
-      triggers.forEach((trigger) => trigger.setAttribute('aria-expanded', 'false'));
+      delete home.dataset.panelOpen;
       activePanel = null;
       returnFocus = null;
-      lensPinned = false;
-      centerLens();
+
+      triggers.forEach((trigger) => trigger.setAttribute('aria-expanded', 'false'));
+      clearHoverState();
+      delete home.dataset.dynamic;
       triggerToFocus?.focus({ preventScroll: true });
 
       closeTimer = window.setTimeout(() => {
@@ -317,19 +396,20 @@ import MainLayout from '@layouts/MainLayout.astro';
     };
 
     const openPanel = (trigger: HTMLButtonElement) => {
-      const panelName = trigger.dataset.panelTrigger;
+      const panelName = trigger.dataset.panelTrigger as HomePanelName | undefined;
       const panel = panels.find((item) => item.dataset.homePanel === panelName);
 
-      if (!panel) return;
-      if (activePanel) closePanel();
+      if (!panel || !panelName) return;
 
       window.clearTimeout(closeTimer);
       returnFocus = trigger;
       activePanel = panel;
+      clearHoverState();
+      delete home.dataset.dynamic;
       stage.inert = true;
       panel.hidden = false;
       panel.inert = false;
-      home.dataset.panelOpen = panelName ?? '';
+      home.dataset.panelOpen = panelName;
 
       triggers.forEach((item) => {
         item.setAttribute('aria-expanded', String(item === trigger));
@@ -346,7 +426,7 @@ import MainLayout from '@layouts/MainLayout.astro';
     stage.addEventListener(
       'pointermove',
       (event) => {
-        if (!finePointer.matches || lensPinned || activePanel) return;
+        if (!finePointer.matches || activePanel || home.dataset.hoverState) return;
         setLensPosition(event.clientX, event.clientY);
       },
       { signal }
@@ -355,59 +435,31 @@ import MainLayout from '@layouts/MainLayout.astro';
     stage.addEventListener(
       'pointerleave',
       () => {
-        if (!lensPinned && !activePanel) centerLens();
-      },
-      { signal }
-    );
-
-    stage.addEventListener(
-      'pointerdown',
-      (event) => {
-        if (event.pointerType === 'touch' && !activePanel) {
-          setLensPosition(event.clientX, event.clientY);
-        }
+        if (activePanel || home.dataset.hoverState) return;
+        delete home.dataset.dynamic;
       },
       { signal }
     );
 
     triggers.forEach((trigger) => {
-      trigger.addEventListener(
-        'pointerenter',
-        () => {
-          lensPinned = true;
-          moveLensToTrigger(trigger);
-        },
-        { signal }
-      );
+      const panelName = trigger.dataset.panelTrigger as HomePanelName;
 
+      trigger.addEventListener('pointerenter', () => setHoverState(panelName), { signal });
       trigger.addEventListener(
         'pointerleave',
         () => {
-          if (document.activeElement === trigger) return;
-          lensPinned = false;
-          centerLens();
+          if (document.activeElement !== trigger) clearHoverState();
         },
         { signal }
       );
-
-      trigger.addEventListener(
-        'focus',
-        () => {
-          lensPinned = true;
-          moveLensToTrigger(trigger);
-        },
-        { signal }
-      );
-
+      trigger.addEventListener('focus', () => setHoverState(panelName), { signal });
       trigger.addEventListener(
         'blur',
         () => {
-          lensPinned = false;
-          if (!activePanel) centerLens();
+          if (!activePanel) clearHoverState();
         },
         { signal }
       );
-
       trigger.addEventListener('click', () => openPanel(trigger), { signal });
     });
 
@@ -418,15 +470,31 @@ import MainLayout from '@layouts/MainLayout.astro';
     document.addEventListener(
       'keydown',
       (event) => {
-        if (event.key === 'Escape' && activePanel) closePanel();
-      },
-      { signal }
-    );
+        if (!activePanel) return;
 
-    window.addEventListener(
-      'resize',
-      () => {
-        if (!activePanel && !lensPinned) centerLens();
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          closePanel();
+          return;
+        }
+
+        if (event.key !== 'Tab') return;
+
+        const focusable = Array.from(
+          activePanel.querySelectorAll<HTMLElement>('button:not([disabled]), a[href]')
+        );
+        const first = focusable.at(0);
+        const last = focusable.at(-1);
+
+        if (!first || !last) return;
+
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
       },
       { signal }
     );
@@ -440,17 +508,15 @@ import MainLayout from '@layouts/MainLayout.astro';
       },
       { once: true, signal }
     );
-
-    centerLens();
   };
 
-  initializeFlowerHome();
-  document.addEventListener('astro:page-load', initializeFlowerHome);
+  initializeHome();
+  document.addEventListener('astro:page-load', initializeHome);
 </script>
 
 <style>
   :global(body) {
-    background: var(--color-cream);
+    background: #f3eee1;
     overflow: hidden;
   }
 
@@ -458,736 +524,365 @@ import MainLayout from '@layouts/MainLayout.astro';
     min-height: 100svh;
   }
 
-  .flower-home {
+  .home {
     --lens-x: 50%;
-    --lens-y: 50%;
+    --lens-y: 50.463%;
     --pattern-x: 0px;
     --pattern-y: 0px;
-    --home-cream: #f3eee1;
-    --home-orange: #fd6500;
-    --home-blue: #adc6e0;
     position: relative;
+    width: 100vw;
     height: 100svh;
-    min-height: 42rem;
     overflow: hidden;
-    color: var(--color-ink);
-    background: var(--home-cream);
+    background: #f3eee1;
+    color: #141414;
     isolation: isolate;
   }
 
-  .flower-home__stage {
+  .home-canvas {
     position: absolute;
-    inset: 0;
+    top: 50%;
+    left: 50%;
+    width: min(100vw, 177.7778svh);
+    height: min(100svh, 56.25vw);
     overflow: hidden;
-    background: var(--home-cream);
+    transform: translate(-50%, -50%);
+    background: #f3eee1;
+    container-type: size;
   }
 
-  .flower-home__lens {
+  .home-reference,
+  .home-initial,
+  .home-hover-states,
+  .home-dynamic,
+  .home-map {
     position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .home-reference {
+    display: block;
+    object-fit: fill;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .home-reference--initial {
+    z-index: 0;
+  }
+
+  .home-dynamic {
     z-index: 1;
+    overflow: hidden;
+    background: #f3eee1;
+    opacity: 0;
+    transition: opacity 140ms ease;
+  }
+
+  .home[data-dynamic='true'] .home-dynamic {
+    opacity: 1;
+  }
+
+  .home-dynamic__lens {
+    position: absolute;
+    z-index: 0;
     top: var(--lens-y);
     left: var(--lens-x);
-    width: clamp(18rem, 25vw, 30rem);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background-color: var(--home-blue);
-    opacity: 0.96;
+    width: 24.0625%;
+    height: 43.3333%;
     transform: translate(-50%, -50%);
-    transition:
-      top 220ms var(--ease-out),
-      left 220ms var(--ease-out),
-      width 350ms var(--ease-expo);
-    mask-image: radial-gradient(circle, #000 0 42%, transparent 71%);
+    mix-blend-mode: multiply;
     pointer-events: none;
     will-change: top, left;
   }
 
-  .flower-home__lens::before {
-    position: absolute;
-    inset: 0;
-    background-image: url('/images/site/home-pattern-outline.svg');
-    background-repeat: no-repeat;
-    background-position: calc(50% + var(--pattern-x)) calc(50% + var(--pattern-y));
-    background-size: 250% 250%;
-    content: '';
-    filter: drop-shadow(0.7px 0 0 rgb(243 238 225 / 0.92))
-      drop-shadow(-0.7px 0 0 rgb(243 238 225 / 0.92)) drop-shadow(0 0.7px 0 rgb(243 238 225 / 0.92))
-      drop-shadow(0 -0.7px 0 rgb(243 238 225 / 0.92));
-    will-change: background-position;
+  .home-dynamic__lens img {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
-  .flower-home__title {
+  .home-dynamic__pattern-window {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    overflow: hidden;
+    clip-path: ellipse(12.03125% 21.6667% at var(--lens-x) var(--lens-y));
+    -webkit-mask-image: radial-gradient(
+      ellipse 12.03125% 21.6667% at var(--lens-x) var(--lens-y),
+      #000 0 92%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 12.03125% 21.6667% at var(--lens-x) var(--lens-y),
+      #000 0 92%,
+      transparent 100%
+    );
+    pointer-events: none;
+    will-change: clip-path;
+  }
+
+  .home-dynamic__pattern {
+    position: absolute;
+    inset: 0;
+    transform: translate3d(var(--pattern-x), var(--pattern-y), 0);
+    will-change: transform;
+  }
+
+  .home-dynamic__pattern-piece {
+    position: absolute;
+    display: block;
+    max-width: none;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .home-dynamic__pattern-piece--a {
+    top: -29.7617%;
+    left: -2.6965%;
+    width: 50.1397%;
+    height: 80.8151%;
+  }
+
+  .home-dynamic__pattern-piece--b {
+    top: -40.0371%;
+    left: 46.6146%;
+    width: 50.6163%;
+    height: 80.8151%;
+  }
+
+  .home-dynamic__pattern-piece--c {
+    top: 49.8029%;
+    left: -2.6965%;
+    width: 50.6163%;
+    height: 80.8151%;
+  }
+
+  .home-dynamic__pattern-piece--d {
+    top: 40.7785%;
+    left: 61.5104%;
+    width: 50.6163%;
+    height: 80.8151%;
+  }
+
+  .home-dynamic__title {
     position: absolute;
     z-index: 2;
-    top: 51.4%;
-    left: 50%;
-    display: flex;
-    width: min-content;
-    margin: 0;
-    color: var(--home-orange);
-    font-family: var(--font-display);
-    font-size: clamp(7rem, 10.42vw, 12.5rem);
-    font-weight: 400;
-    line-height: 0.9;
-    letter-spacing: -0.045em;
-    text-align: center;
-    flex-direction: column;
-    transform: translate(-50%, -50%) scaleX(0.79);
+    top: 35.3704%;
+    left: 36.875%;
+    width: 26.6146%;
+    height: 31.3889%;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .home-dynamic__dot {
+    position: absolute;
+    z-index: 3;
+    width: 1.4583%;
+    height: 2.5926%;
+    transform: translate(-50%, -50%);
+    border: max(1px, 0.0521cqw) solid #fd6500;
+    border-radius: 50%;
+    background: #f3eee1;
+  }
+
+  .home-dynamic__dot--archive {
+    top: 64.6296%;
+    left: 22.5%;
+  }
+
+  .home-dynamic__dot--exhibition {
+    top: 82.6852%;
+    left: 40%;
+  }
+
+  .home-dynamic__dot--memory {
+    top: 22.7778%;
+    left: 51.5104%;
+  }
+
+  .home-dynamic__dot--agenda {
+    top: 55.5556%;
+    left: 86.6667%;
+  }
+
+  .home-hover-states {
+    z-index: 2;
     pointer-events: none;
   }
 
-  .flower-map {
+  .home-reference--hover {
     position: absolute;
-    z-index: 3;
     inset: 0;
+    opacity: 0;
+    transition: opacity 120ms ease;
   }
 
-  .flower-trigger {
-    --trigger-x: 50%;
-    --trigger-y: 50%;
+  .home[data-hover-state='archive'] [data-hover-reference='archive'],
+  .home[data-hover-state='exhibition'] [data-hover-reference='exhibition'],
+  .home[data-hover-state='memory'] [data-hover-reference='memory'],
+  .home[data-hover-state='agenda'] [data-hover-reference='agenda'] {
+    opacity: 1;
+  }
+
+  .home-map {
+    z-index: 3;
+    pointer-events: none;
+  }
+
+  .home-trigger {
     position: absolute;
-    top: var(--trigger-y);
-    left: var(--trigger-x);
-    width: 12rem;
-    height: 7rem;
+    width: max(6.875%, 44px);
+    height: max(12.5%, 44px);
     padding: 0;
+    transform: translate(-50%, -50%);
     border: 0;
-    color: var(--home-cream);
+    border-radius: 50%;
     background: transparent;
+    color: transparent;
     cursor: pointer;
-    transform: translate(-50%, -50%);
-    touch-action: manipulation;
+    pointer-events: auto;
   }
 
-  .flower-trigger--archive {
-    --trigger-x: 22.5%;
-    --trigger-y: 64.7%;
+  .home-trigger--archive {
+    top: 64.6296%;
+    left: 22.5%;
   }
 
-  .flower-trigger--exhibition {
-    --trigger-x: 40%;
-    --trigger-y: 82.7%;
+  .home-trigger--exhibition {
+    top: 82.6852%;
+    left: 40%;
   }
 
-  .flower-trigger--memory {
-    --trigger-x: 51.5%;
-    --trigger-y: 22.7%;
+  .home-trigger--memory {
+    top: 22.7778%;
+    left: 51.5104%;
   }
 
-  .flower-trigger--agenda {
-    --trigger-x: 86.7%;
-    --trigger-y: 55.5%;
+  .home-trigger--agenda {
+    top: 55.5556%;
+    left: 86.6667%;
   }
 
-  .flower-trigger__mark {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 1.7rem;
-    height: 1.7rem;
-    border: 1.5px solid var(--home-orange);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition:
-      width 280ms var(--ease-expo),
-      height 280ms var(--ease-expo),
-      border-color 180ms ease;
+  .home-trigger:focus-visible,
+  .panel-hotspot:focus-visible {
+    outline: 2px solid #141414;
+    outline-offset: 4px;
   }
 
-  .flower-trigger__mark span {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 1rem;
-    height: 1.45rem;
-    border-radius: 50%;
-    background: var(--home-cream);
-    opacity: 0;
-    transform: translate(-50%, -105%) scale(0.35);
-    transform-origin: 50% 105%;
-    transition:
-      opacity 160ms ease,
-      transform 280ms var(--ease-expo);
-  }
-
-  .flower-trigger__mark span:nth-child(2) {
-    transform: translate(-50%, -105%) rotate(72deg) scale(0.35);
-  }
-
-  .flower-trigger__mark span:nth-child(3) {
-    transform: translate(-50%, -105%) rotate(144deg) scale(0.35);
-  }
-
-  .flower-trigger__mark span:nth-child(4) {
-    transform: translate(-50%, -105%) rotate(216deg) scale(0.35);
-  }
-
-  .flower-trigger__mark span:nth-child(5) {
-    transform: translate(-50%, -105%) rotate(288deg) scale(0.35);
-  }
-
-  .flower-trigger__label {
-    position: absolute;
-    top: 50%;
-    left: calc(50% + 2.15rem);
-    color: var(--home-cream);
-    font-family: var(--font-body);
-    font-size: clamp(1.15rem, 1.65vw, 2rem);
-    font-style: italic;
-    font-weight: 400;
-    line-height: 1;
-    opacity: 0;
-    transform: translateY(-50%) translateX(-0.5rem);
-    transition:
-      opacity 180ms ease,
-      transform 280ms var(--ease-expo);
-    white-space: nowrap;
-  }
-
-  .flower-trigger--exhibition .flower-trigger__label,
-  .flower-trigger--memory .flower-trigger__label {
-    top: calc(50% + 2.5rem);
-    left: 50%;
-    transform: translate(-50%, -0.5rem);
-  }
-
-  .flower-trigger--agenda .flower-trigger__label {
-    right: calc(50% + 2.15rem);
-    left: auto;
-    transform: translateY(-50%) translateX(0.5rem);
-  }
-
-  .flower-trigger:is(:hover, :focus-visible) .flower-trigger__mark {
-    width: 3.25rem;
-    height: 3.25rem;
-    border-color: transparent;
-  }
-
-  .flower-trigger:is(:hover, :focus-visible) .flower-trigger__mark span {
-    opacity: 1;
-    transform: translate(-50%, -105%) scale(1);
-  }
-
-  .flower-trigger:is(:hover, :focus-visible) .flower-trigger__mark span:nth-child(2) {
-    transform: translate(-50%, -105%) rotate(72deg) scale(1);
-  }
-
-  .flower-trigger:is(:hover, :focus-visible) .flower-trigger__mark span:nth-child(3) {
-    transform: translate(-50%, -105%) rotate(144deg) scale(1);
-  }
-
-  .flower-trigger:is(:hover, :focus-visible) .flower-trigger__mark span:nth-child(4) {
-    transform: translate(-50%, -105%) rotate(216deg) scale(1);
-  }
-
-  .flower-trigger:is(:hover, :focus-visible) .flower-trigger__mark span:nth-child(5) {
-    transform: translate(-50%, -105%) rotate(288deg) scale(1);
-  }
-
-  .flower-trigger:is(:hover, :focus-visible) .flower-trigger__label {
-    opacity: 1;
-    transform: translateY(-50%) translateX(0);
-  }
-
-  .flower-trigger--exhibition:is(:hover, :focus-visible) .flower-trigger__label,
-  .flower-trigger--memory:is(:hover, :focus-visible) .flower-trigger__label {
-    transform: translate(-50%, 0);
-  }
-
-  .flower-trigger--agenda:is(:hover, :focus-visible) .flower-trigger__label {
-    transform: translateY(-50%) translateX(0);
-  }
-
-  .flower-trigger:focus-visible {
-    outline: 2px solid var(--home-orange);
-    outline-offset: 0.4rem;
-  }
-
-  .flower-panel {
+  .home-panel {
     position: absolute;
     z-index: 10;
     inset: 0;
-    overflow: hidden auto;
-    color: var(--color-ink);
-    background: var(--home-blue);
+    overflow: hidden;
+    background: #f3eee1;
     opacity: 0;
-    transform: scale(1.015);
-    transition:
-      opacity 380ms ease,
-      transform 520ms var(--ease-expo);
+    pointer-events: none;
+    transition: opacity 220ms ease;
   }
 
-  .flower-panel[hidden] {
+  .home-panel[hidden] {
     display: none;
   }
 
-  .flower-panel.is-visible {
+  .home-panel.is-visible {
     opacity: 1;
-    transform: scale(1);
+    pointer-events: auto;
   }
 
-  .flower-panel::before {
-    position: fixed;
-    z-index: -2;
-    inset: -14%;
-    background-image: url('/images/site/home-pattern-outline.svg');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: 140% 140%;
-    content: '';
-    opacity: 1;
-    filter: drop-shadow(0.7px 0 0 rgb(243 238 225 / 0.92))
-      drop-shadow(-0.7px 0 0 rgb(243 238 225 / 0.92)) drop-shadow(0 0.7px 0 rgb(243 238 225 / 0.92))
-      drop-shadow(0 -0.7px 0 rgb(243 238 225 / 0.92));
-    transform: rotate(-4deg);
-  }
-
-  .flower-panel::after {
-    position: fixed;
-    z-index: -1;
-    inset: 0;
-    background: linear-gradient(
-      90deg,
-      var(--home-cream) 0%,
-      rgb(243 238 225 / 0.78) 12%,
-      transparent 32%,
-      transparent 68%,
-      rgb(243 238 225 / 0.78) 88%,
-      var(--home-cream) 100%
-    );
-    content: '';
-    pointer-events: none;
-  }
-
-  .flower-panel__close {
-    position: fixed;
-    z-index: 5;
-    top: 9vh;
-    left: clamp(1rem, 24vw, 30rem);
-    display: inline-flex;
-    width: 2.75rem;
-    min-height: 2.75rem;
+  .panel-hotspot {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    min-width: 44px;
+    min-height: 44px;
     padding: 0;
-    border: 1px solid currentcolor;
-    border-radius: 999px;
-    color: var(--color-ink);
-    font-family: var(--font-body);
-    font-size: 0;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    background: rgb(243 238 225 / 0.9);
-    align-items: center;
-    justify-content: center;
+    border: 0;
+    background: transparent;
+    color: transparent;
     cursor: pointer;
-    backdrop-filter: blur(10px);
   }
 
-  .flower-panel__close:hover {
-    color: var(--home-cream);
-    background: var(--color-ink);
-  }
-
-  .flower-panel__close span {
-    font-size: 1.2rem;
-  }
-
-  .flower-panel__close:focus-visible,
-  .flower-link:focus-visible,
-  .memory-flower:focus-visible {
-    outline: 3px solid var(--home-orange);
-    outline-offset: 0.3rem;
-  }
-
-  .flower-panel__single {
-    position: relative;
-    display: grid;
-    min-height: 100%;
-    padding: 4rem var(--layout-gutter);
-    place-items: center;
-  }
-
-  .flower-panel__bloom,
-  .memory-flower__bloom {
-    --bloom-color: var(--home-cream);
-    position: absolute;
-    width: min(55rem, 90vmin);
-    aspect-ratio: 1;
-    filter: drop-shadow(0 1.4rem 3.5rem rgb(80 112 160 / 0.08));
-  }
-
-  .flower-panel__bloom::after,
-  .memory-flower__bloom::after {
-    position: absolute;
-    inset: 24%;
+  .panel-hotspot--back {
+    top: 9.2593%;
+    left: 23.2292%;
+    width: 2.1354%;
+    height: 3.7963%;
     border-radius: 50%;
-    background: var(--bloom-color);
-    content: '';
   }
 
-  .flower-panel__bloom > span,
-  .memory-flower__bloom > span {
-    position: absolute;
-    border-radius: 50%;
-    background: var(--bloom-color);
+  .panel-hotspot--archive-collection {
+    top: 61.4438%;
+    left: 36.9792%;
+    width: 13.6979%;
+    height: 4.2006%;
   }
 
-  .flower-panel__bloom > span:nth-child(1),
-  .memory-flower__bloom > span:nth-child(1) {
-    top: 0;
-    left: 29%;
-    width: 42%;
-    height: 49%;
+  .panel-hotspot--archive-timeline {
+    top: 61.4439%;
+    left: 51.7188%;
+    width: 11.7188%;
+    height: 4.1706%;
   }
 
-  .flower-panel__bloom > span:nth-child(2),
-  .memory-flower__bloom > span:nth-child(2) {
-    top: 28%;
-    right: 0;
-    width: 52%;
-    height: 44%;
+  .panel-hotspot--single-cta {
+    top: 62.6851%;
+    left: 43.1771%;
+    width: 13.6979%;
+    height: 4.1968%;
   }
 
-  .flower-panel__bloom > span:nth-child(3),
-  .memory-flower__bloom > span:nth-child(3) {
-    right: 10%;
-    bottom: 0;
-    width: 43%;
-    height: 51%;
+  .panel-hotspot--memory-rebuild {
+    top: 65.9259%;
+    left: 14.0104%;
+    width: 10.9375%;
+    height: 4.1968%;
   }
 
-  .flower-panel__bloom > span:nth-child(4),
-  .memory-flower__bloom > span:nth-child(4) {
-    bottom: 0;
-    left: 10%;
-    width: 43%;
-    height: 51%;
+  .panel-hotspot--memory-read {
+    top: 40.7407%;
+    left: 44.5313%;
+    width: 10.9375%;
+    height: 4.1968%;
   }
 
-  .flower-panel__bloom > span:nth-child(5),
-  .memory-flower__bloom > span:nth-child(5) {
-    top: 28%;
-    left: 0;
-    width: 52%;
-    height: 44%;
-  }
-
-  .flower-panel__content {
-    position: relative;
-    z-index: 1;
-    width: min(32rem, 64vmin);
-    text-align: center;
-  }
-
-  .flower-panel__section {
-    margin: 0 0 1.2rem;
-    font-family: var(--font-body);
-    font-size: clamp(0.62rem, 0.78vw, 0.85rem);
-    font-weight: 600;
-    letter-spacing: 0.07em;
-    line-height: 1.35;
-    text-transform: uppercase;
-  }
-
-  .flower-panel h2 {
-    margin: 0 0 clamp(1.2rem, 2.5vh, 2rem);
-    font-family: var(--font-body);
-    font-size: clamp(3.5rem, 6vw, 7.2rem);
-    font-weight: 400;
-    line-height: 0.9;
-    letter-spacing: -0.055em;
-    color: var(--home-orange);
-  }
-
-  .flower-panel__content--agenda {
-    width: min(38rem, 66vmin);
-  }
-
-  .flower-panel__content--agenda h2 {
-    font-size: clamp(3.6rem, 5.7vw, 6.9rem);
-  }
-
-  .flower-panel__copy {
-    max-width: 30rem;
-    margin: 0.85rem auto 0;
-    font-family: var(--font-body);
-    font-size: clamp(0.78rem, 0.95vw, 1rem);
-    line-height: 1.55;
-  }
-
-  .flower-panel__actions {
-    display: grid;
-    margin-top: clamp(1.5rem, 3.8vh, 2.7rem);
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.7rem;
-  }
-
-  .flower-panel__actions--centered {
-    width: min(20rem, 100%);
-    margin-right: auto;
-    margin-left: auto;
-    grid-template-columns: 1fr;
-  }
-
-  .flower-link {
-    display: flex;
-    min-height: 3.6rem;
-    padding: 0.85rem 1rem;
-    border: 1px solid var(--color-ink);
-    border-radius: 999px;
-    color: var(--home-cream);
-    font-family: var(--font-body);
-    font-size: clamp(0.62rem, 0.7vw, 0.78rem);
-    font-weight: 600;
-    letter-spacing: 0.055em;
-    line-height: 1.15;
-    text-align: left;
-    text-decoration: none;
-    text-transform: uppercase;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    background: var(--color-ink);
-    box-shadow:
-      0 0 0 2px var(--home-cream),
-      0 0 0 3px var(--color-ink);
-    transition:
-      color 180ms ease,
-      background-color 180ms ease,
-      transform 250ms var(--ease-expo);
-  }
-
-  .flower-link:hover {
-    color: var(--color-ink);
-    background: var(--home-cream);
-    transform: translateY(-0.18rem);
-  }
-
-  .memory-panel {
-    display: grid;
-    min-height: 100%;
-    padding: 5rem clamp(1rem, 2.5vw, 3rem) 2.5rem;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    align-items: center;
-    gap: clamp(0.35rem, 1vw, 1.2rem);
-  }
-
-  .memory-flower {
-    position: relative;
-    display: grid;
-    min-width: 0;
-    aspect-ratio: 1;
-    color: var(--color-ink);
-    text-decoration: none;
-    place-items: center;
-  }
-
-  .memory-flower__bloom {
-    width: 112%;
-    transition:
-      transform 500ms var(--ease-expo),
-      filter 500ms var(--ease-expo);
-  }
-
-  .memory-flower__content {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    width: min(17rem, 63%);
-    font-family: var(--font-body);
-    font-size: clamp(0.7rem, 0.9vw, 0.94rem);
-    line-height: 1.5;
-    text-align: center;
-    flex-direction: column;
-    align-items: center;
-    gap: 1.1rem;
-  }
-
-  .memory-flower__content strong {
-    font-size: clamp(2.4rem, 4vw, 5.4rem);
-    font-weight: 400;
-    line-height: 0.9;
-    letter-spacing: -0.055em;
-  }
-
-  .memory-flower__cta {
-    display: inline-flex;
-    padding-bottom: 0.25rem;
-    border-bottom: 1px solid currentcolor;
-    font-size: clamp(0.62rem, 0.7vw, 0.75rem);
-    font-weight: 600;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    gap: 1rem;
-  }
-
-  .memory-flower:hover .memory-flower__bloom {
-    filter: drop-shadow(0 1.6rem 3rem rgb(80 112 160 / 0.16));
-    transform: rotate(2deg) scale(1.035);
+  .panel-hotspot--memory-dress {
+    top: 65.9259%;
+    left: 76.875%;
+    width: 10.9375%;
+    height: 4.1968%;
   }
 
   .visually-hidden {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    border: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
   }
 
-  @media (max-width: 68rem) {
-    .flower-home {
-      min-height: 36rem;
+  @supports (height: 100dvh) {
+    .home {
+      height: 100dvh;
     }
 
-    .flower-panel__bloom {
-      width: min(46rem, 82vmin);
-    }
-
-    .memory-panel {
-      padding-top: 6rem;
-    }
-  }
-
-  @media (max-width: 48rem) {
-    .flower-home {
-      min-height: 31rem;
-    }
-
-    .flower-home__lens {
-      width: min(72vw, 23rem);
-      background-size: 205% 205%;
-    }
-
-    .flower-home__title {
-      font-size: clamp(3.6rem, 15.5vw, 5.25rem);
-      line-height: 0.91;
-    }
-
-    .flower-trigger {
-      width: 8rem;
-      height: 5rem;
-    }
-
-    .flower-trigger--archive {
-      --trigger-x: 12%;
-      --trigger-y: 68%;
-    }
-
-    .flower-trigger--exhibition {
-      --trigger-y: 87%;
-    }
-
-    .flower-trigger--memory {
-      --trigger-y: 15%;
-    }
-
-    .flower-trigger--agenda {
-      --trigger-x: 89%;
-      --trigger-y: 48%;
-    }
-
-    .flower-trigger__label {
-      font-size: 1rem;
-    }
-
-    .flower-panel {
-      overflow-y: auto;
-    }
-
-    .flower-panel__single {
-      min-height: 100svh;
-      padding: 5rem 1rem 2rem;
-    }
-
-    .flower-panel__bloom {
-      width: min(42rem, 112vmin);
-    }
-
-    .flower-panel__content {
-      width: min(25rem, 76vmin);
-    }
-
-    .flower-panel h2 {
-      font-size: clamp(3.2rem, 14vw, 5rem);
-    }
-
-    .flower-panel__content--agenda h2 {
-      font-size: clamp(3rem, 13vw, 4.5rem);
-    }
-
-    .flower-panel__copy {
-      font-size: clamp(0.7rem, 2.9vw, 0.9rem);
-      line-height: 1.45;
-    }
-
-    .flower-panel__actions {
-      margin-top: 1.5rem;
-      grid-template-columns: 1fr;
-    }
-
-    .flower-link {
-      min-height: 3rem;
-    }
-
-    .memory-panel {
-      min-height: auto;
-      padding: 5rem 1rem 2rem;
-      grid-template-columns: 1fr;
-      gap: 0;
-    }
-
-    .memory-flower {
-      width: min(31rem, 98vw);
-      margin: -1.5rem auto;
-    }
-
-    .memory-flower__content {
-      width: min(17rem, 58%);
-      font-size: 0.8rem;
-    }
-
-    .memory-flower__content strong {
-      font-size: clamp(2.8rem, 13vw, 4.5rem);
-    }
-  }
-
-  @media (hover: none) {
-    .flower-trigger__mark {
-      width: 2rem;
-      height: 2rem;
-      background: rgb(243 238 225 / 0.35);
-    }
-
-    .flower-trigger:focus-visible .flower-trigger__label {
-      opacity: 1;
+    .home-canvas {
+      width: min(100vw, 177.7778dvh);
+      height: min(100dvh, 56.25vw);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .flower-home__lens,
-    .flower-trigger__mark,
-    .flower-trigger__mark span,
-    .flower-trigger__label,
-    .flower-panel,
-    .flower-panel__close,
-    .flower-link,
-    .memory-flower__bloom {
-      transition-duration: 0.01ms;
-    }
-
-    .flower-home__lens {
-      top: 50%;
-      left: 50%;
-      background-position: center;
-    }
-
-    .memory-flower:hover .memory-flower__bloom,
-    .flower-link:hover {
-      transform: none;
+    .home-dynamic,
+    .home-reference--hover,
+    .home-panel {
+      transition: none;
     }
   }
 </style>
