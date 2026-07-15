@@ -9,6 +9,14 @@ const reserve = [
     correct: false,
   },
   {
+    id: 'robe-1755',
+    image: '/images/reconstruction/placed-robe-1755.png',
+    alt: 'Robe à la française de 1755',
+    correct: true,
+    name: 'Robe à la française',
+    year: 'c. 1755',
+  },
+  {
     id: 'skirt',
     image: '/images/reconstruction/reserve-skirt.png',
     alt: 'Falda a cuadros',
@@ -29,6 +37,14 @@ const reserve = [
     correct: false,
   },
   {
+    id: 'robe-1770',
+    image: '/images/reconstruction/placed-robe-1770.png',
+    alt: 'Robe à la française de 1770',
+    correct: true,
+    name: 'Robe à la française',
+    year: 'c. 1770',
+  },
+  {
     id: 'cape',
     image: '/images/reconstruction/reserve-cape.png',
     alt: 'Manteau de cour del siglo XVIII',
@@ -41,6 +57,14 @@ const reserve = [
     image: '/images/reconstruction/reserve-coat.png',
     alt: 'Abrigo marrón',
     correct: false,
+  },
+  {
+    id: 'anglaise',
+    image: '/images/reconstruction/placed-anglaise.png',
+    alt: 'Robe à l’anglaise de 1785',
+    correct: true,
+    name: 'Robe à l’anglaise',
+    year: 'c. 1785',
   },
   {
     id: 'silver',
@@ -70,6 +94,14 @@ const reserve = [
     alt: 'Corpiño blanco',
     correct: false,
   },
+  {
+    id: 'caraco',
+    image: '/images/reconstruction/placed-yellow.png',
+    alt: 'Caraco et jupe de 1760',
+    correct: true,
+    name: 'Caraco et jupe',
+    year: 'c. 1760',
+  },
 ];
 ---
 
@@ -79,13 +111,6 @@ const reserve = [
   immersive
 >
   <div class="reconstruction" data-reconstruction data-motion-owned>
-    <img
-      class="reconstruction__pattern"
-      src="/images/reconstruction/floral-pattern.svg"
-      alt=""
-      aria-hidden="true"
-    />
-
     <a class="reconstruction__logo" href="/" aria-label="Volver al inicio">
       <img src="/images/reconstruction/museum-logo.svg" alt="" />
     </a>
@@ -106,7 +131,7 @@ const reserve = [
     </aside>
 
     <div class="reconstruction__progress" aria-live="polite">
-      <span><b data-progress-count>0</b> / 4 piezas reunidas</span>
+      <span><b data-progress-count>0</b> / 8 piezas reunidas</span>
       <span class="reconstruction__progress-track" aria-hidden="true"
         ><i data-progress-bar></i></span
       >
@@ -114,11 +139,11 @@ const reserve = [
 
     <section
       class="reconstruction__room"
-      aria-label="Sala Rococó: cuatro espacios para reconstruir"
+      aria-label="Sala Rococó: ocho espacios para reconstruir"
       data-motion-owned
     >
       {
-        [260, 280, 316, 260].map((height, index) => (
+        [279, 319, 286, 316, 260, 280, 316, 260].map((height, index) => (
           <article
             class="room-card room-card--empty"
             style={`--arch-height:${height}`}
@@ -264,10 +289,9 @@ const reserve = [
       selected = null;
 
       if (completed === total) {
-        setGuide('Sala reconstruida · reuniste las cuatro piezas del período.');
+        setGuide('Sala reconstruida · reuniste las ocho piezas del período.');
         root.classList.add('is-complete');
-        if (status)
-          status.textContent = 'Sala reconstruida. Reuniste las cuatro piezas del período.';
+        if (status) status.textContent = 'Sala reconstruida. Reuniste las ocho piezas del período.';
       } else {
         setGuide('Panier · talle ceñido · escote cuadrado · pliegue Watteau · seda labrada');
         if (status)
@@ -339,19 +363,11 @@ const reserve = [
     min-height: 720px;
     overflow: hidden;
     color: var(--purple);
-    background: linear-gradient(180deg, var(--blue) 0%, #d8e5f2 61%, var(--cream) 100%);
-  }
-
-  .reconstruction__pattern {
-    position: absolute;
-    z-index: 0;
-    top: 34.4%;
-    left: 51.05%;
-    width: 90.3vh;
-    height: 137.3vw;
-    object-fit: fill;
-    pointer-events: none;
-    transform: translate(-50%, -50%) rotate(90deg);
+    background-color: var(--cream);
+    background-image: url('/images/reconstruction/fondo-reconstruccion.svg');
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: 100vw auto;
   }
 
   .reconstruction__logo {
@@ -480,7 +496,7 @@ const reserve = [
     right: 3.12%;
     height: 35.1%;
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(8, minmax(0, 1fr));
     gap: 1.18vw;
     align-items: end;
   }
@@ -705,17 +721,11 @@ const reserve = [
       min-height: 100svh;
       overflow: hidden;
       padding: 1.25rem 0 2rem;
-      background: linear-gradient(180deg, var(--blue) 0, #dce7ee 58rem, var(--cream) 100%);
-    }
-
-    .reconstruction__pattern {
-      top: -2rem;
-      left: -55%;
-      width: 220%;
-      height: 34rem;
-      object-fit: cover;
-      opacity: 0.74;
-      transform: none;
+      background-color: var(--cream);
+      background-image: url('/images/reconstruction/fondo-reconstruccion.svg');
+      background-position: top center;
+      background-repeat: no-repeat;
+      background-size: auto 100vh;
     }
     .reconstruction__logo {
       position: relative;
