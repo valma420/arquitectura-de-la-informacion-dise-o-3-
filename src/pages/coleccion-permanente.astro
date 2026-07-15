@@ -196,12 +196,23 @@ const filters = [
 
       <div class="collection-filters" id="filtros" aria-label="Filtrar la colección">
         {
-          filters.map((filter) => (
+          filters.map((filter, index) => (
             <div class="collection-filter" data-filter>
-              <button type="button" aria-expanded="false" data-filter-toggle>
+              <button
+                type="button"
+                aria-controls={`collection-filter-menu-${index}`}
+                aria-expanded="false"
+                data-filter-toggle
+              >
                 {filter.label}
               </button>
-              <div class="collection-filter__menu" data-filter-menu hidden>
+              <div
+                class="collection-filter__menu"
+                id={`collection-filter-menu-${index}`}
+                aria-label={filter.label}
+                data-filter-menu
+                hidden
+              >
                 {filter.options.map(([label, value]) => (
                   <label>
                     <input type="checkbox" value={value} data-filter-option />

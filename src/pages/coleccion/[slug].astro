@@ -932,6 +932,7 @@ const hotspots = [
   const detailStates = JSON.parse(detailsData) as DetailState[];
 
   if (viewer && detailStates.length > 0) {
+    const pageContent = document.querySelector<HTMLElement>('[data-object-page]');
     const title = viewer.querySelector<HTMLElement>('[data-detail-title]');
     const description = viewer.querySelector<HTMLElement>('[data-detail-description]');
     const focus = viewer.querySelector<HTMLElement>('[data-detail-focus]');
@@ -945,6 +946,12 @@ const hotspots = [
     let closeTimer = 0;
 
     const normalized = (index: number) => (index + detailStates.length) % detailStates.length;
+    const getFocusable = () =>
+      Array.from(
+        viewer.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      );
 
     const renderDetail = (nextIndex: number) => {
       activeIndex = normalized(nextIndex);
@@ -975,6 +982,7 @@ const hotspots = [
       lastFocus =
         trigger ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);
       renderDetail(index);
+      pageContent?.setAttribute('inert', '');
       viewer.hidden = false;
       viewer.setAttribute('aria-hidden', 'false');
       document.documentElement.classList.add('detail-open');
@@ -990,6 +998,7 @@ const hotspots = [
       document.documentElement.classList.remove('detail-open');
       closeTimer = window.setTimeout(() => {
         viewer.hidden = true;
+        pageContent?.removeAttribute('inert');
         lastFocus?.focus();
       }, 320);
     };
@@ -1031,7 +1040,26 @@ const hotspots = [
 
     document.addEventListener('keydown', (event) => {
       if (viewer.hidden) return;
-      if (event.key === 'Escape') closeDetail();
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeDetail();
+        return;
+      }
+      if (event.key === 'Tab') {
+        const focusable = getFocusable();
+        const first = focusable.at(0);
+        const last = focusable.at(-1);
+
+        if (!first || !last) return;
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+        return;
+      }
       if (event.key === 'ArrowLeft') renderDetail(activeIndex - 1);
       if (event.key === 'ArrowRight') renderDetail(activeIndex + 1);
     });

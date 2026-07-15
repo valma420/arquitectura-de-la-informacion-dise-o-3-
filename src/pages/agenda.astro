@@ -149,6 +149,7 @@ const filters = [
             }
           </div>
           <p><span data-agenda-count>{events.length}</span> EVENTOS</p>
+          <p class="sr-only" aria-live="polite" data-agenda-status></p>
         </div>
 
         <div class="agenda-rule" aria-hidden="true"></div>
@@ -875,6 +876,7 @@ const filters = [
   if (agenda) {
     const rows = Array.from(agenda.querySelectorAll<HTMLElement>('[data-agenda-row]'));
     const count = agenda.querySelector<HTMLElement>('[data-agenda-count]');
+    const status = agenda.querySelector<HTMLElement>('[data-agenda-status]');
     const filters = agenda.querySelectorAll<HTMLButtonElement>('[data-agenda-filter]');
     const list = agenda.querySelector<HTMLElement>('[data-agenda-list]');
     const desktopLayout = window.matchMedia('(min-width: 1121px)');
@@ -911,6 +913,8 @@ const filters = [
         });
 
         if (count) count.textContent = String(visible);
+        if (status)
+          status.textContent = `${visible} eventos visibles: ${filter.textContent?.trim()}`;
         list?.scrollTo({ top: 0, behavior: 'auto' });
       });
     });
