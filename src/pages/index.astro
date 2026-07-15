@@ -22,15 +22,7 @@ import MainLayout from '@layouts/MainLayout.astro';
         />
 
         <div class="home-dynamic">
-          <div class="home-dynamic__lens">
-            <img
-              src="/images/home/figma/lens.png"
-              alt=""
-              width="462"
-              height="468"
-              draggable="false"
-            />
-          </div>
+          <div class="home-dynamic__lens"></div>
 
           <div class="home-dynamic__pattern-window">
             <div class="home-dynamic__pattern">
@@ -366,6 +358,10 @@ import MainLayout from '@layouts/MainLayout.astro';
         home.style.setProperty('--lens-y', String(normalizedY * 100) + '%');
         home.style.setProperty('--pattern-x', String(parallaxX) + 'px');
         home.style.setProperty('--pattern-y', String(parallaxY) + 'px');
+        stage.style.setProperty('--lens-local-x', String(x) + 'px');
+        stage.style.setProperty('--lens-local-y', String(y) + 'px');
+        stage.style.setProperty('--lens-radius-x', String(bounds.width * 0.1203125) + 'px');
+        stage.style.setProperty('--lens-radius-y', String(bounds.height * 0.216667) + 'px');
         home.dataset.dynamic = 'true';
       });
     };
@@ -550,6 +546,10 @@ import MainLayout from '@layouts/MainLayout.astro';
     container-type: size;
   }
 
+  .home-canvas[data-home-canvas] {
+    overflow: visible;
+  }
+
   .home-reference,
   .home-initial,
   .home-hover-states,
@@ -574,7 +574,7 @@ import MainLayout from '@layouts/MainLayout.astro';
 
   .home-dynamic {
     z-index: 1;
-    overflow: hidden;
+    overflow: visible;
     background: #f3eee1;
     opacity: 0;
     transition: opacity 140ms ease;
@@ -587,20 +587,20 @@ import MainLayout from '@layouts/MainLayout.astro';
   .home-dynamic__lens {
     position: absolute;
     z-index: 0;
-    top: var(--lens-y);
-    left: var(--lens-x);
-    width: 24.0625%;
-    height: 43.3333%;
-    transform: translate(-50%, -50%);
-    mix-blend-mode: multiply;
+    top: calc((100cqh - 100dvh) / 2);
+    left: calc((100cqw - 100vw) / 2);
+    width: 100vw;
+    height: 100dvh;
+    background: radial-gradient(
+      ellipse var(--lens-radius-x) var(--lens-radius-y) at
+        calc(var(--lens-local-x) - ((100cqw - 100vw) / 2))
+        calc(var(--lens-local-y) - ((100cqh - 100dvh) / 2)),
+      #b0c8df 0 48%,
+      rgb(176 200 223 / 72%) 68%,
+      transparent 100%
+    );
     pointer-events: none;
-    will-change: top, left;
-  }
-
-  .home-dynamic__lens img {
-    display: block;
-    width: 100%;
-    height: 100%;
+    will-change: background;
   }
 
   .home-dynamic__pattern-window {
