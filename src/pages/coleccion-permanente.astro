@@ -699,13 +699,16 @@ const filters = [
       collection.classList.toggle('is-filtering', selections.length > 0);
       if (status) {
         const labels = selections.map(({ label }) => label).join(' + ');
-        status.textContent = `${labels}: ${matchCount} objetos visibles`;
+        status.textContent = labels
+          ? `${labels}: ${matchCount} objetos visibles`
+          : `${matchCount} objetos visibles`;
       }
     };
 
     filters.forEach((filter) => {
       const toggle = filter.querySelector<HTMLButtonElement>('[data-filter-toggle]');
       const menu = filter.querySelector<HTMLElement>('[data-filter-menu]');
+      const filterLabel = toggle?.textContent?.trim() ?? '';
 
       toggle?.addEventListener('click', () => {
         const willOpen = toggle.getAttribute('aria-expanded') !== 'true';
@@ -715,6 +718,17 @@ const filters = [
       });
 
       filter.querySelectorAll<HTMLInputElement>('[data-filter-option]').forEach((option) => {
+        option.addEventListener('click', (event) => {
+          if (activeFilters.get(filter)?.value !== option.value) return;
+
+          event.preventDefault();
+          option.checked = false;
+          activeFilters.delete(filter);
+          applyFilters();
+          if (toggle) toggle.textContent = filterLabel;
+          closeMenus();
+        });
+
         option.addEventListener('change', () => {
           const label = option.closest('label')?.textContent?.trim() ?? option.value;
           activeFilters.set(filter, { value: option.value, label });
