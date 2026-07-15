@@ -204,7 +204,7 @@ const filters = [
               <div class="collection-filter__menu" data-filter-menu hidden>
                 {filter.options.map(([label, value]) => (
                   <label>
-                    <input type="radio" name={filter.label} value={value} data-filter-option />
+                    <input type="checkbox" value={value} data-filter-option />
                     <span aria-hidden="true" />
                     {label}
                   </label>
@@ -637,18 +637,19 @@ const filters = [
       });
 
       filter.querySelectorAll<HTMLInputElement>('[data-filter-option]').forEach((option) => {
-        option.addEventListener('click', (event) => {
-          if (activeFilters.get(filter)?.value !== option.value) return;
-
-          event.preventDefault();
-          option.checked = false;
-          activeFilters.delete(filter);
-          applyFilters();
-          if (toggle) toggle.textContent = filterLabel;
-          closeMenus();
-        });
-
         option.addEventListener('change', () => {
+          if (!option.checked) {
+            activeFilters.delete(filter);
+            applyFilters();
+            if (toggle) toggle.textContent = filterLabel;
+            closeMenus();
+            return;
+          }
+
+          filter.querySelectorAll<HTMLInputElement>('[data-filter-option]').forEach((other) => {
+            if (other !== option) other.checked = false;
+          });
+
           const label = option.closest('label')?.textContent?.trim() ?? option.value;
           activeFilters.set(filter, { value: option.value, label });
           applyFilters();
