@@ -1,0 +1,591 @@
+---
+import MainLayout from '@layouts/MainLayout.astro';
+
+const collectionCards = Array.from({ length: 4 });
+---
+
+<MainLayout
+  immersive
+  title="Marie Antoinette — Guardarropas"
+  description="El guardarropas de Marie Antoinette y el corset de la reina conservado por el Palais Galliera."
+>
+  <article class="marie-page">
+    <header class="marie-hero">
+      <a class="ticket-link ticket-link--back" href="/guardarropas">Volver a la galería</a>
+
+      <div class="marie-hero__layout">
+        <img
+          class="marie-hero__portrait"
+          src="/images/wardrobe/marie-antoinette.png"
+          alt="Retrato de Marie Antoinette"
+        />
+
+        <div class="marie-hero__copy">
+          <h1>Marie<br />Antoinette</h1>
+          <p class="marie-hero__dates">1755 — 1793</p>
+          <p class="marie-hero__summary">
+            Reina consorte de Francia entre 1774 y 1792. Reinventó el vestir cortesano, protagonizó
+            los escándalos de moda más resonantes de su época, y murió guillotinada con una túnica
+            blanca —la misma silueta ligera que había propuesto diez años antes en Versalles.
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <section class="history-section" aria-labelledby="history-title">
+      <div class="history-section__heading">
+        <p class="eyebrow">Su lugar en la historia del vestir</p>
+        <h2 id="history-title">La reina que<br />vistió una época</h2>
+      </div>
+
+      <div class="history-section__copy">
+        <p>
+          Marie Antoinette llegó a Versalles en 1770, a los catorce años, y encontró una corte
+          gobernada por un rígido protocolo de vestir heredado del siglo XVII. Diez años después
+          había demolido ese sistema. Con la ayuda de su modista Rose Bertin —a quien la corte
+          llamaba, entre burla y respeto, “ministra de la moda”— empezó a proponer una silueta nueva
+          casi cada semana. La corte tuvo que seguirla o quedarse atrás.
+        </p>
+        <p>
+          Su gesto más radical fue la <em>chemise à la reine</em>, una túnica blanca de muselina de
+          algodón sin corsé rígido ni panier, presentada en 1783. Cuando Vigée Le Brun expuso un
+          retrato de la reina vestida así en el Salón de París, la aristocracia se indignó: la
+          acusaron de deshonrar la corona vistiéndose “de lavandera” y —peor aún— de traicionar a la
+          industria francesa de la seda al preferir algodón inglés.
+        </p>
+        <p>
+          No entendieron nada. Era el vestido del futuro. Cuando la guillotinaron en 1793, llevaba
+          puesta esa misma silueta. Y una década después, sería la moda de toda Europa.
+        </p>
+      </div>
+    </section>
+
+    <section class="icon-piece" aria-labelledby="icon-title">
+      <header class="icon-piece__heading">
+        <p class="eyebrow eyebrow--blue">La pieza ícono</p>
+        <h2 id="icon-title">El corset de la reina</h2>
+        <p>C. 1780 · Lino y ballenas · GAL1997.12</p>
+      </header>
+
+      <div class="icon-piece__layout">
+        <img
+          class="icon-piece__image"
+          src="/images/wardrobe/corset.png"
+          alt="Corset de lino de corte real, hacia 1780"
+        />
+
+        <div class="icon-piece__details">
+          <h3>Corset de corte real</h3>
+          <p>
+            Corsé de lino blanco reforzado con ballenas de acero, con costuras curvas propias del
+            siglo XVIII. La medida de cintura (52 cm) corresponde a la reina antes de sus embarazos.
+            Se conserva junto con los libros de M. Eloffe, proveedor real, donde figura el pago por
+            su confección.
+          </p>
+
+          <dl class="piece-data">
+            <div><dt>N° inv.</dt><dd>GAL1997.12</dd></div>
+            <div><dt>Materiales</dt><dd>Lino · ballenas<br />acero + costura</dd></div>
+            <div><dt>Medidas</dt><dd>52 cm cintura</dd></div>
+            <div><dt>Adquisición</dt><dd>Subasta 1997</dd></div>
+          </dl>
+
+          <div class="piece-thumbnails" aria-label="Vistas del corset">
+            <img src="/images/wardrobe/corset-detail-01.jpg" alt="Vista posterior del corset" />
+            <img src="/images/wardrobe/corset-detail-02.jpg" alt="Vista lateral del corset" />
+          </div>
+
+          <a class="ticket-link ticket-link--piece" href="/coleccion">Ver ficha completa</a>
+        </div>
+      </div>
+    </section>
+
+    <section
+      class="wardrobe-collection"
+      id="guardarropas-completo"
+      aria-labelledby="collection-title"
+    >
+      <div class="wardrobe-collection__header">
+        <div>
+          <p class="eyebrow">Guardarropas completo</p>
+          <h2 id="collection-title">Diez piezas conservadas</h2>
+        </div>
+
+        <ul class="collection-filters" aria-label="Categorías del guardarropas">
+          <li>Todo (10)</li>
+          <li>Prendas (3)</li>
+          <li class="is-active">Documentos (4)</li>
+          <li>Retratos (3)</li>
+        </ul>
+      </div>
+
+      <img class="wardrobe-collection__divider" src="/images/wardrobe/divider.svg" alt="" />
+
+      <div class="collection-grid">
+        {
+          collectionCards.map((_, index) => (
+            <figure class="collection-card">
+              <img
+                src="/images/wardrobe/character-card.png"
+                alt={index === 0 ? 'Retrato en blanco y negro de una mujer con abrigo' : ''}
+                loading="lazy"
+              />
+            </figure>
+          ))
+        }
+      </div>
+    </section>
+  </article>
+</MainLayout>
+
+<style>
+  .marie-page {
+    --marie-purple: #520345;
+    --marie-orange: #fd6500;
+    --marie-cream: #f3eee1;
+    --marie-black: #141414;
+    --marie-blue: #b9d6fe;
+    overflow-x: clip;
+    color: var(--marie-cream);
+    background: var(--marie-purple);
+  }
+
+  .eyebrow {
+    color: var(--marie-orange);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow--blue {
+    color: var(--marie-blue);
+  }
+
+  .ticket-link {
+    display: grid;
+    place-items: center;
+    min-height: 45px;
+    padding-inline: 2.4rem;
+    border: 1px solid currentColor;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition:
+      color 180ms ease,
+      background-color 180ms ease;
+  }
+
+  .ticket-link:hover,
+  .ticket-link:focus-visible {
+    color: var(--marie-purple);
+    background: var(--marie-cream);
+  }
+
+  .ticket-link--back {
+    position: absolute;
+    top: 57px;
+    left: 3.125vw;
+    z-index: 2;
+    width: 213px;
+    color: var(--marie-cream);
+    background: var(--marie-orange);
+    border-color: var(--marie-orange);
+  }
+
+  .marie-hero {
+    position: relative;
+    min-height: 1170px;
+    padding: 128px 3.125vw 80px;
+    background: var(--marie-purple);
+  }
+
+  .marie-hero__layout {
+    display: grid;
+    grid-template-columns: minmax(30rem, 666px) minmax(0, 1fr);
+    gap: clamp(4rem, 5.4vw, 6.5rem);
+    align-items: start;
+    width: min(1608px, 100%);
+    margin-inline: auto;
+  }
+
+  .marie-hero__portrait {
+    width: 666px;
+    height: 899px;
+    object-fit: fill;
+  }
+
+  .marie-hero__copy {
+    min-width: 0;
+    padding-top: 88px;
+  }
+
+  .marie-hero h1 {
+    color: var(--marie-orange);
+    font-size: clamp(7.5rem, 9.4vw, 11.25rem);
+    line-height: 0.84;
+    letter-spacing: -0.055em;
+  }
+
+  .marie-hero__dates {
+    margin-top: 55px;
+    font-family: var(--font-display);
+    font-size: clamp(7.2rem, 10.4vw, 12.5rem);
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: -0.055em;
+    white-space: nowrap;
+  }
+
+  .marie-hero__summary {
+    max-width: 872px;
+    margin-top: 46px;
+    color: var(--marie-orange);
+    font-size: 32px;
+    font-style: italic;
+    line-height: 1.15;
+    letter-spacing: -0.045em;
+  }
+
+  .history-section {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(34rem, 0.94fr);
+    gap: 3rem;
+    min-height: 565px;
+    padding: 112px 3.125vw 90px;
+    color: var(--marie-black);
+    background: var(--marie-cream);
+  }
+
+  .history-section h2 {
+    margin-top: 34px;
+    font-size: clamp(6rem, 7.3vw, 8.75rem);
+    line-height: 1;
+    letter-spacing: -0.055em;
+  }
+
+  .history-section__copy {
+    max-width: 897px;
+    padding-top: 59px;
+    color: var(--marie-orange);
+    font-size: 18px;
+    line-height: 1.08;
+  }
+
+  .history-section__copy p + p {
+    margin-top: 1.5rem;
+  }
+
+  .icon-piece {
+    min-height: 1639px;
+    padding: 111px 3.125vw 165px;
+    color: var(--marie-cream);
+    background: var(--marie-black);
+  }
+
+  .icon-piece__heading {
+    text-align: center;
+  }
+
+  .icon-piece__heading h2 {
+    margin-top: 41px;
+    color: var(--marie-orange);
+    font-size: clamp(6rem, 9.5vw, 11.25rem);
+    line-height: 0.95;
+    letter-spacing: -0.06em;
+  }
+
+  .icon-piece__heading > p:last-child {
+    margin-top: 52px;
+    color: var(--marie-blue);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .icon-piece__layout {
+    display: grid;
+    grid-template-columns: minmax(31rem, 818px) minmax(28rem, 623px);
+    gap: 6px;
+    align-items: start;
+    width: min(1526px, 100%);
+    margin: 68px auto 0;
+  }
+
+  .icon-piece__image {
+    width: 818px;
+    height: 1095px;
+    object-fit: contain;
+  }
+
+  .icon-piece__details {
+    min-width: 0;
+    padding-top: 306px;
+  }
+
+  .icon-piece__details h3 {
+    font-size: 64px;
+    font-style: italic;
+    line-height: 1;
+    letter-spacing: -0.05em;
+  }
+
+  .icon-piece__details > p {
+    max-width: 623px;
+    margin-top: 31px;
+    font-size: 18px;
+    line-height: 1.16;
+  }
+
+  .piece-data {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 44px 5rem;
+    margin: 74px 0 0;
+  }
+
+  .piece-data dt {
+    color: var(--marie-blue);
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  .piece-data dd {
+    margin: 10px 0 0;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    text-transform: uppercase;
+  }
+
+  .piece-thumbnails {
+    display: flex;
+    gap: 45px;
+    margin-top: 59px;
+  }
+
+  .piece-thumbnails img {
+    width: 118px;
+    height: 137px;
+    object-fit: cover;
+  }
+
+  .ticket-link--piece {
+    width: 263px;
+    margin-top: 85px;
+    color: var(--marie-blue);
+    border-color: var(--marie-blue);
+  }
+
+  .wardrobe-collection {
+    min-height: 1077px;
+    padding: 95px 3.125vw 60px;
+    background-color: var(--marie-purple);
+    background-image: url('/images/wardrobe/pattern.svg');
+    background-position: center bottom;
+    background-size: max(102.3vw, 1228px) auto;
+  }
+
+  .wardrobe-collection__header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: end;
+  }
+
+  .wardrobe-collection h2 {
+    margin-top: 12px;
+    font-size: 64px;
+    font-style: italic;
+    line-height: 1;
+    letter-spacing: -0.045em;
+  }
+
+  .collection-filters {
+    display: flex;
+    gap: 21px;
+    margin: 0 0 1px;
+    padding: 0;
+    list-style: none;
+  }
+
+  .collection-filters li {
+    min-width: 110px;
+    padding: 7px 14px;
+    color: var(--marie-cream);
+    border: 1px solid var(--marie-cream);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .collection-filters .is-active {
+    color: var(--marie-purple);
+    background: var(--marie-cream);
+  }
+
+  .wardrobe-collection__divider {
+    width: calc(100% + 6.25vw);
+    height: 9px;
+    margin: 66px 0 0 -3.125vw;
+    object-fit: fill;
+  }
+
+  .collection-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(12px, 1vw, 19px);
+    margin-top: 67px;
+  }
+
+  .collection-card {
+    margin: 0;
+  }
+
+  .collection-card img {
+    width: 100%;
+  }
+
+  @media (min-width: 1101px) and (max-width: 1700px) {
+    .marie-hero__layout {
+      grid-template-columns: minmax(24rem, 35vw) minmax(0, 1fr);
+      gap: 4vw;
+    }
+
+    .marie-hero__portrait {
+      width: 100%;
+      height: auto;
+    }
+
+    .marie-hero h1 {
+      font-size: 9.4vw;
+    }
+
+    .marie-hero__dates {
+      font-size: 8.75vw;
+      letter-spacing: -0.075em;
+    }
+
+    .marie-hero__summary {
+      font-size: clamp(1.35rem, 1.8vw, 2rem);
+    }
+
+    .icon-piece__layout {
+      grid-template-columns: minmax(31rem, 56%) minmax(0, 44%);
+    }
+
+    .icon-piece__image {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  @media (max-width: 1100px) {
+    .marie-hero {
+      min-height: auto;
+    }
+
+    .marie-hero__layout,
+    .history-section,
+    .icon-piece__layout {
+      grid-template-columns: 1fr;
+    }
+
+    .marie-hero__portrait,
+    .icon-piece__image {
+      width: min(100%, 42rem);
+      height: auto;
+      margin-inline: auto;
+    }
+
+    .marie-hero__copy {
+      padding-top: 0;
+    }
+
+    .history-section__copy,
+    .icon-piece__details {
+      max-width: 50rem;
+      padding-top: 0;
+    }
+
+    .icon-piece {
+      min-height: auto;
+    }
+
+    .icon-piece__layout {
+      gap: 3rem;
+    }
+
+    .collection-filters {
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .ticket-link--back {
+      top: 1.25rem;
+      left: 1.25rem;
+      width: auto;
+    }
+
+    .marie-hero {
+      padding: 6rem 1.25rem 4rem;
+    }
+
+    .marie-hero h1 {
+      font-size: clamp(4.5rem, 24vw, 7rem);
+    }
+
+    .marie-hero__dates {
+      margin-top: 2rem;
+      font-size: clamp(3.6rem, 17vw, 6.5rem);
+    }
+
+    .marie-hero__summary {
+      margin-top: 2rem;
+      font-size: 1.35rem;
+    }
+
+    .history-section,
+    .icon-piece,
+    .wardrobe-collection {
+      padding-inline: 1.25rem;
+    }
+
+    .history-section h2,
+    .icon-piece__heading h2 {
+      font-size: clamp(4rem, 20vw, 6rem);
+    }
+
+    .icon-piece__details h3,
+    .wardrobe-collection h2 {
+      font-size: clamp(3rem, 14vw, 4rem);
+    }
+
+    .piece-data {
+      gap: 2rem 1rem;
+    }
+
+    .wardrobe-collection__header {
+      grid-template-columns: 1fr;
+    }
+
+    .collection-filters {
+      justify-content: flex-start;
+    }
+
+    .collection-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticket-link {
+      transition: none;
+    }
+  }
+</style>

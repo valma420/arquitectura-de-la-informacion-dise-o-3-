@@ -1,33 +1,6 @@
 ---
 import MainLayout from '@layouts/MainLayout.astro';
 
-const assembled = [
-  {
-    name: 'Robe à la française',
-    year: 'c. 1755',
-    image: '/images/reconstruction/placed-robe-1755.png',
-    height: 279,
-  },
-  {
-    name: 'Robe à la française',
-    year: 'c. 1770',
-    image: '/images/reconstruction/placed-robe-1770.png',
-    height: 319,
-  },
-  {
-    name: "Robe à l'anglaise",
-    year: 'c. 1785',
-    image: '/images/reconstruction/placed-anglaise.png',
-    height: 286,
-  },
-  {
-    name: 'Caraco et jupe',
-    year: 'c. 1760',
-    image: '/images/reconstruction/placed-yellow.png',
-    height: 316,
-  },
-];
-
 const reserve = [
   {
     id: 'pink',
@@ -133,7 +106,7 @@ const reserve = [
     </aside>
 
     <div class="reconstruction__progress" aria-live="polite">
-      <span><b data-progress-count>4</b> / 8 piezas reunidas</span>
+      <span><b data-progress-count>0</b> / 4 piezas reunidas</span>
       <span class="reconstruction__progress-track" aria-hidden="true"
         ><i data-progress-bar></i></span
       >
@@ -141,21 +114,9 @@ const reserve = [
 
     <section
       class="reconstruction__room"
-      aria-label="Sala Rococó: prendas reunidas"
+      aria-label="Sala Rococó: cuatro espacios para reconstruir"
       data-motion-owned
     >
-      {
-        assembled.map((garment) => (
-          <article class="room-card room-card--filled" style={`--arch-height:${garment.height}`}>
-            <div class="room-card__arch">
-              <img src={garment.image} alt={garment.name} />
-            </div>
-            <p>{garment.name}</p>
-            <strong>{garment.year}</strong>
-          </article>
-        ))
-      }
-
       {
         [260, 280, 316, 260].map((height, index) => (
           <article
@@ -247,8 +208,9 @@ const reserve = [
     const guide = root.querySelector<HTMLElement>('[data-guide]');
     const guideCopy = root.querySelector<HTMLElement>('[data-guide-copy]');
     const status = root.querySelector<HTMLElement>('[data-game-status]');
+    const total = slots.length;
     let selected: HTMLButtonElement | null = null;
-    let completed = 4;
+    let completed = 0;
 
     const setGuide = (copy: string, isError = false) => {
       if (!guideCopy || !guide) return;
@@ -298,17 +260,18 @@ const reserve = [
       garment.disabled = true;
       completed += 1;
       if (count) count.textContent = String(completed);
-      if (bar) bar.style.width = `${(completed / 8) * 100}%`;
+      if (bar) bar.style.width = `${(completed / total) * 100}%`;
       selected = null;
 
-      if (completed === 8) {
-        setGuide('Sala reconstruida · reuniste las ocho piezas del período.');
+      if (completed === total) {
+        setGuide('Sala reconstruida · reuniste las cuatro piezas del período.');
         root.classList.add('is-complete');
-        if (status) status.textContent = 'Sala reconstruida. Reuniste las ocho piezas del período.';
+        if (status)
+          status.textContent = 'Sala reconstruida. Reuniste las cuatro piezas del período.';
       } else {
         setGuide('Panier · talle ceñido · escote cuadrado · pliegue Watteau · seda labrada');
         if (status)
-          status.textContent = `${name} incorporada a la sala. ${completed} de 8 piezas reunidas.`;
+          status.textContent = `${name} incorporada a la sala. ${completed} de ${total} piezas reunidas.`;
       }
     };
 
@@ -503,7 +466,7 @@ const reserve = [
 
   .reconstruction__progress-track i {
     display: block;
-    width: 50%;
+    width: 0;
     height: 100%;
     background: var(--orange);
     transition: width 500ms cubic-bezier(0.22, 1, 0.36, 1);
@@ -517,7 +480,7 @@ const reserve = [
     right: 3.12%;
     height: 35.1%;
     display: grid;
-    grid-template-columns: repeat(8, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 1.18vw;
     align-items: end;
   }
@@ -551,11 +514,6 @@ const reserve = [
     object-fit: contain;
     object-position: center bottom;
     animation: garment-arrives 560ms cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
-
-  .room-card:nth-child(4) .room-card__arch img {
-    width: 76%;
-    height: 91%;
   }
 
   .room-card p {
@@ -727,6 +685,17 @@ const reserve = [
     }
     75% {
       transform: translateX(9px) rotate(2deg);
+    }
+  }
+
+  @media (min-width: 901px) and (max-width: 1600px) {
+    .reconstruction__guide {
+      right: 0;
+      width: auto;
+    }
+
+    .reconstruction__progress {
+      top: calc(12.4% + 5.5rem);
     }
   }
 

@@ -120,17 +120,106 @@ const navigation = [
     data-motion-owned
   >
     <div class="rococo-article__desktop">
-      <img
-        class="rococo-article__figma"
-        src="/images/history-fidelity/article.png"
-        alt=""
-        width="1920"
-        height="2314"
-        loading="eager"
-        aria-hidden="true"
-      />
-      <a class="article-hit article-hit--back" href="#selector-de-epoca">Ver más épocas</a>
-      <a class="article-hit article-hit--discover" href="/coleccion">Descubrir la selección</a>
+      <header class="desktop-reader-header">
+        <img
+          class="desktop-reader-header__floral"
+          src="/images/history-fidelity/header-floral.svg"
+          alt=""
+          aria-hidden="true"
+        />
+        <a href="#selector-de-epoca">Ver más épocas</a>
+        <div class="desktop-reader-header__title">
+          <p>1715 — 1789</p>
+          <h2>Rococó</h2>
+        </div>
+        <div class="desktop-reader-header__byline">
+          <span>17 de julio, 2026</span>
+          <em>María S. Camargo</em>
+        </div>
+      </header>
+
+      <div
+        class="desktop-reader-scroll"
+        tabindex="0"
+        aria-label="Texto curatorial. Desplazá para continuar la lectura."
+        data-history-reader
+      >
+        <section class="desktop-reader-copy">
+          <div class="desktop-reader-copy__lead">
+            <blockquote>
+              “Cada época deja atrás una manera de estar en el cuerpo. La del siglo XVIII no cabe en
+              ningún cuerpo actual.”
+            </blockquote>
+            <p>— Pascale Gorguet-Ballesteros, conservadora · Palais Galliera</p>
+          </div>
+
+          <figure class="desktop-reader-media">
+            <div class="desktop-reader-media__image">
+              <img
+                src="/images/history-fidelity/gallery.jpg"
+                alt="Vestidos del siglo XVIII exhibidos en el Palais Galliera"
+                data-related-preview
+              />
+            </div>
+            <img
+              class="desktop-reader-media__frame"
+              src="/images/history-fidelity/gallery-frame.svg"
+              alt=""
+              aria-hidden="true"
+            />
+            <figcaption data-related-caption>Vestidos del siglo XVIII en exhibición</figcaption>
+          </figure>
+
+          <div class="desktop-reader-copy__body">
+            <p>
+              En los retratos de
+              <button
+                class="related-word"
+                type="button"
+                data-related-image="/images/history-fidelity/gallery.jpg"
+                data-related-alt="Vestidos del siglo XVIII exhibidos en el Palais Galliera"
+                data-related-caption="Élisabeth Vigée Le Brun · retratos como archivo visual"
+                aria-pressed="true">Élisabeth Vigée Le Brun</button
+              >, la vestimenta ocupa tanto espacio como el rostro. La pintura terminó preservando
+              aquello que el tiempo no pudo conservar: la caída de una tela, el brillo de un
+              bordado, el volumen de unos paniers. Cuando los textiles originales desaparecen, las
+              pinturas continúan actuando como archivos visuales capaces de mantener viva la memoria
+              de formas, colores y texturas.
+            </p>
+            <p>
+              Con el paso de los siglos, gran parte de ese universo desapareció. Permanecieron
+              algunos vestidos, fragmentos textiles, retratos y documentos capaces de reconstruir
+              apenas una parte del relato. Cada pieza conservada por el
+              <button
+                class="related-word related-word--purple"
+                type="button"
+                data-related-image="/images/prendas/1730.png"
+                data-related-alt="Robe à la française de 1730"
+                data-related-caption="Robe à la française · c. 1730"
+                aria-pressed="false">Palais Galliera</button
+              > funciona como un fragmento de memoria: no cuenta toda la historia, pero permite activar
+              conexiones entre personas, materiales y contextos que continúan dialogando con el presente.
+            </p>
+            <p>
+              Quizás por eso observar una prenda del siglo XVIII nunca consiste únicamente en mirar
+              un objeto antiguo. Cada costura, cada pliegue y cada bordado siguen conteniendo
+              información que espera ser recordada. La memoria no permanece inmóvil dentro del
+              museo: vuelve a activarse cada vez que alguien decide detenerse sobre un detalle y
+              descubrir que, detrás de una tela aparentemente silenciosa, todavía sobreviven
+              historias que continúan resonando en el presente.
+            </p>
+          </div>
+        </section>
+
+        <footer class="desktop-discover">
+          <h2>Robe à la française</h2>
+          <p>Una selección de piezas exclusivas de esta época</p>
+          <a href="/coleccion">
+            <img src="/images/history-fidelity/discover-arrow.svg" alt="" aria-hidden="true" />
+            <span>Descubrir</span>
+          </a>
+        </footer>
+      </div>
     </div>
 
     <div class="rococo-article__mobile">
@@ -331,31 +420,270 @@ const navigation = [
   }
 
   .rococo-article__desktop {
-    position: relative;
+    display: grid;
     width: 100%;
-    aspect-ratio: 1920 / 2314;
+    height: 100svh;
+    grid-template-rows: clamp(17rem, 30svh, 21rem) minmax(0, 1fr);
+    color: #141414;
+    overflow: hidden;
   }
 
-  .rococo-article__figma {
+  .desktop-reader-header {
+    position: relative;
+    z-index: 2;
+    min-height: 0;
+    padding: 2.1rem 3.125vw;
+    overflow: hidden;
+    background: #b9d6fe;
+    border-bottom: 1px solid #141414;
+  }
+
+  .desktop-reader-header__floral {
+    position: absolute;
+    top: -48%;
+    right: -1%;
+    width: 61%;
+    max-width: none;
+    opacity: 0.82;
+    transform: scaleX(-1);
+  }
+
+  .desktop-reader-header > a {
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+    font-size: 0.67rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .desktop-reader-header__title {
+    position: absolute;
+    bottom: 1.7rem;
+    left: 3.125vw;
+    z-index: 1;
+    display: flex;
+    align-items: flex-end;
+    gap: 1.5rem;
+  }
+
+  .desktop-reader-header__title p {
+    padding-bottom: 0.45rem;
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 3.8vw, 4.25rem);
+    font-style: italic;
+    line-height: 0.8;
+  }
+
+  .desktop-reader-header__title h2 {
+    color: #fd6500;
+    font-size: clamp(6rem, 10.8vw, 12rem);
+    font-weight: 400;
+    line-height: 0.68;
+    letter-spacing: -0.055em;
+  }
+
+  .desktop-reader-header__byline {
+    position: absolute;
+    right: 3.125vw;
+    bottom: 2.2rem;
+    z-index: 1;
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+  }
+
+  .desktop-reader-header__byline span {
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .desktop-reader-header__byline em {
+    font-family: var(--font-display);
+    font-size: 1rem;
+    text-transform: uppercase;
+  }
+
+  .desktop-reader-scroll {
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
+    scrollbar-color: #141414 transparent;
+    scrollbar-width: thin;
+    background: linear-gradient(to bottom, #f3eee1 0 26%, #b9d6fe 78%);
+  }
+
+  .desktop-reader-scroll:focus-visible {
+    outline: 3px solid #fd6500;
+    outline-offset: -3px;
+  }
+
+  .desktop-reader-copy {
+    display: grid;
+    max-width: 96rem;
+    min-height: 82rem;
+    margin: 0 auto;
+    padding: clamp(4rem, 8vw, 9rem) 5vw;
+    grid-template-columns: minmax(18rem, 0.82fr) minmax(24rem, 1.18fr);
+    grid-template-areas:
+      'lead lead'
+      'media body';
+    align-content: start;
+    gap: clamp(4rem, 7vw, 8rem) clamp(3rem, 7vw, 8rem);
+  }
+
+  .desktop-reader-copy__lead {
+    grid-area: lead;
+  }
+
+  .desktop-reader-copy__lead blockquote {
+    max-width: 66rem;
+    margin: 0;
+    color: #fd6500;
+    font-family: var(--font-display);
+    font-size: clamp(3.1rem, 5.7vw, 6.2rem);
+    font-style: italic;
+    line-height: 0.94;
+    letter-spacing: -0.035em;
+  }
+
+  .desktop-reader-copy__lead p {
+    margin-top: 1.25rem;
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .desktop-reader-media {
+    position: sticky;
+    top: 2.5rem;
+    grid-area: media;
+    width: min(100%, 33rem);
+    margin: 0 auto;
+    aspect-ratio: 722.582 / 880;
+  }
+
+  .desktop-reader-media__image {
+    position: absolute;
+    inset: 2.4% 3%;
+    overflow: hidden;
+    -webkit-mask: url('/images/history-fidelity/gallery-mask.svg') center / 100% 100% no-repeat;
+    mask: url('/images/history-fidelity/gallery-mask.svg') center / 100% 100% no-repeat;
+  }
+
+  .desktop-reader-media__image img {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    object-fit: cover;
+    transition: opacity 180ms ease;
+  }
+
+  .desktop-reader-media__image img[src$='1730.png'] {
+    padding: 8%;
+    object-fit: contain;
+    background: #f3eee1;
+  }
+
+  .desktop-reader-media__frame {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    max-width: none;
+    pointer-events: none;
   }
 
-  .article-hit--back {
-    top: 3.8%;
-    left: 3.1%;
-    width: 11.5%;
-    height: 4.5%;
+  .desktop-reader-media figcaption {
+    position: absolute;
+    right: 4%;
+    bottom: -1.7rem;
+    left: 4%;
+    font-size: 0.58rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-align: center;
+    text-transform: uppercase;
   }
 
-  .article-hit--discover {
-    right: 43.8%;
-    bottom: 1.8%;
-    width: 12.5%;
-    height: 7.2%;
+  .desktop-reader-copy__body {
+    display: grid;
+    grid-area: body;
+    gap: 2.1rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.55rem, 2vw, 2.25rem);
+    font-style: italic;
+    line-height: 1.18;
+  }
+
+  .related-word {
+    display: inline;
+    padding: 0;
+    color: #fd6500;
+    background: transparent;
+    border: 0;
+    font: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 0.06em;
+    text-underline-offset: 0.12em;
+    cursor: pointer;
+  }
+
+  .related-word--purple {
+    color: #520345;
+  }
+
+  .related-word:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 0.15em;
+  }
+
+  .desktop-discover {
+    display: flex;
+    min-height: 38rem;
+    padding: 5rem 3rem 3.5rem;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background:
+      radial-gradient(circle at 50% 82%, #fd6500 0 15%, rgb(253 101 0 / 62%) 25%, transparent 58%),
+      #b9d6fe;
+    border-top: 2px solid #141414;
+  }
+
+  .desktop-discover h2 {
+    font-size: clamp(5rem, 9.5vw, 10.5rem);
+    font-weight: 400;
+    line-height: 0.85;
+    letter-spacing: -0.055em;
+  }
+
+  .desktop-discover p {
+    margin-top: 1.8rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .desktop-discover a {
+    display: flex;
+    margin-top: 2.4rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .desktop-discover a img {
+    width: 3rem;
   }
 
   .rococo-article__mobile {
@@ -789,6 +1117,14 @@ const navigation = [
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .desktop-reader-scroll {
+      scroll-behavior: auto;
+    }
+
+    .desktop-reader-media__image img {
+      transition: none;
+    }
+
     .mobile-nav__toggle span {
       transition-duration: 0.01ms;
     }
@@ -835,4 +1171,21 @@ const navigation = [
       }
     });
   }
+
+  const relatedPreview = document.querySelector<HTMLImageElement>('[data-related-preview]');
+  const relatedCaption = document.querySelector<HTMLElement>('[data-related-caption]');
+  const relatedWords = Array.from(
+    document.querySelectorAll<HTMLButtonElement>('[data-related-image]')
+  );
+
+  relatedWords.forEach((word) => {
+    word.addEventListener('click', () => {
+      if (!relatedPreview) return;
+
+      relatedWords.forEach((item) => item.setAttribute('aria-pressed', String(item === word)));
+      relatedPreview.src = word.dataset.relatedImage ?? relatedPreview.src;
+      relatedPreview.alt = word.dataset.relatedAlt ?? '';
+      if (relatedCaption) relatedCaption.textContent = word.dataset.relatedCaption ?? '';
+    });
+  });
 </script>

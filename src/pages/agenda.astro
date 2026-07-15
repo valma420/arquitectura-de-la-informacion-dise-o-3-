@@ -116,10 +116,10 @@ const filters = [
         </svg>
       </a>
       <div class="agenda-nav__bar">
-        <a href="/visitar">VISITAR</a>
+        <span class="agenda-nav__label">VISITAR</span>
         <a href="/muestra">EXPOSICIONES</a>
         <a href="/coleccion">COLECCIONES</a>
-        <a href="/museo">EL MUSEO</a>
+        <span class="agenda-nav__label">EL MUSEO</span>
         <a class="is-active" href="/agenda" aria-current="page">AGENDA</a>
         <a class="agenda-nav__tickets" href="#evento-04">ENTRADAS</a>
         <span class="agenda-nav__search" aria-hidden="true"></span>
@@ -153,71 +153,109 @@ const filters = [
 
         <div class="agenda-rule" aria-hidden="true"></div>
 
-        <div class="agenda-list" data-agenda-list>
+        <div
+          class="agenda-list"
+          data-agenda-list
+          tabindex="0"
+          aria-label="Actividades de junio de 2026"
+        >
           {
             events.map((event) => (
               <article
                 class:list={['agenda-row', { 'is-featured': event.featured }]}
                 data-agenda-row
                 data-category={event.category}
-                id={event.featured ? 'evento-04' : undefined}
+                id={`evento-${event.day}`}
               >
                 <button
                   class="agenda-row__header"
                   type="button"
                   aria-expanded="false"
-                  data-agenda-toggle={event.featured ? 'true' : undefined}
+                  aria-controls={`agenda-detail-${event.day}`}
+                  data-agenda-toggle
                 >
                   <span class="agenda-row__date">
                     <strong>{event.day}</strong>
                     <span>JUN</span>
                   </span>
                   <span class="agenda-row__kind">{event.kind}</span>
-                  <span class="agenda-row__title">{event.title}</span>
+                  <span class="agenda-row__title" id={`agenda-event-title-${event.day}`}>
+                    {event.title}
+                  </span>
                   <span class="agenda-row__time">{event.time}</span>
                 </button>
 
-                {event.featured && (
-                  <div class="agenda-row__detail" aria-hidden="true">
-                    <img
-                      class="agenda-row__piece"
-                      src="/images/timeline-agenda/agenda-detail.png"
-                      alt="Vestido floral del acervo del Palais Galliera"
-                    />
-                    <div class="agenda-row__copy">
-                      <p>
-                        Una charla que recorre cómo el vestir del siglo XIX construyó identidad y
-                        posición social a través de la silueta: del corsé y la crinolina al polisón,
-                        cada estructura moldeó el cuerpo según los códigos de su época. A partir de
-                        piezas del acervo Galliera, figurines y prensa de moda, se revisa la
-                        transición del taller artesanal a los primeros sistemas de alta costura, y
-                        el modo en que la indumentaria volvió visibles las reglas de género y clase
-                        del período.
-                      </p>
+                <div
+                  class:list={[
+                    'agenda-row__detail',
+                    { 'agenda-row__detail--summary': !event.featured },
+                  ]}
+                  id={`agenda-detail-${event.day}`}
+                  role="region"
+                  aria-labelledby={`agenda-event-title-${event.day}`}
+                  aria-hidden="true"
+                  inert
+                >
+                  {event.featured ? (
+                    <>
+                      <img
+                        class="agenda-row__piece"
+                        src="/images/timeline-agenda/agenda-detail.png"
+                        alt="Vestido floral del acervo del Palais Galliera"
+                      />
+                      <div class="agenda-row__copy">
+                        <p>
+                          Una charla que recorre cómo el vestir del siglo XIX construyó identidad y
+                          posición social a través de la silueta: del corsé y la crinolina al
+                          polisón, cada estructura moldeó el cuerpo según los códigos de su época. A
+                          partir de piezas del acervo Galliera, figurines y prensa de moda, se
+                          revisa la transición del taller artesanal a los primeros sistemas de alta
+                          costura, y el modo en que la indumentaria volvió visibles las reglas de
+                          género y clase del período.
+                        </p>
+                        <dl>
+                          <div>
+                            <dt>DURACIÓN</dt>
+                            <dd>90 min</dd>
+                          </div>
+                          <div>
+                            <dt>LUGAR</dt>
+                            <dd>Auditorio</dd>
+                          </div>
+                          <div>
+                            <dt>HORARIO</dt>
+                            <dd>18:00 h</dd>
+                          </div>
+                        </dl>
+                        <button
+                          class="agenda-row__reserve"
+                          type="button"
+                          aria-label="Reservar entradas"
+                        >
+                          <img src="/images/timeline-agenda/agenda-ticket.png" alt="" />
+                        </button>
+                      </div>
+                    </>
+                  ) : (
+                    <div class="agenda-row__copy agenda-row__copy--summary">
+                      <p>{event.title}</p>
                       <dl>
                         <div>
-                          <dt>DURACIÓN</dt>
-                          <dd>90 min</dd>
+                          <dt>FECHA</dt>
+                          <dd>{event.day} JUN 2026</dd>
                         </div>
                         <div>
-                          <dt>LUGAR</dt>
-                          <dd>Auditorio</dd>
+                          <dt>ACTIVIDAD</dt>
+                          <dd>{event.kind}</dd>
                         </div>
                         <div>
                           <dt>HORARIO</dt>
-                          <dd>18:00 h</dd>
+                          <dd>{event.time}</dd>
                         </div>
                       </dl>
-                      <button
-                        class="agenda-row__reserve"
-                        type="button"
-                        aria-label="Reservar entradas"
-                      >
-                        <img src="/images/timeline-agenda/agenda-ticket.png" alt="" />
-                      </button>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
               </article>
             ))
           }
@@ -296,7 +334,8 @@ const filters = [
     transition: color 160ms ease;
   }
 
-  .agenda-nav__bar a {
+  .agenda-nav__bar a,
+  .agenda-nav__label {
     flex: 0 0 auto;
   }
 
@@ -432,6 +471,10 @@ const filters = [
     background: var(--agenda-cream);
   }
 
+  .agenda-list:focus-visible {
+    outline-offset: -2px;
+  }
+
   .agenda-row {
     position: relative;
     height: 110px;
@@ -459,6 +502,10 @@ const filters = [
     background: linear-gradient(180deg, var(--agenda-purple) 0%, var(--agenda-orange) 100%);
   }
 
+  .agenda-row.is-open:not(.is-featured) {
+    height: 320px;
+  }
+
   .agenda-row__header {
     display: grid;
     grid-template-columns: 180px 240px minmax(0, 1fr) 157px;
@@ -470,10 +517,6 @@ const filters = [
     text-align: left;
     background: none;
     border: 0;
-    cursor: default;
-  }
-
-  .is-featured .agenda-row__header {
     cursor: pointer;
   }
 
@@ -581,6 +624,27 @@ const filters = [
     font-size: 16px;
   }
 
+  .agenda-row__copy--summary {
+    top: 36px;
+    left: 180px;
+    width: min(720px, calc(100% - 240px));
+  }
+
+  .agenda-row__copy--summary > p {
+    width: 100%;
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 2.5vw, 3rem);
+    font-style: italic;
+    line-height: 1;
+    transform: none;
+  }
+
+  .agenda-row__copy--summary dl {
+    position: static;
+    width: 100%;
+    margin-top: 2.5rem;
+  }
+
   .agenda-row__reserve {
     position: absolute;
     top: 230px;
@@ -604,6 +668,50 @@ const filters = [
     height: 100%;
   }
 
+  @media (min-width: 1121px) {
+    .agenda-page {
+      height: 100vh;
+      height: 100svh;
+      min-height: 45rem;
+      overflow: hidden;
+    }
+
+    .agenda-layout {
+      height: calc(100vh - 219px);
+      height: calc(100svh - 219px);
+      min-height: 501px;
+      align-items: stretch;
+    }
+
+    .agenda-program {
+      display: grid;
+      min-height: 0;
+      grid-template-rows: 39px 4px minmax(0, 1fr);
+    }
+
+    .agenda-list {
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      scrollbar-color: var(--agenda-purple) transparent;
+      scrollbar-width: thin;
+    }
+
+    .agenda-list::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .agenda-list::-webkit-scrollbar-thumb {
+      background: var(--agenda-purple);
+    }
+  }
+
+  @media (min-width: 1121px) and (max-width: 1536px) {
+    .agenda-filters__options {
+      gap: clamp(1.5rem, 2.5vw, 2.5rem);
+    }
+  }
+
   @media (max-width: 1120px) {
     .agenda-nav {
       grid-template-columns: 52px 1fr;
@@ -625,6 +733,10 @@ const filters = [
     }
 
     .agenda-nav__bar a:not(.is-active):not(.agenda-nav__tickets) {
+      display: none;
+    }
+
+    .agenda-nav__label {
       display: none;
     }
 
@@ -683,6 +795,10 @@ const filters = [
       height: 680px;
     }
 
+    .agenda-row.is-open:not(.is-featured) {
+      height: 360px;
+    }
+
     .agenda-row__piece {
       top: 0;
       left: 1rem;
@@ -698,6 +814,20 @@ const filters = [
     .agenda-row__copy > p,
     .agenda-row__copy dl {
       width: 100%;
+    }
+
+    .agenda-row__copy--summary {
+      top: 2rem;
+      left: 1rem;
+      width: calc(100% - 2rem);
+    }
+
+    .agenda-row__copy--summary > p {
+      font-size: clamp(2rem, 7vw, 3rem);
+    }
+
+    .agenda-row__copy--summary dl {
+      margin-top: 2.5rem;
     }
   }
 
@@ -752,9 +882,26 @@ const filters = [
     const rows = Array.from(agenda.querySelectorAll<HTMLElement>('[data-agenda-row]'));
     const count = agenda.querySelector<HTMLElement>('[data-agenda-count]');
     const filters = agenda.querySelectorAll<HTMLButtonElement>('[data-agenda-filter]');
-    const featuredToggle = agenda.querySelector<HTMLButtonElement>('[data-agenda-toggle]');
-    const featuredRow = featuredToggle?.closest<HTMLElement>('[data-agenda-row]');
-    const detail = featuredRow?.querySelector<HTMLElement>('.agenda-row__detail');
+    const list = agenda.querySelector<HTMLElement>('[data-agenda-list]');
+    const desktopLayout = window.matchMedia('(min-width: 1121px)');
+
+    const setRowOpen = (row: HTMLElement, open: boolean) => {
+      const toggle = row.querySelector<HTMLButtonElement>('[data-agenda-toggle]');
+      const detail = row.querySelector<HTMLElement>('.agenda-row__detail');
+      row.classList.toggle('is-open', open);
+      toggle?.setAttribute('aria-expanded', String(open));
+      detail?.setAttribute('aria-hidden', String(!open));
+      detail?.toggleAttribute('inert', !open);
+    };
+
+    const syncInternalScroll = () => {
+      list?.toggleAttribute('data-lenis-prevent-wheel', desktopLayout.matches);
+      if (list) list.tabIndex = desktopLayout.matches ? 0 : -1;
+      if (!desktopLayout.matches) list?.scrollTo({ top: 0, behavior: 'auto' });
+    };
+
+    syncInternalScroll();
+    desktopLayout.addEventListener('change', syncInternalScroll);
 
     filters.forEach((filter) => {
       filter.addEventListener('click', () => {
@@ -764,19 +911,32 @@ const filters = [
         filters.forEach((item) => item.setAttribute('aria-pressed', String(item === filter)));
         rows.forEach((row) => {
           const show = value === 'todo' || row.dataset.category === value;
+          setRowOpen(row, false);
           row.hidden = !show;
           if (show) visible += 1;
         });
 
         if (count) count.textContent = String(visible);
+        list?.scrollTo({ top: 0, behavior: 'auto' });
       });
     });
 
-    featuredToggle?.addEventListener('click', () => {
-      const open = !featuredRow?.classList.contains('is-open');
-      featuredRow?.classList.toggle('is-open', open);
-      featuredToggle.setAttribute('aria-expanded', String(open));
-      detail?.setAttribute('aria-hidden', String(!open));
+    rows.forEach((row) => {
+      row
+        .querySelector<HTMLButtonElement>('[data-agenda-toggle]')
+        ?.addEventListener('click', () => {
+          const open = !row.classList.contains('is-open');
+          rows.forEach((candidate) => setRowOpen(candidate, candidate === row && open));
+        });
+    });
+
+    agenda.addEventListener('keydown', (event) => {
+      if (event.key !== 'Escape') return;
+      const openRow = rows.find((row) => row.classList.contains('is-open'));
+      if (!openRow) return;
+      event.preventDefault();
+      setRowOpen(openRow, false);
+      openRow.querySelector<HTMLButtonElement>('[data-agenda-toggle]')?.focus();
     });
   }
 </script>

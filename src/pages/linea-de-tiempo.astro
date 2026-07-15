@@ -1,5 +1,15 @@
 ---
 import MainLayout from '@layouts/MainLayout.astro';
+import { getPeriod, piecesByPeriod } from '@data/collection';
+
+const belleDescription =
+  'La moda de la opulencia y el refinamiento. El corsé esculpe una silueta en S, pecho hacia adelante, cintura de avispa, cadera atrás, y el vestido se cubre de encajes, bordados y volúmenes.';
+
+const belleDetailDescription =
+  'La moda de la opulencia y el refinamiento. El corsé esculpe una silueta en S, pecho hacia adelante, cintura de avispa, cadera atrás, y el vestido se cubre de encajes, bordados y volúmenes. París se consagra como capital de la moda y nace la alta costura moderna; hacia el final del período, Poiret empieza a liberar el cuerpo del corsé.';
+
+const anneesFolles = getPeriod('annees-folles');
+const anneesPieces = piecesByPeriod('annees-folles');
 
 const overviewEras = [
   {
@@ -7,30 +17,79 @@ const overviewEras = [
     range: '1871-1914',
     image: '/images/timeline-agenda/timeline-1870.png',
     tone: 'orange',
+    description: belleDescription,
   },
   {
-    name: 'Annés Folles',
+    name: anneesFolles?.name ?? 'Années Folles',
     range: '1918-1929',
     image: '/images/timeline-agenda/timeline-1918.png',
     tone: 'blue',
+    description: anneesFolles?.description ?? '',
   },
 ];
 
-const detailCards = [
+const detailEras = [
   {
-    year: '1871-1914',
-    title: 'Belle Époque',
-    image: '/images/timeline-agenda/timeline-1870.png',
+    id: 'belle-epoque',
+    name: 'Belle Époque',
+    ghostYear: '1870',
+    tone: 'orange',
+    cards: [
+      {
+        year: '1871-1914',
+        title: 'Belle Époque',
+        image: '/images/timeline-agenda/timeline-1870.png',
+      },
+      { year: '1890s', image: '/images/timeline-agenda/timeline-1890.png' },
+      { year: '1900s', image: '/images/timeline-agenda/timeline-1900.png' },
+    ].map((card) => ({
+      ...card,
+      description: belleDetailDescription,
+      meta: [
+        {
+          label: 'SILUETA',
+          value: 'Corsé · silueta en S · cintura de avispa · falda con cola y volumen',
+        },
+        {
+          label: 'FIGURAS CLAVE',
+          value: 'Charles Frederick Worth · Jacques Doucet · Jeanne Paquin · Callot Soeurs',
+        },
+      ],
+    })),
   },
-  { year: '1890s', image: '/images/timeline-agenda/timeline-1890.png' },
-  { year: '1900s', image: '/images/timeline-agenda/timeline-1900.png' },
+  {
+    id: 'annees-folles',
+    name: anneesFolles?.name ?? 'Années Folles',
+    ghostYear: '1918',
+    tone: 'blue',
+    cards: [
+      {
+        year: '1918-1929',
+        title: anneesFolles?.name ?? 'Années Folles',
+        image: '/images/timeline-agenda/timeline-1918.png',
+        description: anneesFolles?.description ?? '',
+        meta: [
+          { label: 'PERÍODO', value: '1918-1929' },
+          {
+            label: 'PIEZAS',
+            value: anneesPieces.map((piece) => piece.title).join(' · '),
+          },
+        ],
+      },
+      ...anneesPieces.map((piece) => ({
+        year: piece.yearLabel,
+        title: piece.title,
+        image: piece.image,
+        imageKind: piece.imageKind,
+        description: piece.description,
+        meta: [
+          { label: 'MATERIALES', value: piece.material ?? '—' },
+          { label: 'TÉCNICA', value: piece.technique ?? '—' },
+        ],
+      })),
+    ],
+  },
 ];
-
-const description =
-  'La moda de la opulencia y el refinamiento. El corsé esculpe una silueta en S, pecho hacia adelante, cintura de avispa, cadera atrás, y el vestido se cubre de encajes, bordados y volúmenes.';
-
-const detailDescription =
-  'La moda de la opulencia y el refinamiento. El corsé esculpe una silueta en S, pecho hacia adelante, cintura de avispa, cadera atrás, y el vestido se cubre de encajes, bordados y volúmenes. París se consagra como capital de la moda y nace la alta costura moderna; hacia el final del período, Poiret empieza a liberar el cuerpo del corsé.';
 ---
 
 <MainLayout
@@ -66,53 +125,92 @@ const detailDescription =
               <p class="timeline-era__range">{era.range}</p>
               <img class="timeline-era__image" src={era.image} alt="" />
               <span class="timeline-era__line timeline-era__line--bottom" aria-hidden="true" />
-              <p class="timeline-era__description">{description}</p>
+              <p class="timeline-era__description">{era.description}</p>
             </article>
           ))
         }
       </div>
     </section>
 
-    <section
-      class="timeline-details"
-      data-timeline-details
-      data-lenis-prevent-wheel
-      tabindex="0"
-      aria-label="Décadas de la Belle Époque. Deslizá horizontalmente para recorrerlas."
-    >
-      <span class="timeline-details__ghost" aria-hidden="true">1870</span>
-      <div class="timeline-details__track">
-        <span class="timeline-details__line timeline-details__line--top" aria-hidden="true"></span>
-        <span class="timeline-details__line timeline-details__line--bottom" aria-hidden="true"
-        ></span>
+    {
+      detailEras.map((era) => (
+        <section
+          class:list={['timeline-detail-shell', `is-${era.tone}`]}
+          aria-labelledby={`timeline-detail-${era.id}`}
+          data-detail-shell
+        >
+          <h2 class="sr-only" id={`timeline-detail-${era.id}`}>
+            {era.name}
+          </h2>
 
-        {
-          detailCards.map((card, index) => (
-            <article class="timeline-card">
-              {card.title && <h2>{card.title}</h2>}
-              <p class="timeline-card__year">{card.year}</p>
-              <img
-                class="timeline-card__image"
-                src={card.image}
-                alt=""
-                loading={index ? 'lazy' : 'eager'}
+          <div
+            class="timeline-details"
+            data-timeline-details
+            data-lenis-prevent-wheel
+            tabindex="0"
+            aria-label={`${era.name}. Deslizá horizontalmente para recorrer sus tarjetas.`}
+          >
+            <span class="timeline-details__ghost" aria-hidden="true">
+              {era.ghostYear}
+            </span>
+            <div class="timeline-details__track">
+              <span class="timeline-details__line timeline-details__line--top" aria-hidden="true" />
+              <span
+                class="timeline-details__line timeline-details__line--bottom"
+                aria-hidden="true"
               />
-              <p class="timeline-card__copy">{detailDescription}</p>
-              <div class="timeline-card__meta timeline-card__meta--silhouette">
-                <strong>SILUETA</strong>
-                <span>Corsé · silueta en S · cintura de avispa · falda con cola y volumen</span>
-              </div>
-              <div class="timeline-card__meta timeline-card__meta--figures">
-                <strong>FIGURAS CLAVE</strong>
-                <span>
-                  Charles Frederick Worth · Jacques Doucet · Jeanne Paquin · Callot Soeurs
-                </span>
-              </div>
-            </article>
-          ))
-        }
-      </div>
-    </section>
+
+              {era.cards.map((card, index) => (
+                <article
+                  class="timeline-card"
+                  data-detail-card
+                  data-card-label={`${card.title ?? era.name}, ${card.year}`}
+                  aria-label={`${card.title ?? era.name}, ${card.year}`}
+                  aria-current={index === 0 ? 'true' : undefined}
+                >
+                  {card.title && <h3>{card.title}</h3>}
+                  <p class="timeline-card__year">{card.year}</p>
+                  <img
+                    class:list={[
+                      'timeline-card__image',
+                      { 'is-cutout': 'imageKind' in card && card.imageKind === 'cutout' },
+                    ]}
+                    src={card.image}
+                    alt={`Referencia visual de ${card.title ?? era.name}, ${card.year}`}
+                    loading={index ? 'lazy' : 'eager'}
+                  />
+                  <p class="timeline-card__copy">{card.description}</p>
+                  {card.meta.map((item, metaIndex) => (
+                    <div
+                      class:list={['timeline-card__meta', `timeline-card__meta--${metaIndex + 1}`]}
+                    >
+                      <strong>{item.label}</strong>
+                      <span>{item.value}</span>
+                    </div>
+                  ))}
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div class="timeline-details__controls" aria-label={`Navegar ${era.name}`}>
+            <button
+              type="button"
+              data-detail-previous
+              aria-label={`Tarjeta anterior de ${era.name}`}
+            >
+              <span aria-hidden="true">←</span>
+            </button>
+            <p aria-live="polite" data-detail-status>
+              01 / {String(era.cards.length).padStart(2, '0')}
+            </p>
+            <button type="button" data-detail-next aria-label={`Tarjeta siguiente de ${era.name}`}>
+              <span aria-hidden="true">→</span>
+            </button>
+          </div>
+        </section>
+      ))
+    }
   </div>
 </MainLayout>
 
@@ -416,15 +514,22 @@ const detailDescription =
     transform-origin: left top;
   }
 
-  .timeline-details {
+  .timeline-detail-shell {
+    --detail-accent: var(--tl-orange);
     position: relative;
     z-index: 2;
     height: 1080px;
+  }
+
+  .timeline-details {
+    position: relative;
+    height: 100%;
     overflow-x: auto;
     overflow-y: hidden;
     color: var(--tl-cream);
     background: transparent;
     scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
     scrollbar-width: none;
     cursor: grab;
   }
@@ -457,8 +562,15 @@ const detailDescription =
   .timeline-details__track {
     position: relative;
     display: flex;
-    width: 3411px;
+    width: max-content;
+    min-width: 100%;
     height: 1080px;
+  }
+
+  .timeline-details__track::after {
+    width: max(0px, calc(100vw - 1137px));
+    flex: 0 0 max(0px, calc(100vw - 1137px));
+    content: '';
   }
 
   .timeline-details__line {
@@ -548,6 +660,8 @@ const detailDescription =
     position: relative;
     flex: 0 0 1137px;
     height: 1080px;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
   }
 
   .timeline-card:not(:first-of-type)::before {
@@ -560,7 +674,7 @@ const detailDescription =
     content: '';
   }
 
-  .timeline-card h2 {
+  .timeline-card h3 {
     position: absolute;
     top: 210px;
     left: 288px;
@@ -596,6 +710,11 @@ const detailDescription =
     max-width: none;
   }
 
+  .timeline-card__image.is-cutout {
+    object-fit: contain;
+    object-position: center bottom;
+  }
+
   .timeline-card__copy {
     position: absolute;
     top: 440px;
@@ -615,11 +734,11 @@ const detailDescription =
     line-height: 1.15;
   }
 
-  .timeline-card__meta--silhouette {
+  .timeline-card__meta--1 {
     top: 660px;
   }
 
-  .timeline-card__meta--figures {
+  .timeline-card__meta--2 {
     top: 730px;
   }
 
@@ -633,6 +752,65 @@ const detailDescription =
     color: var(--tl-orange);
     font-size: 14px;
     letter-spacing: 0.035em;
+  }
+
+  .timeline-detail-shell.is-blue .timeline-details__line,
+  .timeline-detail-shell.is-blue .timeline-details__ghost,
+  .timeline-detail-shell.is-blue .timeline-card__year,
+  .timeline-detail-shell.is-blue .timeline-card__meta strong {
+    color: var(--tl-blue);
+  }
+
+  .timeline-detail-shell.is-blue {
+    --detail-accent: var(--tl-blue);
+  }
+
+  .timeline-details__controls {
+    position: absolute;
+    right: 3.125vw;
+    bottom: 2.5rem;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--detail-accent);
+  }
+
+  .timeline-details__controls button {
+    display: grid;
+    width: 3rem;
+    height: 3rem;
+    padding: 0;
+    place-items: center;
+    color: inherit;
+    background: var(--tl-black);
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    cursor: pointer;
+    transition:
+      color 180ms ease,
+      background-color 180ms ease,
+      opacity 180ms ease;
+  }
+
+  .timeline-details__controls button:hover:not(:disabled),
+  .timeline-details__controls button:focus-visible {
+    color: var(--tl-black);
+    background: var(--detail-accent);
+  }
+
+  .timeline-details__controls button:disabled {
+    cursor: not-allowed;
+    opacity: 0.3;
+  }
+
+  .timeline-details__controls p {
+    min-width: 4.75rem;
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-align: center;
   }
 
   @media (max-width: 920px) {
@@ -719,6 +897,7 @@ const detailDescription =
       transform: none;
     }
 
+    .timeline-detail-shell,
     .timeline-details,
     .timeline-details__track,
     .timeline-card {
@@ -726,7 +905,12 @@ const detailDescription =
     }
 
     .timeline-details__track {
-      width: 300vw;
+      width: max-content;
+    }
+
+    .timeline-details__track::after {
+      width: 0;
+      flex-basis: 0;
     }
 
     .timeline-card {
@@ -745,7 +929,7 @@ const detailDescription =
       display: none;
     }
 
-    .timeline-card h2 {
+    .timeline-card h3 {
       top: 108px;
       left: 1.25rem;
       font-size: clamp(2.8rem, 11vw, 4.5rem);
@@ -763,6 +947,10 @@ const detailDescription =
       height: auto;
     }
 
+    .timeline-card__image.is-cutout {
+      height: 400px;
+    }
+
     .timeline-card__copy {
       top: 680px;
       left: 1.25rem;
@@ -773,11 +961,25 @@ const detailDescription =
     .timeline-card__meta {
       display: none;
     }
+
+    .timeline-details__controls {
+      right: 1.25rem;
+      bottom: 1.5rem;
+    }
+
+    .timeline-details__controls button {
+      width: 2.75rem;
+      height: 2.75rem;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .timeline-details {
       scroll-behavior: auto;
+    }
+
+    .timeline-details__controls button {
+      transition: none;
     }
   }
 </style>
@@ -785,7 +987,10 @@ const detailDescription =
 <script>
   const timeline = document.querySelector<HTMLElement>('[data-timeline]');
   const overview = timeline?.querySelector<HTMLElement>('[data-timeline-overview]');
-  const details = timeline?.querySelector<HTMLElement>('[data-timeline-details]');
+  const detailSections = Array.from(
+    timeline?.querySelectorAll<HTMLElement>('[data-timeline-details]') ?? []
+  );
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
   if (timeline && overview) {
     let ticking = false;
@@ -813,7 +1018,15 @@ const detailDescription =
         patternY = -1000;
       }
 
-      timeline.style.setProperty('--tl-year-shift', `${scroll}px`);
+      const yearShift = reducedMotion.matches
+        ? scroll < 332
+          ? 0
+          : scroll < 995
+            ? 663
+            : 1326
+        : scroll;
+
+      timeline.style.setProperty('--tl-year-shift', `${yearShift}px`);
       timeline.style.setProperty('--tl-rail-shift', `${railShift}px`);
       timeline.style.setProperty('--tl-pattern-x', `${patternX}px`);
       timeline.style.setProperty('--tl-pattern-y', `${patternY}px`);
@@ -831,31 +1044,100 @@ const detailDescription =
     window.addEventListener('resize', requestRender);
   }
 
-  if (details) {
+  detailSections.forEach((details) => {
+    const shell = details.closest<HTMLElement>('[data-detail-shell]');
+    const cards = Array.from(details.querySelectorAll<HTMLElement>('[data-detail-card]'));
+    const previousButton = shell?.querySelector<HTMLButtonElement>('[data-detail-previous]');
+    const nextButton = shell?.querySelector<HTMLButtonElement>('[data-detail-next]');
+    const status = shell?.querySelector<HTMLElement>('[data-detail-status]');
     let dragging = false;
     let startX = 0;
     let startScroll = 0;
+    let currentIndex = 0;
+    let wheelLocked = false;
+    let wheelTimer = 0;
+    let renderFrame = 0;
+
+    const normalizedIndex = (index: number) => Math.max(0, Math.min(cards.length - 1, index));
+
+    const findClosestIndex = () => {
+      let closestIndex = 0;
+      let closestDistance = Number.POSITIVE_INFINITY;
+
+      cards.forEach((card, index) => {
+        const distance = Math.abs(card.offsetLeft - details.scrollLeft);
+        if (distance >= closestDistance) return;
+        closestDistance = distance;
+        closestIndex = index;
+      });
+
+      return closestIndex;
+    };
 
     const renderDetailsPattern = () => {
       const maxScroll = Math.max(1, details.scrollWidth - details.clientWidth);
       const progress = Math.min(1, details.scrollLeft / maxScroll);
       details.style.setProperty('--tl-detail-scroll', `${details.scrollLeft}px`);
       details.style.setProperty('--tl-detail-pattern-x', `${-251 + 250 * progress}px`);
+
+      currentIndex = findClosestIndex();
+      cards.forEach((card, index) => {
+        if (index === currentIndex) card.setAttribute('aria-current', 'true');
+        else card.removeAttribute('aria-current');
+      });
+
+      if (previousButton) previousButton.disabled = currentIndex === 0;
+      if (nextButton) nextButton.disabled = currentIndex === cards.length - 1;
+      if (status) {
+        status.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${String(cards.length).padStart(2, '0')}`;
+        status.setAttribute(
+          'aria-label',
+          `Tarjeta ${currentIndex + 1} de ${cards.length}: ${cards[currentIndex]?.dataset.cardLabel ?? ''}`
+        );
+      }
+
+      renderFrame = 0;
+    };
+
+    const requestDetailsRender = () => {
+      if (renderFrame) return;
+      renderFrame = requestAnimationFrame(renderDetailsPattern);
+    };
+
+    const goToCard = (index: number) => {
+      currentIndex = normalizedIndex(index);
+      details.scrollTo({
+        left: cards[currentIndex]?.offsetLeft ?? 0,
+        behavior: reducedMotion.matches ? 'auto' : 'smooth',
+      });
+      if (reducedMotion.matches) renderDetailsPattern();
     };
 
     renderDetailsPattern();
-    details.addEventListener('scroll', renderDetailsPattern, { passive: true });
+    details.addEventListener('scroll', requestDetailsRender, { passive: true });
+
+    previousButton?.addEventListener('click', () => goToCard(currentIndex - 1));
+    nextButton?.addEventListener('click', () => goToCard(currentIndex + 1));
 
     details.addEventListener(
       'wheel',
       (event) => {
         if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-        const atStart = details.scrollLeft <= 0 && event.deltaY < 0;
-        const atEnd =
-          details.scrollLeft >= details.scrollWidth - details.clientWidth - 1 && event.deltaY > 0;
-        if (atStart || atEnd) return;
+        const direction = Math.sign(event.deltaY);
+        const targetIndex = currentIndex + direction;
+        if (targetIndex < 0 || targetIndex >= cards.length) return;
         event.preventDefault();
-        details.scrollLeft += event.deltaY;
+        if (wheelLocked) return;
+
+        wheelLocked = true;
+        goToCard(targetIndex);
+        window.clearTimeout(wheelTimer);
+        wheelTimer = window.setTimeout(
+          () => {
+            wheelLocked = false;
+          },
+          reducedMotion.matches ? 80 : 480
+        );
       },
       { passive: false }
     );
@@ -883,9 +1165,22 @@ const detailDescription =
     details.addEventListener('pointerup', stopDragging);
     details.addEventListener('pointercancel', stopDragging);
     details.addEventListener('keydown', (event) => {
-      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      const targetIndex =
+        event.key === 'ArrowLeft'
+          ? currentIndex - 1
+          : event.key === 'ArrowRight'
+            ? currentIndex + 1
+            : event.key === 'Home'
+              ? 0
+              : event.key === 'End'
+                ? cards.length - 1
+                : null;
+
+      if (targetIndex === null) return;
       event.preventDefault();
-      details.scrollBy({ left: event.key === 'ArrowRight' ? 420 : -420, behavior: 'smooth' });
+      goToCard(targetIndex);
     });
-  }
+
+    window.addEventListener('resize', requestDetailsRender);
+  });
 </script>

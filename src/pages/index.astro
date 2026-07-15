@@ -1,1385 +1,1193 @@
 ---
 import MainLayout from '@layouts/MainLayout.astro';
-
-const orbitObjects = [
-  {
-    image: '/images/home/orbit-dress.png',
-    label: 'Figurín de vestido, archivo Palais Galliera',
-    x: 3.7,
-    y: 80.3,
-    width: 10.26,
-    rotate: 0,
-  },
-  {
-    image: '/images/home/orbit-pattern.png',
-    label: 'Patronaje, archivo Palais Galliera',
-    x: 22.4,
-    y: 60.6,
-    width: 10.26,
-    rotate: 0,
-  },
-  {
-    image: '/images/home/orbit-coat.png',
-    label: 'Abrigo bordado, colección Palais Galliera',
-    x: 50,
-    y: 54,
-    width: 10.26,
-    rotate: 0,
-  },
-  {
-    image: '/images/home/orbit-blue.png',
-    label: 'Detalle textil bordado, colección Palais Galliera',
-    x: 77.6,
-    y: 60.6,
-    width: 10.26,
-    rotate: 0,
-  },
-  {
-    image: '/images/home/orbit-photo.png',
-    label: 'Fotografía de moda, archivo Palais Galliera',
-    x: 96.3,
-    y: 80.3,
-    width: 10.26,
-    rotate: 0,
-  },
-];
 ---
 
 <MainLayout
   title="Palais Galliera"
-  description="Palais Galliera — conservar la moda es conservar el tiempo. Explorá el acervo, las exposiciones, la memoria y la agenda del museo."
+  description="Explorá la colección, las exposiciones, la memoria y la agenda del Palais Galliera."
   immersive
 >
-  <section class="home-intro" data-home-intro aria-label="Introducción al Palais Galliera">
-    <div class="home-intro__sticky">
-      <img
-        class="home-intro__image home-intro__image--base"
-        src="/images/home/intro-gallery.png"
-        alt="Galería del Palais Galliera con indumentaria histórica"
-        loading="eager"
-      />
-      <img
-        class="home-intro__image home-intro__image--title"
-        src="/images/home/intro-title.png"
-        alt=""
-        loading="eager"
-        data-home-intro-title
-      />
+  <section class="flower-home" data-flower-home aria-label="Palais Galliera: recorridos del museo">
+    <div class="flower-home__stage" data-home-stage>
+      <div class="flower-home__lens" data-home-lens aria-hidden="true"></div>
+
+      <h1 class="flower-home__title" aria-label="Palais Galliera">
+        <span>Palais</span>
+        <span>Galliera</span>
+      </h1>
+
+      <nav class="flower-map" aria-label="Explorar el Palais Galliera">
+        <button
+          class="flower-trigger flower-trigger--archive"
+          type="button"
+          aria-controls="home-panel-archive"
+          aria-expanded="false"
+          data-panel-trigger="archive"
+        >
+          <span class="flower-trigger__mark" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </span>
+          <span class="flower-trigger__label">Colecciones</span>
+        </button>
+
+        <button
+          class="flower-trigger flower-trigger--exhibition"
+          type="button"
+          aria-controls="home-panel-exhibition"
+          aria-expanded="false"
+          data-panel-trigger="exhibition"
+        >
+          <span class="flower-trigger__mark" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </span>
+          <span class="flower-trigger__label">Exposiciones</span>
+        </button>
+
+        <button
+          class="flower-trigger flower-trigger--memory"
+          type="button"
+          aria-controls="home-panel-memory"
+          aria-expanded="false"
+          data-panel-trigger="memory"
+        >
+          <span class="flower-trigger__mark" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </span>
+          <span class="flower-trigger__label">Memoria</span>
+        </button>
+
+        <button
+          class="flower-trigger flower-trigger--agenda"
+          type="button"
+          aria-controls="home-panel-agenda"
+          aria-expanded="false"
+          data-panel-trigger="agenda"
+        >
+          <span class="flower-trigger__mark" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </span>
+          <span class="flower-trigger__label">Agenda</span>
+        </button>
+      </nav>
     </div>
-  </section>
 
-  <section class="home-hero" data-home-hero>
-    <div class="home-hero__pattern" aria-hidden="true"></div>
+    <section
+      class="flower-panel flower-panel--archive"
+      id="home-panel-archive"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="home-panel-archive-title"
+      data-home-panel="archive"
+      hidden
+      inert
+    >
+      <button class="flower-panel__close" type="button" data-panel-close>
+        <span aria-hidden="true">←</span>
+        Volver
+      </button>
 
-    <h1 class="home-hero__title" aria-label="Palais Galliera" data-home-hero-title>
-      <span>Palais</span>
-      <strong>Galliera</strong>
-    </h1>
-
-    <div class="orbit" data-home-orbit aria-label="Piezas destacadas del acervo">
-      <span class="orbit__line orbit__line--outer" aria-hidden="true"></span>
-      <span class="orbit__line orbit__line--inner" aria-hidden="true"></span>
-      {
-        orbitObjects.map((object, index) => (
-          <figure
-            class="orbit__object"
-            style={`--x:${object.x}%;--y:${object.y}%;--w:${object.width}vw;--r:${object.rotate}deg;--i:${index};`}
-            data-orbit-object
-          >
-            <div class="orbit__frame">
-              <img src={object.image} alt={object.label} loading="eager" />
-            </div>
-            <figcaption class="label">{object.label}</figcaption>
-          </figure>
-        ))
-      }
-    </div>
-
-    <div class="home-hero__manifesto" data-reveal>
-      <p class="home-hero__statement type-display-italic">
-        Conservar la moda es conservar el tiempo.
-      </p>
-      <p class="home-hero__intro">
-        Cada prenda que el Palais Galliera guarda es el testimonio de un cuerpo, una época y un modo
-        de habitar el mundo. Desde 1977, el museo de la Ciudad de París resguarda tres siglos de
-        indumentaria como patrimonio frágil y vivo.
-      </p>
-    </div>
-  </section>
-
-  <section class="home-portals" id="recorridos" aria-label="Recorridos del museo">
-    <article class="portal portal--archive" data-portal>
-      <h2 class="portal__heading">
-        <button
-          class="portal__toggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="portal-acervo"
-          data-portal-toggle
-        >
-          <span class="portal__label">El acervo</span>
-        </button>
-      </h2>
-
-      <div class="portal__body" id="portal-acervo" aria-hidden="true" inert>
-        <div class="portal__body-inner">
-          <div class="acervo-panel">
-            <div class="acervo-panel__copy">
-              <p class="acervo-panel__lead">
-                200.000 piezas de indumentaria y accesorios, del siglo XVIII a hoy. La totalidad del
-                acervo del Palais Galliera, ordenada, buscable y accesible.
-              </p>
-              <p class="acervo-panel__note">
-                Recorré la colección por objeto o por relato.<br />Dos caminos, un mismo patrimonio.
-              </p>
-              <div class="portal-actions">
-                <a class="portal-cta" href="/coleccion-permanente">Colección permanente</a>
-                <a class="portal-cta" href="/linea-de-tiempo">Línea de tiempo</a>
-              </div>
-            </div>
-
-            <div class="acervo-panel__gallery" aria-hidden="true">
-              <img
-                class="acervo-panel__arch acervo-panel__arch--back"
-                src="/images/home/portal-acervo-01.png"
-                alt=""
-                loading="lazy"
-              />
-              <img
-                class="acervo-panel__arch acervo-panel__arch--middle"
-                src="/images/home/portal-acervo-02.png"
-                alt=""
-                loading="lazy"
-              />
-              <img
-                class="acervo-panel__arch acervo-panel__arch--front"
-                src="/images/home/portal-acervo-03.png"
-                alt=""
-                loading="lazy"
-              />
-              <div class="acervo-panel__timeline">
-                <span>1870</span><span>1870</span><span>1870</span><span>1870</span><span>1870</span
-                >
-              </div>
-            </div>
-          </div>
+      <div class="flower-panel__single">
+        <div class="flower-panel__bloom" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
         </div>
-      </div>
-    </article>
-
-    <article class="portal portal--exhibition" data-portal>
-      <h2 class="portal__heading">
-        <button
-          class="portal__toggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="portal-exposiciones"
-          data-portal-toggle
-        >
-          <span class="portal__label">Exposiciones</span>
-        </button>
-      </h2>
-
-      <div class="portal__body" id="portal-exposiciones" aria-hidden="true" inert>
-        <div class="portal__body-inner">
-          <div class="exhibition-panel">
-            <img
-              class="exhibition-panel__image"
-              src="/images/home/portal-exposiciones.png"
-              alt="Doble página editorial con siluetas del New Look"
-              loading="lazy"
-            />
-            <div class="exhibition-panel__veil" aria-hidden="true"></div>
-            <div class="exhibition-panel__copy">
-              <h3>New Look</h3>
-              <p class="exhibition-panel__date">15 marzo · 28 julio · salas del jardín bajo</p>
-              <p class="exhibition-panel__description">
-                La moda parisina abrió paso a una nueva etapa.<br />Esta muestra recorre la década
-                del New Look a través de prendas, figurines y documentos del acervo del Galliera.
-              </p>
-              <a class="portal-cta" href="/muestra">Ver exposición</a>
-            </div>
-            <a class="exhibition-panel__arrow" href="/muestra" aria-label="Ver exposición New Look">
-              <img src="/images/home/portal-memory-arrow.svg" alt="" />
+        <div class="flower-panel__content flower-panel__content--archive">
+          <h2 id="home-panel-archive-title">El acervo</h2>
+          <p class="flower-panel__copy">
+            200.000 piezas de indumentaria y accesorios, del siglo XVIII a hoy. La totalidad del
+            acervo del Palais Galliera, ordenada, buscable y accesible.
+          </p>
+          <p class="flower-panel__copy">
+            Recorré la colección por objeto o por relato.<br />
+            Dos caminos, un mismo patrimonio.
+          </p>
+          <div class="flower-panel__actions">
+            <a class="flower-link" href="/coleccion-permanente">
+              <span>Colección permanente</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+            <a class="flower-link" href="/linea-de-tiempo">
+              <span>Línea de tiempo</span>
+              <span aria-hidden="true">↗</span>
             </a>
           </div>
         </div>
       </div>
-    </article>
+    </section>
 
-    <article class="portal portal--memory" data-portal>
-      <h2 class="portal__heading">
-        <button
-          class="portal__toggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="portal-memoria"
-          data-portal-toggle
-        >
-          <span class="portal__label">Memoria</span>
-        </button>
-      </h2>
+    <section
+      class="flower-panel flower-panel--exhibition"
+      id="home-panel-exhibition"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="home-panel-exhibition-title"
+      data-home-panel="exhibition"
+      hidden
+      inert
+    >
+      <button class="flower-panel__close" type="button" data-panel-close>
+        <span aria-hidden="true">←</span>
+        Volver
+      </button>
 
-      <div class="portal__body" id="portal-memoria" aria-hidden="true" inert>
-        <div class="portal__body-inner">
-          <div class="memory-panel">
-            <a class="memory-card" href="/explorar">
-              <span class="memory-card__title">Reconstruír</span>
-              <span class="memory-card__number">01</span>
-              <span class="memory-card__media memory-card__media--dress">
-                <img
-                  src="/images/home/portal-memory-01.png"
-                  alt="Vestido histórico"
-                  loading="lazy"
-                />
-              </span>
-              <span class="memory-card__arrow" aria-hidden="true">
-                <img src="/images/home/portal-memory-arrow.svg" alt="" />
-              </span>
-              <span class="memory-card__copy"
-                >Reconocé las prendas de un período y armá su sala.</span
-              >
-            </a>
-
-            <a class="memory-card" href="/historia">
-              <span class="memory-card__title">Leer</span>
-              <span class="memory-card__number">02</span>
-              <span class="memory-card__media">
-                <img
-                  src="/images/home/portal-memory-02.png"
-                  alt="Ilustración de moda del siglo XIX"
-                  loading="lazy"
-                />
-              </span>
-              <span class="memory-card__arrow" aria-hidden="true">
-                <img src="/images/home/portal-memory-arrow.svg" alt="" />
-              </span>
-              <span class="memory-card__copy"
-                >Conocé la historia de las épocas icónicas para la moda.</span
-              >
-            </a>
-
-            <a class="memory-card" href="/coleccion">
-              <span class="memory-card__title">Vestir</span>
-              <span class="memory-card__number">03</span>
-              <span class="memory-card__media">
-                <img
-                  src="/images/home/portal-memory-03.png"
-                  alt="Audrey Hepburn con vestido de alta costura"
-                  loading="lazy"
-                />
-              </span>
-              <span class="memory-card__arrow" aria-hidden="true">
-                <img src="/images/home/portal-memory-arrow.svg" alt="" />
-              </span>
-              <span class="memory-card__copy"
-                >Conocé los vestuarios de personalidades icónicas.</span
-              >
+      <div class="flower-panel__single">
+        <div class="flower-panel__bloom" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="flower-panel__content flower-panel__content--exhibition">
+          <p class="flower-panel__section">15 marzo – 28 julio · Salas del jardín bajo</p>
+          <h2 id="home-panel-exhibition-title">New Look</h2>
+          <p class="flower-panel__copy">
+            La moda parisina abrió paso a una nueva etapa. Esta muestra recorre la década del New
+            Look a través de prendas, figurines y documentos del acervo del Galliera.
+          </p>
+          <div class="flower-panel__actions flower-panel__actions--centered">
+            <a class="flower-link" href="/muestra">
+              <span>Ver exposición</span>
+              <span aria-hidden="true">↗</span>
             </a>
           </div>
         </div>
       </div>
-    </article>
+    </section>
 
-    <article class="portal portal--agenda" data-portal>
-      <h2 class="portal__heading">
-        <button
-          class="portal__toggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="portal-agenda"
-          data-portal-toggle
-        >
-          <span class="portal__label">Agenda</span>
-        </button>
-      </h2>
+    <section
+      class="flower-panel flower-panel--memory"
+      id="home-panel-memory"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="home-panel-memory-title"
+      data-home-panel="memory"
+      hidden
+      inert
+    >
+      <button class="flower-panel__close" type="button" data-panel-close>
+        <span aria-hidden="true">←</span>
+        Volver
+      </button>
 
-      <div class="portal__body" id="portal-agenda" aria-hidden="true" inert>
-        <div class="portal__body-inner">
-          <div class="agenda-panel">
-            <h3>Hoy</h3>
-            <span class="agenda-panel__rule" aria-hidden="true">
-              <img src="/images/home/portal-agenda-rule.svg" alt="" />
-            </span>
-            <div class="agenda-panel__event">
-              <time class="agenda-panel__date" datetime="2026-07-09">
-                <span>09</span><small>Jul</small>
-              </time>
-              <p class="agenda-panel__title">Tejidos y técnicas</p>
-              <p class="agenda-panel__type">Visita guiada</p>
-              <time class="agenda-panel__time" datetime="17:00"
-                ><span>17</span><small>Hs.</small></time
-              >
-            </div>
-            <a class="portal-cta" href="/agenda">Ver agenda completa</a>
+      <div class="memory-panel">
+        <h2 class="visually-hidden" id="home-panel-memory-title">Memoria</h2>
+
+        <a class="memory-flower" href="/explorar">
+          <span class="memory-flower__bloom" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </span>
+          <span class="memory-flower__content">
+            <strong>Reconstruír</strong>
+            <span>Reconocé las prendas de un período y armá su sala.</span>
+            <span class="memory-flower__cta">Descubrir <span aria-hidden="true">↗</span></span>
+          </span>
+        </a>
+
+        <a class="memory-flower" href="/historia">
+          <span class="memory-flower__bloom" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </span>
+          <span class="memory-flower__content">
+            <strong>Leer</strong>
+            <span>Conocé la historia de las épocas icónicas para la moda.</span>
+            <span class="memory-flower__cta">Descubrir <span aria-hidden="true">↗</span></span>
+          </span>
+        </a>
+
+        <a class="memory-flower" href="/guardarropas">
+          <span class="memory-flower__bloom" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+          </span>
+          <span class="memory-flower__content">
+            <strong>Vestir</strong>
+            <span>Conocé los vestuarios de personalidades icónicas.</span>
+            <span class="memory-flower__cta">Descubrir <span aria-hidden="true">↗</span></span>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <section
+      class="flower-panel flower-panel--agenda"
+      id="home-panel-agenda"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="home-panel-agenda-title"
+      data-home-panel="agenda"
+      hidden
+      inert
+    >
+      <button class="flower-panel__close" type="button" data-panel-close>
+        <span aria-hidden="true">←</span>
+        Volver
+      </button>
+
+      <div class="flower-panel__single">
+        <div class="flower-panel__bloom" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <div class="flower-panel__content flower-panel__content--agenda">
+          <p class="flower-panel__section">Charla · 18hs · Auditorio</p>
+          <h2 id="home-panel-agenda-title">Vestir el siglo XIX</h2>
+          <div class="flower-panel__actions flower-panel__actions--centered">
+            <a class="flower-link" href="/agenda">
+              <span>Ver agenda completa</span>
+              <span aria-hidden="true">↗</span>
+            </a>
           </div>
         </div>
       </div>
-    </article>
+    </section>
   </section>
 </MainLayout>
 
+<script>
+  const initializeFlowerHome = () => {
+    const home = document.querySelector<HTMLElement>('[data-flower-home]');
+
+    if (!home || home.dataset.initialized === 'true') return;
+
+    home.dataset.initialized = 'true';
+
+    const stage = home.querySelector<HTMLElement>('[data-home-stage]');
+    const lens = home.querySelector<HTMLElement>('[data-home-lens]');
+    const triggers = Array.from(home.querySelectorAll<HTMLButtonElement>('[data-panel-trigger]'));
+    const panels = Array.from(home.querySelectorAll<HTMLElement>('[data-home-panel]'));
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const finePointer = window.matchMedia('(pointer: fine)');
+    const controller = new AbortController();
+    const { signal } = controller;
+
+    let activePanel: HTMLElement | null = null;
+    let returnFocus: HTMLButtonElement | null = null;
+    let lensPinned = false;
+    let animationFrame = 0;
+    let closeTimer = 0;
+
+    if (!stage || !lens) return;
+
+    const setLensPosition = (clientX: number, clientY: number) => {
+      const bounds = stage.getBoundingClientRect();
+      const x = Math.max(0, Math.min(bounds.width, clientX - bounds.left));
+      const y = Math.max(0, Math.min(bounds.height, clientY - bounds.top));
+      const xPercent = (x / bounds.width) * 100;
+      const yPercent = (y / bounds.height) * 100;
+      const parallaxX = (x / bounds.width - 0.5) * -88;
+      const parallaxY = (y / bounds.height - 0.5) * -64;
+
+      cancelAnimationFrame(animationFrame);
+      animationFrame = requestAnimationFrame(() => {
+        home.style.setProperty('--lens-x', `${xPercent}%`);
+        home.style.setProperty('--lens-y', `${yPercent}%`);
+        home.style.setProperty('--pattern-x', `${parallaxX}px`);
+        home.style.setProperty('--pattern-y', `${parallaxY}px`);
+      });
+    };
+
+    const centerLens = () => {
+      const bounds = stage.getBoundingClientRect();
+      setLensPosition(bounds.left + bounds.width / 2, bounds.top + bounds.height / 2);
+    };
+
+    const moveLensToTrigger = (trigger: HTMLButtonElement) => {
+      const mark = trigger.querySelector<HTMLElement>('.flower-trigger__mark');
+      const bounds = (mark ?? trigger).getBoundingClientRect();
+      setLensPosition(bounds.left + bounds.width / 2, bounds.top + bounds.height / 2);
+    };
+
+    const closePanel = () => {
+      if (!activePanel) return;
+
+      const panelToClose = activePanel;
+      const triggerToFocus = returnFocus;
+      const transitionDuration = reducedMotion.matches ? 0 : 420;
+
+      window.clearTimeout(closeTimer);
+      panelToClose.classList.remove('is-visible');
+      panelToClose.inert = true;
+      stage.inert = false;
+      home.removeAttribute('data-panel-open');
+
+      triggers.forEach((trigger) => trigger.setAttribute('aria-expanded', 'false'));
+      activePanel = null;
+      returnFocus = null;
+      lensPinned = false;
+      centerLens();
+      triggerToFocus?.focus({ preventScroll: true });
+
+      closeTimer = window.setTimeout(() => {
+        panelToClose.hidden = true;
+      }, transitionDuration);
+    };
+
+    const openPanel = (trigger: HTMLButtonElement) => {
+      const panelName = trigger.dataset.panelTrigger;
+      const panel = panels.find((item) => item.dataset.homePanel === panelName);
+
+      if (!panel) return;
+      if (activePanel) closePanel();
+
+      window.clearTimeout(closeTimer);
+      returnFocus = trigger;
+      activePanel = panel;
+      stage.inert = true;
+      panel.hidden = false;
+      panel.inert = false;
+      home.dataset.panelOpen = panelName ?? '';
+
+      triggers.forEach((item) => {
+        item.setAttribute('aria-expanded', String(item === trigger));
+      });
+
+      requestAnimationFrame(() => {
+        panel.classList.add('is-visible');
+        panel.querySelector<HTMLButtonElement>('[data-panel-close]')?.focus({
+          preventScroll: true,
+        });
+      });
+    };
+
+    stage.addEventListener(
+      'pointermove',
+      (event) => {
+        if (!finePointer.matches || lensPinned || activePanel) return;
+        setLensPosition(event.clientX, event.clientY);
+      },
+      { signal }
+    );
+
+    stage.addEventListener(
+      'pointerleave',
+      () => {
+        if (!lensPinned && !activePanel) centerLens();
+      },
+      { signal }
+    );
+
+    stage.addEventListener(
+      'pointerdown',
+      (event) => {
+        if (event.pointerType === 'touch' && !activePanel) {
+          setLensPosition(event.clientX, event.clientY);
+        }
+      },
+      { signal }
+    );
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener(
+        'pointerenter',
+        () => {
+          lensPinned = true;
+          moveLensToTrigger(trigger);
+        },
+        { signal }
+      );
+
+      trigger.addEventListener(
+        'pointerleave',
+        () => {
+          if (document.activeElement === trigger) return;
+          lensPinned = false;
+          centerLens();
+        },
+        { signal }
+      );
+
+      trigger.addEventListener(
+        'focus',
+        () => {
+          lensPinned = true;
+          moveLensToTrigger(trigger);
+        },
+        { signal }
+      );
+
+      trigger.addEventListener(
+        'blur',
+        () => {
+          lensPinned = false;
+          if (!activePanel) centerLens();
+        },
+        { signal }
+      );
+
+      trigger.addEventListener('click', () => openPanel(trigger), { signal });
+    });
+
+    home.querySelectorAll<HTMLButtonElement>('[data-panel-close]').forEach((button) => {
+      button.addEventListener('click', closePanel, { signal });
+    });
+
+    document.addEventListener(
+      'keydown',
+      (event) => {
+        if (event.key === 'Escape' && activePanel) closePanel();
+      },
+      { signal }
+    );
+
+    window.addEventListener(
+      'resize',
+      () => {
+        if (!activePanel && !lensPinned) centerLens();
+      },
+      { signal }
+    );
+
+    document.addEventListener(
+      'astro:before-swap',
+      () => {
+        window.clearTimeout(closeTimer);
+        cancelAnimationFrame(animationFrame);
+        controller.abort();
+      },
+      { once: true, signal }
+    );
+
+    centerLens();
+  };
+
+  initializeFlowerHome();
+  document.addEventListener('astro:page-load', initializeFlowerHome);
+</script>
+
 <style>
-  .home-intro {
-    position: relative;
-    z-index: 5;
-    height: 220svh;
-    background: #141414;
+  :global(body) {
+    background: var(--color-cream);
+    overflow: hidden;
   }
 
-  .home-intro__sticky {
-    position: sticky;
-    top: 0;
+  :global(#main-content) {
+    min-height: 100svh;
+  }
+
+  .flower-home {
+    --lens-x: 50%;
+    --lens-y: 50%;
+    --pattern-x: 0px;
+    --pattern-y: 0px;
+    --home-cream: #f3eee1;
+    --home-orange: #fd6500;
+    --home-blue: #adc6e0;
+    position: relative;
     height: 100svh;
+    min-height: 42rem;
     overflow: hidden;
+    color: var(--color-ink);
+    background: var(--home-cream);
     isolation: isolate;
-    background: #141414;
   }
 
-  .home-intro__image {
+  .flower-home__stage {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
+    overflow: hidden;
+    background: var(--home-cream);
   }
 
-  .home-intro__image--title {
+  .flower-home__lens {
+    position: absolute;
     z-index: 1;
-    opacity: 0;
-    clip-path: inset(100% 0 0 0);
-    will-change: clip-path, opacity;
-  }
-
-  .home-hero {
-    position: relative;
-    height: clamp(64rem, 106.46vw, 127.75rem);
-    min-height: 64rem;
-    overflow: hidden;
-    isolation: isolate;
-    background: #141414;
-    color: var(--color-cream);
-  }
-
-  .home-hero__pattern {
-    position: absolute;
-    top: -221.41vw;
-    left: -37.55vw;
-    width: 328.23vw;
-    aspect-ratio: 6302 / 6301;
-    z-index: -2;
-    background: url('/images/site/home-pattern-outline.svg') 0 0 / 100% 100% no-repeat;
+    top: var(--lens-y);
+    left: var(--lens-x);
+    width: clamp(18rem, 25vw, 30rem);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: var(--home-blue);
+    opacity: 0.96;
+    transform: translate(-50%, -50%);
+    transition:
+      top 220ms var(--ease-out),
+      left 220ms var(--ease-out),
+      width 350ms var(--ease-expo);
+    mask-image: radial-gradient(circle, #000 0 42%, transparent 71%);
     pointer-events: none;
+    will-change: top, left;
   }
 
-  .home-hero::after {
+  .flower-home__lens::before {
+    position: absolute;
+    inset: 0;
+    background-image: url('/images/site/home-pattern-outline.svg');
+    background-repeat: no-repeat;
+    background-position: calc(50% + var(--pattern-x)) calc(50% + var(--pattern-y));
+    background-size: 250% 250%;
     content: '';
+    filter: drop-shadow(0.7px 0 0 rgb(243 238 225 / 0.92))
+      drop-shadow(-0.7px 0 0 rgb(243 238 225 / 0.92)) drop-shadow(0 0.7px 0 rgb(243 238 225 / 0.92))
+      drop-shadow(0 -0.7px 0 rgb(243 238 225 / 0.92));
+    will-change: background-position;
+  }
+
+  .flower-home__title {
     position: absolute;
-    inset: 0;
-    z-index: -1;
-    pointer-events: none;
-    background: none;
-  }
-
-  .home-hero__title {
-    position: relative;
-    z-index: 4;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: clamp(6.25rem, 9.9vw, 11.875rem);
-    color: var(--color-orange);
-    text-transform: uppercase;
-    pointer-events: none;
-  }
-
-  .home-hero__title span {
-    font-family: var(--font-display);
-    font-size: clamp(4rem, 7.9vw, 9.5rem);
-    font-weight: var(--font-weight-regular);
-    line-height: 0.85;
-    text-transform: none;
-  }
-
-  .home-hero__title strong {
-    font-family: var(--font-display);
-    font-size: clamp(7rem, 15.7vw, 18.84rem);
-    font-weight: var(--font-weight-regular);
-    line-height: 0.88;
-    letter-spacing: -0.055em;
-  }
-
-  .orbit {
-    position: absolute;
-    inset: 0;
     z-index: 2;
-  }
-
-  .orbit__line {
-    position: absolute;
+    top: 51.4%;
     left: 50%;
-    top: 54.89%;
-    border: 1px solid rgba(243, 238, 225, 0.72);
-    border-radius: 50% 50% 0 0;
-    transform: translateX(-50%);
-  }
-
-  .orbit__line--outer {
-    width: 100%;
-    height: 45.11%;
-  }
-
-  .orbit__line--inner {
-    top: 55.63%;
-    width: 98.65%;
-    height: 44.37%;
-    opacity: 1;
-  }
-
-  .orbit__object {
-    position: absolute;
-    left: var(--x);
-    top: var(--y);
-    width: clamp(7.5rem, var(--w), 12.3125rem);
+    display: flex;
+    width: min-content;
     margin: 0;
-    transform: translate(-50%, -50%) rotate(var(--r));
-    transform-origin: 50% 100%;
-  }
-
-  .orbit__frame {
-    position: relative;
-    aspect-ratio: 197 / 266;
-  }
-
-  .orbit__frame::after {
-    content: '';
-    position: absolute;
-    inset: -0.5%;
-    background: url('/images/home/orbit-frame.svg') center / 100% 100% no-repeat;
+    color: var(--home-orange);
+    font-family: var(--font-display);
+    font-size: clamp(7rem, 10.42vw, 12.5rem);
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+    text-align: center;
+    flex-direction: column;
+    transform: translate(-50%, -50%) scaleX(0.79);
     pointer-events: none;
   }
 
-  .orbit__frame img {
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
+  .flower-map {
+    position: absolute;
+    z-index: 3;
+    inset: 0;
   }
 
-  .orbit__object figcaption {
+  .flower-trigger {
+    --trigger-x: 50%;
+    --trigger-y: 50%;
     position: absolute;
+    top: var(--trigger-y);
+    left: var(--trigger-x);
+    width: 12rem;
+    height: 7rem;
+    padding: 0;
+    border: 0;
+    color: var(--home-cream);
+    background: transparent;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    touch-action: manipulation;
+  }
+
+  .flower-trigger--archive {
+    --trigger-x: 22.5%;
+    --trigger-y: 64.7%;
+  }
+
+  .flower-trigger--exhibition {
+    --trigger-x: 40%;
+    --trigger-y: 82.7%;
+  }
+
+  .flower-trigger--memory {
+    --trigger-x: 51.5%;
+    --trigger-y: 22.7%;
+  }
+
+  .flower-trigger--agenda {
+    --trigger-x: 86.7%;
+    --trigger-y: 55.5%;
+  }
+
+  .flower-trigger__mark {
+    position: absolute;
+    top: 50%;
     left: 50%;
-    top: calc(100% + 0.6rem);
-    width: max-content;
-    max-width: 11rem;
-    transform: translateX(-50%);
+    width: 1.7rem;
+    height: 1.7rem;
+    border: 1.5px solid var(--home-orange);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition:
+      width 280ms var(--ease-expo),
+      height 280ms var(--ease-expo),
+      border-color 180ms ease;
+  }
+
+  .flower-trigger__mark span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 1rem;
+    height: 1.45rem;
+    border-radius: 50%;
+    background: var(--home-cream);
+    opacity: 0;
+    transform: translate(-50%, -105%) scale(0.35);
+    transform-origin: 50% 105%;
+    transition:
+      opacity 160ms ease,
+      transform 280ms var(--ease-expo);
+  }
+
+  .flower-trigger__mark span:nth-child(2) {
+    transform: translate(-50%, -105%) rotate(72deg) scale(0.35);
+  }
+
+  .flower-trigger__mark span:nth-child(3) {
+    transform: translate(-50%, -105%) rotate(144deg) scale(0.35);
+  }
+
+  .flower-trigger__mark span:nth-child(4) {
+    transform: translate(-50%, -105%) rotate(216deg) scale(0.35);
+  }
+
+  .flower-trigger__mark span:nth-child(5) {
+    transform: translate(-50%, -105%) rotate(288deg) scale(0.35);
+  }
+
+  .flower-trigger__label {
+    position: absolute;
+    top: 50%;
+    left: calc(50% + 2.15rem);
+    color: var(--home-cream);
+    font-family: var(--font-body);
+    font-size: clamp(1.15rem, 1.65vw, 2rem);
+    font-style: italic;
+    font-weight: 400;
+    line-height: 1;
+    opacity: 0;
+    transform: translateY(-50%) translateX(-0.5rem);
+    transition:
+      opacity 180ms ease,
+      transform 280ms var(--ease-expo);
+    white-space: nowrap;
+  }
+
+  .flower-trigger--exhibition .flower-trigger__label,
+  .flower-trigger--memory .flower-trigger__label {
+    top: calc(50% + 2.5rem);
+    left: 50%;
+    transform: translate(-50%, -0.5rem);
+  }
+
+  .flower-trigger--agenda .flower-trigger__label {
+    right: calc(50% + 2.15rem);
+    left: auto;
+    transform: translateY(-50%) translateX(0.5rem);
+  }
+
+  .flower-trigger:is(:hover, :focus-visible) .flower-trigger__mark {
+    width: 3.25rem;
+    height: 3.25rem;
+    border-color: transparent;
+  }
+
+  .flower-trigger:is(:hover, :focus-visible) .flower-trigger__mark span {
+    opacity: 1;
+    transform: translate(-50%, -105%) scale(1);
+  }
+
+  .flower-trigger:is(:hover, :focus-visible) .flower-trigger__mark span:nth-child(2) {
+    transform: translate(-50%, -105%) rotate(72deg) scale(1);
+  }
+
+  .flower-trigger:is(:hover, :focus-visible) .flower-trigger__mark span:nth-child(3) {
+    transform: translate(-50%, -105%) rotate(144deg) scale(1);
+  }
+
+  .flower-trigger:is(:hover, :focus-visible) .flower-trigger__mark span:nth-child(4) {
+    transform: translate(-50%, -105%) rotate(216deg) scale(1);
+  }
+
+  .flower-trigger:is(:hover, :focus-visible) .flower-trigger__mark span:nth-child(5) {
+    transform: translate(-50%, -105%) rotate(288deg) scale(1);
+  }
+
+  .flower-trigger:is(:hover, :focus-visible) .flower-trigger__label {
+    opacity: 1;
+    transform: translateY(-50%) translateX(0);
+  }
+
+  .flower-trigger--exhibition:is(:hover, :focus-visible) .flower-trigger__label,
+  .flower-trigger--memory:is(:hover, :focus-visible) .flower-trigger__label {
+    transform: translate(-50%, 0);
+  }
+
+  .flower-trigger--agenda:is(:hover, :focus-visible) .flower-trigger__label {
+    transform: translateY(-50%) translateX(0);
+  }
+
+  .flower-trigger:focus-visible {
+    outline: 2px solid var(--home-orange);
+    outline-offset: 0.4rem;
+  }
+
+  .flower-panel {
+    position: absolute;
+    z-index: 10;
+    inset: 0;
+    overflow: hidden auto;
+    color: var(--color-ink);
+    background: var(--home-blue);
+    opacity: 0;
+    transform: scale(1.015);
+    transition:
+      opacity 380ms ease,
+      transform 520ms var(--ease-expo);
+  }
+
+  .flower-panel[hidden] {
     display: none;
   }
 
-  .home-hero__manifesto {
-    position: absolute;
-    z-index: 4;
-    left: 50%;
-    top: 74.9%;
-    bottom: auto;
-    width: min(70%, 84rem);
-    transform: translateX(-50%);
-    text-align: center;
+  .flower-panel.is-visible {
+    opacity: 1;
+    transform: scale(1);
   }
 
-  .home-hero__statement {
-    color: #b9d6fe;
-    font-size: clamp(2rem, 3.33vw, 4rem);
+  .flower-panel::before {
+    position: fixed;
+    z-index: -2;
+    inset: -14%;
+    background-image: url('/images/site/home-pattern-outline.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 140% 140%;
+    content: '';
+    opacity: 1;
+    filter: drop-shadow(0.7px 0 0 rgb(243 238 225 / 0.92))
+      drop-shadow(-0.7px 0 0 rgb(243 238 225 / 0.92)) drop-shadow(0 0.7px 0 rgb(243 238 225 / 0.92))
+      drop-shadow(0 -0.7px 0 rgb(243 238 225 / 0.92));
+    transform: rotate(-4deg);
   }
 
-  .home-hero__intro {
-    max-width: 88ch;
-    margin: var(--space-sm) auto 0;
-    color: rgba(243, 238, 225, 0.74);
-    font-size: clamp(0.875rem, 1.667vw, 2rem);
-    font-style: italic;
+  .flower-panel::after {
+    position: fixed;
+    z-index: -1;
+    inset: 0;
+    background: linear-gradient(
+      90deg,
+      var(--home-cream) 0%,
+      rgb(243 238 225 / 0.78) 12%,
+      transparent 32%,
+      transparent 68%,
+      rgb(243 238 225 / 0.78) 88%,
+      var(--home-cream) 100%
+    );
+    content: '';
+    pointer-events: none;
   }
 
-  .home-portals {
-    overflow: clip;
+  .flower-panel__close {
+    position: fixed;
+    z-index: 5;
+    top: 9vh;
+    left: clamp(1rem, 24vw, 30rem);
+    display: inline-flex;
+    width: 2.75rem;
+    min-height: 2.75rem;
+    padding: 0;
+    border: 1px solid currentcolor;
+    border-radius: 999px;
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: 0;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgb(243 238 225 / 0.9);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    backdrop-filter: blur(10px);
+  }
+
+  .flower-panel__close:hover {
+    color: var(--home-cream);
     background: var(--color-ink);
   }
 
-  .portal {
+  .flower-panel__close span {
+    font-size: 1.2rem;
+  }
+
+  .flower-panel__close:focus-visible,
+  .flower-link:focus-visible,
+  .memory-flower:focus-visible {
+    outline: 3px solid var(--home-orange);
+    outline-offset: 0.3rem;
+  }
+
+  .flower-panel__single {
     position: relative;
-    color: var(--color-cream);
-  }
-
-  .portal__heading {
-    position: relative;
-    z-index: 2;
-    margin: 0;
-  }
-
-  .portal__toggle {
-    width: 100%;
-    height: clamp(8rem, 11.6667vw, 14rem);
-    display: flex;
-    align-items: center;
-    padding: 0 var(--layout-gutter);
-    border: 0;
-    border-top: 1px solid var(--color-ink);
-    color: inherit;
-    text-align: left;
-    cursor: pointer;
-    transition: filter var(--duration-fast) var(--ease-standard);
-  }
-
-  .portal:last-child .portal__toggle {
-    border-bottom: 1px solid var(--color-ink);
-  }
-
-  .portal__toggle:hover,
-  .portal__toggle:focus-visible {
-    filter: brightness(1.06);
-  }
-
-  .portal__label {
-    font-family: var(--font-display);
-    font-size: clamp(4.5rem, 7.2917vw, 8.75rem);
-    font-weight: var(--font-weight-regular);
-    line-height: 0.86;
-    letter-spacing: -0.02em;
-  }
-
-  .portal__body {
     display: grid;
-    grid-template-rows: 0fr;
-    transition: grid-template-rows 0.85s var(--ease-expo);
-  }
-
-  .portal.is-active .portal__body {
-    grid-template-rows: 1fr;
-  }
-
-  .portal__body-inner {
-    min-height: 0;
-    overflow: hidden;
-  }
-
-  .portal__body-inner > * {
-    opacity: 0;
-    transform: translateY(-1.5rem);
-    transition:
-      opacity 0.35s var(--ease-standard),
-      transform 0.85s var(--ease-expo);
-  }
-
-  .portal.is-active .portal__body-inner > * {
-    opacity: 1;
-    transform: translateY(0);
-    transition-delay: 0.16s;
-  }
-
-  .portal-cta {
-    position: relative;
-    z-index: 1;
-    width: min(16.4375rem, 100%);
-    height: 2.833rem;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0.15rem 1.2rem 0;
-    background: url('/images/home/portal-cta.svg') center / 100% 100% no-repeat;
-    color: var(--color-cream);
-    font-size: 0.875rem;
-    font-weight: var(--font-weight-medium);
-    letter-spacing: 0.06em;
-    line-height: 1;
-    text-align: center;
-    text-transform: uppercase;
-    transition: transform var(--duration-fast) var(--ease-standard);
-  }
-
-  .portal-cta:hover,
-  .portal-cta:focus-visible {
-    transform: translateY(-0.15rem);
-  }
-
-  .portal--archive .portal__toggle {
-    background: linear-gradient(100deg, #141414 0%, #9e3600 48%, #fd6500 100%);
-  }
-
-  .portal--exhibition .portal__toggle {
-    color: #fd6500;
-    background: linear-gradient(100deg, #a52a24 0%, #520345 72%);
-  }
-
-  .portal--memory .portal__toggle {
-    color: #520345;
-    background: linear-gradient(100deg, #8f6aae 0%, #b9d6fe 100%);
-  }
-
-  .portal--agenda .portal__toggle {
-    color: #141414;
-    background: linear-gradient(100deg, #dfe8ef 0%, #f3eee1 100%);
-  }
-
-  .acervo-panel {
-    position: relative;
-    height: clamp(34rem, 38.2292vw, 45.875rem);
-    overflow: hidden;
-    background:
-      radial-gradient(circle at 96% 100%, rgba(253, 101, 0, 0.72), transparent 26%),
-      linear-gradient(100deg, #fd6500 0%, #8f3000 43%, #141414 100%);
-  }
-
-  .acervo-panel__copy {
-    position: absolute;
-    z-index: 7;
-    left: var(--layout-gutter);
-    top: 39.24%;
-    width: min(34.53125%, 41.4375rem);
-  }
-
-  .acervo-panel__lead {
-    max-width: 34ch;
-    font-size: clamp(1.3rem, 1.6667vw, 2rem);
-    font-style: italic;
-    line-height: 1.16;
-  }
-
-  .acervo-panel__note {
-    margin-top: clamp(2rem, 3.3vw, 4rem);
-    font-size: clamp(0.875rem, 0.9375vw, 1.125rem);
-    line-height: 1.15;
-  }
-
-  .portal-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: clamp(1rem, 1.72vw, 2.0625rem);
-    margin-top: clamp(2.25rem, 4.6vw, 5.5rem);
-  }
-
-  .acervo-panel__gallery {
-    position: absolute;
-    inset: 0;
-  }
-
-  .acervo-panel__arch {
-    position: absolute;
-    top: 0;
-    width: 34.53125%;
-    height: 100%;
-    object-fit: fill;
-    pointer-events: none;
-  }
-
-  .acervo-panel__arch--back {
-    z-index: 1;
-    left: 62.34375%;
-  }
-
-  .acervo-panel__arch--middle {
-    z-index: 2;
-    left: 50.52083%;
-  }
-
-  .acervo-panel__arch--front {
-    z-index: 3;
-    left: 38.64583%;
-  }
-
-  .acervo-panel__timeline {
-    position: absolute;
-    z-index: 6;
-    left: 38.64583%;
-    right: 0;
-    top: 86.24%;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    border-top: 2px solid #141414;
-    color: #141414;
-    font-size: clamp(1.2rem, 1.6667vw, 2rem);
-    font-style: italic;
-  }
-
-  .acervo-panel__timeline span {
-    transform: translateY(-0.15em);
-  }
-
-  .exhibition-panel {
-    position: relative;
-    height: clamp(42rem, 48.1771vw, 57.8125rem);
-    overflow: hidden;
-    background: #520345;
-    color: var(--color-cream);
-  }
-
-  .exhibition-panel__image,
-  .exhibition-panel__veil {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 155.7%;
-  }
-
-  .exhibition-panel__image {
-    object-fit: cover;
-    object-position: top center;
-  }
-
-  .exhibition-panel__veil {
-    background:
-      linear-gradient(90deg, rgba(82, 3, 69, 0.82), rgba(82, 3, 69, 0.5)),
-      linear-gradient(180deg, rgba(82, 3, 69, 0.1), rgba(20, 20, 20, 0.28));
-    mix-blend-mode: multiply;
-  }
-
-  .exhibition-panel__copy {
-    position: absolute;
-    z-index: 2;
-    left: var(--layout-gutter);
-    top: 49.5%;
-    width: min(31%, 36rem);
-  }
-
-  .exhibition-panel__copy h3 {
-    font-family: var(--font-body);
-    font-size: clamp(4.25rem, 5.9896vw, 7.1875rem);
-    font-weight: var(--font-weight-regular);
-    line-height: 0.95;
-  }
-
-  .exhibition-panel__date {
-    margin-top: 0.25rem;
-    font-size: clamp(0.8rem, 0.9375vw, 1.125rem);
-    text-transform: uppercase;
-  }
-
-  .exhibition-panel__description {
-    margin-top: clamp(1.6rem, 2.25vw, 2.7rem);
-    font-size: clamp(0.875rem, 0.9375vw, 1.125rem);
-    line-height: 1.15;
-  }
-
-  .exhibition-panel__copy .portal-cta {
-    margin-top: clamp(2.5rem, 4.1vw, 4.9rem);
-  }
-
-  .exhibition-panel__arrow {
-    position: absolute;
-    z-index: 2;
-    right: var(--layout-gutter);
-    bottom: clamp(2rem, 3vw, 3.6rem);
-    width: 5.0625rem;
-    aspect-ratio: 1;
-    display: grid;
+    min-height: 100%;
+    padding: 4rem var(--layout-gutter);
     place-items: center;
-    border: 3px solid var(--color-cream);
+  }
+
+  .flower-panel__bloom,
+  .memory-flower__bloom {
+    --bloom-color: var(--home-cream);
+    position: absolute;
+    width: min(55rem, 90vmin);
+    aspect-ratio: 1;
+    filter: drop-shadow(0 1.4rem 3.5rem rgb(80 112 160 / 0.08));
+  }
+
+  .flower-panel__bloom::after,
+  .memory-flower__bloom::after {
+    position: absolute;
+    inset: 24%;
     border-radius: 50%;
-    transition: transform var(--duration-fast) var(--ease-standard);
+    background: var(--bloom-color);
+    content: '';
   }
 
-  .exhibition-panel__arrow:hover,
-  .exhibition-panel__arrow:focus-visible {
-    transform: translateX(0.3rem);
+  .flower-panel__bloom > span,
+  .memory-flower__bloom > span {
+    position: absolute;
+    border-radius: 50%;
+    background: var(--bloom-color);
   }
 
-  .exhibition-panel__arrow img {
-    width: 66%;
+  .flower-panel__bloom > span:nth-child(1),
+  .memory-flower__bloom > span:nth-child(1) {
+    top: 0;
+    left: 29%;
+    width: 42%;
+    height: 49%;
+  }
+
+  .flower-panel__bloom > span:nth-child(2),
+  .memory-flower__bloom > span:nth-child(2) {
+    top: 28%;
+    right: 0;
+    width: 52%;
+    height: 44%;
+  }
+
+  .flower-panel__bloom > span:nth-child(3),
+  .memory-flower__bloom > span:nth-child(3) {
+    right: 10%;
+    bottom: 0;
+    width: 43%;
+    height: 51%;
+  }
+
+  .flower-panel__bloom > span:nth-child(4),
+  .memory-flower__bloom > span:nth-child(4) {
+    bottom: 0;
+    left: 10%;
+    width: 43%;
+    height: 51%;
+  }
+
+  .flower-panel__bloom > span:nth-child(5),
+  .memory-flower__bloom > span:nth-child(5) {
+    top: 28%;
+    left: 0;
+    width: 52%;
+    height: 44%;
+  }
+
+  .flower-panel__content {
+    position: relative;
+    z-index: 1;
+    width: min(32rem, 64vmin);
+    text-align: center;
+  }
+
+  .flower-panel__section {
+    margin: 0 0 1.2rem;
+    font-family: var(--font-body);
+    font-size: clamp(0.62rem, 0.78vw, 0.85rem);
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    line-height: 1.35;
+    text-transform: uppercase;
+  }
+
+  .flower-panel h2 {
+    margin: 0 0 clamp(1.2rem, 2.5vh, 2rem);
+    font-family: var(--font-body);
+    font-size: clamp(3.5rem, 6vw, 7.2rem);
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: -0.055em;
+    color: var(--home-orange);
+  }
+
+  .flower-panel__content--agenda {
+    width: min(38rem, 66vmin);
+  }
+
+  .flower-panel__content--agenda h2 {
+    font-size: clamp(3.6rem, 5.7vw, 6.9rem);
+  }
+
+  .flower-panel__copy {
+    max-width: 30rem;
+    margin: 0.85rem auto 0;
+    font-family: var(--font-body);
+    font-size: clamp(0.78rem, 0.95vw, 1rem);
+    line-height: 1.55;
+  }
+
+  .flower-panel__actions {
+    display: grid;
+    margin-top: clamp(1.5rem, 3.8vh, 2.7rem);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.7rem;
+  }
+
+  .flower-panel__actions--centered {
+    width: min(20rem, 100%);
+    margin-right: auto;
+    margin-left: auto;
+    grid-template-columns: 1fr;
+  }
+
+  .flower-link {
+    display: flex;
+    min-height: 3.6rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--color-ink);
+    border-radius: 999px;
+    color: var(--home-cream);
+    font-family: var(--font-body);
+    font-size: clamp(0.62rem, 0.7vw, 0.78rem);
+    font-weight: 600;
+    letter-spacing: 0.055em;
+    line-height: 1.15;
+    text-align: left;
+    text-decoration: none;
+    text-transform: uppercase;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: var(--color-ink);
+    box-shadow:
+      0 0 0 2px var(--home-cream),
+      0 0 0 3px var(--color-ink);
+    transition:
+      color 180ms ease,
+      background-color 180ms ease,
+      transform 250ms var(--ease-expo);
+  }
+
+  .flower-link:hover {
+    color: var(--color-ink);
+    background: var(--home-cream);
+    transform: translateY(-0.18rem);
   }
 
   .memory-panel {
-    height: clamp(38rem, 35.0521vw, 42.0625rem);
     display: grid;
+    min-height: 100%;
+    padding: 5rem clamp(1rem, 2.5vw, 3rem) 2.5rem;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 4.3%;
-    padding: clamp(10rem, 11.25vw, 13.5rem) 5% 4.25rem;
-    color: var(--color-cream);
-    background: linear-gradient(180deg, #b9d6fe 0%, #9170b0 42%, #520345 100%);
-  }
-
-  .memory-card {
-    position: relative;
-    min-width: 0;
-    color: inherit;
-  }
-
-  .memory-card:not(:last-child)::after {
-    content: '';
-    position: absolute;
-    top: 0.2rem;
-    right: -8.4%;
-    bottom: 0;
-    width: 1px;
-    background: var(--color-cream);
-  }
-
-  .memory-card__title {
-    position: relative;
-    z-index: 3;
-    display: block;
-    font-size: clamp(2.5rem, 3.3333vw, 4rem);
-    font-style: italic;
-    line-height: 1;
-  }
-
-  .memory-card__number {
-    position: relative;
-    z-index: 3;
-    display: block;
-    margin-top: -0.35rem;
-    font-family: var(--font-display);
-    font-size: clamp(5.25rem, 7.2917vw, 8.75rem);
-    line-height: 1;
-  }
-
-  .memory-card__media {
-    position: absolute;
-    z-index: 1;
-    top: 4.8125rem;
-    right: 0;
-    width: min(10.78125vw, 12.9375rem);
-    aspect-ratio: 207 / 266;
-    display: block;
-    overflow: hidden;
-  }
-
-  .memory-card:nth-child(2) .memory-card__media {
-    right: 8%;
-  }
-
-  .memory-card__media--dress {
-    border-radius: 50% 50% 0 0 / 18% 18% 0 0;
-    background: #141414;
-  }
-
-  .memory-card__media img {
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
-  }
-
-  .memory-card__media--dress img {
-    object-fit: contain;
-  }
-
-  .memory-card__arrow {
-    position: absolute;
-    z-index: 4;
-    top: -0.15rem;
-    right: 0;
-    width: clamp(3.5rem, 4.21875vw, 5.0625rem);
-    aspect-ratio: 1;
-    display: grid;
-    place-items: center;
-    border: 2px solid var(--color-cream);
-    border-radius: 50%;
-    transition: transform var(--duration-fast) var(--ease-standard);
-  }
-
-  .memory-card:hover .memory-card__arrow,
-  .memory-card:focus-visible .memory-card__arrow {
-    transform: translateX(0.3rem);
-  }
-
-  .memory-card__arrow img {
-    width: 66%;
-  }
-
-  .memory-card__copy {
-    position: absolute;
-    z-index: 3;
-    left: 0;
-    bottom: 0;
-    width: max-content;
-    max-width: 100%;
-    font-size: clamp(0.78rem, 0.9375vw, 1.125rem);
-    line-height: 1.15;
-  }
-
-  .agenda-panel {
-    position: relative;
-    height: clamp(38rem, 35vw, 42rem);
-    overflow: hidden;
-    color: #520345;
-    background: linear-gradient(180deg, #f3eee1 0%, #dfe8ef 36%, #b9d6fe 100%);
-  }
-
-  .agenda-panel h3 {
-    position: absolute;
-    left: var(--layout-gutter);
-    top: 26%;
-    font-family: var(--font-body);
-    font-size: clamp(4.25rem, 5.9896vw, 7.1875rem);
-    font-weight: var(--font-weight-regular);
-    line-height: 0.95;
-  }
-
-  .agenda-panel__rule {
-    position: absolute;
-    left: 25.2083%;
-    top: 39.88%;
-    width: 74.7917%;
-    height: 0.875rem;
-    pointer-events: none;
-  }
-
-  .agenda-panel__rule img {
-    position: absolute;
-    left: 0;
-    top: 0.875rem;
-    width: 0.875rem;
-    height: min(74.7917vw, 89.75rem);
-    max-width: none;
-    transform: rotate(-90deg);
-    transform-origin: left top;
-  }
-
-  .agenda-panel__event {
-    position: absolute;
-    left: 3.7%;
-    right: 3.1%;
-    top: 49.55%;
-    display: grid;
-    grid-template-columns: 22% 44% 22% 12%;
     align-items: center;
+    gap: clamp(0.35rem, 1vw, 1.2rem);
   }
 
-  .agenda-panel__date,
-  .agenda-panel__time {
+  .memory-flower {
+    position: relative;
+    display: grid;
+    min-width: 0;
+    aspect-ratio: 1;
+    color: var(--color-ink);
+    text-decoration: none;
+    place-items: center;
+  }
+
+  .memory-flower__bloom {
+    width: 112%;
+    transition:
+      transform 500ms var(--ease-expo),
+      filter 500ms var(--ease-expo);
+  }
+
+  .memory-flower__content {
+    position: relative;
+    z-index: 1;
     display: flex;
-    align-items: baseline;
-    gap: 0.8rem;
-    font-style: italic;
+    width: min(17rem, 63%);
+    font-family: var(--font-body);
+    font-size: clamp(0.7rem, 0.9vw, 0.94rem);
+    line-height: 1.5;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.1rem;
+  }
+
+  .memory-flower__content strong {
+    font-size: clamp(2.4rem, 4vw, 5.4rem);
+    font-weight: 400;
+    line-height: 0.9;
+    letter-spacing: -0.055em;
+  }
+
+  .memory-flower__cta {
+    display: inline-flex;
+    padding-bottom: 0.25rem;
+    border-bottom: 1px solid currentcolor;
+    font-size: clamp(0.62rem, 0.7vw, 0.75rem);
+    font-weight: 600;
+    letter-spacing: 0.07em;
     text-transform: uppercase;
+    gap: 1rem;
   }
 
-  .agenda-panel__date span,
-  .agenda-panel__time span {
-    font-family: var(--font-display);
-    font-size: clamp(2.75rem, 3.3333vw, 4rem);
+  .memory-flower:hover .memory-flower__bloom {
+    filter: drop-shadow(0 1.6rem 3rem rgb(80 112 160 / 0.16));
+    transform: rotate(2deg) scale(1.035);
   }
 
-  .agenda-panel__date small,
-  .agenda-panel__time small {
-    font-size: clamp(1.25rem, 1.6667vw, 2rem);
-  }
-
-  .agenda-panel__title {
-    font-size: clamp(2.25rem, 3.3333vw, 4rem);
-    font-style: italic;
-  }
-
-  .agenda-panel__type {
-    font-size: clamp(0.8rem, 0.9375vw, 1.125rem);
-    text-transform: uppercase;
-  }
-
-  .agenda-panel__time {
-    justify-self: end;
-  }
-
-  .agenda-panel > .portal-cta {
+  .visually-hidden {
     position: absolute;
-    left: var(--layout-gutter);
-    bottom: clamp(3rem, 3.8vw, 4.55rem);
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    border: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
   }
 
-  @media (max-width: 800px) {
-    .home-intro {
-      height: 200svh;
+  @media (max-width: 68rem) {
+    .flower-home {
+      min-height: 36rem;
     }
 
-    .home-intro__image {
-      object-position: 51% center;
-    }
-
-    .home-hero {
-      height: max(45rem, calc(100svh - 72px));
-      min-height: 45rem;
-    }
-
-    .home-hero__pattern {
-      top: -95rem;
-      left: -22rem;
-      width: 112rem;
-    }
-
-    .home-hero__title {
-      padding-top: 2.5rem;
-    }
-
-    .home-hero__title span {
-      font-size: clamp(2.2rem, 10vw, 3.3rem);
-    }
-
-    .home-hero__title strong {
-      font-size: clamp(4.2rem, 20vw, 6.5rem);
-    }
-
-    .orbit__line--outer {
-      top: 38%;
-      width: 125%;
-      height: 44%;
-    }
-
-    .orbit__line--inner {
-      top: 44%;
-      width: 94%;
-      height: 34%;
-    }
-
-    .orbit__object {
-      width: clamp(4.1rem, var(--w), 6.5rem);
-    }
-
-    .orbit__object:nth-of-type(3) {
-      top: 36%;
-    }
-
-    .orbit__object figcaption {
-      display: none;
-    }
-
-    .home-hero__manifesto {
-      top: auto;
-      bottom: 1.75rem;
-      width: calc(100% - 2 * var(--layout-gutter));
-    }
-
-    .home-hero__statement {
-      font-size: clamp(1.9rem, 8vw, 2.8rem);
-    }
-
-    .portal__toggle {
-      height: clamp(5.75rem, 24vw, 8rem);
-      padding-inline: var(--layout-gutter);
-    }
-
-    .portal__label {
-      max-width: 100%;
-      font-size: clamp(3rem, 13.2vw, 6rem);
-      white-space: nowrap;
-    }
-
-    .portal-cta {
-      width: min(15rem, 100%);
-      height: 2.58rem;
-      font-size: 0.7rem;
-    }
-
-    .acervo-panel {
-      height: 50rem;
-      background:
-        radial-gradient(circle at 95% 100%, rgba(253, 101, 0, 0.86), transparent 32%),
-        linear-gradient(145deg, #fd6500 0%, #8f3000 44%, #141414 100%);
-    }
-
-    .acervo-panel__copy {
-      position: relative;
-      left: auto;
-      top: auto;
-      width: 100%;
-      padding: 2.25rem var(--layout-gutter) 0;
-    }
-
-    .acervo-panel__lead {
-      max-width: 28ch;
-      font-size: clamp(1.2rem, 5.7vw, 1.65rem);
-    }
-
-    .acervo-panel__note {
-      margin-top: 1.6rem;
-      font-size: 0.875rem;
-    }
-
-    .portal-actions {
-      flex-wrap: wrap;
-      gap: 0.7rem;
-      margin-top: 1.8rem;
-    }
-
-    .acervo-panel__gallery {
-      top: 22rem;
-      height: 28rem;
-    }
-
-    .acervo-panel__arch {
-      width: 75%;
-      height: 100%;
-    }
-
-    .acervo-panel__arch--back {
-      left: 45%;
-    }
-
-    .acervo-panel__arch--middle {
-      left: 14%;
-    }
-
-    .acervo-panel__arch--front {
-      left: -17%;
-    }
-
-    .acervo-panel__timeline {
-      display: none;
-    }
-
-    .exhibition-panel {
-      height: 40rem;
-    }
-
-    .exhibition-panel__image,
-    .exhibition-panel__veil {
-      height: 100%;
-    }
-
-    .exhibition-panel__image {
-      object-position: 66% top;
-    }
-
-    .exhibition-panel__veil {
-      background: linear-gradient(180deg, rgba(82, 3, 69, 0.35), rgba(82, 3, 69, 0.92));
-      mix-blend-mode: normal;
-    }
-
-    .exhibition-panel__copy {
-      left: var(--layout-gutter);
-      right: var(--layout-gutter);
-      top: auto;
-      bottom: 2rem;
-      width: auto;
-    }
-
-    .exhibition-panel__copy h3 {
-      font-size: clamp(3.8rem, 18vw, 5.4rem);
-    }
-
-    .exhibition-panel__date,
-    .exhibition-panel__description {
-      font-size: 0.84rem;
-    }
-
-    .exhibition-panel__description {
-      max-width: 34ch;
-      margin-top: 1.35rem;
-    }
-
-    .exhibition-panel__copy .portal-cta {
-      margin-top: 2rem;
-    }
-
-    .exhibition-panel__arrow {
-      top: 1.5rem;
-      right: var(--layout-gutter);
-      bottom: auto;
-      width: 3.6rem;
-      border-width: 2px;
+    .flower-panel__bloom {
+      width: min(46rem, 82vmin);
     }
 
     .memory-panel {
-      height: auto;
-      display: grid;
+      padding-top: 6rem;
+    }
+  }
+
+  @media (max-width: 48rem) {
+    .flower-home {
+      min-height: 31rem;
+    }
+
+    .flower-home__lens {
+      width: min(72vw, 23rem);
+      background-size: 205% 205%;
+    }
+
+    .flower-home__title {
+      font-size: clamp(3.6rem, 15.5vw, 5.25rem);
+      line-height: 0.91;
+    }
+
+    .flower-trigger {
+      width: 8rem;
+      height: 5rem;
+    }
+
+    .flower-trigger--archive {
+      --trigger-x: 12%;
+      --trigger-y: 68%;
+    }
+
+    .flower-trigger--exhibition {
+      --trigger-y: 87%;
+    }
+
+    .flower-trigger--memory {
+      --trigger-y: 15%;
+    }
+
+    .flower-trigger--agenda {
+      --trigger-x: 89%;
+      --trigger-y: 48%;
+    }
+
+    .flower-trigger__label {
+      font-size: 1rem;
+    }
+
+    .flower-panel {
+      overflow-y: auto;
+    }
+
+    .flower-panel__single {
+      min-height: 100svh;
+      padding: 5rem 1rem 2rem;
+    }
+
+    .flower-panel__bloom {
+      width: min(42rem, 112vmin);
+    }
+
+    .flower-panel__content {
+      width: min(25rem, 76vmin);
+    }
+
+    .flower-panel h2 {
+      font-size: clamp(3.2rem, 14vw, 5rem);
+    }
+
+    .flower-panel__content--agenda h2 {
+      font-size: clamp(3rem, 13vw, 4.5rem);
+    }
+
+    .flower-panel__copy {
+      font-size: clamp(0.7rem, 2.9vw, 0.9rem);
+      line-height: 1.45;
+    }
+
+    .flower-panel__actions {
+      margin-top: 1.5rem;
+      grid-template-columns: 1fr;
+    }
+
+    .flower-link {
+      min-height: 3rem;
+    }
+
+    .memory-panel {
+      min-height: auto;
+      padding: 5rem 1rem 2rem;
       grid-template-columns: 1fr;
       gap: 0;
-      padding: 0 var(--layout-gutter);
     }
 
-    .memory-card {
-      min-height: 22rem;
-      padding-top: 2rem;
-      border-bottom: 1px solid var(--color-cream);
+    .memory-flower {
+      width: min(31rem, 98vw);
+      margin: -1.5rem auto;
     }
 
-    .memory-card:last-child {
-      border-bottom: 0;
-    }
-
-    .memory-card:not(:last-child)::after {
-      display: none;
-    }
-
-    .memory-card__title {
-      font-size: clamp(2.6rem, 12vw, 3.7rem);
-    }
-
-    .memory-card__number {
-      font-size: clamp(5.6rem, 26vw, 7.5rem);
-    }
-
-    .memory-card__media,
-    .memory-card:nth-child(2) .memory-card__media {
-      top: 5.8rem;
-      right: 0;
-      width: min(42vw, 10.5rem);
-    }
-
-    .memory-card__arrow {
-      top: 2rem;
-      right: 0;
-      width: 3.3rem;
-    }
-
-    .memory-card__copy {
-      bottom: 1.5rem;
-      max-width: 30ch;
-      padding-right: 1rem;
+    .memory-flower__content {
+      width: min(17rem, 58%);
       font-size: 0.8rem;
     }
 
-    .agenda-panel {
-      height: 36rem;
+    .memory-flower__content strong {
+      font-size: clamp(2.8rem, 13vw, 4.5rem);
+    }
+  }
+
+  @media (hover: none) {
+    .flower-trigger__mark {
+      width: 2rem;
+      height: 2rem;
+      background: rgb(243 238 225 / 0.35);
     }
 
-    .agenda-panel h3 {
-      top: 2.25rem;
-      font-size: clamp(4rem, 18vw, 5.5rem);
-    }
-
-    .agenda-panel__rule {
-      left: var(--layout-gutter);
-      top: 9.5rem;
-      width: calc(100% - 2 * var(--layout-gutter));
-    }
-
-    .agenda-panel__rule img {
-      height: calc(100vw - 2 * var(--layout-gutter));
-    }
-
-    .agenda-panel__event {
-      left: var(--layout-gutter);
-      right: var(--layout-gutter);
-      top: 12rem;
-      grid-template-columns: 1fr auto;
-      grid-template-areas:
-        'date time'
-        'title title'
-        'type type';
-      row-gap: 1.3rem;
-    }
-
-    .agenda-panel__date {
-      grid-area: date;
-    }
-
-    .agenda-panel__time {
-      grid-area: time;
-    }
-
-    .agenda-panel__title {
-      grid-area: title;
-      font-size: clamp(2.25rem, 11vw, 3.5rem);
-    }
-
-    .agenda-panel__type {
-      grid-area: type;
-    }
-
-    .agenda-panel__date span,
-    .agenda-panel__time span {
-      font-size: 3.5rem;
-    }
-
-    .agenda-panel__date small,
-    .agenda-panel__time small {
-      font-size: 1.35rem;
-    }
-
-    .agenda-panel > .portal-cta {
-      bottom: 2rem;
+    .flower-trigger:focus-visible .flower-trigger__label {
+      opacity: 1;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .home-intro {
-      height: 100svh;
+    .flower-home__lens,
+    .flower-trigger__mark,
+    .flower-trigger__mark span,
+    .flower-trigger__label,
+    .flower-panel,
+    .flower-panel__close,
+    .flower-link,
+    .memory-flower__bloom {
+      transition-duration: 0.01ms;
     }
 
-    .home-intro__image--title {
-      opacity: 1;
-      clip-path: inset(0);
-      will-change: auto;
+    .flower-home__lens {
+      top: 50%;
+      left: 50%;
+      background-position: center;
     }
 
-    .portal__body,
-    .portal__body-inner > *,
-    .memory-card__arrow,
-    .exhibition-panel__arrow {
-      transition: none;
+    .memory-flower:hover .memory-flower__bloom,
+    .flower-link:hover {
+      transform: none;
     }
   }
 </style>
-
-<script>
-  import { gsap } from '@lib/gsap';
-
-  const intro = document.querySelector<HTMLElement>('[data-home-intro]');
-  const introTitle = intro?.querySelector<HTMLElement>('[data-home-intro-title]');
-  const hero = document.querySelector<HTMLElement>('[data-home-hero]');
-  const heroTitle = hero?.querySelector<HTMLElement>('[data-home-hero-title]');
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-
-  if (!reducedMotion.matches) {
-    const homeContext = gsap.context(() => {
-      if (intro && introTitle) {
-        gsap
-          .timeline({
-            scrollTrigger: {
-              trigger: intro,
-              start: 'top top',
-              end: 'bottom bottom',
-              scrub: true,
-            },
-          })
-          .fromTo(
-            introTitle,
-            { clipPath: 'inset(100% 0 0 0)', opacity: 0 },
-            { clipPath: 'inset(0% 0 0 0)', opacity: 1, duration: 0.72, ease: 'none' }
-          )
-          .to(introTitle, { opacity: 1, duration: 0.12 })
-          .to(introTitle, { opacity: 0, duration: 0.16, ease: 'none' });
-      }
-
-      if (hero && heroTitle) {
-        gsap.fromTo(
-          heroTitle,
-          { autoAlpha: 0, y: '8svh' },
-          {
-            autoAlpha: 1,
-            y: 0,
-            ease: 'none',
-            scrollTrigger: {
-              trigger: hero,
-              start: 'top 35%',
-              end: 'top top',
-              scrub: true,
-            },
-          }
-        );
-      }
-    });
-
-    document.addEventListener('astro:before-swap', () => homeContext.revert(), { once: true });
-  }
-
-  const portalElements = Array.from(document.querySelectorAll<HTMLElement>('[data-portal]'));
-
-  function activatePortal(target: HTMLElement | null) {
-    portalElements.forEach((portal) => {
-      const active = portal === target;
-      portal.classList.toggle('is-active', active);
-      portal
-        .querySelector<HTMLButtonElement>('[data-portal-toggle]')
-        ?.setAttribute('aria-expanded', String(active));
-      const body = portal.querySelector<HTMLElement>('.portal__body');
-      body?.setAttribute('aria-hidden', String(!active));
-      body?.toggleAttribute('inert', !active);
-    });
-  }
-
-  portalElements.forEach((portal) => {
-    portal
-      .querySelector<HTMLButtonElement>('[data-portal-toggle]')
-      ?.addEventListener('click', () =>
-        activatePortal(portal.classList.contains('is-active') ? null : portal)
-      );
-  });
-</script>

@@ -673,7 +673,7 @@ const filters = [
     const filters = [...collection.querySelectorAll<HTMLElement>('[data-filter]')];
     const pieces = [...collection.querySelectorAll<HTMLElement>('[data-tags]')];
     const status = collection.querySelector<HTMLElement>('[data-filter-status]');
-    let selectedValue = '';
+    const activeFilters = new Map<HTMLElement, { value: string; label: string }>();
 
     const closeMenus = (except?: HTMLElement) => {
       filters.forEach((filter) => {
@@ -685,16 +685,22 @@ const filters = [
       });
     };
 
-    const applyFilter = (value: string, label: string) => {
-      selectedValue = value;
+    const applyFilters = () => {
+      const selections = [...activeFilters.values()];
       let matchCount = 0;
+
       pieces.forEach((piece) => {
-        const matches = !selectedValue || (piece.dataset.tags ?? '').split(' ').includes(value);
+        const tags = (piece.dataset.tags ?? '').split(' ');
+        const matches = selections.every(({ value }) => tags.includes(value));
         piece.classList.toggle('is-match', matches);
         if (matches) matchCount += 1;
       });
-      collection.classList.toggle('is-filtering', Boolean(selectedValue));
-      if (status) status.textContent = `${label}: ${matchCount} objetos visibles`;
+
+      collection.classList.toggle('is-filtering', selections.length > 0);
+      if (status) {
+        const labels = selections.map(({ label }) => label).join(' + ');
+        status.textContent = `${labels}: ${matchCount} objetos visibles`;
+      }
     };
 
     filters.forEach((filter) => {
@@ -711,7 +717,8 @@ const filters = [
       filter.querySelectorAll<HTMLInputElement>('[data-filter-option]').forEach((option) => {
         option.addEventListener('change', () => {
           const label = option.closest('label')?.textContent?.trim() ?? option.value;
-          applyFilter(option.value, label);
+          activeFilters.set(filter, { value: option.value, label });
+          applyFilters();
           if (toggle) toggle.textContent = label;
           closeMenus();
         });

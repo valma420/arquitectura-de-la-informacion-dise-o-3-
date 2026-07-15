@@ -152,7 +152,13 @@ const hotspots = [
       </p>
     </header>
 
-    <div class="nl-decade__stage" aria-live="polite">
+    <div
+      class="nl-decade__stage"
+      tabindex="0"
+      aria-label="Cronología New Look. Usá las flechas o desplazá horizontalmente."
+      aria-live="polite"
+      data-decade-stage
+    >
       <div class="nl-decade__state is-active" data-decade-state="0" aria-hidden="false">
         <figure class="nl-decade__card nl-decade__card--main nl-decade__card--center">
           <img src="/images/muestra/figma-3760.png" alt="1947, presentación de la línea Corolle" />
@@ -287,7 +293,7 @@ const hotspots = [
 
   <section class="nl-close" data-motion-owned>
     <img class="nl-close__pattern" src="/images/muestra/close-pattern.png" alt="" />
-    <p class="nl-close__kicker label">Explorar las piezas de la colección</p>
+    <p class="nl-close__kicker label">Explorar las pistas de la colección</p>
     <div class="nl-close__disc">
       <h2>New Look</h2>
       <p class="label">Selección colección Corolle · 1947 — 1957 · 42 piezas</p>
@@ -571,6 +577,11 @@ const hotspots = [
   .nl-decade__state {
     position: absolute;
     inset: 0;
+  }
+
+  .nl-decade__stage:focus-visible {
+    outline: 2px solid #fd6500;
+    outline-offset: -0.35rem;
   }
 
   .nl-decade__state {
@@ -1248,6 +1259,7 @@ const hotspots = [
   const decadeStates = Array.from(document.querySelectorAll<HTMLElement>('[data-decade-state]'));
   const previousButton = document.querySelector<HTMLButtonElement>('[data-decade-previous]');
   const nextButton = document.querySelector<HTMLButtonElement>('[data-decade-next]');
+  const decadeStage = document.querySelector<HTMLElement>('[data-decade-stage]');
   let decadeIndex = 0;
 
   function renderDecade() {
@@ -1255,6 +1267,7 @@ const hotspots = [
       const active = index === decadeIndex;
       state.classList.toggle('is-active', active);
       state.setAttribute('aria-hidden', String(!active));
+      state.toggleAttribute('inert', !active);
     });
 
     if (previousButton) previousButton.disabled = decadeIndex === 0;
@@ -1280,6 +1293,38 @@ const hotspots = [
     decadeIndex += 1;
     renderDecade();
   });
+
+  decadeStage?.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') {
+      event.preventDefault();
+      decadeIndex = Math.max(0, decadeIndex - 1);
+      renderDecade();
+    }
+
+    if (event.key === 'ArrowRight') {
+      event.preventDefault();
+      if (decadeIndex === decadeStates.length - 1) {
+        window.location.assign('/linea-de-tiempo');
+        return;
+      }
+      decadeIndex += 1;
+      renderDecade();
+    }
+  });
+
+  decadeStage?.addEventListener(
+    'wheel',
+    (event) => {
+      if (Math.abs(event.deltaX) < Math.abs(event.deltaY) || Math.abs(event.deltaX) < 16) return;
+      event.preventDefault();
+      decadeIndex = Math.min(
+        decadeStates.length - 1,
+        Math.max(0, decadeIndex + (event.deltaX > 0 ? 1 : -1))
+      );
+      renderDecade();
+    },
+    { passive: false }
+  );
 
   renderDecade();
 </script>
