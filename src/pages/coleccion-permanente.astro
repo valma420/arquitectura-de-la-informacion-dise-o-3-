@@ -5,158 +5,77 @@
  */
 import MainLayout from '@layouts/MainLayout.astro';
 
-const collectionPieces = [
-  { image: 'c06', slug: 'redingote', x: 14.8, y: -3, w: 5.4, tags: 'rococo vestido seda' },
-  { image: 'c11', slug: 'robe-polonaise', x: 23, y: -6, w: 5.2, tags: 'rococo vestido seda' },
-  { image: 'c03', slug: 'caraco-falda', x: 33.5, y: -7, w: 5.8, tags: 'rococo abrigo bordado' },
-  {
-    image: 'c10',
-    slug: 'vestido-gasa-1790',
-    x: 44.2,
-    y: -8,
-    w: 5.3,
-    tags: 'neoclasico vestido seda',
-  },
-  { image: 'c05', slug: 'casaca-bordada', x: 54.8, y: -6, w: 5.2, tags: 'rococo abrigo bordado' },
-  { image: 'c13', slug: 'robe-anglaise', x: 66.5, y: -8, w: 5.5, tags: 'rococo vestido seda' },
-  {
-    image: 'c12',
-    slug: 'robe-francaise-1730',
-    x: 79.2,
-    y: -5,
-    w: 5.2,
-    tags: 'rococo vestido seda',
-  },
-  { image: 'c08', slug: 'robe-polonaise', x: 91, y: 0, w: 5.4, tags: 'rococo vestido bordado' },
-  { image: 'c02', slug: 'vestido-corte', x: 5.2, y: 10, w: 6.1, tags: 'rococo vestido seda' },
-  { image: 'c14', slug: 'caraco-falda', x: 20.2, y: 12, w: 5.2, tags: 'rococo vestido algodon' },
-  {
-    image: 'c04',
-    slug: 'robe-francaise-1760',
-    x: 34.6,
-    y: 12,
-    w: 5.7,
-    tags: 'rococo vestido seda',
-  },
-  { image: 'c07', slug: 'robe-anglaise', x: 46.1, y: 12, w: 5.2, tags: 'rococo vestido seda' },
-  { image: 'c09', slug: 'chaleco-courtois', x: 57.6, y: 11, w: 5.4, tags: 'rococo abrigo bordado' },
-  {
-    image: 'c01',
-    slug: 'robe-francaise-1730',
-    x: 68.6,
-    y: 12,
-    w: 5.3,
-    tags: 'rococo vestido seda',
-  },
-  {
-    image: 'c15',
-    slug: 'vestido-gasa-1790',
-    x: 81.5,
-    y: 13,
-    w: 5.6,
-    tags: 'neoclasico vestido encaje',
-  },
-  { image: 'c05', slug: 'casaca-bordada', x: -2.5, y: 31, w: 6.2, tags: 'rococo abrigo bordado' },
-  {
-    image: 'c10',
-    slug: 'vestido-gasa-1790',
-    x: 12.4,
-    y: 28,
-    w: 5.8,
-    tags: 'neoclasico vestido encaje',
-  },
-  { image: 'c14', slug: 'caraco-falda', x: 79, y: 28, w: 5.8, tags: 'rococo vestido algodon' },
-  {
-    image: 'c01',
-    slug: 'robe-francaise-1730',
-    x: 91.5,
-    y: 29,
-    w: 5.7,
-    tags: 'rococo vestido seda',
-  },
-  { image: 'c04', slug: 'robe-francaise-1760', x: 3, y: 54, w: 6, tags: 'rococo vestido seda' },
-  { image: 'c08', slug: 'robe-polonaise', x: 18.5, y: 59, w: 5.6, tags: 'rococo vestido bordado' },
-  {
-    image: 'c12',
-    slug: 'robe-francaise-1730',
-    x: 34.5,
-    y: 60,
-    w: 5.3,
-    tags: 'rococo vestido seda',
-  },
-  { image: 'c09', slug: 'chaleco-courtois', x: 56.5, y: 60, w: 5, tags: 'rococo abrigo bordado' },
-  { image: 'c03', slug: 'caraco-falda', x: 68, y: 60, w: 5.8, tags: 'rococo abrigo algodon' },
-  { image: 'c11', slug: 'robe-polonaise', x: 83, y: 58, w: 5.4, tags: 'rococo vestido seda' },
-  { image: 'c06', slug: 'redingote', x: 94.5, y: 56, w: 5.4, tags: 'neoclasico abrigo lana' },
-  { image: 'c02', slug: 'vestido-corte', x: -1, y: 78, w: 6.2, tags: 'rococo vestido seda' },
-  { image: 'c13', slug: 'robe-anglaise', x: 11.8, y: 76, w: 5.7, tags: 'rococo vestido seda' },
-  { image: 'c07', slug: 'robe-anglaise', x: 23, y: 81, w: 5.4, tags: 'rococo vestido seda' },
-  {
-    image: 'c15',
-    slug: 'vestido-gasa-1790',
-    x: 35,
-    y: 78,
-    w: 5.2,
-    tags: 'neoclasico vestido encaje',
-  },
-  { image: 'c14', slug: 'caraco-falda', x: 46, y: 79, w: 5.6, tags: 'rococo vestido algodon' },
-  { image: 'c05', slug: 'casaca-bordada', x: 57.5, y: 78, w: 5.3, tags: 'rococo abrigo bordado' },
-  {
-    image: 'c04',
-    slug: 'robe-francaise-1760',
-    x: 69.5,
-    y: 79,
-    w: 5.5,
-    tags: 'rococo vestido seda',
-  },
-  {
-    image: 'c10',
-    slug: 'vestido-gasa-1790',
-    x: 82,
-    y: 77,
-    w: 5.4,
-    tags: 'neoclasico vestido encaje',
-  },
-  { image: 'c08', slug: 'robe-polonaise', x: 94, y: 78, w: 5.5, tags: 'rococo vestido bordado' },
+const permanentImages = Array.from(
+  { length: 47 },
+  (_, index) => `collection-fidelity/permanent/piece-${String(index + 1).padStart(2, '0')}.png`
+);
+
+const collectionLayout = [
+  [599, 895, 132, 177],
+  [-23, 674, 135, 180],
+  [185, 693, 132, 177],
+  [819, 169, 139, 172],
+  [1697, 681, 129, 178],
+  [804, 694, 131, 175],
+  [1009, 894, 135, 180],
+  [178, 867, 132, 178],
+  [1506, 594, 136, 175],
+  [1813, 884, 137, 156],
+  [-79, 412, 132, 180],
+  [1556, 820, 184, 251],
+  [1019, 6, 132, 175],
+  [1258, 0, 132, 178],
+  [390, 174, 143, 165],
+  [1029, 691, 132, 175],
+  [44, 248, 133, 176],
+  [1222, 900, 134, 179],
+  [1243, 168, 135, 171],
+  [1506, 6, 132, 176],
+  [238, 25, 113, 151],
+  [395, 859, 123, 187],
+  [610, 169, 135, 171],
+  [1834, 632, 138, 173],
+  [1386, 699, 122, 186],
+  [599, 672, 173, 235],
+  [1036, 166, 131, 176],
+  [1707, 25, 122, 194],
+  [181, 190, 130, 178],
+  [1218, 694, 133, 177],
+  [393, 693, 131, 175],
+  [1489, 149, 133, 177],
+  [817, 900, 119, 159],
+  [1402, 866, 154, 205],
+  [89, 468, 132, 176],
+  [395, 6, 131, 175],
+  [1651, 276, 131, 175],
+  [1667, 504, 160, 146],
+  [-35, 874, 118, 163],
+  [1834, 364, 109, 201],
+  [600, 6, 133, 176],
+  [812, 6, 131, 175],
+  [-123, 133, 185, 246],
+  [1859, 108, 130, 178],
+  [1443, 374, 131, 175],
+  [370, 494, 136, 180],
+  [238, 371, 142, 162],
 ];
 
-const permanentImages = [
-  '1968.png',
-  '1900.png',
-  '2011.png',
-  '1925.png',
-  '1730.png',
-  '1870.png',
-  '1850.png',
-  '1815.png',
-  '1930.png',
-  '1780.png',
-  '1760.png',
-  '1983.png',
-  '1790.png',
-  '1775.png',
-  '1992.png',
-  '1959.png',
-  '1830.png',
-  '1995.png',
-  'alaia.png',
-  '1730.png',
-  '1785.png',
-  '1968.png',
-  '1790-b.png',
-  '1775-b.png',
-  '1925.png',
-  '2011.png',
-  '1850.png',
-  '1900.png',
-  '1815.png',
-  '1870.png',
-  '1968.png',
-  '1780.png',
-  '1730.png',
-  '1760.png',
-  '1983.png',
+const pieceProfiles = [
+  ['redingote', 'neoclasico abrigo lana'],
+  ['robe-polonaise', 'rococo vestido seda'],
+  ['caraco-falda', 'rococo abrigo bordado'],
+  ['vestido-gasa-1790', 'neoclasico vestido encaje'],
+  ['casaca-bordada', 'rococo abrigo bordado'],
+  ['robe-anglaise', 'rococo vestido seda'],
+  ['robe-francaise-1730', 'rococo vestido seda'],
+  ['vestido-corte', 'rococo vestido seda'],
+  ['chaleco-courtois', 'rococo abrigo bordado'],
 ];
+
+const collectionPieces = collectionLayout.map(([x, y, w, h], index) => {
+  const [slug, tags] = pieceProfiles[index % pieceProfiles.length];
+  return { x, y, w, h, slug, tags };
+});
 
 const filters = [
   {
@@ -260,13 +179,13 @@ const filters = [
           <a
             class="collection-piece"
             href={index === 4 ? '/coleccion' : `/coleccion/${piece.slug}`}
-            style={`--piece-x:${piece.x}%;--piece-y:${piece.y}%;--piece-w:${piece.w}%;--piece-delay:${(index % 8) * 45}ms;`}
+            style={`--piece-x:${(piece.x / 1920) * 100}%;--piece-y:${(piece.y / 1079) * 100}%;--piece-w:${(piece.w / 1920) * 100}%;--piece-h:${(piece.h / 1079) * 100}%;--piece-delay:${(index % 8) * 45}ms;`}
             data-tags={piece.tags}
             aria-label={
               index === 4 ? 'Abrir selección Robe à la française' : 'Abrir ficha del objeto'
             }
           >
-            <img src={`/images/prendas/${permanentImages[index]}`} alt="" />
+            <img src={`/images/${permanentImages[index]}`} alt="" />
           </a>
         ))
       }
@@ -414,9 +333,9 @@ const filters = [
     display: block;
     width: var(--piece-w);
     min-width: 3.4rem;
-    height: 18.5%;
+    height: var(--piece-h);
     opacity: 1;
-    transform: translateX(-50%);
+    transform: none;
     transition:
       opacity 350ms ease,
       transform 420ms cubic-bezier(0.76, 0, 0.24, 1),
@@ -436,7 +355,7 @@ const filters = [
   .collection-piece:focus-visible {
     z-index: 8;
     filter: saturate(1.08);
-    transform: translateX(-50%) scale(1.15);
+    transform: scale(1.15);
   }
 
   .permanent-collection.is-filtering .collection-piece {
@@ -649,7 +568,7 @@ const filters = [
 
     .collection-piece {
       width: calc(var(--piece-w) * 1.65);
-      height: 15%;
+      height: calc(var(--piece-h) * 1.65);
     }
 
     .collection-piece:nth-child(3n) {
