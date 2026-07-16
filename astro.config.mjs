@@ -2,7 +2,6 @@
 import { defineConfig } from 'astro/config';
 import { cwd, env as processEnv } from 'node:process';
 import sitemap from '@astrojs/sitemap';
-import icon from 'astro-icon';
 import compress from '@playform/compress';
 import tailwindcss from '@tailwindcss/vite';
 import { loadEnv } from 'vite';
@@ -28,10 +27,6 @@ export default defineConfig({
   },
 
   integrations: [
-    icon({
-      // Local SVG icons live in `src/assets/icons` and are referenced by name.
-      iconDir: 'src/assets/icons',
-    }),
     sitemap(),
     // Asset compression runs last so it processes the final build output.
     compress(),

@@ -11,7 +11,12 @@ export const agendaEvents: AgendaEvent[] = [
   { day: 4, kind: 'Visita temática', title: 'Recorrido por el eje La silueta', time: '18 h' },
   { day: 6, kind: 'Charla', title: 'La construcción de la silueta', time: '13 h · Entrada libre' },
   { day: 9, kind: 'Conferencia', title: 'El atelier Dior', time: '17 h · Entrada libre' },
-  { day: 11, kind: 'Taller', title: 'Introducción al figurín de moda', time: '17 h · Cupos limitados' },
+  {
+    day: 11,
+    kind: 'Taller',
+    title: 'Introducción al figurín de moda',
+    time: '17 h · Cupos limitados',
+  },
   { day: 12, kind: 'Muestra abierta', title: '', span: 3, image: '/images/site/vogue-expo.jpg' },
   {
     day: 16,

@@ -160,11 +160,3 @@ svg {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
 }
-
-/* Shared layout container. */
-.container {
-  width: 100%;
-  max-width: var(--layout-max-width);
-  margin-inline: auto;
-  padding-inline: var(--layout-gutter);
-}

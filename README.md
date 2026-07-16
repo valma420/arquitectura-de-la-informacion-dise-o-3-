@@ -1,8 +1,8 @@
 # Palais Galliera - Digital Exhibition
 
-Interactive fashion-museum experience created for **Diseño 3**, a Graphic Design 
+Interactive fashion-museum experience created for **Diseño 3**, a Graphic Design
 course at **Universidad de Buenos Aires**. It translates an evolving Figma design
-into a production-oriented, semi-functional website. It is inspired by the 
+into a production-oriented, semi-functional website. It is inspired by the
 Palais Galliera, but it is not the museum's official website or live program.
 
 > **Status:** Functional static prototype. The principal routes, collection,
@@ -42,15 +42,10 @@ site coherent and deployable between design iterations.
 | Language        | TypeScript in strict mode                                      |
 | Styling         | Tailwind CSS 4 plus component CSS and shared custom properties |
 | Motion          | GSAP with ScrollTrigger and Lenis smooth scrolling             |
-| Icons           | `astro-icon`, configured for local SVG assets                  |
 | SEO             | Canonical metadata, OpenGraph and `@astrojs/sitemap`           |
 | Build output    | `@playform/compress` asset compression                         |
 | Quality         | ESLint and Prettier                                            |
 | Package manager | npm                                                            |
-
-Swiper is installed as a dependency but is not imported by the current
-application. No carousel should be considered implemented merely because the
-package is present.
 
 ## Requirements
 
