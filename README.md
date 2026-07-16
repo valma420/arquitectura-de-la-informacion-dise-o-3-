@@ -6,16 +6,16 @@ into a production-oriented, semi-functional website. It is inspired by the
 Palais Galliera, but it is not the museum's official website or live program.
 
 > **Status:** Functional static prototype. The principal routes, collection,
-> object views, editorial stories, timeline, agenda, responsive layouts,
+> object views, editorial stories, timeline, agenda, desktop layouts,
 > navigation and shared motion layer are implemented. The target is a polished
 > deployed prototype, not a production-grade museum information system.
 
 ## Project goal
 
 The front-end experience is the deliverable. Visual fidelity to the available
-Figma screens, animation, interaction, responsive composition and overall
-aesthetic quality take priority over building a live content platform. Static
-curated data is intentional and sufficient for the prototype.
+Figma screens, animation, interaction, desktop composition and overall aesthetic
+quality take priority over building a live content platform. Static curated data
+is intentional and sufficient for the prototype.
 
 Figma may continue evolving during the course. Each implemented surface should
 follow the latest approved reference available for that scope while keeping the
@@ -154,7 +154,7 @@ identifiers and technical documentation use English.
 
 When a Figma reference is available, it is the visual source for the surface in
 scope. Existing routes remain useful implementation evidence for behavior,
-responsive states and interactions that may not be visible in a single frame.
+implemented states and interactions that may not be visible in a single frame.
 
 Most active media is served directly from `public/images/`. When replacing an
 asset, preserve its public path or update every reference. The collection detail
@@ -174,8 +174,8 @@ npx prettier --check <changed-files>
 `npm run format:check` performs the same formatting check across the complete
 repository and may also expose unrelated existing drift.
 
-For visual changes, also inspect every affected route at desktop and mobile
-sizes, including navigation, image loading, internal links, keyboard focus and
+For visual changes, inspect every affected route at its intended viewport,
+including navigation, image loading, internal links, keyboard focus and
 `prefers-reduced-motion` behavior. There is currently no automated browser or
 unit-test suite.
 

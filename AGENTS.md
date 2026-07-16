@@ -9,10 +9,13 @@ official site or a live source of program data.
 
 - Preserve the static Astro output and the current no-UI-framework architecture.
 - Within correctness and safety, prioritize front-end fidelity, motion,
-  interaction, responsive composition, and aesthetic polish.
+  interaction, desktop 16:9 composition, and aesthetic polish.
 - Static curated data is sufficient for this prototype. Do not introduce a
   database, CMS, or backend unless the academic scope explicitly requires it.
 - Treat visible Spanish and French copy as product content, not internal code.
+- The project is desktop-only in a 16:9 format. Responsive behavior and mobile
+  layouts are out of scope; use the exact approved desktop Figma viewport when
+  one is supplied.
 
 ## Source of truth
 
@@ -44,6 +47,8 @@ official site or a live source of program data.
   independently in pages or components.
 - Preserve Lenis/GSAP synchronization, transition cleanup, and
   `prefers-reduced-motion` behavior.
+- Do not add breakpoints or mobile-specific UI unless the academic scope is
+  explicitly expanded. Keep basic overflow safeguards and keyboard access.
 - Use shared tokens for reusable semantic values. Do not force one-off layout
   measurements into the global token set merely to avoid a local CSS value.
 - Preserve established Spanish/French UI copy, accents, punctuation, object
@@ -99,7 +104,8 @@ npm run build
   `npx prettier --check <changed-files>`. Use `npm run format:check` only when a
   repository-wide formatting audit is relevant; it may expose unrelated drift.
 - Run focused checks first when only one area changed.
-- For visual changes, inspect affected routes at desktop and mobile widths.
+- For visual changes, inspect affected routes at the approved 16:9 desktop
+  viewport. Mobile-width inspection is not required.
 - Check navigation, assets, keyboard behavior, and reduced motion when relevant.
 - There is no automated browser or unit-test suite; do not claim runtime or
   visual correctness from the build alone.
