@@ -1,11 +1,4 @@
 ---
-/**
- * Historia (/historia) — recorrido Rococó.
- *
- * Desktop reproduces the two authored Figma frames at their native proportions.
- * Mobile has no authored board, so it keeps the same palette, hierarchy and
- * ornamental language while reflowing the content into one readable column.
- */
 import MainLayout from '@layouts/MainLayout.astro';
 ---
 
@@ -16,12 +9,13 @@ import MainLayout from '@layouts/MainLayout.astro';
 >
   <section
     id="selector-de-epoca"
-    class="era-selector era-selector--desktop"
-    aria-label="Seleccionar época: Rococó, 1715 a 1789"
+    class="era-selector"
+    aria-label="Seleccionar época: Siglo XIX, 1830 a 1870"
     data-motion-owned
+    data-lenis-prevent
   >
     <img
-      class="era-selector__figma"
+      class="era-selector__background"
       src="/images/history-fidelity/selector.png"
       alt=""
       width="1920"
@@ -30,28 +24,62 @@ import MainLayout from '@layouts/MainLayout.astro';
       aria-hidden="true"
     />
 
-    <nav class="desktop-hit-nav" aria-label="Principal">
-      <a class="desktop-hit desktop-hit--logo" href="/" aria-label="Palais Galliera — Inicio"></a>
-      <a class="desktop-hit desktop-hit--visitar" href="/" aria-label="Visitar"></a>
-      <a class="desktop-hit desktop-hit--exposiciones" href="/muestra" aria-label="Exposiciones"
-      ></a>
-      <a class="desktop-hit desktop-hit--colecciones" href="/coleccion" aria-label="Colecciones"
-      ></a>
-      <a class="desktop-hit desktop-hit--museo" href="/historia" aria-label="El museo"></a>
-      <a class="desktop-hit desktop-hit--agenda" href="/agenda" aria-label="Agenda"></a>
-      <a class="desktop-hit desktop-hit--entradas" href="/agenda" aria-label="Entradas"></a>
-      <a
-        class="desktop-hit desktop-hit--search"
-        href="/coleccion"
-        aria-label="Buscar en la colección"></a>
-    </nav>
+    <div class="era-selector__card is-compact" aria-live="polite">
+      <p class="era-selector__context era-selector__context--previous" data-era-context-previous>
+        1795 — 1815
+      </p>
+      <img
+        class="era-selector__card-art"
+        src="/images/history-fidelity/curatorial-text-19th-century.svg"
+        alt="Siglo XIX, 1830 a 1870"
+        width="1310"
+        height="451"
+        data-era-art
+      />
+      <p class="era-selector__context era-selector__context--next" data-era-context-next>
+        1890 — 1918
+      </p>
+      <button
+        class="era-selector__previous"
+        type="button"
+        aria-label="Época anterior"
+        data-era-previous></button>
+      <button class="era-selector__next" type="button" aria-label="Época siguiente" data-era-next
+      ></button>
+    </div>
 
     <a
-      class="desktop-hit desktop-hit--read"
+      class="era-selector__read is-disabled"
       href="#historia-rococo"
-      aria-label="Leer el texto curatorial sobre el Rococó"
-      data-read-history></a>
+      aria-label="Leer el texto curatorial sobre el Siglo XIX"
+      aria-disabled="true"
+      tabindex="-1"
+      data-read-history
+    >
+      <img
+        src="/images/history-fidelity/curatorial-read-button.svg"
+        alt=""
+        width="200"
+        height="46"
+      />
+    </a>
   </section>
+
+  <nav class="desktop-hit-nav" aria-label="Principal">
+    <a class="desktop-hit desktop-hit--visitar" href="/" aria-label="Visitar"></a>
+    <a class="desktop-hit desktop-hit--exposiciones" href="/muestra" aria-label="Exposiciones"></a>
+    <a class="desktop-hit desktop-hit--colecciones" href="/coleccion" aria-label="Colecciones"></a>
+    <a class="desktop-hit desktop-hit--museo" href="/historia" aria-label="El museo"></a>
+    <a class="desktop-hit desktop-hit--agenda" href="/agenda" aria-label="Agenda"></a>
+    <a class="desktop-hit desktop-hit--entradas" href="/agenda" aria-label="Entradas"></a>
+    <a class="desktop-hit desktop-hit--search" href="/coleccion" aria-label="Buscar en la colección"
+    ></a>
+  </nav>
+  <a
+    class="desktop-hit desktop-hit--logo"
+    href="/"
+    aria-label="Palais Galliera — Inicio"
+    data-history-home></a>
 
   <article
     id="historia-rococo"
@@ -59,108 +87,120 @@ import MainLayout from '@layouts/MainLayout.astro';
     aria-label="Texto curatorial: Rococó, 1715 a 1789"
     data-motion-owned
   >
-    <div class="rococo-article__desktop">
-      <header class="desktop-reader-header">
+    <header class="rococo-header">
+      <img
+        class="rococo-header__asset"
+        src="/images/history-fidelity/sticky-curatorial-header.svg"
+        alt=""
+        aria-hidden="true"
+      />
+      <a class="rococo-header__back" href="/historia" aria-label="Volver a la selección de épocas"
+      ></a>
+    </header>
+
+    <section class="rococo-reader" aria-label="Lectura curatorial">
+      <figure class="rococo-reader__image">
         <img
-          class="desktop-reader-header__floral"
-          src="/images/history-fidelity/header-floral.svg"
-          alt=""
-          aria-hidden="true"
+          data-reader-image
+          src="/images/history-fidelity/rococo-curatorial-image.svg"
+          alt="Detalle bordado de una prenda del siglo XVIII"
+          width="498"
+          height="606"
         />
-        <a href="#selector-de-epoca">Ver más épocas</a>
-        <div class="desktop-reader-header__title">
-          <p>1715 — 1789</p>
-          <h2>Rococó</h2>
-        </div>
-        <div class="desktop-reader-header__byline">
-          <span>17 de julio, 2026</span>
-          <em>María S. Camargo</em>
-        </div>
-      </header>
+      </figure>
 
       <div
-        class="desktop-reader-scroll"
+        class="rococo-reader__scroll"
         tabindex="0"
         aria-label="Texto curatorial. Desplazá para continuar la lectura."
-        data-history-reader
+        data-lenis-prevent
       >
-        <section class="desktop-reader-copy">
-          <div class="desktop-reader-copy__lead">
-            <blockquote>
-              “Cada época deja atrás una manera de estar en el cuerpo. La del siglo XVIII no cabe en
-              ningún cuerpo actual.”
-            </blockquote>
-            <p>— Pascale Gorguet-Ballesteros, conservadora · Palais Galliera</p>
-          </div>
-
-          <figure class="desktop-reader-media">
-            <div class="desktop-reader-media__image">
-              <img
-                src="/images/history-fidelity/gallery.jpg"
-                alt="Vestidos del siglo XVIII exhibidos en el Palais Galliera"
-                data-related-preview
-              />
-            </div>
-            <img
-              class="desktop-reader-media__frame"
-              src="/images/history-fidelity/gallery-frame.svg"
-              alt=""
-              aria-hidden="true"
-            />
-            <figcaption data-related-caption>Vestidos del siglo XVIII en exhibición</figcaption>
-          </figure>
-
-          <div class="desktop-reader-copy__body">
-            <p>
-              En los retratos de
-              <button
-                class="related-word"
-                type="button"
-                data-related-image="/images/history-fidelity/gallery.jpg"
-                data-related-alt="Vestidos del siglo XVIII exhibidos en el Palais Galliera"
-                data-related-caption="Élisabeth Vigée Le Brun · retratos como archivo visual"
-                aria-pressed="true">Élisabeth Vigée Le Brun</button
-              >, la vestimenta ocupa tanto espacio como el rostro. La pintura terminó preservando
-              aquello que el tiempo no pudo conservar: la caída de una tela, el brillo de un
-              bordado, el volumen de unos paniers. Cuando los textiles originales desaparecen, las
-              pinturas continúan actuando como archivos visuales capaces de mantener viva la memoria
-              de formas, colores y texturas.
-            </p>
-            <p>
-              Con el paso de los siglos, gran parte de ese universo desapareció. Permanecieron
-              algunos vestidos, fragmentos textiles, retratos y documentos capaces de reconstruir
-              apenas una parte del relato. Cada pieza conservada por el
-              <button
-                class="related-word related-word--purple"
-                type="button"
-                data-related-image="/images/prendas/1730.png"
-                data-related-alt="Robe à la française de 1730"
-                data-related-caption="Robe à la française · c. 1730"
-                aria-pressed="false">Palais Galliera</button
-              > funciona como un fragmento de memoria: no cuenta toda la historia, pero permite activar
-              conexiones entre personas, materiales y contextos que continúan dialogando con el presente.
-            </p>
-            <p>
-              Quizás por eso observar una prenda del siglo XVIII nunca consiste únicamente en mirar
-              un objeto antiguo. Cada costura, cada pliegue y cada bordado siguen conteniendo
-              información que espera ser recordada. La memoria no permanece inmóvil dentro del
-              museo: vuelve a activarse cada vez que alguien decide detenerse sobre un detalle y
-              descubrir que, detrás de una tela aparentemente silenciosa, todavía sobreviven
-              historias que continúan resonando en el presente.
-            </p>
-          </div>
-        </section>
-
-        <footer class="desktop-discover">
-          <h2>Robe à la française</h2>
-          <p>Una selección de piezas exclusivas de esta época</p>
-          <a href="/coleccion">
-            <img src="/images/history-fidelity/discover-arrow.svg" alt="" aria-hidden="true" />
-            <span>Descubrir</span>
-          </a>
-        </footer>
+        <h2>Memoria del vestir cortesano.</h2>
+        <p>
+          Durante mucho tiempo, la apariencia fue una forma de memoria. Antes de que existieran las
+          fotografías o los archivos digitales, eran los vestidos quienes conservaban la información
+          sobre una persona. En la corte francesa del siglo XVIII, cada tejido, cada
+          <button
+            class="rococo-reader__asset-trigger"
+            type="button"
+            data-reader-asset="bordado"
+            aria-pressed="false"
+          >
+            bordado
+          </button>, cada color y cada silueta permitían reconocer un origen, una posición social o
+          una historia compartida. La ropa no solo cubría el cuerpo: almacenaba signos que los demás
+          aprendían a leer casi de manera automática.
+        </p>
+        <p>
+          Lo que hoy identificamos como Rococó era, para quienes lo habitaron, un lenguaje
+          cotidiano. Un <span class="rococo-reader__orange">robe à la française</span> no evocaba solamente
+          elegancia; hablaba del acceso a determinados talleres, de la circulación de las
+          <span class="rococo-reader__orange">sedas de Lyon</span> y de una red de artesanos que se extendía
+          por toda Europa. Cada prenda contenía una acumulación de decisiones, técnicas y gestos transmitidos
+          entre generaciones.
+        </p>
+        <p>
+          La memoria también habitaba en los materiales. Las sedas, los encajes, los hilos metálicos
+          y los pigmentos utilizados para obtener tonos pastel conservaban conocimientos
+          transmitidos durante décadas por tejedores, tintoreros y bordadores. Aunque los cuerpos
+          desaparecieran, las telas seguían registrando el paso del tiempo sobre su superficie
+          mediante desgastes, reparaciones y pequeñas imperfecciones que hoy funcionan como huellas
+          silenciosas de quienes las confeccionaron y las vistieron.
+        </p>
+        <blockquote>
+          “Cada época deja atrás una manera de estar en el cuerpo. La del siglo XVIII no cabe en
+          ningún cuerpo actual.”
+        </blockquote>
+        <p class="rococo-reader__attribution">
+          — Pascale Gorguet-Ballesteros, conservadora · Palais Galliera
+        </p>
+        <p>
+          En los retratos de
+          <button
+            class="rococo-reader__asset-trigger"
+            type="button"
+            data-reader-asset="elisabeth-vigee-le-brun"
+            aria-pressed="false"
+          >
+            Élisabeth Vigée Le Brun
+          </button>, la vestimenta ocupa tanto espacio como el rostro. La pintura terminó
+          preservando aquello que el tiempo no pudo conservar: la caída de una tela, el brillo de un
+          bordado, el volumen de unos paniers. Cuando los textiles originales desaparecen, las
+          pinturas continúan actuando como archivos visuales capaces de mantener viva la memoria de
+          formas, colores y texturas.
+        </p>
+        <p>
+          Con el paso de los siglos, gran parte de ese universo desapareció. Permanecieron algunos
+          vestidos, fragmentos textiles, retratos y documentos capaces de reconstruir apenas una
+          parte del relato. Cada pieza conservada por el
+          <button
+            class="rococo-reader__asset-trigger"
+            type="button"
+            data-reader-asset="palais-galliera"
+            aria-pressed="false"
+          >
+            Palais Galliera
+          </button> funciona como un fragmento de memoria: no cuenta toda la historia, pero permite activar
+          conexiones entre personas, materiales y contextos que continúan dialogando con el presente.
+        </p>
+        <p>
+          Quizás por eso observar una prenda del siglo XVIII nunca consiste únicamente en mirar un
+          objeto antiguo. Cada costura, cada pliegue y cada bordado siguen conteniendo información
+          que espera ser recordada. La memoria no permanece inmóvil dentro del museo: vuelve a
+          activarse cada vez que alguien decide detenerse sobre un detalle y descubrir que, detrás
+          de una tela aparentemente silenciosa, todavía sobreviven historias que continúan resonando
+          en el presente.
+        </p>
       </div>
-    </div>
+    </section>
+
+    <footer class="rococo-discover">
+      <h2>Robe à la française</h2>
+      <p>Una selección de piezas exclusivas de esta época</p>
+      <a href="/coleccion">
+        <img src="/images/history-fidelity/discover-button.svg" alt="Descubrir" />
+      </a>
+    </footer>
   </article>
 </MainLayout>
 
@@ -169,29 +209,133 @@ import MainLayout from '@layouts/MainLayout.astro';
     background: #fd6500;
   }
 
+  :global(html.history-selector-active),
+  :global(body.history-selector-active) {
+    overflow: hidden;
+  }
+
+  :global(body:has(#historia-rococo:target) .desktop-hit--logo) {
+    display: none;
+  }
+
   .era-selector {
     position: relative;
     width: 100%;
+    min-width: 1180px;
     overflow: clip;
-  }
-
-  .era-selector--desktop {
     aspect-ratio: 16 / 9;
-    min-height: 100svh;
     background: #fd6500;
   }
 
-  .era-selector__figma {
+  .era-selector__background {
     position: absolute;
+    max-width: none;
+    pointer-events: none;
+  }
+
+  .era-selector::after {
+    position: absolute;
+    z-index: 2;
+    top: 3.4%;
+    left: 2.9%;
+    width: 3.7%;
+    height: 6.2%;
+    background: #fd6500;
+    content: '';
+  }
+
+  .era-selector__card {
+    position: absolute;
+    z-index: 1;
+    top: 26.481%;
+    left: 14%;
+    width: 72%;
+    height: 73.519%;
+    overflow: hidden;
+    background: #fd6500;
+  }
+
+  .era-selector__card-art {
+    display: block;
+    width: 94.7625%;
+    height: auto;
+    margin-left: 2.619%;
+  }
+
+  .era-selector__card.is-compact .era-selector__card-art {
+    width: 61.92%;
+    margin-left: 19.04%;
+  }
+
+  .era-selector__context {
+    position: absolute;
+    top: 4.9%;
+    z-index: 1;
+    margin: 0;
+    color: #141414;
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 2.4vw, 2.9rem);
+    font-style: italic;
+    line-height: 1;
+    opacity: 0.5;
+  }
+
+  .era-selector__context--previous {
+    left: 1.8%;
+  }
+  .era-selector__context--next {
+    right: 1.8%;
+  }
+
+  .era-selector__card.is-changing .era-selector__card-art {
+    animation: era-change 440ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .era-selector__previous,
+  .era-selector__next {
+    position: absolute;
+    top: 0;
+    width: 18%;
+    height: 24%;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .era-selector__previous {
+    left: 24%;
+  }
+  .era-selector__next {
+    right: 24%;
+  }
+
+  .era-selector__previous:focus-visible,
+  .era-selector__next:focus-visible {
+    outline: 3px solid #b9d6fe;
+    outline-offset: -3px;
+  }
+
+  @keyframes era-change {
+    from {
+      opacity: 0;
+      transform: translateX(2.25rem);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  .era-selector__background {
     inset: 0;
     width: 100%;
     height: 100%;
-    max-width: none;
     object-fit: cover;
   }
 
-  .desktop-hit,
-  .article-hit {
+  .desktop-hit {
     position: absolute;
     z-index: 2;
     display: block;
@@ -199,18 +343,52 @@ import MainLayout from '@layouts/MainLayout.astro';
     font-size: 0;
   }
 
+  .desktop-hit-nav {
+    position: absolute;
+    top: 0;
+    left: max(0px, calc((100% - var(--presentation-width)) / 2));
+    z-index: 10;
+    width: var(--presentation-width);
+    height: calc(var(--presentation-width) * 0.5625);
+    pointer-events: none;
+  }
+
+  .desktop-hit-nav::before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 9.26%;
+    background: url('/images/history-fidelity/selector.png') top center / 100% auto no-repeat;
+    clip-path: inset(39% 27.3% 0 26.4%);
+    content: '';
+  }
+
+  .desktop-hit-nav .desktop-hit {
+    pointer-events: auto;
+  }
+
   .desktop-hit:focus-visible,
-  .article-hit:focus-visible {
+  .rococo-discover a:focus-visible {
     outline: 3px solid #f3eee1;
     outline-offset: 3px;
   }
 
   .desktop-hit--logo {
-    top: 3.61%;
-    left: 3.125%;
-    width: 3.18%;
-    height: 5.65%;
+    position: fixed;
+    top: calc(var(--presentation-width) * 0.02031);
+    left: calc(
+      max(0px, (100% - var(--presentation-width)) / 2) + var(--presentation-width) * 0.03125
+    );
+    z-index: 11;
+    width: calc(var(--presentation-width) * 0.0318);
+    height: calc(var(--presentation-width) * 0.0318);
     border-radius: 50%;
+    background: url('/images/history-fidelity/home-logo.svg') center / contain no-repeat;
+  }
+
+  .desktop-hit--logo.is-reader-hidden {
+    display: none;
   }
 
   .desktop-hit--visitar,
@@ -220,7 +398,7 @@ import MainLayout from '@layouts/MainLayout.astro';
   .desktop-hit--agenda,
   .desktop-hit--entradas,
   .desktop-hit--search {
-    top: 3.61%;
+    top: 3.611%;
     height: 5.65%;
   }
 
@@ -228,316 +406,257 @@ import MainLayout from '@layouts/MainLayout.astro';
     left: 28.2%;
     width: 4.25%;
   }
-
   .desktop-hit--exposiciones {
     left: 32.5%;
     width: 7.25%;
   }
-
   .desktop-hit--colecciones {
     left: 39.75%;
     width: 7.2%;
   }
-
   .desktop-hit--museo {
     left: 46.95%;
     width: 5.75%;
   }
-
   .desktop-hit--agenda {
     left: 52.7%;
     width: 5.2%;
   }
-
   .desktop-hit--entradas {
     left: 61.45%;
     width: 5.75%;
   }
-
   .desktop-hit--search {
     left: 68.35%;
     width: 4.3%;
   }
 
-  .desktop-hit--read {
+  .era-selector__read {
+    position: absolute;
+    z-index: 3;
     top: 77.78%;
     left: 44.79%;
+    display: block;
     width: 10.42%;
-    height: 4.2%;
-    border-radius: 999px;
   }
 
-  .era-selector--mobile {
-    display: none;
+  .era-selector__read img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .era-selector__read.is-disabled {
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .era-selector__read:focus-visible {
+    outline: 3px solid #f3eee1;
+    outline-offset: 3px;
   }
 
   .rococo-article {
     position: relative;
-    width: 100%;
-    scroll-margin-top: 0;
-    background: #b9d6fe;
+    min-width: 1180px;
+    color: #141414;
+    background-color: #b9d6fe;
+    background-image: linear-gradient(to top, #b9d6fe 7.692%, #f3eee1 36.058%);
+    background-repeat: no-repeat;
+    background-size: 100% 56.25cqw;
   }
 
-  .rococo-article__desktop {
+  .rococo-header {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    height: 16.97917cqw;
+    min-height: 199px;
+    overflow: hidden;
+  }
+
+  .rococo-header__asset {
     display: block;
     width: 100%;
-    color: #141414;
-  }
-
-  .desktop-reader-header {
-    position: relative;
-    z-index: 2;
-    min-height: 0;
-    padding: 2.1rem 3.125vw;
-    overflow: hidden;
-    background: #b9d6fe;
-    border-bottom: 1px solid #141414;
-  }
-
-  .desktop-reader-header__floral {
-    position: absolute;
-    top: -48%;
-    right: -1%;
-    width: 61%;
+    height: 100%;
     max-width: none;
-    opacity: 0.82;
-    transform: scaleX(-1);
+    object-fit: fill;
   }
 
-  .desktop-reader-header > a {
-    position: relative;
-    z-index: 2;
-    display: inline-block;
-    font-size: 0.67rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .desktop-reader-header__title {
+  .rococo-header__back {
     position: absolute;
-    bottom: 1.7rem;
-    left: 3.125vw;
-    z-index: 1;
-    display: flex;
-    align-items: flex-end;
-    gap: 1.5rem;
+    top: 15.18405%;
+    left: 3.671875%;
+    width: 2.13542cqw;
+    height: 2.13542cqw;
+    border-radius: 50%;
   }
 
-  .desktop-reader-header__title p {
-    padding-bottom: 0.45rem;
-    font-family: var(--font-display);
-    font-size: clamp(2.2rem, 3.8vw, 4.25rem);
-    font-style: italic;
-    line-height: 0.8;
-  }
-
-  .desktop-reader-header__title h2 {
-    color: #fd6500;
-    font-size: clamp(6rem, 10.8vw, 12rem);
-    font-weight: 400;
-    line-height: 0.68;
-    letter-spacing: -0.055em;
-  }
-
-  .desktop-reader-header__byline {
-    position: absolute;
-    right: 3.125vw;
-    bottom: 2.2rem;
-    z-index: 1;
-    display: flex;
-    align-items: baseline;
-    gap: 0.7rem;
-  }
-
-  .desktop-reader-header__byline span {
-    font-size: 0.58rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .desktop-reader-header__byline em {
-    font-family: var(--font-display);
-    font-size: 1rem;
-    text-transform: uppercase;
-  }
-
-  .desktop-reader-scroll {
-    background: linear-gradient(to bottom, #f3eee1 0 26%, #b9d6fe 78%);
-  }
-
-  .desktop-reader-scroll:focus-visible {
+  .rococo-header__back:focus-visible {
     outline: 3px solid #fd6500;
-    outline-offset: -3px;
+    outline-offset: 3px;
   }
 
-  .desktop-reader-copy {
-    display: grid;
-    max-width: 96rem;
-    min-height: 82rem;
-    margin: 0 auto;
-    padding: clamp(4rem, 8vw, 9rem) 5vw;
-    grid-template-columns: minmax(18rem, 0.82fr) minmax(24rem, 1.18fr);
-    grid-template-areas:
-      'lead lead'
-      'media body';
-    align-content: start;
-    gap: clamp(4rem, 7vw, 8rem) clamp(3rem, 7vw, 8rem);
+  .rococo-reader {
+    position: relative;
+    height: 39.375cqw;
+    min-height: 464px;
   }
 
-  .desktop-reader-copy__lead {
-    grid-area: lead;
-  }
-
-  .desktop-reader-copy__lead blockquote {
-    max-width: 66rem;
+  .rococo-reader__image {
+    position: absolute;
+    top: 3.95833cqw;
+    left: 7.1875%;
+    width: 25.9375cqw;
     margin: 0;
+  }
+
+  .rococo-reader__image img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .rococo-reader__scroll {
+    position: absolute;
+    top: 2.44792cqw;
+    left: 39.3229%;
+    width: 49.79167cqw;
+    height: 31.5625cqw;
+    padding: 0.9375cqw 0.83333cqw 0 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: auto;
+    font-family: var(--font-body);
+    font-size: 0.9375cqw;
+    font-style: normal;
+    font-weight: 450;
+    line-height: 1.12;
+    overscroll-behavior-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .rococo-reader__scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .rococo-reader__scroll:focus-visible {
+    outline: 3px solid #fd6500;
+    outline-offset: 4px;
+  }
+
+  .rococo-reader__scroll h2 {
+    width: 36.71875cqw;
+    margin: 0 0 3.75cqw;
+    font-family: var(--font-display);
+    font-size: 3.33333cqw;
+    font-style: italic;
+    font-weight: 100;
+    line-height: 1;
+  }
+
+  .rococo-reader__scroll p {
+    width: 35.9375cqw;
+    margin: 0 0 0.95833cqw;
+  }
+
+  .rococo-reader__scroll blockquote {
+    width: 49.79167cqw;
+    max-width: 100%;
+    margin: 2.1875cqw 0 0.83333cqw;
     color: #fd6500;
     font-family: var(--font-display);
-    font-size: clamp(3.1rem, 5.7vw, 6.2rem);
+    font-size: 3.33333cqw;
     font-style: italic;
-    line-height: 0.94;
-    letter-spacing: -0.035em;
+    font-weight: 100;
+    line-height: 1;
   }
 
-  .desktop-reader-copy__lead p {
-    margin-top: 1.25rem;
-    font-size: 0.62rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
+  .rococo-reader__scroll .rococo-reader__attribution {
+    width: auto;
+    margin-bottom: 1.45833cqw;
+    font-family: var(--font-body);
+    font-size: 0.72917cqw;
+    font-style: normal;
+    font-weight: 500;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
   }
 
-  .desktop-reader-media {
-    position: sticky;
-    top: 2.5rem;
-    grid-area: media;
-    width: min(100%, 33rem);
-    margin: 0 auto;
-    aspect-ratio: 722.582 / 880;
+  .rococo-reader__orange {
+    color: #fd6500;
   }
 
-  .desktop-reader-media__image {
-    position: absolute;
-    inset: 2.4% 3%;
-    overflow: hidden;
-    -webkit-mask: url('/images/history-fidelity/gallery-mask.svg') center / 100% 100% no-repeat;
-    mask: url('/images/history-fidelity/gallery-mask.svg') center / 100% 100% no-repeat;
-  }
-
-  .desktop-reader-media__image img {
-    width: 100%;
-    height: 100%;
-    max-width: none;
-    object-fit: cover;
-    transition: opacity 180ms ease;
-  }
-
-  .desktop-reader-media__image img[src$='1730.png'] {
-    padding: 8%;
-    object-fit: contain;
-    background: #f3eee1;
-  }
-
-  .desktop-reader-media__frame {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-  }
-
-  .desktop-reader-media figcaption {
-    position: absolute;
-    right: 4%;
-    bottom: -1.7rem;
-    left: 4%;
-    font-size: 0.58rem;
-    font-weight: 600;
-    letter-spacing: 0.05em;
-    text-align: center;
-    text-transform: uppercase;
-  }
-
-  .desktop-reader-copy__body {
-    display: grid;
-    grid-area: body;
-    gap: 2.1rem;
-    font-family: var(--font-display);
-    font-size: clamp(1.55rem, 2vw, 2.25rem);
-    font-style: italic;
-    line-height: 1.18;
-  }
-
-  .related-word {
-    display: inline;
+  .rococo-reader__asset-trigger {
     padding: 0;
+    border: 0;
     color: #fd6500;
     background: transparent;
-    border: 0;
     font: inherit;
-    text-decoration: underline;
-    text-decoration-thickness: 0.06em;
-    text-underline-offset: 0.12em;
     cursor: pointer;
   }
 
-  .related-word--purple {
-    color: #520345;
+  .rococo-reader__asset-trigger:focus-visible {
+    outline: 2px solid #141414;
+    outline-offset: 2px;
   }
 
-  .related-word:focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: 0.15em;
+  .rococo-reader__image img {
+    transition: opacity 180ms ease;
   }
 
-  .desktop-discover {
+  .rococo-reader__image img.is-changing {
+    opacity: 0;
+  }
+
+  .rococo-discover {
     display: flex;
-    min-height: 38rem;
-    padding: 5rem 3rem 3.5rem;
+    min-height: min(24.167vw, 464px);
+    padding: 0 3rem;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     text-align: center;
-    background:
-      radial-gradient(circle at 50% 82%, #fd6500 0 15%, rgb(253 101 0 / 62%) 25%, transparent 58%),
-      #b9d6fe;
-    border-top: 2px solid #141414;
+    background: #b9d6fe url('/images/history-fidelity/curatorial-footer-gradient.svg') center / 100%
+      100% no-repeat;
   }
 
-  .desktop-discover h2 {
-    font-size: clamp(5rem, 9.5vw, 10.5rem);
+  .rococo-discover h2 {
+    margin: 0;
+    font-size: 140px;
     font-weight: 400;
-    line-height: 0.85;
+    line-height: 0.9;
     letter-spacing: -0.055em;
   }
 
-  .desktop-discover p {
-    margin-top: 1.8rem;
-    font-size: 0.68rem;
+  .rococo-discover p,
+  .rococo-discover a {
+    font-size: clamp(0.55rem, 0.6vw, 0.72rem);
     font-weight: 600;
     letter-spacing: 0.05em;
     text-transform: uppercase;
   }
 
-  .desktop-discover a {
-    display: flex;
-    margin-top: 2.4rem;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
+  .rococo-discover p {
+    margin: 2rem 0 0;
   }
 
-  .desktop-discover a img {
-    width: 3rem;
+  .rococo-discover a {
+    display: block;
+    width: 111px;
+    height: 33px;
+    margin-top: 1.45rem;
+  }
+
+  .rococo-discover a img {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .era-selector__figma {
+    .era-selector__background {
       animation: history-arrive 780ms cubic-bezier(0.16, 1, 0.3, 1) both;
     }
   }
@@ -547,7 +666,6 @@ import MainLayout from '@layouts/MainLayout.astro';
       opacity: 0;
       transform: translateY(0.75rem);
     }
-
     to {
       opacity: 1;
       transform: translateY(0);
@@ -555,12 +673,12 @@ import MainLayout from '@layouts/MainLayout.astro';
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .desktop-reader-scroll {
+    .rococo-reader__scroll {
       scroll-behavior: auto;
     }
 
-    .desktop-reader-media__image img {
-      transition: none;
+    .era-selector__card.is-changing .era-selector__card-art {
+      animation: none;
     }
   }
 </style>
@@ -568,31 +686,225 @@ import MainLayout from '@layouts/MainLayout.astro';
 <script>
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  document.querySelectorAll<HTMLAnchorElement>('[data-read-history]').forEach((link) => {
-    link.addEventListener('click', (event) => {
-      const target = document.querySelector<HTMLElement>('#historia-rococo');
-      if (!target) return;
+  const eraSelector = document.querySelector<HTMLElement>('.era-selector');
+  const historyHome = document.querySelector<HTMLAnchorElement>('[data-history-home]');
+  const eraCard = document.querySelector<HTMLElement>('.era-selector__card');
+  const eraArt = document.querySelector<HTMLImageElement>('[data-era-art]');
+  const readHistory = document.querySelector<HTMLAnchorElement>('[data-read-history]');
+  const eraPrevious = document.querySelector<HTMLButtonElement>('[data-era-previous]');
+  const eraNext = document.querySelector<HTMLButtonElement>('[data-era-next]');
+  const eraContextPrevious = document.querySelector<HTMLElement>('[data-era-context-previous]');
+  const eraContextNext = document.querySelector<HTMLElement>('[data-era-context-next]');
+  const rococoArticle = document.querySelector<HTMLElement>('.rococo-article');
+  const rococoReaderScroll = document.querySelector<HTMLElement>('.rococo-reader__scroll');
+  const readerImage = document.querySelector<HTMLImageElement>('[data-reader-image]');
+  const readerAssetTriggers = document.querySelectorAll<HTMLButtonElement>('[data-reader-asset]');
+  const eras = [
+    {
+      label: 'Rococó, 1715 a 1789',
+      asset: '/images/history-fidelity/curatorial-text-rococo.svg',
+      previous: '1700 — 1715',
+      next: '1795 — 1815',
+      canRead: true,
+    },
+    {
+      label: 'Neoclásico, 1795 a 1815',
+      asset: '/images/history-fidelity/curatorial-text-neoclassic.svg',
+      previous: '1715 — 1789',
+      next: '1830 — 1870',
+      canRead: false,
+      compact: true,
+    },
+    {
+      label: 'Siglo XIX, 1830 a 1870',
+      asset: '/images/history-fidelity/curatorial-text-19th-century.svg',
+      previous: '1795 — 1815',
+      next: '1890 — 1918',
+      canRead: false,
+      compact: true,
+    },
+  ];
+
+  const readerAssets = {
+    bordado: {
+      src: '/images/history-fidelity/reader-bordados.svg',
+      alt: 'Bordados de una prenda del siglo XVIII',
+    },
+    'elisabeth-vigee-le-brun': {
+      src: '/images/history-fidelity/reader-elisabeth-vigee-le-brun.svg',
+      alt: 'Retrato de Élisabeth Vigée Le Brun',
+    },
+    'palais-galliera': {
+      src: '/images/history-fidelity/reader-palais-galliera.svg',
+      alt: 'Palais Galliera',
+    },
+  } as const;
+
+  let readerImageChangeTimeout = 0;
+
+  const updateReaderImage = (assetKey: keyof typeof readerAssets) => {
+    if (!readerImage) return;
+
+    const asset = readerAssets[assetKey];
+    const nextImage = new Image();
+
+    readerAssetTriggers.forEach((trigger) => {
+      trigger.setAttribute('aria-pressed', String(trigger.dataset.readerAsset === assetKey));
+    });
+
+    readerImage.classList.add('is-changing');
+    window.clearTimeout(readerImageChangeTimeout);
+
+    const swapImage = () => {
+      readerImage.src = asset.src;
+      readerImage.alt = asset.alt;
+      readerImageChangeTimeout = window.setTimeout(() => {
+        readerImage.classList.remove('is-changing');
+      }, 40);
+    };
+
+    nextImage.addEventListener('load', swapImage, { once: true });
+    nextImage.addEventListener('error', swapImage, { once: true });
+    nextImage.src = asset.src;
+  };
+
+  readerAssetTriggers.forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      const assetKey = trigger.dataset.readerAsset as keyof typeof readerAssets | undefined;
+      if (assetKey) updateReaderImage(assetKey);
+    });
+  });
+  let currentEra = 2;
+  let scrollAnimationFrame = 0;
+  let isSelectorLocked = true;
+  let isCuratorialTransition = false;
+  let isReaderScreenActive = false;
+
+  const setSelectorLock = (locked: boolean) => {
+    isSelectorLocked = locked;
+    document.documentElement.classList.toggle('history-selector-active', locked);
+    document.body.classList.toggle('history-selector-active', locked);
+  };
+
+  const blockSelectorScroll = (event: Event) => {
+    const isReaderScroll =
+      event.target instanceof Node && Boolean(rococoReaderScroll?.contains(event.target));
+
+    if (isSelectorLocked && !isReaderScroll) event.preventDefault();
+  };
+
+  const blockSelectorKeys = (event: KeyboardEvent) => {
+    if (!isSelectorLocked) return;
+    if (event.target instanceof Node && rococoReaderScroll?.contains(event.target)) return;
+
+    const scrollKeys = [' ', 'ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End'];
+    if (scrollKeys.includes(event.key)) event.preventDefault();
+  };
+
+  const setReaderScreenActive = (active: boolean) => {
+    isReaderScreenActive = active;
+    setSelectorLock(!active);
+    historyHome?.classList.toggle('is-reader-hidden', active);
+  };
+
+  setReaderScreenActive(window.location.hash === '#historia-rococo');
+  document.addEventListener('wheel', blockSelectorScroll, { capture: true, passive: false });
+  document.addEventListener('touchmove', blockSelectorScroll, { capture: true, passive: false });
+  document.addEventListener('keydown', blockSelectorKeys, { capture: true });
+
+  window.addEventListener('scroll', () => {
+    if (isSelectorLocked && !isCuratorialTransition) {
+      window.scrollTo(0, 0);
+      return;
+    }
+
+    if (!isReaderScreenActive || !rococoArticle) return;
+
+    const readerScreenStart = rococoArticle.offsetTop;
+    if (window.scrollY < readerScreenStart) window.scrollTo(0, readerScreenStart);
+  });
+
+  rococoArticle?.addEventListener(
+    'wheel',
+    (event) => {
+      if (!rococoReaderScroll || event.ctrlKey || event.deltaY === 0) return;
+
+      const canScrollDown =
+        event.deltaY > 0 &&
+        rococoReaderScroll.scrollTop + rococoReaderScroll.clientHeight <
+          rococoReaderScroll.scrollHeight - 1;
+      const canScrollUp = event.deltaY < 0 && rococoReaderScroll.scrollTop > 0;
+
+      if (!canScrollDown && !canScrollUp) return;
 
       event.preventDefault();
-      target.scrollIntoView({ behavior: prefersReducedMotion.matches ? 'auto' : 'smooth' });
-      history.replaceState(null, '', '#historia-rococo');
-    });
-  });
-
-  const relatedPreview = document.querySelector<HTMLImageElement>('[data-related-preview]');
-  const relatedCaption = document.querySelector<HTMLElement>('[data-related-caption]');
-  const relatedWords = Array.from(
-    document.querySelectorAll<HTMLButtonElement>('[data-related-image]')
+      rococoReaderScroll.scrollTop += event.deltaY;
+    },
+    { passive: false }
   );
 
-  relatedWords.forEach((word) => {
-    word.addEventListener('click', () => {
-      if (!relatedPreview) return;
+  readHistory?.addEventListener('click', (event) => {
+    if (!eras[currentEra].canRead) {
+      event.preventDefault();
+      return;
+    }
 
-      relatedWords.forEach((item) => item.setAttribute('aria-pressed', String(item === word)));
-      relatedPreview.src = word.dataset.relatedImage ?? relatedPreview.src;
-      relatedPreview.alt = word.dataset.relatedAlt ?? '';
-      if (relatedCaption) relatedCaption.textContent = word.dataset.relatedCaption ?? '';
-    });
+    const target = document.querySelector<HTMLElement>('#historia-rococo');
+    if (!target) return;
+
+    event.preventDefault();
+    const start = window.scrollY;
+    const destination = start + target.getBoundingClientRect().top;
+    const enterReaderScreen = () => {
+      isCuratorialTransition = false;
+      setReaderScreenActive(true);
+    };
+
+    isCuratorialTransition = true;
+    cancelAnimationFrame(scrollAnimationFrame);
+    const duration = prefersReducedMotion.matches ? 650 : 850;
+    const startedAt = performance.now();
+
+    const animateScroll = (now: number) => {
+      const progress = Math.min((now - startedAt) / duration, 1);
+      const easedProgress = 1 - (1 - progress) ** 4;
+      window.scrollTo(0, start + (destination - start) * easedProgress);
+
+      if (progress < 1) {
+        scrollAnimationFrame = requestAnimationFrame(animateScroll);
+      } else {
+        enterReaderScreen();
+      }
+    };
+
+    scrollAnimationFrame = requestAnimationFrame(animateScroll);
+
+    history.replaceState(null, '', '#historia-rococo');
   });
+
+  const renderEra = (index: number) => {
+    if (!eraSelector || !eraCard || !eraArt || !readHistory) return;
+
+    currentEra = (index + eras.length) % eras.length;
+    const era = eras[currentEra];
+    eraCard.classList.remove('is-changing');
+    void eraCard.offsetWidth;
+    eraCard.classList.add('is-changing');
+    eraCard.classList.toggle('is-compact', Boolean(era.compact));
+    eraArt.src = era.asset;
+    eraArt.alt = era.label;
+    eraSelector.setAttribute('aria-label', `Seleccionar época: ${era.label}`);
+    readHistory.classList.toggle('is-disabled', !era.canRead);
+    readHistory.setAttribute('aria-disabled', String(!era.canRead));
+    if (era.canRead) {
+      readHistory.removeAttribute('tabindex');
+    } else {
+      readHistory.tabIndex = -1;
+    }
+    if (eraContextPrevious) eraContextPrevious.textContent = era.previous;
+    if (eraContextNext) eraContextNext.textContent = era.next;
+  };
+
+  eraPrevious?.addEventListener('click', () => renderEra(currentEra - 1));
+  eraNext?.addEventListener('click', () => renderEra(currentEra + 1));
 </script>
