@@ -74,10 +74,20 @@ const pieceProfiles = [
 
 // The selected state of the Rococó filter in the approved Figma frame.
 const rococoPieceIndexes = new Set([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 14, 16, 18, 45, 46]);
+const rococoDressExcludedPieceIndexes = new Set([7, 8, 9, 14, 16, 45, 46]);
 
 const collectionPieces = collectionLayout.map(([x, y, w, h], index) => {
   const [slug, tags] = pieceProfiles[index % pieceProfiles.length];
-  return { x, y, w, h, slug, tags, period: rococoPieceIndexes.has(index) ? 'rococo' : 'other' };
+  return {
+    x,
+    y,
+    w,
+    h,
+    slug,
+    tags,
+    period: rococoPieceIndexes.has(index) ? 'rococo' : 'other',
+    excludedFromRococoDress: rococoDressExcludedPieceIndexes.has(index),
+  };
 });
 
 const filters = [
@@ -187,6 +197,7 @@ const filters = [
             style={`--piece-x:${(piece.x / 1920) * 100}%;--piece-y:${(piece.y / 1079) * 100}%;--piece-w:${(piece.w / 1920) * 100}%;--piece-h:${(piece.h / 1079) * 100}%;--piece-delay:${(index % 8) * 45}ms;`}
             data-tags={piece.tags}
             data-period={piece.period}
+            data-typology-vestido-excluded={piece.excludedFromRococoDress ? 'true' : undefined}
             aria-label={
               index === 4 ? 'Abrir selección Robe à la française' : 'Abrir ficha del objeto'
             }
@@ -203,7 +214,11 @@ const filters = [
       <div class="collection-filters" id="filtros" aria-label="Filtrar la colección">
         {
           filters.map((filter, index) => (
-            <div class="collection-filter" data-filter>
+            <div
+              class="collection-filter"
+              data-filter
+              data-filter-category={index === 0 ? 'period' : index === 2 ? 'typology' : undefined}
+            >
               <button
                 type="button"
                 aria-controls={`collection-filter-menu-${index}`}
@@ -227,6 +242,14 @@ const filters = [
                       data-filter-option
                       data-period-option={
                         index === 0
+                          ? String(label)
+                              .toLowerCase()
+                              .normalize('NFD')
+                              .replace(/[\u0300-\u036f]/g, '')
+                          : undefined
+                      }
+                      data-typology-option={
+                        index === 2
                           ? String(label)
                               .toLowerCase()
                               .normalize('NFD')
@@ -477,6 +500,20 @@ const filters = [
     color: transparent;
   }
 
+  .collection-filter[data-filter-category] > button.has-selection {
+    color: transparent;
+    background-position: center;
+    background-size: 6.9375rem 2.0625rem;
+  }
+
+  .collection-filter[data-filter-category='period'] > button.has-selection {
+    background-image: url('/images/collection-fidelity/filter-button-active-period.svg');
+  }
+
+  .collection-filter[data-filter-category='typology'] > button.has-selection {
+    background-image: url('/images/collection-fidelity/filter-button-active-typology.svg');
+  }
+
   .collection-filter:nth-child(1) > button {
     --vector-x: -11.8125rem;
   }
@@ -567,24 +604,42 @@ const filters = [
     const pieces = [...collection.querySelectorAll<HTMLElement>('[data-period]')];
     const status = collection.querySelector<HTMLElement>('[data-filter-status]');
 
-    const applyPeriodFilter = () => {
+    const applyCollectionFilters = () => {
       const rococoSelected = collection.querySelector<HTMLInputElement>(
         '[data-period-option="rococo"]'
+      )?.checked;
+      const dressSelected = collection.querySelector<HTMLInputElement>(
+        '[data-typology-option="vestido"]'
       )?.checked;
 
       collection.classList.toggle('is-filtering', Boolean(rococoSelected));
       pieces.forEach((piece) => {
         piece.classList.toggle(
           'is-match',
-          Boolean(rococoSelected) && piece.dataset.period === 'rococo'
+          Boolean(rococoSelected) &&
+            piece.dataset.period === 'rococo' &&
+            !(Boolean(dressSelected) && piece.dataset.typologyVestidoExcluded === 'true')
         );
       });
 
       if (status) {
-        status.textContent = rococoSelected
-          ? 'Filtro Rococó activo. Se muestran las prendas seleccionadas en la referencia.'
-          : 'Filtro Rococó desactivado. Se muestran todas las prendas.';
+        status.textContent = !rococoSelected
+          ? 'Filtro Rococó desactivado. Se muestran todas las prendas.'
+          : dressSelected
+            ? 'Filtros Rococó y Vestido activos. Se ocultan las prendas indicadas en la referencia.'
+            : 'Filtro Rococó activo. Se muestran las prendas seleccionadas en la referencia.';
       }
+    };
+
+    const syncFilterButton = (filter: HTMLElement) => {
+      if (!filter.hasAttribute('data-filter-category')) return;
+
+      const hasSelection = [
+        ...filter.querySelectorAll<HTMLInputElement>('[data-filter-option]'),
+      ].some((option) => option.checked);
+      filter
+        .querySelector<HTMLButtonElement>('[data-filter-toggle]')
+        ?.classList.toggle('has-selection', hasSelection);
     };
 
     const closeMenus = (except?: HTMLElement) => {
@@ -610,9 +665,14 @@ const filters = [
 
       filter.querySelectorAll<HTMLInputElement>('[data-filter-option]').forEach((option) => {
         option.addEventListener('change', () => {
-          if (option.matches('[data-period-option]')) applyPeriodFilter();
+          if (option.matches('[data-period-option], [data-typology-option]')) {
+            applyCollectionFilters();
+          }
+          syncFilterButton(filter);
         });
       });
+
+      syncFilterButton(filter);
     });
 
     document.addEventListener('click', (event) => {
@@ -629,6 +689,6 @@ const filters = [
       if (event.key === 'Escape') closeMenus();
     });
 
-    applyPeriodFilter();
+    applyCollectionFilters();
   }
 </script>
