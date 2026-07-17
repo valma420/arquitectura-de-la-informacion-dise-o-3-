@@ -409,14 +409,19 @@ const introPositions = [
     height: 102.1%;
     border: 1px solid var(--orange);
     border-radius: 1000px 1000px 0 0;
-    box-shadow:
-      5px 4px 0 -4px var(--ink),
-      6px 4px 0 -4px var(--orange);
     transform: translateX(-50%);
     transition:
       top 700ms cubic-bezier(0.76, 0, 0.24, 1),
       width 700ms cubic-bezier(0.76, 0, 0.24, 1),
       height 700ms cubic-bezier(0.76, 0, 0.24, 1);
+  }
+
+  .catalogue__arch::after {
+    position: absolute;
+    inset: 0.25rem;
+    border: 1px solid var(--orange);
+    border-radius: inherit;
+    content: '';
   }
 
   .catalogue[data-mode='selected'] .catalogue__arch {
@@ -1268,23 +1273,23 @@ const introPositions = [
     });
 
     catalogue.querySelector('[data-previous]')?.addEventListener('click', () => {
-      if (catalogue.dataset.mode !== 'selected') rotateOrbit(1);
+      if (catalogue.dataset.mode !== 'selected') rotateOrbit(-1);
       else render(currentIndex - 1);
     });
 
     catalogue.querySelector('[data-next]')?.addEventListener('click', () => {
-      if (catalogue.dataset.mode !== 'selected') rotateOrbit(-1);
+      if (catalogue.dataset.mode !== 'selected') rotateOrbit(1);
       else render(currentIndex + 1);
     });
 
     document.addEventListener('keydown', (event) => {
       if (event.key === 'ArrowLeft') {
         if (catalogue.dataset.mode === 'selected') render(currentIndex - 1);
-        else rotateOrbit(1);
+        else rotateOrbit(-1);
       }
       if (event.key === 'ArrowRight') {
         if (catalogue.dataset.mode === 'selected') render(currentIndex + 1);
-        else rotateOrbit(-1);
+        else rotateOrbit(1);
       }
     });
 
