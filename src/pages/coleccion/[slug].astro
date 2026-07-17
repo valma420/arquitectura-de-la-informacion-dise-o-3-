@@ -32,6 +32,9 @@ const catalogueImages: Record<string, string> = {
 };
 
 const featureImage = catalogueImages[piece.slug] ?? piece.image;
+const detailImage = isFigmaFeature
+  ? '/images/collection-fidelity/robe/zoom-dress.png'
+  : featureImage;
 const yearMatches = piece.yearLabel.match(/\d{4}/g) ?? [String(piece.year)];
 const firstYear = isFigmaFeature ? '1755' : yearMatches[0];
 const lastYear = isFigmaFeature ? '1765' : (yearMatches.at(-1) ?? yearMatches[0]);
@@ -59,39 +62,101 @@ const metadata = [
 
 const exactDetails = [
   {
-    title: 'Corpiño Abierto',
-    description: "Abierto al frente sobre un peto (pièce d'estomac).",
-    crop: '50% 20%',
-    size: '410%',
-    thumb: '/images/catalogo/c05.png',
+    title: 'Silueta · Panier',
+    description:
+      'La falda se extiende sobre paniers laterales, ensanchando la cadera y estrechando visualmente el talle. Definió la silueta cortesana del período.',
+    crop: '50% 0%',
+    size: '100%',
+    zoomSrc: '/images/collection-fidelity/robe/zoom-dress.png',
+    thumb: '/images/collection-fidelity/robe/zoom-thumb-panier-a.png',
+    backgroundSrc: '/images/collection-fidelity/robe/zoom-background-panier.png',
+    figureSrc: '/images/collection-fidelity/robe/zoom-panier-diagram-figma.svg',
+    figureVariant: 'panier',
+    figureLabel: 'Esquema constructivo',
+    figureCaption: 'Estructura interna · vista frontal',
+    noteLabel: 'Sobre su uso',
+    note: 'Los paniers ceremoniales podían alcanzar más de un metro y medio de ancho, restringiendo el paso a través de puertas y obligando a caminar de costado.',
+    related: [
+      {
+        title: 'Robe à la française',
+        year: 'c. 1780',
+        thumb: '/images/collection-fidelity/robe/zoom-thumb-panier-a.png',
+      },
+      {
+        title: 'Robe à la française',
+        year: 'c. 1770-1780',
+        thumb: '/images/collection-fidelity/robe/zoom-thumb-panier-b.png',
+      },
+      {
+        title: 'Robe et tablier de jupe à la française',
+        year: 'c. 1730',
+        thumb: '/images/collection-fidelity/robe/zoom-thumb-panier-c.png',
+      },
+    ],
   },
   {
-    title: 'Mangas en Sabot',
-    description: 'Tres cuartos, con volante y encajes (engageantes).',
-    crop: '68% 32%',
-    size: '390%',
-    thumb: '/images/catalogo/c13.png',
-  },
-  {
-    title: 'Falbalás',
-    description: 'Volantes fruncidos y acolchados que ribetean los frentes.',
-    crop: '50% 48%',
-    size: '420%',
-    thumb: '/images/catalogo/c10.png',
+    title: 'Fabalás',
+    description:
+      'Volantes de seda fruncidos sobre relleno de algodón que ribetean el frente del corpiño. Su volumen se logra por acolchado interior, no por múltiples capas de tela.',
+    crop: 'center',
+    size: '100%',
+    zoomSrc: '/images/collection-fidelity/robe/zoom-fabalas.png',
+    thumb: '/images/collection-fidelity/robe/zoom-thumb-fabalas-a.png',
+    backgroundSrc: '/images/collection-fidelity/robe/zoom-background-fabalas.png',
+    figureSrc: '/images/collection-fidelity/robe/zoom-fabalas-cross.svg',
+    figureLabel: 'Corte transversal',
+    figureCaption: 'Tres capas · seda, algodón, base',
+    noteLabel: 'Origen del término',
+    note: 'Del italiano falpalà, se popularizó en la corte francesa a comienzos del siglo XVIII. El acolchado con algodón permitía obtener volumen sin sumar capas de seda, ahorrando material y peso en un tejido costoso.',
+    related: [
+      {
+        title: 'Robe et jupe',
+        year: 'c. 1780',
+        thumb: '/images/collection-fidelity/robe/zoom-thumb-fabalas-a.png',
+      },
+      {
+        title: 'Robe, jupe de robe et morceaux',
+        year: 'c. 1750-1760',
+        thumb: '/images/collection-fidelity/robe/zoom-thumb-fabalas-b.png',
+      },
+      {
+        title: 'Robe et jupe à la française',
+        year: 'c. 1750-1760',
+        thumb: '/images/collection-fidelity/robe/zoom-thumb-fabalas-c.png',
+      },
+    ],
   },
   {
     title: 'Lampás de seda',
-    description: 'Motivos ondulados, palmas y ramilletes florales (fresas).',
-    crop: '72% 65%',
-    size: '440%',
-    thumb: '/images/catalogo/c06.png',
-  },
-  {
-    title: 'Silueta · Panier',
-    description: 'La falda se extiende sobre paniers laterales.',
-    crop: '34% 45%',
-    size: '360%',
-    thumb: '/images/catalogo/c01.png',
+    description:
+      'Tejido façonné de doble urdimbre y doble trama. El motivo floral se obtiene en el tejido mismo, sin bordado ni estampación. Manufactura probable: Lyon, centro europeo de la seda del siglo XVIII.',
+    crop: 'center',
+    size: '100%',
+    zoomSrc: '/images/collection-fidelity/robe/zoom-lampas.png',
+    thumb: '/images/collection-fidelity/robe/zoom-thumb-lampas-a.png',
+    backgroundSrc: '/images/collection-fidelity/robe/zoom-background-lampas.png',
+    figureSrc: '/images/collection-fidelity/robe/zoom-lampas-weave.svg',
+    figureLabel: 'Estructura del tejido',
+    figureCaption: 'Doble urdimbre · doble trama',
+    noteLabel: 'Manufactura',
+    note: 'La producción de lampás en Lyon estaba protegida como industria estratégica de la corona francesa. El motivo se drafteaba previamente en una grilla técnica llamada mise-en-carte, plano de programación del telar. Un solo vestido podía requerir varios meses de trabajo.',
+    related: [
+      {
+        title: "Robe et pièce d'estomac",
+        year: 'c. 1740-1755',
+        thumb: '/images/collection-fidelity/robe/zoom-thumb-lampas-a.png',
+      },
+      {
+        title: 'Robe, jupe de robe et morceaux',
+        year: 'c. 1750-1780',
+        thumb: '/images/collection-fidelity/robe/zoom-thumb-lampas-b.png',
+      },
+      {
+        title: 'Robe et tablier de jupe de robe',
+        year: 'c. 1730-1750',
+        thumb: '/images/collection-fidelity/robe/zoom-thumb-lampas-c.png',
+      },
+    ],
   },
 ];
 
@@ -271,7 +336,7 @@ const hotspots = isFigmaFeature
     id="object-detail-viewer"
     data-detail-viewer
     data-index="0"
-    style={`--detail-image:url('${featureImage}');`}
+    style={`--detail-background:url('${details[0].backgroundSrc}');--detail-zoom:url('${detailImage}');`}
     role="dialog"
     aria-modal="true"
     aria-labelledby="detail-title"
@@ -279,7 +344,10 @@ const hotspots = isFigmaFeature
     hidden
   >
     <a class="detail-viewer__back" href="/coleccion">
-      <span>Volver a la colección</span>
+      <img
+        src="/images/collection-fidelity/robe/back-to-collection.svg"
+        alt="Volver a la colección"
+      />
     </a>
 
     <button
@@ -295,28 +363,17 @@ const hotspots = isFigmaFeature
       <span data-progress-segment></span>
     </div>
 
-    <div class="detail-viewer__thumbs" aria-label="Otros detalles">
+    <div class="detail-viewer__thumbs" aria-label="Piezas relacionadas">
       {
-        [2, 0, 1].map((detailIndex) => (
-          <button type="button" data-detail-thumb data-index={detailIndex}>
-            <img src={details[detailIndex].thumb} alt="" data-detail-thumb-image />
+        details[0].related.map((related, relatedIndex) => (
+          <button type="button" data-detail-thumb data-index={relatedIndex} disabled>
+            <img src={related.thumb} alt="" data-detail-thumb-image />
+            <span data-detail-thumb-title>{related.title}</span>
+            <em data-detail-thumb-year>{related.year}</em>
           </button>
         ))
       }
     </div>
-
-    <button
-      class="detail-viewer__arrow detail-viewer__arrow--previous"
-      type="button"
-      data-detail-previous
-      aria-label="Ver enfoque anterior">←</button
-    >
-    <button
-      class="detail-viewer__arrow detail-viewer__arrow--next"
-      type="button"
-      data-detail-next
-      aria-label="Ver enfoque siguiente">→</button
-    >
 
     <div
       class="detail-viewer__focus"
@@ -329,6 +386,23 @@ const hotspots = isFigmaFeature
     <div class="detail-viewer__copy">
       <h2 id="detail-title" data-detail-title>{details[0].title}</h2>
       <p data-detail-description>{details[0].description}</p>
+    </div>
+
+    <div
+      class="detail-viewer__figure"
+      data-detail-figure
+      data-figure-variant={details[0].figureVariant}
+    >
+      <p class="detail-viewer__label" data-detail-figure-label>{details[0].figureLabel}</p>
+      <div class="detail-viewer__figure-media">
+        <img src={details[0].figureSrc} alt="" data-detail-figure-image />
+      </div>
+      <p class="detail-viewer__caption" data-detail-figure-caption>{details[0].figureCaption}</p>
+    </div>
+
+    <div class="detail-viewer__note">
+      <p class="detail-viewer__label" data-detail-note-label>{details[0].noteLabel}</p>
+      <p data-detail-note>{details[0].note}</p>
     </div>
   </section>
 </MainLayout>
@@ -532,7 +606,7 @@ const hotspots = isFigmaFeature
     place-items: center;
     background: transparent;
     border: 0;
-    cursor: pointer;
+    cursor: default;
     transform: translate(-50%, -50%);
   }
 
@@ -613,11 +687,16 @@ const hotspots = isFigmaFeature
   .detail-viewer {
     position: fixed;
     z-index: 9999;
-    inset: 0;
+    top: 50%;
+    left: 50%;
+    width: var(--presentation-width);
+    height: calc(var(--presentation-width) * 0.5625);
     overflow: hidden;
     color: var(--cream);
     background: var(--ink);
+    box-shadow: 0 0 0 100vmax var(--color-black);
     opacity: 0;
+    transform: translate(-50%, -50%);
     transition: opacity 320ms ease;
     isolation: isolate;
   }
@@ -629,27 +708,36 @@ const hotspots = isFigmaFeature
   .detail-viewer::before {
     position: absolute;
     z-index: -2;
-    inset: -22%;
-    background-image: var(--detail-image);
-    background-position: center 23%;
-    background-size: 145% auto;
+    inset: 0;
+    background-image: var(--detail-background);
+    background-position: center;
+    background-size: 100% 100%;
     background-repeat: no-repeat;
     content: '';
-    opacity: 0.2;
-    filter: brightness(0.55);
-    transform: scale(1.03);
+    opacity: 1;
+    filter: none;
+    transform: scale(1.02);
+    transition:
+      background-position 520ms cubic-bezier(0.76, 0, 0.24, 1),
+      transform 620ms cubic-bezier(0.76, 0, 0.24, 1);
   }
 
   .detail-viewer::after {
     position: absolute;
     z-index: -1;
     inset: 0;
-    background: rgb(20 20 20 / 26%);
+    background:
+      linear-gradient(90deg, rgb(20 20 20 / 72%) 0 19%, transparent 42%),
+      linear-gradient(90deg, transparent 0 54%, rgb(20 20 20 / 68%) 72% 100%);
     content: '';
   }
 
   .detail-viewer.is-open {
     opacity: 1;
+  }
+
+  .detail-viewer.is-open::before {
+    transform: scale(1);
   }
 
   .detail-viewer__close {
@@ -672,11 +760,27 @@ const hotspots = isFigmaFeature
     font-weight: 200;
   }
 
+  .detail-viewer__back {
+    top: 5.28%;
+    left: 2.97%;
+    width: 11.1%;
+    height: 3.98%;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .detail-viewer__back img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
   .detail-viewer__progress {
     position: absolute;
-    top: 12.8%;
-    bottom: 5.4%;
-    left: 3.1%;
+    top: 12.75%;
+    bottom: 10.45%;
+    left: 3.125%;
     width: 1px;
     background: var(--cream);
   }
@@ -695,22 +799,24 @@ const hotspots = isFigmaFeature
   .detail-viewer__thumbs {
     position: absolute;
     z-index: 5;
-    top: 36.5%;
-    left: 21.65%;
+    top: 17.9%;
+    left: 8.8%;
     display: grid;
-    gap: 3rem;
-    width: 6.15%;
-    min-width: 6.5rem;
+    gap: 2.15rem;
+    width: 15rem;
   }
 
   .detail-viewer__thumbs button {
-    width: 100%;
-    aspect-ratio: 118 / 137;
+    display: grid;
+    grid-template-columns: 6.2rem;
+    row-gap: 0.35rem;
+    align-items: start;
+    width: 6.2rem;
     padding: 0;
-    overflow: hidden;
-    background: rgb(20 20 20 / 45%);
+    color: var(--cream);
+    text-align: left;
+    background: transparent;
     border: 0;
-    border-radius: 250px 250px 0 0;
     cursor: pointer;
     opacity: 0.85;
     transition:
@@ -718,70 +824,57 @@ const hotspots = isFigmaFeature
       transform 160ms ease;
   }
 
-  .detail-viewer__thumbs button:hover,
-  .detail-viewer__thumbs button:focus-visible {
+  .detail-viewer__thumbs button:not(:disabled):hover,
+  .detail-viewer__thumbs button:not(:disabled):focus-visible {
     opacity: 1;
-    transform: translateX(0.4rem);
+    transform: translateX(0.35rem);
   }
 
   .detail-viewer__thumbs img {
-    width: 100%;
-    height: 100%;
+    width: 6.2rem;
+    aspect-ratio: 118 / 137;
     object-fit: contain;
-    transform: scale(1.5);
+    background: rgb(20 20 20 / 45%);
+    border-radius: 250px 250px 0 0;
   }
 
-  .detail-viewer__arrow {
-    position: absolute;
-    z-index: 9;
-    top: 49%;
-    display: grid;
-    width: 3rem;
-    height: 3rem;
-    padding: 0;
-    place-items: center;
-    color: var(--cream);
-    background: rgb(20 20 20 / 58%);
-    border: 1px solid var(--cream);
-    border-radius: 50%;
-    cursor: pointer;
-    font-size: 1.25rem;
-    transition:
-      color 160ms ease,
-      background-color 160ms ease,
-      transform 160ms ease;
+  .detail-viewer__thumbs span,
+  .detail-viewer__thumbs em {
+    display: block;
+    max-width: none;
+    font-style: normal;
+    line-height: 1;
   }
 
-  .detail-viewer__arrow--previous {
-    left: 27.25%;
+  .detail-viewer__thumbs span {
+    font-size: 0.72rem;
   }
 
-  .detail-viewer__arrow--next {
-    right: 31.25%;
-  }
-
-  .detail-viewer__arrow:hover,
-  .detail-viewer__arrow:focus-visible {
-    color: var(--ink);
-    background: var(--blue);
-    transform: scale(1.07);
+  .detail-viewer__thumbs em {
+    margin-top: -0.1rem;
+    color: var(--blue);
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 
   .detail-viewer__focus {
     position: absolute;
     z-index: 4;
-    top: 14.2%;
-    left: 30.5%;
+    top: 14.25%;
+    left: 23.55%;
     width: 34.85%;
     height: 70%;
     overflow: hidden;
-    background-image: var(--detail-image);
+    background-image: var(--detail-zoom);
     background-position: var(--crop);
     background-size: var(--crop-size) auto;
     background-repeat: no-repeat;
     border-radius: 1000px 1000px 0 0;
-    box-shadow: 0 20px 60px rgb(0 0 0 / 28%);
-    transform: scale(0.96);
+    box-shadow: 0 22px 70px rgb(0 0 0 / 30%);
+    transform: scale(0.72);
+    transform-origin: center 60%;
     transition:
       background-position 500ms cubic-bezier(0.76, 0, 0.24, 1),
       background-size 500ms cubic-bezier(0.76, 0, 0.24, 1),
@@ -792,13 +885,20 @@ const hotspots = isFigmaFeature
     transform: none;
   }
 
+  .detail-viewer[data-index='0'] .detail-viewer__focus {
+    left: 26.35%;
+    width: 32%;
+  }
+
   .detail-viewer__copy {
     position: absolute;
     z-index: 6;
-    right: 8.8%;
-    bottom: 15.5%;
-    width: 23.8%;
-    min-width: 26rem;
+    top: 14.259%;
+    left: 65.625%;
+    right: auto;
+    bottom: auto;
+    width: 20.3125%;
+    min-width: 0;
     text-shadow: 0 2px 14px rgb(0 0 0 / 55%);
   }
 
@@ -814,10 +914,88 @@ const hotspots = isFigmaFeature
   }
 
   .detail-viewer__copy p {
-    margin: 0.8rem 0 0;
-    font-size: clamp(1.45rem, 1.67vw, 2rem);
-    font-style: italic;
-    line-height: 1.1;
+    max-width: 33.25rem;
+    margin: 1.25rem 0 0;
+    font-size: clamp(0.95rem, 0.94vw, 1.125rem);
+    font-style: normal;
+    line-height: 1;
+  }
+
+  .detail-viewer__label,
+  .detail-viewer__caption {
+    margin: 0;
+    font-size: clamp(0.68rem, 0.73vw, 0.875rem);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .detail-viewer__label {
+    color: var(--orange);
+  }
+
+  .detail-viewer__caption {
+    color: var(--cream);
+    text-align: center;
+  }
+
+  .detail-viewer__figure {
+    position: absolute;
+    z-index: 6;
+    top: 34.7222%;
+    left: 65.625%;
+    right: auto;
+    width: 27.34375%;
+  }
+
+  .detail-viewer__figure-media {
+    height: clamp(10rem, 29.75vh, 20rem);
+    margin-top: 2rem;
+  }
+
+  .detail-viewer__figure-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .detail-viewer__figure[data-figure-variant='panier'] .detail-viewer__figure-media {
+    height: calc(var(--presentation-width) * 0.1671875);
+    margin-top: calc(var(--presentation-width) * 0.0122969);
+    overflow: hidden;
+    background: var(--ink);
+  }
+
+  .detail-viewer__figure[data-figure-variant='panier'] .detail-viewer__figure-media img {
+    width: 99.43%;
+    height: auto;
+    margin-left: 0.571428%;
+    transform: translateY(-37.603%);
+    transform-origin: top left;
+  }
+
+  .detail-viewer__figure .detail-viewer__caption {
+    margin-top: calc(var(--presentation-width) * 0.0083333);
+  }
+
+  .detail-viewer__note {
+    position: absolute;
+    z-index: 6;
+    top: 75.2778%;
+    left: 65.625%;
+    right: auto;
+    bottom: auto;
+    width: 20.3125%;
+  }
+
+  .detail-viewer__note > p:last-child {
+    max-width: 33.5rem;
+    margin: calc(var(--presentation-width) * 0.0130208) 0 0;
+    color: var(--cream);
+    font-size: clamp(0.95rem, 0.94vw, 1.125rem);
+    line-height: 1;
   }
 
   .object--feature .object__back {
@@ -971,7 +1149,20 @@ const hotspots = isFigmaFeature
     description: string;
     crop: string;
     size: string;
+    zoomSrc?: string;
     thumb: string;
+    backgroundSrc?: string;
+    figureSrc?: string;
+    figureVariant?: string;
+    figureLabel?: string;
+    figureCaption?: string;
+    noteLabel?: string;
+    note?: string;
+    related?: {
+      title: string;
+      year: string;
+      thumb: string;
+    }[];
   };
 
   const viewer = document.querySelector<HTMLElement>('[data-detail-viewer]');
@@ -984,6 +1175,12 @@ const hotspots = isFigmaFeature
     const description = viewer.querySelector<HTMLElement>('[data-detail-description]');
     const focus = viewer.querySelector<HTMLElement>('[data-detail-focus]');
     const progress = viewer.querySelector<HTMLElement>('[data-progress-segment]');
+    const figureLabel = viewer.querySelector<HTMLElement>('[data-detail-figure-label]');
+    const figure = viewer.querySelector<HTMLElement>('[data-detail-figure]');
+    const figureImage = viewer.querySelector<HTMLImageElement>('[data-detail-figure-image]');
+    const figureCaption = viewer.querySelector<HTMLElement>('[data-detail-figure-caption]');
+    const noteLabel = viewer.querySelector<HTMLElement>('[data-detail-note-label]');
+    const note = viewer.querySelector<HTMLElement>('[data-detail-note]');
     const closeButton = viewer.querySelector<HTMLButtonElement>('[data-detail-close]');
     const previousButton = viewer.querySelector<HTMLButtonElement>('[data-detail-previous]');
     const nextButton = viewer.querySelector<HTMLButtonElement>('[data-detail-next]');
@@ -1010,17 +1207,35 @@ const hotspots = isFigmaFeature
         focus.style.setProperty('--crop', state.crop);
         focus.style.setProperty('--crop-size', state.size);
       }
+      if (state.backgroundSrc) {
+        viewer.style.setProperty('--detail-background', `url('${state.backgroundSrc}')`);
+      }
+      if (state.zoomSrc) {
+        viewer.style.setProperty('--detail-zoom', `url('${state.zoomSrc}')`);
+      }
       if (progress) progress.style.transform = `translateY(${activeIndex * 100}%)`;
+      if (figureLabel) figureLabel.textContent = state.figureLabel ?? '';
+      if (figure) {
+        if (state.figureVariant) figure.dataset.figureVariant = state.figureVariant;
+        else delete figure.dataset.figureVariant;
+      }
+      if (figureImage && state.figureSrc) figureImage.src = state.figureSrc;
+      if (figureCaption) figureCaption.textContent = state.figureCaption ?? '';
+      if (noteLabel) noteLabel.textContent = state.noteLabel ?? '';
+      if (note) note.textContent = state.note ?? '';
 
-      const thumbOffsets = [-1, 0, 1];
       thumbButtons.forEach((button, index) => {
-        const thumbIndex = normalized(activeIndex + thumbOffsets[index]);
-        const thumbState = detailStates[thumbIndex];
+        const related = state.related?.[index];
         const image = button.querySelector<HTMLImageElement>('[data-detail-thumb-image]');
-        button.dataset.index = String(thumbIndex);
-        button.setAttribute('aria-label', `Ver detalle: ${thumbState.title}`);
-        button.setAttribute('aria-current', thumbIndex === activeIndex ? 'true' : 'false');
-        if (image) image.src = thumbState.thumb;
+        const thumbTitle = button.querySelector<HTMLElement>('[data-detail-thumb-title]');
+        const thumbYear = button.querySelector<HTMLElement>('[data-detail-thumb-year]');
+
+        button.dataset.index = String(index);
+        button.setAttribute('aria-label', related ? `${related.title}, ${related.year}` : '');
+        button.setAttribute('aria-current', index === 0 ? 'true' : 'false');
+        if (image && related) image.src = related.thumb;
+        if (thumbTitle) thumbTitle.textContent = related?.title ?? '';
+        if (thumbYear) thumbYear.textContent = related?.year ?? '';
       });
     };
 
@@ -1059,12 +1274,6 @@ const hotspots = isFigmaFeature
       ?.addEventListener('click', (event) => {
         openDetail(0, event.currentTarget as HTMLElement);
       });
-
-    thumbButtons.forEach((button) => {
-      button.addEventListener('click', () =>
-        renderDetail(Number(button.dataset.index ?? activeIndex))
-      );
-    });
 
     closeButton?.addEventListener('click', closeDetail);
     previousButton?.addEventListener('click', () => renderDetail(activeIndex - 1));

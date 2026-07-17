@@ -191,19 +191,17 @@ const filters = [
     <div class="permanent-collection__pieces" aria-label="Objetos de la colección">
       {
         collectionPieces.map((piece, index) => (
-          <a
+          <button
+            type="button"
             class="collection-piece"
-            href={index === 4 ? '/coleccion' : `/coleccion/${piece.slug}`}
             style={`--piece-x:${(piece.x / 1920) * 100}%;--piece-y:${(piece.y / 1079) * 100}%;--piece-w:${(piece.w / 1920) * 100}%;--piece-h:${(piece.h / 1079) * 100}%;--piece-delay:${(index % 8) * 45}ms;`}
             data-tags={piece.tags}
             data-period={piece.period}
             data-typology-vestido-excluded={piece.excludedFromRococoDress ? 'true' : undefined}
-            aria-label={
-              index === 4 ? 'Abrir selección Robe à la française' : 'Abrir ficha del objeto'
-            }
+            aria-label="Selección visual de prenda"
           >
             <img src={`/images/${permanentImages[index]}`} alt="" />
-          </a>
+          </button>
         ))
       }
     </div>
@@ -289,18 +287,20 @@ const filters = [
 
   .collection-nav {
     position: absolute;
+    inset: 0;
     z-index: 20;
-    top: 3.6145%;
-    left: 3.125vw;
-    width: 0;
-    height: 3.1771vw;
+    pointer-events: none;
   }
 
   .collection-nav__logo {
+    position: absolute;
+    top: 3.61%;
+    left: 3.125%;
     display: block;
-    width: 3.1771vw;
-    height: 3.1771vw;
+    width: max(3.177%, 3rem);
+    aspect-ratio: 1;
     color: var(--purple);
+    pointer-events: auto;
   }
 
   .collection-nav__logo img,
@@ -311,42 +311,45 @@ const filters = [
 
   .collection-nav__bar {
     position: absolute;
-    top: 0;
-    left: 23.2292vw;
-    width: 46.3021vw;
-    height: 100%;
+    top: 3.61%;
+    left: 26.3%;
+    width: 46.35%;
+    height: clamp(3.5rem, 5.65vh, 3.8125rem);
     color: var(--cream);
     background: var(--purple);
+    pointer-events: auto;
   }
 
   .collection-nav__bar > a:not(.collection-nav__tickets, .collection-nav__search) {
     position: absolute;
-    top: 1.1979vw;
-    font-size: 0.7292vw;
+    top: 50%;
+    font-size: clamp(0.65rem, 0.729vw, 0.875rem);
     font-weight: 600;
     letter-spacing: 0.06em;
+    line-height: 1;
     text-transform: uppercase;
     white-space: nowrap;
+    transform: translateY(-50%);
   }
 
   .collection-nav__bar > a:nth-child(1) {
-    left: 2.0313vw;
+    left: 4.382%;
   }
 
   .collection-nav__bar > a:nth-child(2) {
-    left: 6.9271vw;
+    left: 14.944%;
   }
 
   .collection-nav__bar > a:nth-child(3) {
-    left: 14.2708vw;
+    left: 30.787%;
   }
 
   .collection-nav__bar > a:nth-child(4) {
-    left: 21.4063vw;
+    left: 46.18%;
   }
 
   .collection-nav__bar > a:nth-child(5) {
-    left: 27.1354vw;
+    left: 58.54%;
   }
 
   .collection-nav__bar > a.is-active {
@@ -356,26 +359,27 @@ const filters = [
   .collection-nav__tickets {
     display: grid;
     position: absolute;
-    top: 0.7292vw;
-    left: 35.1042vw;
-    width: 5.7292vw;
-    height: 1.6667vw;
+    top: 22.95%;
+    left: 75.73%;
+    width: 12.36%;
+    height: 52.46%;
     place-items: center;
     color: var(--purple);
     background: var(--blue);
     border-radius: 2px;
-    font-size: 0.7292vw;
+    font-size: clamp(0.65rem, 0.729vw, 0.875rem);
     font-weight: 500;
     letter-spacing: 0.06em;
+    line-height: 1;
     text-transform: uppercase;
   }
 
   .collection-nav__search {
     position: absolute;
-    top: 1.0417vw;
-    left: 43.3333vw;
-    width: 1vw;
-    height: 1vw;
+    top: 33.35%;
+    right: 4.28%;
+    width: 2.14%;
+    height: 33%;
     filter: brightness(0) invert(1);
   }
 
@@ -412,7 +416,11 @@ const filters = [
     width: var(--piece-w);
     min-width: 3.4rem;
     height: var(--piece-h);
+    padding: 0;
     opacity: 1;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
     transform: none;
     transition:
       opacity 350ms ease,
