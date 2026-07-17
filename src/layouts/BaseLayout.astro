@@ -39,13 +39,9 @@ const ogImageURL = new URL(ogImage, Astro.site ?? Astro.url);
     <!-- Favicon placeholder — replace with the final icon set. -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Typography: Bodoni Moda (≈ IvyBodoni) + Inter, per the design kit. -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Inter:wght@400;500;600&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Typography: IvyPresto Display + Neue Haas Grotesk Display, via Adobe Fonts (academic project, licensed). -->
+    <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+    <link rel="stylesheet" href="https://use.typekit.net/myk4uwb.css" />
 
     <!-- OpenGraph -->
     <meta property="og:type" content="website" />
