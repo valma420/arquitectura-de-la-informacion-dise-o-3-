@@ -45,24 +45,45 @@
   --font-body: 'neue-haas-grotesk-display', 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: ui-monospace, monospace;
 
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-base: 1rem;
-  --font-size-md: 1.25rem;
-  --font-size-lg: 1.5625rem;
-  --font-size-xl: 1.953rem;
-  --font-size-2xl: 2.441rem;
-  --font-size-3xl: 3.052rem;
+  /* Figma text styles. Values are kept in pixels so their desktop scale is explicit. */
+  --type-display-1-size: 200px;
+  --type-display-1-weight: 100; /* IvyPresto Display Thin */
+  --type-display-2-size: 140px;
+  --type-display-2-weight: 100; /* IvyPresto Display Thin */
+  --type-h1-size: 115px;
+  --type-h1-weight: 500; /* Neue Haas Grotesk Display Roman */
+  --type-h2-size: 64px;
+  --type-h2-weight: 100; /* IvyPresto Display Thin Italic */
+  --type-h3-size: 64px;
+  --type-h3-weight: 500; /* Neue Haas Grotesk Display Italic */
+  --type-h4-size: 32px;
+  --type-h4-weight: 500; /* Neue Haas Grotesk Display Italic */
+  --type-body-size: 18px;
+  --type-body-small-size: 16px;
+  --type-body-weight: 500; /* Neue Haas Grotesk Display Roman */
+  --type-caption-size: 14px;
+  --type-caption-weight: 600; /* Neue Haas Grotesk Display Medium */
 
-  /* Display scale for the Bodoni hero typography. */
-  --font-size-display: clamp(4rem, 12vw, 13rem);
-  --font-size-display-md: clamp(3rem, 7.5vw, 8rem);
-  --font-size-display-sm: clamp(2.2rem, 4.5vw, 4.5rem);
+  /* Compatibility aliases for existing component styles. */
+  --font-size-xs: var(--type-caption-size);
+  --font-size-sm: var(--type-body-small-size);
+  --font-size-base: var(--type-body-size);
+  --font-size-md: 20px;
+  --font-size-lg: 25px;
+  --font-size-xl: 31.25px;
+  --font-size-2xl: 39px;
+  --font-size-3xl: 49px;
 
-  --font-weight-regular: 400;
-  --font-weight-medium: 500;
-  --font-weight-semibold: 600;
-  --font-weight-bold: 700;
+  --font-size-display: var(--type-display-1-size);
+  --font-size-display-md: var(--type-display-2-size);
+  --font-size-display-sm: var(--type-h2-size);
+
+  --font-weight-display-thin: 100;
+  --font-weight-roman: var(--type-body-weight);
+  --font-weight-medium: var(--type-caption-weight);
+  --font-weight-regular: var(--font-weight-roman);
+  --font-weight-semibold: var(--font-weight-medium);
+  --font-weight-bold: var(--font-weight-medium);
 
   --line-height-tight: 1.02;
   --line-height-snug: 1.3;

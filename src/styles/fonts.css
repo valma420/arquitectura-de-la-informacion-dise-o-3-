@@ -11,14 +11,15 @@
 /* Utility classes for the two typographic voices of the site. */
 .type-display {
   font-family: var(--font-display);
-  font-weight: var(--font-weight-regular);
+  font-style: normal;
+  font-weight: var(--font-weight-display-thin);
   line-height: var(--line-height-tight);
 }
 
 .type-display-italic {
   font-family: var(--font-display);
   font-style: italic;
-  font-weight: var(--font-weight-regular);
+  font-weight: var(--font-weight-display-thin);
   line-height: 0.95;
   letter-spacing: -0.015em;
 }
@@ -35,6 +36,75 @@
   font-family: var(--font-body);
   font-size: var(--label-size-sm);
   font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+/* Exact Figma text-style utilities for route-local editorial content. */
+.type-display-1,
+.type-display-2 {
+  font-family: var(--font-display);
+  font-style: normal;
+  font-weight: var(--font-weight-display-thin);
+  line-height: var(--line-height-tight);
+}
+
+.type-display-1 {
+  font-size: var(--type-display-1-size);
+}
+
+.type-display-2 {
+  font-size: var(--type-display-2-size);
+}
+
+.type-h1 {
+  font-family: var(--font-body);
+  font-size: var(--type-h1-size);
+  font-style: normal;
+  font-weight: var(--type-h1-weight);
+}
+
+.type-h2 {
+  font-family: var(--font-display);
+  font-size: var(--type-h2-size);
+  font-style: italic;
+  font-weight: var(--type-h2-weight);
+}
+
+.type-h3,
+.type-h4 {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-weight: var(--type-h3-weight);
+}
+
+.type-h3 {
+  font-size: var(--type-h3-size);
+}
+
+.type-h4 {
+  font-size: var(--type-h4-size);
+}
+
+.type-body {
+  font-family: var(--font-body);
+  font-size: var(--type-body-size);
+  font-style: normal;
+  font-weight: var(--type-body-weight);
+}
+
+.type-body-small {
+  font-family: var(--font-body);
+  font-size: var(--type-body-small-size);
+  font-style: normal;
+  font-weight: var(--type-body-weight);
+}
+
+.type-caption {
+  font-family: var(--font-body);
+  font-size: var(--type-caption-size);
+  font-style: normal;
+  font-weight: var(--type-caption-weight);
   letter-spacing: var(--letter-spacing-wide);
   text-transform: uppercase;
 }
