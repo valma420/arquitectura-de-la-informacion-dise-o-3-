@@ -91,6 +91,7 @@
 
   --layout-max-width: 120rem;
   --layout-gutter: clamp(1.25rem, 3.2vw, 3.75rem);
+  --presentation-width: min(100vw, 177.7778dvh);
 
   /* ------------------------------------------------------------------ */
   /* Radius                                                              */

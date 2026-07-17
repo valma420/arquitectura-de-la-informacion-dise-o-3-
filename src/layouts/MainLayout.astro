@@ -21,12 +21,16 @@ const { immersive = false, ...seo } = Astro.props;
 ---
 
 <BaseLayout {...seo}>
-  <PageTransition />
-  {!immersive && <Navbar />}
-  <main id="main-content">
-    <slot />
-  </main>
-  {!immersive && <Footer />}
+  <div class="presentation-matte">
+    <div class="presentation-canvas">
+      <PageTransition />
+      {!immersive && <Navbar />}
+      <main id="main-content">
+        <slot />
+      </main>
+      {!immersive && <Footer />}
+    </div>
+  </div>
 </BaseLayout>
 
 <script>

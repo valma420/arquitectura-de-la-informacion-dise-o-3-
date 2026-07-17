@@ -512,7 +512,6 @@ import MainLayout from '@layouts/MainLayout.astro';
 
 <style>
   :global(body) {
-    background: #f3eee1;
     overflow: hidden;
   }
 
@@ -526,10 +525,10 @@ import MainLayout from '@layouts/MainLayout.astro';
     --pattern-x: 0px;
     --pattern-y: 0px;
     position: relative;
-    width: 100vw;
+    width: 100%;
     height: 100svh;
     overflow: hidden;
-    background: #f3eee1;
+    background: var(--color-black);
     color: #141414;
     isolation: isolate;
   }
@@ -538,8 +537,8 @@ import MainLayout from '@layouts/MainLayout.astro';
     position: absolute;
     top: 50%;
     left: 50%;
-    width: min(100vw, 177.7778svh);
-    height: min(100svh, 56.25vw);
+    width: min(100%, 177.7778svh);
+    height: min(100svh, 56.25cqw);
     overflow: hidden;
     transform: translate(-50%, -50%);
     background: #f3eee1;
@@ -873,8 +872,8 @@ import MainLayout from '@layouts/MainLayout.astro';
     }
 
     .home-canvas {
-      width: min(100vw, 177.7778dvh);
-      height: min(100dvh, 56.25vw);
+      width: min(100%, 177.7778dvh);
+      height: min(100dvh, 56.25cqw);
     }
   }
 

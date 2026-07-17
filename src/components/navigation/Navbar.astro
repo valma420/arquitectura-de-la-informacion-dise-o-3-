@@ -473,33 +473,6 @@ const isActive = (href: string) =>
     color: var(--color-cream);
   }
 
-  @media (max-width: 64rem) {
-    .navbar__links {
-      display: none;
-    }
-  }
-
-  @media (max-width: 36rem) {
-    .navbar__wordmark {
-      display: none;
-    }
-
-    .menu-overlay__eyebrow span {
-      display: none;
-    }
-
-    .menu-overlay__link {
-      grid-template-columns: 1.5rem 1fr auto;
-      font-size: clamp(1.85rem, 6.5vh, 3rem);
-    }
-
-    .menu-overlay__meta {
-      display: block;
-      max-width: 18rem;
-      line-height: 1.7;
-    }
-  }
-
   @media (prefers-reduced-motion: reduce) {
     .navbar__logo,
     .navbar__link::after,

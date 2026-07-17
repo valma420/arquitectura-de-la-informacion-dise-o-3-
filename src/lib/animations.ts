@@ -265,7 +265,7 @@ function initHomeParallax(): void {
   if (galleryHero) {
     const frames = galleryHero.querySelectorAll<HTMLElement>('.orbit__frame');
     const pattern = galleryHero.querySelector<HTMLElement>('.home-hero__pattern');
-    const distance = window.innerWidth < 768 ? 5 : 10;
+    const distance = 10;
     const galleryTrigger = {
       trigger: galleryHero,
       start: 'top top',
@@ -300,7 +300,7 @@ function initHomeParallax(): void {
   const vitrinas = hero.querySelectorAll<HTMLElement>('.hero__vitrina');
   const notes = hero.querySelectorAll<HTMLElement>('.hero__note');
   const wordmark = hero.querySelector<HTMLElement>('.hero__wordmark');
-  const distance = window.innerWidth < 768 ? 4 : 8;
+  const distance = 8;
   const scrollTrigger = {
     trigger: hero,
     start: 'top top',

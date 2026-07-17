@@ -11,12 +11,15 @@
 <style>
   .page-transition {
     position: fixed;
-    inset: 0;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: var(--presentation-width);
     z-index: var(--z-overlay);
     pointer-events: none;
     opacity: 1;
     visibility: visible;
-    transform: scaleY(0);
+    transform: translateX(-50%) scaleY(0);
     transform-origin: bottom center;
     background:
       linear-gradient(to bottom, var(--color-orange) 0 2px, transparent 2px),

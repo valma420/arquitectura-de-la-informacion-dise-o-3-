@@ -51,13 +51,29 @@ body {
   margin: 0;
   min-height: 100vh;
   overflow-x: clip;
-  background-color: var(--color-background);
+  background-color: var(--color-black);
   color: var(--color-foreground);
   font-family: var(--font-body);
   font-size: var(--font-size-base);
   line-height: var(--line-height-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Desktop recording stage: the document keeps its native scroll, while any
+ * excess viewport area remains a crop-safe black matte. */
+.presentation-matte {
+  min-height: 100dvh;
+  background: var(--color-black);
+}
+
+.presentation-canvas {
+  position: relative;
+  width: var(--presentation-width);
+  min-height: 100dvh;
+  margin-inline: auto;
+  background: var(--color-background);
+  container-type: inline-size;
 }
 
 button,

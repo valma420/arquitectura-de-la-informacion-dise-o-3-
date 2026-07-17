@@ -191,33 +191,6 @@ import { navigationLinks } from '@data/navigation';
     text-align: right;
   }
 
-  @media (max-width: 52rem) {
-    .footer__inner {
-      grid-template-columns: 1fr;
-    }
-
-    .footer__meta {
-      grid-column: auto;
-      grid-template-columns: 1fr;
-      gap: var(--space-xs);
-    }
-
-    .footer__credit {
-      margin-top: var(--space-sm);
-      text-align: left;
-    }
-  }
-
-  @media (max-width: 34rem) {
-    .footer__links {
-      grid-template-columns: 1fr;
-    }
-
-    .footer__links li:nth-child(odd) {
-      border-right: 0;
-    }
-  }
-
   @media (prefers-reduced-motion: reduce) {
     .footer__mark,
     .footer__links a {

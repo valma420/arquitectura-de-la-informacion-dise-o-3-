@@ -154,12 +154,7 @@ const filters = [
 
         <div class="agenda-rule" aria-hidden="true"></div>
 
-        <div
-          class="agenda-list"
-          data-agenda-list
-          tabindex="0"
-          aria-label="Actividades de junio de 2026"
-        >
+        <div class="agenda-list" data-agenda-list aria-label="Actividades de junio de 2026">
           {
             events.map((event) => (
               <article
@@ -275,15 +270,14 @@ const filters = [
     --agenda-blue: #b9d6fe;
     position: relative;
     isolation: isolate;
-    min-height: 100vh;
-    overflow: clip;
+    min-height: 100dvh;
     color: var(--agenda-black);
     background-color: var(--agenda-blue);
     background-image: url('/images/timeline-agenda/fondo-agenda.svg');
     background-position: 0 0;
-    background-size: 100vw 1080px;
+    background-size: 100% auto;
     background-repeat: no-repeat;
-    background-attachment: fixed;
+    background-attachment: scroll;
   }
 
   .agenda-nav {
@@ -663,197 +657,6 @@ const filters = [
     height: 100%;
   }
 
-  @media (min-width: 1121px) {
-    .agenda-page {
-      height: 100vh;
-      height: 100svh;
-      min-height: 45rem;
-      overflow: hidden;
-    }
-
-    .agenda-layout {
-      height: calc(100vh - 219px);
-      height: calc(100svh - 219px);
-      min-height: 501px;
-      align-items: stretch;
-    }
-
-    .agenda-program {
-      display: grid;
-      min-height: 0;
-      grid-template-rows: 39px 4px minmax(0, 1fr);
-    }
-
-    .agenda-list {
-      min-height: 0;
-      overflow-y: auto;
-      overscroll-behavior: contain;
-      scrollbar-color: var(--agenda-purple) transparent;
-      scrollbar-width: thin;
-    }
-
-    .agenda-list::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .agenda-list::-webkit-scrollbar-thumb {
-      background: var(--agenda-purple);
-    }
-  }
-
-  @media (min-width: 1121px) and (max-width: 1536px) {
-    .agenda-filters__options {
-      gap: clamp(1.5rem, 2.5vw, 2.5rem);
-    }
-  }
-
-  @media (max-width: 1120px) {
-    .agenda-nav {
-      grid-template-columns: 52px 1fr;
-      gap: 1.25rem;
-      width: calc(100% - 2.5rem);
-      margin: 1.25rem;
-    }
-
-    .agenda-nav__logo {
-      width: 52px;
-      height: 52px;
-    }
-
-    .agenda-nav__bar {
-      width: 100%;
-      height: 52px;
-      gap: 1.25rem;
-      padding-inline: 1.25rem;
-    }
-
-    .agenda-nav__bar a:not(.is-active):not(.agenda-nav__tickets) {
-      display: none;
-    }
-
-    .agenda-nav__label {
-      display: none;
-    }
-
-    .agenda-layout {
-      grid-template-columns: 1fr;
-      margin-top: 4rem;
-    }
-
-    .agenda-heading {
-      padding: 0 1.25rem 2.5rem;
-    }
-
-    .agenda-heading h1 {
-      font-size: clamp(4.5rem, 18vw, 8rem);
-    }
-
-    .agenda-program {
-      padding-left: 1.25rem;
-    }
-
-    .agenda-filters {
-      gap: 2rem;
-      overflow-x: auto;
-      scrollbar-width: none;
-    }
-
-    .agenda-filters__options {
-      gap: 1.5rem;
-    }
-
-    .agenda-row__header {
-      grid-template-columns: 8.5rem minmax(0, 1fr) 4.5rem;
-      padding-right: 1rem;
-    }
-
-    .agenda-row__kind {
-      display: none;
-    }
-
-    .agenda-row__title {
-      padding-left: 0;
-      font-size: clamp(1.35rem, 4vw, 2rem);
-    }
-
-    .agenda-row__date {
-      gap: 0.25rem;
-      padding-left: 0.75rem;
-    }
-
-    .agenda-row__date strong {
-      min-width: 3.9rem;
-      font-size: 3.4rem;
-    }
-
-    .agenda-row.is-open {
-      height: 680px;
-    }
-
-    .agenda-row.is-open:not(.is-featured) {
-      height: 360px;
-    }
-
-    .agenda-row__piece {
-      top: 0;
-      left: 1rem;
-      width: 245px;
-    }
-
-    .agenda-row__copy {
-      top: 260px;
-      left: 1rem;
-      width: calc(100% - 2rem);
-    }
-
-    .agenda-row__copy > p,
-    .agenda-row__copy dl {
-      width: 100%;
-    }
-
-    .agenda-row__copy--summary {
-      top: 2rem;
-      left: 1rem;
-      width: calc(100% - 2rem);
-    }
-
-    .agenda-row__copy--summary > p {
-      font-size: clamp(2rem, 7vw, 3rem);
-    }
-
-    .agenda-row__copy--summary dl {
-      margin-top: 2.5rem;
-    }
-  }
-
-  @media (max-width: 560px) {
-    .agenda-nav__bar {
-      justify-content: flex-end;
-    }
-
-    .agenda-nav__bar .is-active,
-    .agenda-nav__search {
-      display: none;
-    }
-
-    .agenda-filters > p {
-      display: none;
-    }
-
-    .agenda-row__header {
-      grid-template-columns: 7.25rem minmax(0, 1fr) 3.5rem;
-    }
-
-    .agenda-row__date span,
-    .agenda-row__time {
-      font-size: 0.65rem;
-    }
-
-    .agenda-row__copy dl {
-      gap: 0.5rem;
-    }
-  }
-
   @media (hover: none) {
     .agenda-row:not(.is-open):hover {
       z-index: auto;
@@ -878,8 +681,6 @@ const filters = [
     const count = agenda.querySelector<HTMLElement>('[data-agenda-count]');
     const status = agenda.querySelector<HTMLElement>('[data-agenda-status]');
     const filters = agenda.querySelectorAll<HTMLButtonElement>('[data-agenda-filter]');
-    const list = agenda.querySelector<HTMLElement>('[data-agenda-list]');
-    const desktopLayout = window.matchMedia('(min-width: 1121px)');
 
     const setRowOpen = (row: HTMLElement, open: boolean) => {
       const toggle = row.querySelector<HTMLButtonElement>('[data-agenda-toggle]');
@@ -889,15 +690,6 @@ const filters = [
       detail?.setAttribute('aria-hidden', String(!open));
       detail?.toggleAttribute('inert', !open);
     };
-
-    const syncInternalScroll = () => {
-      list?.toggleAttribute('data-lenis-prevent-wheel', desktopLayout.matches);
-      if (list) list.tabIndex = desktopLayout.matches ? 0 : -1;
-      if (!desktopLayout.matches) list?.scrollTo({ top: 0, behavior: 'auto' });
-    };
-
-    syncInternalScroll();
-    desktopLayout.addEventListener('change', syncInternalScroll);
 
     filters.forEach((filter) => {
       filter.addEventListener('click', () => {
@@ -915,7 +707,6 @@ const filters = [
         if (count) count.textContent = String(visible);
         if (status)
           status.textContent = `${visible} eventos visibles: ${filter.textContent?.trim()}`;
-        list?.scrollTo({ top: 0, behavior: 'auto' });
       });
     });
 
