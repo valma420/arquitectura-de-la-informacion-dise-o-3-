@@ -263,18 +263,18 @@ const detailByYear = new Map([
 
   .timeline-nav {
     position: fixed;
-    top: 57px;
-    left: 60px;
+    top: var(--nav-frame-y);
+    left: var(--nav-frame-x);
     z-index: 100;
     display: flex;
     align-items: stretch;
-    width: 1345px;
-    height: 61px;
+    width: min(var(--nav-frame-width), calc(100vw - (2 * var(--nav-frame-x))));
+    aspect-ratio: var(--nav-frame-width) / var(--nav-frame-height);
   }
   .timeline-nav > img {
     display: block;
-    width: 1345px;
-    height: 61px;
+    width: 100%;
+    height: auto;
   }
   .timeline-page.is-detail-active .timeline-nav,
   .timeline-page.is-detail-active .timeline-overview__rail {

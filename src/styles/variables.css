@@ -114,6 +114,15 @@
   --layout-gutter: clamp(1.25rem, 3.2vw, 3.75rem);
   --presentation-width: min(100vw, 177.7778dvh);
 
+  /* Shared desktop navigation frame, based on the 1920px Figma canvas. */
+  --nav-frame-x: 60px;
+  --nav-frame-y: 57px;
+  --nav-frame-width: 1345px;
+  --nav-frame-height: 61px;
+  --nav-logo-size: 61px;
+  --nav-bar-offset: 446px;
+  --nav-bar-width: 889px;
+
   /* ------------------------------------------------------------------ */
   /* Radius                                                              */
   /* ------------------------------------------------------------------ */

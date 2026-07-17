@@ -294,10 +294,10 @@ const filters = [
 
   .collection-nav__logo {
     position: absolute;
-    top: 3.61%;
-    left: 3.125%;
+    top: var(--nav-frame-y);
+    left: var(--nav-frame-x);
     display: block;
-    width: max(3.177%, 3rem);
+    width: var(--nav-logo-size);
     aspect-ratio: 1;
     color: var(--purple);
     pointer-events: auto;
@@ -311,10 +311,10 @@ const filters = [
 
   .collection-nav__bar {
     position: absolute;
-    top: 3.61%;
-    left: 26.3%;
-    width: 46.35%;
-    height: clamp(3.5rem, 5.65vh, 3.8125rem);
+    top: var(--nav-frame-y);
+    left: calc(var(--nav-frame-x) + var(--nav-bar-offset));
+    width: var(--nav-bar-width);
+    height: var(--nav-frame-height);
     color: var(--cream);
     background: var(--purple);
     pointer-events: auto;

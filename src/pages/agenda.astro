@@ -277,14 +277,16 @@ const filters = [
   }
 
   .agenda-nav {
-    position: relative;
+    position: absolute;
+    top: var(--nav-frame-y);
+    left: var(--nav-frame-x);
     z-index: 102;
     display: grid;
     grid-template-columns: 61px minmax(0, 889px);
     gap: min(20.05vw, 385px);
-    width: min(calc(100% - 6.25vw), 1345px);
-    height: 61px;
-    margin: 39px 0 0 3.125vw;
+    width: min(var(--nav-frame-width), calc(100vw - (2 * var(--nav-frame-x))));
+    height: var(--nav-frame-height);
+    margin: 0;
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0.06em;
@@ -293,8 +295,8 @@ const filters = [
   .agenda-nav__logo {
     display: grid;
     place-items: center;
-    width: 61px;
-    height: 61px;
+    width: var(--nav-logo-size);
+    height: var(--nav-logo-size);
   }
 
   .agenda-nav__logo img {
@@ -306,8 +308,8 @@ const filters = [
     display: flex;
     align-items: center;
     gap: 37px;
-    width: 889px;
-    height: 61px;
+    width: var(--nav-bar-width);
+    height: var(--nav-frame-height);
     padding: 0 39px;
     color: var(--agenda-cream);
     background: var(--agenda-black);
@@ -369,7 +371,7 @@ const filters = [
     display: grid;
     grid-template-columns: 38.7vw minmax(0, 1120px);
     align-items: start;
-    height: calc(100dvh - 219px);
+    height: calc(100dvh - 119px);
     margin-top: 119px;
   }
 

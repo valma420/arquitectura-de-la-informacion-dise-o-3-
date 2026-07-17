@@ -182,11 +182,11 @@ const portraits = [
 
   .wardrobe-nav {
     position: fixed;
-    top: calc(60 * var(--wardrobe-unit));
-    left: calc(60 * var(--wardrobe-unit));
+    top: var(--nav-frame-y);
+    left: var(--nav-frame-x);
     z-index: 50;
-    width: calc(1345 * var(--wardrobe-unit));
-    height: calc(61 * var(--wardrobe-unit));
+    width: min(var(--nav-frame-width), calc(100vw - (2 * var(--nav-frame-x))));
+    aspect-ratio: var(--nav-frame-width) / var(--nav-frame-height);
   }
 
   .wardrobe-nav img {
@@ -199,37 +199,37 @@ const portraits = [
     position: absolute;
     top: 0;
     height: 100%;
-    outline-offset: calc(3 * var(--wardrobe-unit));
+    outline-offset: 3px;
   }
 
   .wardrobe-nav__hit--logo {
     left: 0;
-    width: calc(61 * var(--wardrobe-unit));
+    width: calc(61 / 1345 * 100%);
   }
 
   .wardrobe-nav__hit--muestra {
-    left: calc(550 * var(--wardrobe-unit));
-    width: calc(120 * var(--wardrobe-unit));
+    left: calc(550 / 1345 * 100%);
+    width: calc(120 / 1345 * 100%);
   }
 
   .wardrobe-nav__hit--coleccion {
-    left: calc(680 * var(--wardrobe-unit));
-    width: calc(130 * var(--wardrobe-unit));
+    left: calc(680 / 1345 * 100%);
+    width: calc(130 / 1345 * 100%);
   }
 
   .wardrobe-nav__hit--agenda {
-    left: calc(950 * var(--wardrobe-unit));
-    width: calc(95 * var(--wardrobe-unit));
+    left: calc(950 / 1345 * 100%);
+    width: calc(95 / 1345 * 100%);
   }
 
   .wardrobe-nav__hit--tickets {
-    left: calc(1118 * var(--wardrobe-unit));
-    width: calc(110 * var(--wardrobe-unit));
+    left: calc(1118 / 1345 * 100%);
+    width: calc(110 / 1345 * 100%);
   }
 
   .wardrobe-nav__hit--search {
-    left: calc(1280 * var(--wardrobe-unit));
-    width: calc(42 * var(--wardrobe-unit));
+    left: calc(1280 / 1345 * 100%);
+    width: calc(42 / 1345 * 100%);
   }
 
   .wardrobe-intro {
