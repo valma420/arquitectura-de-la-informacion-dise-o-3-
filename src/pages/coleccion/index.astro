@@ -95,7 +95,11 @@ const catalogueItems = curated.flatMap((entry) => {
 
 const initialIndex = 3;
 const initialItem = catalogueItems[initialIndex];
-const introOrder = [9, 10, 0, 1, 2, 3, 4, 5, 6, 7, 8];
+const introCenterPosition = 5;
+const introOrder = catalogueItems.map(
+  (_, position) =>
+    (initialIndex + position - introCenterPosition + catalogueItems.length) % catalogueItems.length
+);
 const introPositions = [
   { x: 14.3, y: 92.5, w: 5.1 },
   { x: 16.9, y: 71.4, w: 6 },
@@ -159,7 +163,7 @@ const selectedNeighbourPositions = [
                   data-position={orbitIndex}
                   style={`--piece-x:${position.x}%;--piece-y:${position.y}%;--piece-w:${position.w}%;`}
                   aria-label={`Ver ${item.title}, ${item.year}`}
-                  aria-current={orbitIndex === 5 ? 'true' : undefined}
+                  aria-current={orbitIndex === initialIndex ? 'true' : undefined}
                 >
                   <img src={item.image} alt="" />
                 </button>
