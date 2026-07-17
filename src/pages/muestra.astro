@@ -97,7 +97,11 @@ const hotspots = [
         <p class="nl-intro__quote-lead type-display-italic">
           “It’s quite a revolution, dear Christian.<br />Your dresses have such a
         </p>
-        <strong>New Look<span class="nl-intro__closing-quote" aria-hidden="true">”</span></strong>
+        <strong
+          ><span class="nl-intro__quote-word"
+            >New Look<span class="nl-intro__closing-quote" aria-hidden="true">”</span></span
+          ></strong
+        >
         <cite>— Carmel Snow · Harper’s Bazaar · 12 febrero 1947 —</cite>
       </blockquote>
     </div>
@@ -413,10 +417,16 @@ const hotspots = [
     position: relative;
   }
 
+  .nl-intro__quote-word {
+    position: relative;
+    display: inline-block;
+  }
+
   .nl-intro__closing-quote {
     position: absolute;
-    top: -0.15em;
-    right: -0.45em;
+    top: -0.1em;
+    left: 100%;
+    margin-left: 0.06em;
     color: #141414;
     font-size: 0.28em;
     letter-spacing: 0;
@@ -496,9 +506,10 @@ const hotspots = [
   }
 
   .nl-curatorial p {
-    max-width: min(98vw, 118rem);
-    font-size: clamp(2.25rem, 3.05vw, 3.65rem);
-    line-height: 1.18;
+    /* Figma spec: 64px / 96px line height on the 1920px-wide 16:9 canvas. */
+    max-width: min(98cqw, 118rem);
+    font-size: clamp(2.25rem, 3.333cqw, 4rem);
+    line-height: 1.5;
   }
 
   .nl-curatorial span {
