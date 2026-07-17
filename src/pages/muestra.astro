@@ -411,11 +411,13 @@ const hotspots = [
           >
             <span class="nl-bar__connector" aria-hidden="true" />
             <img class="nl-bar__callout-shape" src="/images/muestra/bar-callout.png" alt="" />
-            <p class="nl-bar__callout-label label">
-              {hotspot.number}/ {hotspot.label}
-            </p>
-            <h3>{hotspot.title}</h3>
-            <p class="nl-bar__callout-copy type-display-italic">{hotspot.copy}</p>
+            <div class="nl-bar__callout-content">
+              <p class="nl-bar__callout-label label">
+                {hotspot.number}/ {hotspot.label}
+              </p>
+              <h3>{hotspot.title}</h3>
+              <p class="nl-bar__callout-copy type-display-italic">{hotspot.copy}</p>
+            </div>
           </article>
         ))
       }
@@ -980,56 +982,66 @@ const hotspots = [
     cursor: default;
   }
 
+  /* Figma node 202:9708 — a 1920x1668 frame (ratio 0.86875). */
   .nl-bar {
     position: relative;
-    height: clamp(101rem, 128.18vw, 153.82rem);
+    height: 86.875cqw;
     overflow: hidden;
     background: #141414;
     color: #f3eee1;
   }
 
+  /*
+   * Sized in cqw (canvas-relative) throughout, matching Figma's px/1920
+   * ratios directly. The previous vw-based clamps rendered too large
+   * whenever the browser window was wider than 16:9 (canvas < viewport
+   * under letterboxing), pushing the caption down into the garment stage.
+   */
   .nl-bar__header {
     position: absolute;
     z-index: 2;
-    top: 6.9%;
+    top: 6.475%;
     left: 50%;
-    width: min(60rem, 72vw);
+    width: min(45cqw, 92%);
     text-align: center;
     transform: translateX(-50%);
   }
 
   .nl-bar__header > .label:first-child {
-    position: absolute;
-    top: 1.7rem;
-    left: 50%;
+    display: block;
     color: #b9d6fe;
-    transform: translateX(-50%);
+    font-size: 0.729cqw;
+    letter-spacing: 0.044cqw;
   }
 
   .nl-bar__header h2 {
+    margin-top: 0.3cqw;
     color: #fd6500;
-    font-size: clamp(8rem, 10.42vw, 12.5rem);
+    font-size: 10.417cqw;
     line-height: 1;
+    letter-spacing: -0.208cqw;
   }
 
   .nl-bar__header > p:nth-of-type(2) {
-    margin-top: 0.5rem;
-    font-size: clamp(2.5rem, 3.33vw, 4rem);
-    line-height: 1;
+    margin-top: 0.5cqw;
+    font-size: 3.333cqw;
+    line-height: 1.1;
   }
 
   .nl-bar__header > span {
     display: block;
-    margin-top: clamp(1.6rem, 2.1vw, 2.5rem);
+    margin-top: 1.5cqw;
+    font-size: 0.729cqw;
+    letter-spacing: 0.044cqw;
   }
 
   .nl-bar__stage {
     position: absolute;
     z-index: 2;
-    top: 30.07%;
+    top: 35.49%;
     left: 50%;
-    width: min(34.32vw, 41.2rem);
-    aspect-ratio: 659 / 1310;
+    width: 25.99cqw;
+    aspect-ratio: 499 / 992;
     transform: translateX(-50%);
   }
 
@@ -1040,12 +1052,12 @@ const hotspots = [
 
   .nl-bar__hat {
     top: 0;
-    left: 14.1%;
-    width: 67.07%;
+    left: 14.23%;
+    width: 67.13%;
   }
 
   .nl-bar__outfit {
-    top: 15.8%;
+    top: 15.73%;
     left: 0;
     width: 100%;
   }
@@ -1055,7 +1067,7 @@ const hotspots = [
     z-index: 5;
     top: var(--hy);
     left: var(--hx);
-    width: clamp(1.25rem, 1.3vw, 1.56rem);
+    width: 1.3cqw;
     padding: 0;
     border: 0;
     background: transparent;
@@ -1076,12 +1088,17 @@ const hotspots = [
     transform: translate(-50%, -50%) scale(1.32);
   }
 
+  /*
+   * Height is auto (driven by .nl-bar__callout-content, the only
+   * normal-flow child) rather than a fixed aspect-ratio, so a longer
+   * title or copy that wraps to an extra line simply grows the card
+   * instead of overlapping the text below it.
+   */
   .nl-bar__callout {
     position: absolute;
     z-index: 4;
     top: var(--hy);
     width: 66.16%;
-    aspect-ratio: 436 / 493;
     color: #141414;
     text-align: center;
     transform: translateY(-50%);
@@ -1097,6 +1114,7 @@ const hotspots = [
 
   .nl-bar__callout-shape {
     position: absolute;
+    z-index: 0;
     inset: 0;
     width: 100%;
     height: 100%;
@@ -1114,51 +1132,61 @@ const hotspots = [
     width: 142%;
   }
 
+  /* "Largo" sits right at the hem, near the section's bottom edge — shift
+     its card mostly above the hotspot instead of centering on it, so it
+     doesn't get clipped by .nl-bar's overflow:hidden. The connector moves
+     with it to keep pointing at the same spot on the garment. */
+  .nl-bar__callout[data-callout='largo'] {
+    transform: translateY(-75%);
+  }
+
+  .nl-bar__callout[data-callout='largo'] .nl-bar__connector {
+    top: 75%;
+  }
+
   .nl-bar__callout--left .nl-bar__connector {
     left: 100%;
     width: 111%;
   }
 
-  .nl-bar__callout-label,
-  .nl-bar__callout h3,
-  .nl-bar__callout-copy {
-    position: absolute;
+  /* Padding-top is percent-of-width (per the CSS padding spec), tuned to
+     clear the arch shape's curve regardless of how tall the card grows. */
+  .nl-bar__callout-content {
+    position: relative;
     z-index: 2;
-    left: 7%;
-    width: 86%;
+    padding: 35.5% 7% 10%;
   }
 
   .nl-bar__callout-label {
-    top: 31.4%;
-    font-size: clamp(0.5rem, 0.73vw, 0.875rem);
+    margin: 0;
+    font-size: 0.73cqw;
   }
 
   .nl-bar__callout h3 {
-    top: 35.8%;
+    margin: 0.3em 0 0;
     font-family: var(--font-display);
-    font-size: clamp(2rem, 3.33vw, 4rem);
+    font-size: 3.33cqw;
     line-height: 1.1;
   }
 
   .nl-bar__callout-copy {
-    top: 62%;
+    margin: 0.5em 0 0;
     font-family: var(--font-body);
-    font-size: clamp(0.72rem, 1.15vw, 1.38rem);
+    font-size: 1.15cqw;
     line-height: 1.28;
   }
 
   .nl-bar__cta {
     position: absolute;
-    z-index: 4;
-    top: 89.43%;
-    left: 50%;
-    width: min(13.7vw, 16.45rem);
-    transform: translateX(-50%);
+    z-index: 6;
+    right: 7.76cqw;
+    bottom: 6.52%;
+    width: 13.7cqw;
     transition: transform 0.25s ease;
   }
 
   .nl-bar__cta:hover {
-    transform: translateX(-50%) scale(1.04);
+    transform: scale(1.04);
   }
 
   .nl-quote {
