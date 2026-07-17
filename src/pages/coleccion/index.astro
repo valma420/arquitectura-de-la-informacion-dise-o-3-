@@ -862,8 +862,8 @@ const selectedNeighbourPositions = [
       --copy-offset: min(0.781vw, 0.9375rem);
       --copy-gap: -0.25rem;
       --year-gap: 0.625rem;
-      top: 60.775%;
-      left: 9.844%;
+      top: var(--neighbour-y);
+      left: var(--neighbour-x);
     }
 
     .catalogue__neighbour:nth-child(2) {
@@ -873,8 +873,8 @@ const selectedNeighbourPositions = [
       --copy-offset: min(0.781vw, 0.9375rem);
       --copy-gap: 0;
       --year-gap: 0.625rem;
-      top: 42.701%;
-      left: 23.281%;
+      top: var(--neighbour-y);
+      left: var(--neighbour-x);
     }
 
     .catalogue__neighbour:nth-child(3) {
@@ -884,9 +884,9 @@ const selectedNeighbourPositions = [
       --copy-offset: min(1.51vw, 1.8125rem);
       --copy-gap: -0.125rem;
       --year-gap: 0.3125rem;
-      top: 41.51%;
+      top: var(--neighbour-y);
       right: auto;
-      left: 67.344%;
+      left: var(--neighbour-x);
     }
 
     .catalogue__neighbour:nth-child(4) {
@@ -896,9 +896,9 @@ const selectedNeighbourPositions = [
       --copy-offset: min(0.781vw, 0.9375rem);
       --copy-gap: 0.4375rem;
       --year-gap: 0.625rem;
-      top: 63.754%;
+      top: var(--neighbour-y);
       right: auto;
-      left: 83.073%;
+      left: var(--neighbour-x);
     }
 
     .catalogue__controls button:last-child {
@@ -1131,10 +1131,10 @@ const selectedNeighbourPositions = [
   const orbitData = document.getElementById('catalogue-orbit-positions')?.textContent ?? '[]';
   const orbitPositions = JSON.parse(orbitData) as { x: number; y: number; w: number }[];
   const neighbourPositions = [
-    { x: 9.8, y: 62 },
-    { x: 23.3, y: 45 },
-    { x: 67.2, y: 44 },
-    { x: 81.3, y: 65 },
+    { x: 9.844, y: 60.775 },
+    { x: 23.281, y: 42.701 },
+    { x: 67.344, y: 41.51 },
+    { x: 83.073, y: 63.754 },
   ];
 
   if (catalogue && items.length > 0) {
@@ -1152,12 +1152,13 @@ const selectedNeighbourPositions = [
     const sideCards = [...catalogue.querySelectorAll<HTMLButtonElement>('[data-side-card]')];
     const orbitButtons = [...catalogue.querySelectorAll<HTMLButtonElement>('[data-orbit-piece]')];
     const sideOffsets = [-2, -1, 1, 2];
+    const objectDetailSlug = 'robe-francaise-1760';
     let currentIndex = 3;
     let changeTimer = 0;
-    let orbitTimer = 0;
     let neighbourTimer = 0;
-    let orbitLocked = false;
+    let orbitTimer = 0;
     let neighboursLocked = false;
+    let orbitLocked = false;
 
     const normalized = (index: number) => (index + items.length) % items.length;
 
@@ -1169,17 +1170,44 @@ const selectedNeighbourPositions = [
       card.style.setProperty('--neighbour-y', `${position.y}%`);
     };
 
-    const rotateNeighbours = (delta: number) => {
-      if (neighboursLocked) return;
+    const setSideCardContent = (card: HTMLButtonElement, sideIndex: number) => {
+      const side = items[sideIndex];
+      const image = card.querySelector<HTMLImageElement>('[data-side-image]');
+      const sideTitle = card.querySelector<HTMLElement>('[data-side-title]');
+      const sideYear = card.querySelector<HTMLElement>('[data-side-year]');
+
+      card.dataset.index = String(sideIndex);
+      card.setAttribute('aria-label', `Ver ${side.title}, ${side.year}`);
+      if (image) image.src = side.image;
+      if (sideTitle) sideTitle.textContent = side.title;
+      if (sideYear) sideYear.textContent = side.year;
+    };
+
+    const updateNeighbours = (centerIndex: number) => {
+      sideCards.forEach((card, cardIndex) => {
+        const positionIndex = Number(card.dataset.position ?? cardIndex);
+        const sideIndex = normalized(centerIndex + sideOffsets[positionIndex]);
+        setSideCardContent(card, sideIndex);
+      });
+    };
+
+    const rotateNeighbours = (direction: number, centerIndex: number) => {
+      if (neighboursLocked || direction === 0) {
+        updateNeighbours(centerIndex);
+        return;
+      }
 
       neighboursLocked = true;
       window.clearTimeout(neighbourTimer);
 
-      sideCards.forEach((card) => {
-        const position = Number(card.dataset.position ?? 0);
-        const rawTarget = position + delta;
+      sideCards.forEach((card, cardIndex) => {
+        const position = Number(card.dataset.position ?? cardIndex);
+        const rawTarget = position + direction;
         const target = ((rawTarget % sideCards.length) + sideCards.length) % sideCards.length;
         const wraps = rawTarget < 0 || rawTarget >= sideCards.length;
+        const sideIndex = normalized(centerIndex + sideOffsets[target]);
+
+        setSideCardContent(card, sideIndex);
 
         if (!wraps) {
           setNeighbourPosition(card, target);
@@ -1206,13 +1234,33 @@ const selectedNeighbourPositions = [
     const render = (nextIndex: number, announce = true) => {
       const previousIndex = currentIndex;
       currentIndex = normalized(nextIndex);
-      if (currentIndex !== previousIndex) {
-        const forwardDistance = normalized(currentIndex - previousIndex);
-        const backwardDistance = normalized(previousIndex - currentIndex);
-        rotateNeighbours(forwardDistance <= backwardDistance ? 1 : -1);
-      }
       const current = items[currentIndex];
       const visibleNumber = String(currentIndex + 2).padStart(2, '0');
+      const hasObjectDetail = current.slug === objectDetailSlug;
+      const forwardDistance = normalized(currentIndex - previousIndex);
+      const backwardDistance = normalized(previousIndex - currentIndex);
+      const mainDirection =
+        currentIndex === previousIndex ? 0 : forwardDistance <= backwardDistance ? 1 : -1;
+
+      if (pieceLink) {
+        pieceLink.hidden = false;
+        if (hasObjectDetail) {
+          pieceLink.href = `/coleccion/${current.slug}`;
+          pieceLink.removeAttribute('aria-disabled');
+        } else {
+          pieceLink.removeAttribute('href');
+          pieceLink.setAttribute('aria-disabled', 'true');
+        }
+      }
+      if (mainLink) {
+        if (hasObjectDetail) {
+          mainLink.href = `/coleccion/${current.slug}`;
+          mainLink.setAttribute('aria-label', `Abrir ficha de ${current.title}`);
+        } else {
+          mainLink.removeAttribute('href');
+          mainLink.removeAttribute('aria-label');
+        }
+      }
 
       catalogue.classList.add('is-changing');
       window.clearTimeout(changeTimer);
@@ -1229,25 +1277,8 @@ const selectedNeighbourPositions = [
         if (section) section.textContent = current.section;
         if (pieceNumber) pieceNumber.textContent = `PIEZA ${visibleNumber}/ 42`;
         if (countCurrent) countCurrent.textContent = visibleNumber;
-        if (pieceLink) pieceLink.href = `/coleccion/${current.slug}`;
-        if (mainLink) {
-          mainLink.href = `/coleccion/${current.slug}`;
-          mainLink.setAttribute('aria-label', `Abrir ficha de ${current.title}`);
-        }
 
-        sideCards.forEach((card, cardIndex) => {
-          const positionIndex = Number(card.dataset.position ?? cardIndex);
-          const sideIndex = normalized(currentIndex + sideOffsets[positionIndex]);
-          const side = items[sideIndex];
-          const image = card.querySelector<HTMLImageElement>('[data-side-image]');
-          const sideTitle = card.querySelector<HTMLElement>('[data-side-title]');
-          const sideYear = card.querySelector<HTMLElement>('[data-side-year]');
-          card.dataset.index = String(sideIndex);
-          card.setAttribute('aria-label', `Ver ${side.title}, ${side.year}`);
-          if (image) image.src = side.image;
-          if (sideTitle) sideTitle.textContent = side.title;
-          if (sideYear) sideYear.textContent = side.year;
-        });
+        rotateNeighbours(-mainDirection, currentIndex);
 
         if (announce && liveRegion) liveRegion.textContent = `${current.title}, ${current.year}`;
         catalogue.classList.remove('is-changing');

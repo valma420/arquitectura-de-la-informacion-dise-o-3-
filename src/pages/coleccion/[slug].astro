@@ -120,18 +120,35 @@ const genericDetails = [
 ];
 
 const details = (isFigmaFeature ? exactDetails : genericDetails).slice(0, 3);
-const hotspots = [
-  { x: 29, y: 32 },
-  { x: 50, y: 23 },
-  { x: 60, y: 32 },
-];
+const hotspots = isFigmaFeature
+  ? [
+      { x: 36, y: 40 },
+      { x: 59, y: 64 },
+      { x: 82, y: 79 },
+    ]
+  : [
+      { x: 29, y: 32 },
+      { x: 50, y: 23 },
+      { x: 60, y: 32 },
+    ];
 ---
 
 <MainLayout immersive title={`${displayTitle} — Colección`} description={description}>
-  <article class="object" data-object-page>
+  <article class:list={['object', { 'object--feature': isFigmaFeature }]} data-object-page>
     <a class="object__back" href="/coleccion">
       <span>Volver a la colección</span>
     </a>
+
+    {
+      isFigmaFeature && (
+        <img
+          class="object__fidelity-copy"
+          src="/images/collection-fidelity/robe/object-texture.png"
+          alt=""
+          aria-hidden="true"
+        />
+      )
+    }
 
     <div class="object__timeline" aria-hidden="true">
       <span class="object__year object__year--first">{firstYear}</span>
@@ -190,13 +207,49 @@ const hotspots = [
       }
     </figure>
 
+    {
+      isFigmaFeature && (
+        <aside class="object__feature-notes" aria-label="Vistas y patrón de la pieza">
+          <section>
+            <h2>Vistas</h2>
+            <div class="object__views" aria-hidden="true">
+              <img src="/images/collection-fidelity/robe/views-a.svg" alt="" />
+              <img src="/images/collection-fidelity/robe/views-b.svg" alt="" />
+              <img src="/images/collection-fidelity/robe/views-c.svg" alt="" />
+            </div>
+            <p>
+              Las tres vistas muestran los elementos constructivos que definen la tipología: pliegue
+              Watteau en la espalda, estomacar al frente y volumen lateral generado por paniers.
+            </p>
+          </section>
+          <section>
+            <h2>Patrón</h2>
+            <img
+              class="object__pattern"
+              src="/images/collection-fidelity/robe/pattern.svg"
+              alt=""
+            />
+            <p>
+              Lampás de seda, tejido façonné con motivos florales en repetición vertical. Producción
+              probable: Lyon, centro europeo de la seda del siglo XVIII.
+            </p>
+          </section>
+        </aside>
+      )
+    }
+
     <button
       class="object__detail-entry"
       type="button"
       data-detail-entry
       aria-label="Explorar detalles"
     >
-      <img src="/images/collection-fidelity/museum-arrow.svg" alt="" />
+      <img
+        src={isFigmaFeature
+          ? '/images/collection-fidelity/robe/arrow-down.svg'
+          : '/images/collection-fidelity/museum-arrow.svg'}
+        alt=""
+      />
     </button>
   </article>
 
@@ -752,6 +805,117 @@ const hotspots = [
     font-size: clamp(1.45rem, 1.67vw, 2rem);
     font-style: italic;
     line-height: 1.1;
+  }
+
+  .object--feature .object__back {
+    top: 4.35%;
+    left: 2.5%;
+    width: 11.75%;
+    height: 2.35rem;
+    color: var(--cream);
+    background: var(--orange);
+    border: 1px solid var(--orange);
+    border-radius: 999px;
+    box-shadow:
+      inset 0 0 0 3px var(--ink),
+      0 0 0 1px var(--orange);
+    font-size: 0.7rem;
+  }
+
+  .object--feature .object__timeline,
+  .object--feature .object__feature-notes {
+    display: none;
+  }
+
+  .object__fidelity-copy {
+    position: absolute;
+    z-index: 5;
+    top: 16.65%;
+    left: 5.3%;
+    width: 89.7%;
+    height: 66.6%;
+    object-fit: fill;
+    pointer-events: none;
+  }
+
+  .object--feature .object__copy {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .object--feature .object__media {
+    top: 4.45%;
+    left: 24.1%;
+    width: 50.8%;
+    height: 95.55%;
+  }
+
+  .object--feature .object__hotspot {
+    width: 2.35rem;
+    height: 2.35rem;
+  }
+
+  .object--feature .object__hotspot > img {
+    width: 1.35rem;
+    height: 1.35rem;
+  }
+
+  .object--feature .object__feature-notes {
+    position: absolute;
+    z-index: 5;
+    top: 18%;
+    right: 5.2%;
+    width: 19.2%;
+  }
+
+  .object__feature-notes section + section {
+    margin-top: 3.25rem;
+  }
+
+  .object__feature-notes h2 {
+    margin: 0;
+    color: var(--orange);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .object__feature-notes p {
+    margin: 1.15rem 0 0;
+    color: var(--cream);
+    font-size: 0.875rem;
+    line-height: 1.08;
+  }
+
+  .object__views {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr 0.72fr;
+    align-items: end;
+    gap: 1.2rem;
+    height: 8rem;
+    margin-top: 1.35rem;
+  }
+
+  .object__views img {
+    width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .object__pattern {
+    display: block;
+    width: 100%;
+    height: 12.3rem;
+    margin-top: 1.35rem;
+    object-fit: cover;
+    object-position: center;
   }
 
   :global(html.detail-open) {
