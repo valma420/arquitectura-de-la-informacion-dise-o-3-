@@ -72,67 +72,88 @@ const pieceProfiles = [
   ['chaleco-courtois', 'rococo abrigo bordado'],
 ];
 
+// The selected state of the Rococó filter in the approved Figma frame.
+const rococoPieceIndexes = new Set([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 14, 16, 18, 45, 46]);
+const rococoDressExcludedPieceIndexes = new Set([7, 8, 9, 14, 16, 45, 46]);
+
 const collectionPieces = collectionLayout.map(([x, y, w, h], index) => {
   const [slug, tags] = pieceProfiles[index % pieceProfiles.length];
-  return { x, y, w, h, slug, tags };
+  return {
+    x,
+    y,
+    w,
+    h,
+    slug,
+    tags,
+    period: rococoPieceIndexes.has(index) ? 'rococo' : 'other',
+    excludedFromRococoDress: rococoDressExcludedPieceIndexes.has(index),
+  };
 });
 
 const filters = [
   {
     label: 'Período',
     options: [
-      ['Rococó', 'rococo'],
-      ['Neoclásico', 'neoclasico'],
-      ['Siglo XIX', 'siglo-xix'],
-      ['Belle Époque', 'belle-epoque'],
-      ['Années folles', 'annees-folles'],
-      ['Los años 30', 'anos-30'],
-      ['New Look', 'new-look'],
-      ['La Revolución juvenil', 'revolucion-juvenil'],
+      ['Rococó', true],
+      ['Neoclásico', false],
+      ['Siglo XIX', false],
+      ['Belle Époque', false],
+      ['Années folles', false],
+      ['Los años 30', false],
+      ['New Look', false],
+      ['La Revolución juvenil', false],
+      ['Power dressing', false],
+      ['Siglo XXI', false],
     ],
   },
   {
     label: 'Diseñador',
     options: [
-      ['Anónimo', 'anonimo'],
-      ['Maison Worth', 'worth'],
-      ['Paul Poiret', 'poiret'],
-      ['Madeleine Vionnet', 'vionnet'],
-      ['Christian Dior', 'dior'],
+      ['Anonimo / s.d.', false],
+      ['Chanel', true],
+      ['Christian Dior', false],
+      ['Cristóbal Balenciaga', false],
+      ['Yves Saint Laurent', false],
+      ['Jean Paul Gaultier', false],
+      ['Givenchy', false],
+      ['Elsa Schiaparelli', false],
+      ['Madame Grès', false],
+      ['Pierre Balmain', false],
     ],
   },
   {
     label: 'Tipología',
     options: [
-      ['Vestido', 'vestido'],
-      ['Abrigo', 'abrigo'],
-      ['Traje', 'traje'],
-      ['Calzado', 'calzado'],
-      ['Sombrerería', 'sombrereria'],
-      ['Accesorios', 'accesorios'],
-      ['Partes de abajo', 'partes-abajo'],
-      ['Partes de arriba', 'partes-arriba'],
+      ['Vestido', true],
+      ['Abrigo', false],
+      ['Traje', false],
+      ['Calzado', false],
+      ['Sombrerería', false],
+      ['Accesorios', false],
+      ['Partes de abajo', false],
+      ['Partes de arriba', false],
     ],
   },
   {
     label: 'Material',
     options: [
-      ['Seda', 'seda'],
-      ['Algodón', 'algodon'],
-      ['Lana', 'lana'],
-      ['Encaje', 'encaje'],
-      ['Cuero', 'cuero'],
-      ['Bordado', 'bordado'],
+      ['Seda', true],
+      ['Algodón', false],
+      ['Lana', false],
+      ['Encaje', false],
+      ['Cuero', false],
+      ['Bordado', false],
     ],
   },
   {
     label: 'Color',
     options: [
-      ['Claro', 'claro'],
-      ['Oscuro', 'oscuro'],
-      ['Azul', 'azul'],
-      ['Verde', 'verde'],
-      ['Rojo', 'rojo'],
+      ['Negro', true],
+      ['Blanco', false],
+      ['Rojo', false],
+      ['Azul', false],
+      ['Verde', false],
+      ['Dorado / metálico', false],
     ],
   },
 ];
@@ -146,13 +167,7 @@ const filters = [
   <div class="permanent-collection" data-permanent-collection>
     <header class="collection-nav">
       <a class="collection-nav__logo" href="/" aria-label="Palais Galliera — Inicio">
-        <svg viewBox="0 0 61 61" aria-hidden="true">
-          <circle cx="30.5" cy="30.5" r="30.5" fill="currentColor"></circle>
-          <g fill="none" stroke="#f3eee1" stroke-width="1.5">
-            <path d="M17 26h27L30.5 19 17 26Z"></path>
-            <path d="M18 41h25M20 28v11m7-11v11m7-11v11m7-11v11"></path>
-          </g>
-        </svg>
+        <img src="/images/site/logo-light-4.svg" alt="" />
       </a>
 
       <nav class="collection-nav__bar" aria-label="Principal">
@@ -181,6 +196,8 @@ const filters = [
             href={index === 4 ? '/coleccion' : `/coleccion/${piece.slug}`}
             style={`--piece-x:${(piece.x / 1920) * 100}%;--piece-y:${(piece.y / 1079) * 100}%;--piece-w:${(piece.w / 1920) * 100}%;--piece-h:${(piece.h / 1079) * 100}%;--piece-delay:${(index % 8) * 45}ms;`}
             data-tags={piece.tags}
+            data-period={piece.period}
+            data-typology-vestido-excluded={piece.excludedFromRococoDress ? 'true' : undefined}
             aria-label={
               index === 4 ? 'Abrir selección Robe à la française' : 'Abrir ficha del objeto'
             }
@@ -197,7 +214,11 @@ const filters = [
       <div class="collection-filters" id="filtros" aria-label="Filtrar la colección">
         {
           filters.map((filter, index) => (
-            <div class="collection-filter" data-filter>
+            <div
+              class="collection-filter"
+              data-filter
+              data-filter-category={index === 0 ? 'period' : index === 2 ? 'typology' : undefined}
+            >
               <button
                 type="button"
                 aria-controls={`collection-filter-menu-${index}`}
@@ -213,9 +234,29 @@ const filters = [
                 data-filter-menu
                 hidden
               >
-                {filter.options.map(([label, value]) => (
+                {filter.options.map(([label, selected]) => (
                   <label>
-                    <input type="checkbox" value={value} data-filter-option />
+                    <input
+                      type="checkbox"
+                      checked={selected}
+                      data-filter-option
+                      data-period-option={
+                        index === 0
+                          ? String(label)
+                              .toLowerCase()
+                              .normalize('NFD')
+                              .replace(/[\u0300-\u036f]/g, '')
+                          : undefined
+                      }
+                      data-typology-option={
+                        index === 2
+                          ? String(label)
+                              .toLowerCase()
+                              .normalize('NFD')
+                              .replace(/[\u0300-\u036f]/g, '')
+                          : undefined
+                      }
+                    />
                     <span aria-hidden="true" />
                     {label}
                   </label>
@@ -249,47 +290,63 @@ const filters = [
   .collection-nav {
     position: absolute;
     z-index: 20;
-    top: 3.6%;
-    left: 3.1%;
-    display: flex;
-    align-items: center;
-    width: 70.1%;
-    min-width: 58rem;
-    height: 3.8125rem;
+    top: 3.6145%;
+    left: 3.125vw;
+    width: 0;
+    height: 3.1771vw;
   }
 
   .collection-nav__logo {
     display: block;
-    width: 3.8125rem;
-    height: 3.8125rem;
-    flex: 0 0 auto;
+    width: 3.1771vw;
+    height: 3.1771vw;
     color: var(--purple);
   }
 
-  .collection-nav__logo svg,
+  .collection-nav__logo img,
   .collection-nav__search img {
     width: 100%;
     height: 100%;
   }
 
   .collection-nav__bar {
-    display: flex;
-    align-items: center;
-    width: 55.6rem;
+    position: absolute;
+    top: 0;
+    left: 23.2292vw;
+    width: 46.3021vw;
     height: 100%;
-    margin-left: 24.1rem;
-    padding: 0 1.5rem 0 2.45rem;
     color: var(--cream);
     background: var(--purple);
   }
 
   .collection-nav__bar > a:not(.collection-nav__tickets, .collection-nav__search) {
-    margin-right: 2.35rem;
-    font-size: 0.625rem;
+    position: absolute;
+    top: 1.1979vw;
+    font-size: 0.7292vw;
     font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     white-space: nowrap;
+  }
+
+  .collection-nav__bar > a:nth-child(1) {
+    left: 2.0313vw;
+  }
+
+  .collection-nav__bar > a:nth-child(2) {
+    left: 6.9271vw;
+  }
+
+  .collection-nav__bar > a:nth-child(3) {
+    left: 14.2708vw;
+  }
+
+  .collection-nav__bar > a:nth-child(4) {
+    left: 21.4063vw;
+  }
+
+  .collection-nav__bar > a:nth-child(5) {
+    left: 27.1354vw;
   }
 
   .collection-nav__bar > a.is-active {
@@ -298,23 +355,27 @@ const filters = [
 
   .collection-nav__tickets {
     display: grid;
-    width: 6.85rem;
-    height: 2rem;
-    margin-left: auto;
+    position: absolute;
+    top: 0.7292vw;
+    left: 35.1042vw;
+    width: 5.7292vw;
+    height: 1.6667vw;
     place-items: center;
     color: var(--purple);
     background: var(--blue);
     border-radius: 2px;
-    font-size: 0.625rem;
-    font-weight: 700;
+    font-size: 0.7292vw;
+    font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
 
   .collection-nav__search {
-    width: 1.35rem;
-    height: 1.35rem;
-    margin-left: 1.4rem;
+    position: absolute;
+    top: 1.0417vw;
+    left: 43.3333vw;
+    width: 1vw;
+    height: 1vw;
     filter: brightness(0) invert(1);
   }
 
@@ -323,12 +384,18 @@ const filters = [
     z-index: 5;
     top: 14.25%;
     left: 3.1%;
-    font-size: 0.75rem;
-    line-height: 1.2;
+    font-size: 1.125rem;
+    font-weight: 450;
+    line-height: 1.15;
   }
 
   .permanent-collection__summary p {
     margin: 0;
+  }
+
+  .permanent-collection__summary p + p {
+    margin-top: 0.15rem;
+    font-size: 1rem;
   }
 
   .permanent-collection__pieces {
@@ -396,15 +463,15 @@ const filters = [
     font-style: normal;
     font-weight: 100;
     line-height: 0.8;
-    letter-spacing: -0.04em;
+    letter-spacing: -0.02em;
     text-align: center;
   }
 
   .collection-filters {
     display: flex;
     justify-content: center;
-    gap: 0.7rem;
-    margin-top: 2.1rem;
+    gap: 1.125rem;
+    margin-top: 2.2875rem;
   }
 
   .collection-filter {
@@ -412,16 +479,16 @@ const filters = [
   }
 
   .collection-filter > button {
-    min-width: 6.65rem;
+    width: 7rem;
     height: 2rem;
-    padding: 0 1rem;
-    color: var(--purple);
-    background: var(--cream);
-    border: 1px solid var(--purple);
-    border-radius: 100px;
+    padding: 0 0.5rem;
+    color: transparent;
+    background: url('/images/collection-fidelity/vectores.svg') var(--vector-x) -2.8125rem /
+      52.1875rem 32.8125rem no-repeat;
+    border: 0;
     cursor: pointer;
-    font-size: 0.625rem;
-    font-weight: 700;
+    font-size: 0.875rem;
+    font-weight: 500;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     transition:
@@ -430,35 +497,69 @@ const filters = [
   }
 
   .collection-filter > button[aria-expanded='true'] {
-    color: var(--cream);
-    background: var(--purple);
+    color: transparent;
+  }
+
+  .collection-filter[data-filter-category] > button.has-selection {
+    color: transparent;
+    background-position: center;
+    background-size: 6.9375rem 2.0625rem;
+  }
+
+  .collection-filter[data-filter-category='period'] > button.has-selection {
+    background-image: url('/images/collection-fidelity/filter-button-active-period.svg');
+  }
+
+  .collection-filter[data-filter-category='typology'] > button.has-selection {
+    background-image: url('/images/collection-fidelity/filter-button-active-typology.svg');
+  }
+
+  .collection-filter:nth-child(1) > button {
+    --vector-x: -11.8125rem;
+  }
+
+  .collection-filter:nth-child(2) > button {
+    --vector-x: -19.8125rem;
+  }
+
+  .collection-filter:nth-child(3) > button {
+    --vector-x: -27.8125rem;
+  }
+
+  .collection-filter:nth-child(4) > button {
+    --vector-x: -35.8125rem;
+  }
+
+  .collection-filter:nth-child(5) > button {
+    --vector-x: -43.8125rem;
   }
 
   .collection-filter__menu {
     position: absolute;
-    top: calc(100% + 0.2rem);
+    top: calc(100% + 0.375rem);
     left: 0;
-    width: max(100%, 9.5rem);
+    width: 14.375rem;
     overflow: hidden;
     color: var(--purple);
-    background: linear-gradient(to bottom, #d8bccb, var(--blue));
-    box-shadow: 0 0.75rem 1.5rem rgb(82 3 69 / 18%);
+    background: linear-gradient(to bottom, #f3eee1, #b9d6fe);
+    box-shadow: 0 0.875rem 1.5rem rgb(82 3 69 / 18%);
   }
 
   .collection-filter__menu label {
     display: flex;
     align-items: center;
-    gap: 0.55rem;
-    min-height: 2.2rem;
-    padding: 0.35rem 0.7rem;
+    gap: 0.625rem;
+    min-height: 2.625rem;
+    padding: 0 0.875rem;
     border-bottom: 1px solid rgb(82 3 69 / 18%);
     cursor: pointer;
-    font-size: 0.72rem;
+    font-size: 1rem;
+    font-weight: 450;
     white-space: nowrap;
   }
 
-  .collection-filter__menu label:hover {
-    background: rgb(243 238 225 / 38%);
+  .collection-filter__menu label:has(input:checked) {
+    background: #ceb8c2;
   }
 
   .collection-filter__menu input {
@@ -469,14 +570,14 @@ const filters = [
   }
 
   .collection-filter__menu label > span {
-    width: 0.65rem;
-    height: 0.65rem;
+    width: 0.875rem;
+    height: 0.875rem;
     border: 1px solid var(--purple);
   }
 
   .collection-filter__menu input:checked + span {
     background: var(--purple);
-    box-shadow: inset 0 0 0 2px var(--blue);
+    box-shadow: inset 0 0 0 3px #ceb8c2;
   }
 
   @keyframes collection-piece-enter {
@@ -500,9 +601,46 @@ const filters = [
 
   if (collection) {
     const filters = [...collection.querySelectorAll<HTMLElement>('[data-filter]')];
-    const pieces = [...collection.querySelectorAll<HTMLElement>('[data-tags]')];
+    const pieces = [...collection.querySelectorAll<HTMLElement>('[data-period]')];
     const status = collection.querySelector<HTMLElement>('[data-filter-status]');
-    const activeFilters = new Map<HTMLElement, { value: string; label: string }>();
+
+    const applyCollectionFilters = () => {
+      const rococoSelected = collection.querySelector<HTMLInputElement>(
+        '[data-period-option="rococo"]'
+      )?.checked;
+      const dressSelected = collection.querySelector<HTMLInputElement>(
+        '[data-typology-option="vestido"]'
+      )?.checked;
+
+      collection.classList.toggle('is-filtering', Boolean(rococoSelected));
+      pieces.forEach((piece) => {
+        piece.classList.toggle(
+          'is-match',
+          Boolean(rococoSelected) &&
+            piece.dataset.period === 'rococo' &&
+            !(Boolean(dressSelected) && piece.dataset.typologyVestidoExcluded === 'true')
+        );
+      });
+
+      if (status) {
+        status.textContent = !rococoSelected
+          ? 'Filtro Rococó desactivado. Se muestran todas las prendas.'
+          : dressSelected
+            ? 'Filtros Rococó y Vestido activos. Se ocultan las prendas indicadas en la referencia.'
+            : 'Filtro Rococó activo. Se muestran las prendas seleccionadas en la referencia.';
+      }
+    };
+
+    const syncFilterButton = (filter: HTMLElement) => {
+      if (!filter.hasAttribute('data-filter-category')) return;
+
+      const hasSelection = [
+        ...filter.querySelectorAll<HTMLInputElement>('[data-filter-option]'),
+      ].some((option) => option.checked);
+      filter
+        .querySelector<HTMLButtonElement>('[data-filter-toggle]')
+        ?.classList.toggle('has-selection', hasSelection);
+    };
 
     const closeMenus = (except?: HTMLElement) => {
       filters.forEach((filter) => {
@@ -514,30 +652,9 @@ const filters = [
       });
     };
 
-    const applyFilters = () => {
-      const selections = [...activeFilters.values()];
-      let matchCount = 0;
-
-      pieces.forEach((piece) => {
-        const tags = (piece.dataset.tags ?? '').split(' ');
-        const matches = selections.every(({ value }) => tags.includes(value));
-        piece.classList.toggle('is-match', matches);
-        if (matches) matchCount += 1;
-      });
-
-      collection.classList.toggle('is-filtering', selections.length > 0);
-      if (status) {
-        const labels = selections.map(({ label }) => label).join(' + ');
-        status.textContent = labels
-          ? `${labels}: ${matchCount} objetos visibles`
-          : `${matchCount} objetos visibles`;
-      }
-    };
-
     filters.forEach((filter) => {
       const toggle = filter.querySelector<HTMLButtonElement>('[data-filter-toggle]');
       const menu = filter.querySelector<HTMLElement>('[data-filter-menu]');
-      const filterLabel = toggle?.textContent?.trim() ?? '';
 
       toggle?.addEventListener('click', () => {
         const willOpen = toggle.getAttribute('aria-expanded') !== 'true';
@@ -548,25 +665,14 @@ const filters = [
 
       filter.querySelectorAll<HTMLInputElement>('[data-filter-option]').forEach((option) => {
         option.addEventListener('change', () => {
-          if (!option.checked) {
-            activeFilters.delete(filter);
-            applyFilters();
-            if (toggle) toggle.textContent = filterLabel;
-            closeMenus();
-            return;
+          if (option.matches('[data-period-option], [data-typology-option]')) {
+            applyCollectionFilters();
           }
-
-          filter.querySelectorAll<HTMLInputElement>('[data-filter-option]').forEach((other) => {
-            if (other !== option) other.checked = false;
-          });
-
-          const label = option.closest('label')?.textContent?.trim() ?? option.value;
-          activeFilters.set(filter, { value: option.value, label });
-          applyFilters();
-          if (toggle) toggle.textContent = label;
-          closeMenus();
+          syncFilterButton(filter);
         });
       });
+
+      syncFilterButton(filter);
     });
 
     document.addEventListener('click', (event) => {
@@ -582,5 +688,7 @@ const filters = [
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') closeMenus();
     });
+
+    applyCollectionFilters();
   }
 </script>
