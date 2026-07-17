@@ -221,6 +221,15 @@ function initMuestraMotion(): void {
     return;
   }
 
+  // Start the quote with its “New Look” aligned to the cover title so the
+  // crossfade reads as a swap in place instead of a positional jump.
+  const coverTitle = centralCopy.querySelector<HTMLElement>('h1');
+  const quoteStrong = quote.querySelector<HTMLElement>('strong');
+  const quoteAlignOffset = () =>
+    coverTitle && quoteStrong
+      ? centralCopy.offsetTop + coverTitle.offsetTop - (quote.offsetTop + quoteStrong.offsetTop)
+      : 0;
+
   gsap.set(quote, { autoAlpha: 0 });
   if (quoteRule) gsap.set(quoteRule, { autoAlpha: 0 });
   gsap.set(creamWash, { autoAlpha: 0 });
@@ -237,6 +246,7 @@ function initMuestraMotion(): void {
   });
 
   timeline
+    .set(quote, { y: quoteAlignOffset }, 0)
     .to(
       circle,
       {
