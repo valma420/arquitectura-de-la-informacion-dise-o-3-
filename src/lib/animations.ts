@@ -260,7 +260,6 @@ function initMuestraMotion(): void {
     .to(centralCopy, { autoAlpha: 0, duration: 0.2 }, 0.22)
     .to(quote, { autoAlpha: 1, duration: 0.2 }, 0.42)
     .to(meta, { autoAlpha: 0, duration: 0.18 }, 0.55)
-    .to(quote, { y: 0, duration: 0.22 }, 0.64)
     .to(creamWash, { autoAlpha: 1, duration: 0.3 }, 0.62);
 
   if (quoteRule) {
