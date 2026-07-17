@@ -1,6 +1,140 @@
 ---
 import MainLayout from '@layouts/MainLayout.astro';
 
+const decadeAssets = '/images/muestra/decade';
+
+/**
+ * Cards of the "Diez años, una casa" strip (Figma node 202:3956).
+ * All cards share one size; whichever sits at the scroller's center is
+ * scaled up 1.294x at runtime (see the script below), reproducing the
+ * enlarged "lead" card from Figma for whichever year is centered.
+ */
+const decadeCards = [
+  {
+    year: '1947',
+    title: 'Colección Corolle',
+    copy: 'Christian Dior presenta su primera colección en el salón del 30 Avenue Montaigne. Carmel Snow la bautiza "New Look". Ese mismo año, la casa lanza Miss Dior, primer perfume de la marca.',
+    image: `${decadeAssets}/photo-1947.jpg`,
+    alt: '1947, el tailleur Bar sobre maniquí',
+    left: '13.785%',
+  },
+  {
+    year: '1948',
+    title: 'La expansión',
+    copy: 'Dior abre boutique en la Quinta Avenida. Es la primera casa de couture parisina con presencia formal en Estados Unidos. La ropa francesa se vuelve, otra vez, el estándar mundial.',
+    image: `${decadeAssets}/photo-1948.jpg`,
+    alt: '1948, Christian Dior en la puerta de su boutique',
+    left: '23.16%',
+  },
+  {
+    year: '1951',
+    title: 'Línea Oval',
+    copy: 'Dior presenta la primera línea con nombre — la "Ligne Ovale". Instala una lógica que definirá el resto de su carrera: cada temporada, una silueta con nombre propio.',
+    image: `${decadeAssets}/photo-1951.png`,
+    alt: '1951, modelo con sombrero de ala ancha de la línea Oval',
+    left: '32.535%',
+  },
+  {
+    year: '1953',
+    title: 'Línea Tulipe',
+    copy: 'La línea Tulipe abre el busto como una flor invertida. La casa ya concentra más de la mitad de las exportaciones de la alta costura francesa.',
+    image: `${decadeAssets}/photo-1953.jpg`,
+    alt: '1953, Grace Kelly en el festival de Cannes',
+    left: '41.91%',
+  },
+  {
+    year: '1954',
+    title: 'El regreso de Chanel',
+    copy: 'Chanel reabre su casa y desafía el reinado del New Look. Dior responde con la Línea H: talle alargado y líneas planas.',
+    image: `${decadeAssets}/photo-1954.jpg`,
+    alt: '1954, recorte de prensa sobre el regreso de Chanel',
+    left: '51.285%',
+  },
+  {
+    year: '1955',
+    title: 'Un asistente de 19 años',
+    copy: 'Dior dicta su célebre conferencia en la Sorbona y suma un asistente de 19 años: Yves Saint Laurent. Nacen las líneas A e Y.',
+    image: `${decadeAssets}/photo-1955.jpg`,
+    alt: '1955, Yves Saint Laurent presentando bocetos en el taller',
+    left: '60.66%',
+  },
+  {
+    year: '1956',
+    title: 'Línea Flecha',
+    copy: 'La casa presenta las líneas Flèche y Aimant. Más de mil empleados y la mitad de las exportaciones de costura de Francia llevan su firma.',
+    image: `${decadeAssets}/photo-1956.jpg`,
+    alt: '1956, vestido estampado de la línea Flèche',
+    left: '70.035%',
+  },
+  {
+    year: '1957',
+    title: 'El final del reinado',
+    copy: 'Dior muere en Montecatini a los 52 años, meses después de su portada en Time. Yves Saint Laurent hereda la dirección creativa de la casa.',
+    image: `${decadeAssets}/photo-1957.jpg`,
+    alt: '1957, Christian Dior retratado en su último año',
+    left: '79.41%',
+  },
+];
+
+/**
+ * Floral outline decorations for the "Diez años, una casa" backdrop.
+ * Insets below are authored relative to the full 5990px-wide Figma strip
+ * (matching `.nl-decade__track`'s 311.98cqw width). Since the flowers now
+ * sit in a fixed, non-scrolling layer sized to the visible 16:9 canvas
+ * (100cqw), their left/right insets are rescaled by DECADE_TRACK_SCALE so
+ * the initial composition keeps its authored proportions; entries that
+ * land off-canvas are dropped.
+ */
+const DECADE_TRACK_SCALE = 311.98 / 100;
+
+/**
+ * Rescales a track-relative inset box to the canvas-relative coordinate
+ * space. `left` is a straight position rescale, but `right` is a distance
+ * from the (now differently-sized) right edge, so it needs the edge-position
+ * correction below rather than a plain multiply.
+ */
+function toFixedVineInset(inset: string): string {
+  const [top, right, bottom, left] = inset.split(' ').map((value) => parseFloat(value));
+  const fixedLeft = left * DECADE_TRACK_SCALE;
+  const fixedRight = right * DECADE_TRACK_SCALE - 100 * (DECADE_TRACK_SCALE - 1);
+  return `${top}% ${fixedRight}% ${bottom}% ${fixedLeft}%`;
+}
+
+const decadeVines = [
+  { image: 'vine-1', inset: '4.17% 0.06% -13% 91.89%', flip: 'x' },
+  { image: 'vine-2', inset: '-0.39% 11.93% 82.22% 84.97%', flip: 'y' },
+  { image: 'vine-3', inset: '52.44% 12.95% 35.14% 84.93%', flip: 'r' },
+  { image: 'vine-4', inset: '18.06% 8.11% 69.53% 89.76%' },
+  { image: 'vine-2', inset: '12.53% 14.27% 69.31% 82.63%', flip: 'y' },
+  { image: 'vine-5', inset: '25.28% 90.36% -34.11% 0.02%' },
+  { image: 'vine-6', inset: '25.31% 61.91% -34.15% 28.46%', flip: 'x' },
+  { image: 'vine-6', inset: '-14.63% 42.69% 5.8% 47.68%', flip: 'r' },
+  { image: 'vine-5', inset: '16.57% 29.08% -25.41% 61.29%' },
+  { image: 'vine-7', inset: '44.15% 88.51% 37.69% 7.79%' },
+  { image: 'vine-7', inset: '30.59% 9.26% 51.24% 87.04%', flip: 'y' },
+  { image: 'vine-7', inset: '74.48% 74.04% 7.35% 22.26%' },
+  { image: 'vine-7', inset: '26.87% 54.82% 54.96% 41.47%', flip: 'y' },
+  { image: 'vine-8', inset: '65.74% 22.87% 16.09% 73.42%', flip: 'x' },
+  { image: 'vine-9', inset: '27.4% 75.26% 60.19% 22.21%', flip: 'x' },
+  { image: 'vine-9', inset: '79.7% 56.04% 7.88% 41.42%', flip: 'r' },
+  { image: 'vine-10', inset: '18.66% 22.82% 68.93% 74.64%' },
+  { image: 'vine-10', inset: '10.09% 62.71% 77.49% 34.75%' },
+  { image: 'vine-10', inset: '18.7% 4.14% 68.88% 93.33%' },
+  { image: 'vine-10', inset: '83.89% 18.69% 3.69% 78.78%' },
+  { image: 'vine-10', inset: '1.3% 50.2% 86.29% 47.26%' },
+  { image: 'vine-10', inset: '83.94% 0% 3.65% 97.46%' },
+  { image: 'vine-7', inset: '61.56% 76.84% 20.27% 19.45%' },
+  { image: 'vine-7', inset: '39.79% 57.62% 42.05% 38.67%', flip: 'y' },
+  { image: 'vine-8', inset: '52.82% 20.07% 29.01% 76.23%', flip: 'x' },
+  { image: 'vine-8', inset: '16.48% 58.53% 65.35% 37.77%', flip: 'x' },
+  { image: 'vine-8', inset: '52.87% 1.38% 28.96% 94.91%', flip: 'x' },
+]
+  .map((vine) => ({ ...vine, fixedInset: toFixedVineInset(vine.inset) }))
+  .filter((vine) => {
+    const [, right, , left] = vine.fixedInset.split(' ').map((value) => parseFloat(value));
+    return left < 100 && right < 100;
+  });
+
 const hotspots = [
   {
     id: 'sombrero',
@@ -97,7 +231,11 @@ const hotspots = [
         <p class="nl-intro__quote-lead type-display-italic">
           “It’s quite a revolution, dear Christian.<br />Your dresses have such a
         </p>
-        <strong>New Look<span class="nl-intro__closing-quote" aria-hidden="true">”</span></strong>
+        <strong
+          ><span class="nl-intro__quote-word"
+            >New Look<span class="nl-intro__closing-quote" aria-hidden="true">”</span></span
+          ></strong
+        >
         <cite>— Carmel Snow · Harper’s Bazaar · 12 febrero 1947 —</cite>
       </blockquote>
     </div>
@@ -123,79 +261,83 @@ const hotspots = [
   </section>
 
   <section class="nl-decade" data-decade-carousel data-motion-owned>
-    <img
-      class="nl-decade__vine nl-decade__vine--left"
-      src="/images/muestra/decade-vine.png"
-      alt=""
-    />
-    <img
-      class="nl-decade__vine nl-decade__vine--right"
-      src="/images/muestra/decade-vine.png"
-      alt=""
-    />
-    <img
-      class="nl-decade__flower nl-decade__flower--one"
-      src="/images/muestra/decade-flower.png"
-      alt=""
-    />
-    <img
-      class="nl-decade__flower nl-decade__flower--two"
-      src="/images/muestra/decade-flower-small.png"
-      alt=""
-    />
+    <div class="nl-decade__backdrop" aria-hidden="true">
+      {
+        decadeVines.map((vine) => (
+          <div
+            class:list={['nl-decade__vine', vine.flip && `nl-decade__vine--${vine.flip}`]}
+            style={`inset:${vine.fixedInset};`}
+          >
+            <img src={`${decadeAssets}/${vine.image}.svg`} alt="" />
+          </div>
+        ))
+      }
+    </div>
 
-    <header class="nl-decade__header">
-      <h2>Diez años, una casa.</h2>
-      <p class="type-display-italic">
+    <div class="nl-decade__heading">
+      <h2 class="nl-decade__title">Diez años, una casa</h2>
+      <p class="nl-decade__subtitle">
         El New Look no fue una colección: fue el punto de partida de una hegemonía absoluta de diez
         años.
       </p>
-    </header>
+    </div>
 
     <div
-      class="nl-decade__stage"
+      class="nl-decade__scroller"
       tabindex="0"
-      aria-label="Cronología New Look. Usá las flechas o desplazá horizontalmente."
-      aria-live="polite"
-      data-decade-stage
+      aria-label="Cronología 1947 a 1957. Usá las flechas para desplazarte horizontalmente."
+      data-decade-scroller
     >
-      <div class="nl-decade__state is-active" data-decade-state="0" aria-hidden="false">
-        <figure class="nl-decade__card nl-decade__card--main nl-decade__card--center">
-          <img src="/images/muestra/figma-3760.png" alt="1947, presentación de la línea Corolle" />
-        </figure>
-        <figure class="nl-decade__card nl-decade__card--small nl-decade__card--right">
-          <img src="/images/muestra/figma-3740.png" alt="1948, apertura de la boutique Dior" />
-        </figure>
-      </div>
+      <div class="nl-decade__track">
+        {
+          decadeCards.map((card) => (
+            <article
+              class="nl-decade__card"
+              style={`left:${card.left};`}
+              tabindex="0"
+              data-decade-card
+            >
+              <img class="nl-decade__card-back" src={`${decadeAssets}/card-back.svg`} alt="" />
+              <div class="nl-decade__card-window">
+                <img class="nl-decade__card-photo" src={card.image} alt={card.alt} />
+              </div>
+              <div class="nl-decade__card-info">
+                <span class="nl-decade__info-year" aria-hidden="true">
+                  {card.year}
+                </span>
+                <h3 class="nl-decade__info-title">{card.title}</h3>
+                <p class="nl-decade__info-copy">{card.copy}</p>
+                <img
+                  class="nl-decade__info-icon"
+                  src={`${decadeAssets}/card-icon-dark.svg`}
+                  alt=""
+                />
+              </div>
+              <img
+                class="nl-decade__card-outline"
+                src={`${decadeAssets}/card-outline.svg`}
+                alt=""
+              />
+              <span class="nl-decade__card-year">{card.year}</span>
+              <img class="nl-decade__card-icon" src={`${decadeAssets}/card-icon.svg`} alt="" />
+            </article>
+          ))
+        }
 
-      <div class="nl-decade__state" data-decade-state="1" aria-hidden="true">
-        <figure class="nl-decade__card nl-decade__card--small nl-decade__card--left">
-          <img src="/images/muestra/figma-4237.png" alt="1947, presentación de la línea Corolle" />
-        </figure>
-        <figure class="nl-decade__card nl-decade__card--main nl-decade__card--center">
-          <img
-            src="/images/muestra/figma-4257.png"
-            alt="1948, la expansión internacional de Dior"
-          />
-        </figure>
-        <figure class="nl-decade__card nl-decade__card--small nl-decade__card--right">
-          <img src="/images/muestra/figma-4211.png" alt="1951, nueva silueta Dior" />
-        </figure>
-      </div>
-
-      <div class="nl-decade__state" data-decade-state="2" aria-hidden="true">
-        <figure class="nl-decade__card nl-decade__card--small nl-decade__card--left">
-          <img src="/images/muestra/figma-4310.png" alt="1948, apertura de la boutique Dior" />
-        </figure>
-        <figure class="nl-decade__card nl-decade__card--main nl-decade__card--center">
-          <img src="/images/muestra/figma-4287.png" alt="1951, nueva silueta Dior" />
-        </figure>
         <a
-          class="nl-decade__card nl-decade__card--small nl-decade__card--right nl-decade__timeline"
+          class="nl-decade__card nl-decade__card--timeline"
           href="/linea-de-tiempo"
+          data-decade-card
         >
-          <span>Recorré otras décadas</span>
-          <img src="/images/muestra/figma-4330.png" alt="Línea de tiempo" />
+          <img class="nl-decade__card-back" src={`${decadeAssets}/card-back-timeline.svg`} alt="" />
+          <img
+            class="nl-decade__card-outline"
+            src={`${decadeAssets}/card-outline-timeline.svg`}
+            alt=""
+          />
+          <span class="nl-decade__timeline-pill">
+            <span class="nl-decade__timeline-label">Línea de tiempo</span>
+          </span>
         </a>
       </div>
     </div>
@@ -204,14 +346,18 @@ const hotspots = [
       class="nl-decade__arrow nl-decade__arrow--previous"
       type="button"
       data-decade-previous
-      aria-label="Ver año anterior">←</button
+      aria-label="Ver años anteriores"
     >
+      <img src={`${decadeAssets}/arrow-prev.svg`} alt="" />
+    </button>
     <button
       class="nl-decade__arrow nl-decade__arrow--next"
       type="button"
       data-decade-next
-      aria-label="Ver año siguiente">→</button
+      aria-label="Ver años siguientes"
     >
+      <img src={`${decadeAssets}/arrow-next.svg`} alt="" />
+    </button>
   </section>
 
   <section class="nl-bar" data-bar-explorer data-motion-owned>
@@ -413,12 +559,19 @@ const hotspots = [
     position: relative;
   }
 
+  .nl-intro__quote-word {
+    position: relative;
+    display: inline-block;
+  }
+
   .nl-intro__closing-quote {
+    /* Sized/positioned so the quote ink matches the Figma reference glyph. */
     position: absolute;
-    top: -0.15em;
-    right: -0.45em;
+    top: -0.05em;
+    left: 100%;
+    margin-left: -0.06em;
     color: #141414;
-    font-size: 0.28em;
+    font-size: 0.7em;
     letter-spacing: 0;
   }
 
@@ -496,177 +649,322 @@ const hotspots = [
   }
 
   .nl-curatorial p {
-    max-width: min(98vw, 118rem);
-    font-size: clamp(2.25rem, 3.05vw, 3.65rem);
-    line-height: 1.18;
+    /* Figma spec: 64px / 96px line height on the 1920px-wide 16:9 canvas. */
+    max-width: min(98cqw, 118rem);
+    font-size: clamp(2.25rem, 3.333cqw, 4rem);
+    line-height: 1.5;
   }
 
   .nl-curatorial span {
     color: #fd6500;
   }
 
+  /* Figma node 202:3956 — a 5990x1080 strip shown through the 16:9 canvas. */
   .nl-decade {
     position: relative;
-    height: clamp(48rem, 62.5vw, 75rem);
+    height: 56.25cqw;
     overflow: hidden;
     isolation: isolate;
     background: #b9d6fe;
     color: #141414;
   }
 
-  .nl-decade__header {
+  /* Non-scrolling floral layer — stays put while cards move above it. */
+  .nl-decade__backdrop {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .nl-decade__heading {
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    width: 100%;
+    padding: 4.54% 0.41% 0 3.03%;
+    pointer-events: none;
+  }
+
+  .nl-decade__scroller {
     position: relative;
-    z-index: 4;
+    z-index: 2;
+    height: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
   }
 
-  .nl-decade__header h2 {
-    position: absolute;
-    top: 2.2vw;
-    left: 2vw;
-    font-size: clamp(5rem, 6.2vw, 7.45rem);
-    line-height: 0.98;
+  .nl-decade__scroller::-webkit-scrollbar {
+    display: none;
   }
 
-  .nl-decade__header p {
-    position: absolute;
-    top: 7.35vw;
-    right: 1.4vw;
-    width: 35%;
-    font-family: var(--font-body);
-    font-size: clamp(1rem, 1.67vw, 2rem);
-    line-height: 1.08;
+  .nl-decade__scroller:focus-visible {
+    outline: 2px solid #fd6500;
+    outline-offset: -0.35rem;
   }
 
-  .nl-decade__vine,
-  .nl-decade__flower {
+  .nl-decade__track {
+    position: relative;
+    width: 311.98cqw;
+    height: 100%;
+  }
+
+  .nl-decade__vine {
     position: absolute;
     z-index: 0;
     pointer-events: none;
   }
 
-  .nl-decade__vine {
-    top: 24.7%;
-    left: 0;
-    width: 30.1%;
+  .nl-decade__vine img {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
-  .nl-decade__vine--right {
-    right: 0;
-    left: auto;
+  .nl-decade__vine--x {
     transform: scaleX(-1);
   }
 
-  .nl-decade__flower--one {
-    left: 23.3%;
-    top: 43.5%;
-    width: 11.6%;
+  .nl-decade__vine--y {
+    transform: scaleY(-1);
   }
 
-  .nl-decade__flower--two {
-    right: 15.9%;
-    top: 26.8%;
-    width: 7.9%;
+  .nl-decade__vine--r {
+    transform: rotate(180deg);
   }
 
-  .nl-decade__stage,
-  .nl-decade__state {
-    position: absolute;
-    inset: 0;
+  .nl-decade__title {
+    margin: 0;
+    font-size: 7.29cqw;
+    font-weight: 100;
+    line-height: 1;
+    letter-spacing: -0.02em;
   }
 
-  .nl-decade__stage:focus-visible {
-    outline: 2px solid #fd6500;
-    outline-offset: -0.35rem;
+  .nl-decade__subtitle {
+    width: 34.79%;
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 1.667cqw;
+    font-style: italic;
+    line-height: 1.15;
   }
 
-  .nl-decade__state {
-    z-index: 2;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.55s ease;
-  }
-
-  .nl-decade__state.is-active {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
+  /*
+   * All cards share one size. Whichever sits at the scroller's center gets
+   * `.is-center` (via IntersectionObserver in the script below) and scales
+   * up 1.294x — the exact ratio Figma's own "lead" card used over the
+   * regular one — so the effect reproduces the design for any centered year.
+   */
   .nl-decade__card {
     position: absolute;
     z-index: 2;
+    top: 37.04%;
+    width: 7.25%;
+    height: 49.05%;
     margin: 0;
-    transition: transform 0.55s var(--ease-expo);
+    color: inherit;
+    transition: transform 0.4s var(--ease-expo);
+    transform: scale(1);
+    scroll-snap-align: center;
   }
 
-  .nl-decade__card img {
-    width: 100%;
-    height: auto;
+  .nl-decade__card.is-center {
+    z-index: 4;
+    transform: scale(1.294);
   }
 
-  .nl-decade__card--main {
-    top: 29%;
-    width: 29.3%;
+  .nl-decade__card--timeline {
+    left: 88.79%;
+    display: block;
   }
 
-  .nl-decade__card--small {
-    top: 35.5%;
-    width: 22.66%;
-  }
-
-  .nl-decade__card--left {
-    left: 3.44%;
-  }
-
-  .nl-decade__card--center {
-    left: 35.36%;
-  }
-
-  .nl-decade__card--right {
-    right: 3.12%;
-  }
-
-  .nl-decade__timeline {
-    color: #b9d6fe;
-    text-align: center;
-  }
-
-  .nl-decade__timeline span {
+  .nl-decade__card-back {
     position: absolute;
-    z-index: 2;
-    top: 38%;
-    left: 50%;
+    inset: 0;
     width: 100%;
-    transform: translateX(-50%);
-    font-size: clamp(1rem, 1.45vw, 1.75rem);
+    height: 100%;
+  }
+
+  .nl-decade__card-window,
+  .nl-decade__card-info,
+  .nl-decade__card-outline {
+    position: absolute;
+    top: 2.34%;
+    left: 2.9%;
+    width: 94.2%;
+    height: 95.32%;
+  }
+
+  .nl-decade__card-window {
+    overflow: hidden;
+    -webkit-mask-image: url('/images/muestra/decade/card-mask.svg');
+    mask-image: url('/images/muestra/decade/card-mask.svg');
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+  }
+
+  .nl-decade__card-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .nl-decade__card-year {
+    position: absolute;
+    z-index: 3;
+    top: 2.32%;
+    left: 0;
+    width: 100%;
+    color: #fd6500;
+    font-family: var(--font-display);
+    font-size: 2.5cqw;
     font-style: italic;
+    font-weight: 100;
+    line-height: 1;
+    text-align: center;
+    transition: opacity 0.3s ease;
+  }
+
+  .nl-decade__card-icon {
+    position: absolute;
+    z-index: 3;
+    bottom: 7.1%;
+    left: 46.35%;
+    width: 7.3%;
+    aspect-ratio: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  .nl-decade__card-info {
+    z-index: 2;
+    background: #fd6500;
+    -webkit-mask-image: url('/images/muestra/decade/card-mask.svg');
+    mask-image: url('/images/muestra/decade/card-mask.svg');
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
+    opacity: 0;
+    text-align: center;
+    transition: opacity 0.35s ease;
+  }
+
+  .nl-decade__card:hover .nl-decade__card-info,
+  .nl-decade__card:focus-visible .nl-decade__card-info {
+    opacity: 1;
+  }
+
+  .nl-decade__card:hover .nl-decade__card-year,
+  .nl-decade__card:focus-visible .nl-decade__card-year,
+  .nl-decade__card:hover .nl-decade__card-icon,
+  .nl-decade__card:focus-visible .nl-decade__card-icon {
+    opacity: 0;
+  }
+
+  .nl-decade__info-year {
+    position: absolute;
+    top: 5%;
+    left: 0;
+    width: 100%;
+    font-family: var(--font-display);
+    font-size: 2.5cqw;
+    font-style: italic;
+    font-weight: 100;
+    line-height: 1;
+  }
+
+  .nl-decade__info-title {
+    position: absolute;
+    top: 23%;
+    left: 10%;
+    width: 80%;
+    font-family: var(--font-body);
+    font-size: 1.25cqw;
+    font-style: italic;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .nl-decade__info-copy {
+    position: absolute;
+    top: 34%;
+    left: 11%;
+    width: 78%;
+    font-family: var(--font-body);
+    font-size: 1.15cqw;
+    font-style: italic;
+    line-height: 1.35;
+  }
+
+  .nl-decade__info-icon {
+    position: absolute;
+    bottom: 8%;
+    left: 46.35%;
+    width: 7.3%;
+    aspect-ratio: 1;
+    transform: rotate(180deg);
+  }
+
+  .nl-decade__timeline-pill {
+    position: absolute;
+    z-index: 3;
+    top: 45.7%;
+    left: 19.6%;
+    display: grid;
+    width: 60.7%;
+    height: 8.56%;
+    place-items: center;
+    background: url('/images/muestra/decade/timeline-icon.svg') center / 100% 100% no-repeat;
+  }
+
+  .nl-decade__timeline-label {
+    font-family: var(--font-body);
+    font-size: 0.73cqw;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 
   .nl-decade__arrow {
     position: absolute;
     z-index: 6;
-    bottom: 6.9%;
-    width: 2.14rem;
-    height: 2.14rem;
-    display: grid;
-    place-items: center;
+    bottom: 7.41%;
+    width: 2.14cqw;
+    height: 2.14cqw;
     padding: 0;
-    border: 1px solid #141414;
-    border-radius: 50%;
+    border: 0;
     background: transparent;
-    color: #141414;
     cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+
+  .nl-decade__arrow img {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
   .nl-decade__arrow--previous {
-    left: 3.12%;
+    left: 3cqw;
   }
 
   .nl-decade__arrow--next {
-    right: 3.12%;
+    right: 3cqw;
+  }
+
+  .nl-decade__arrow--next img {
+    transform: rotate(180deg);
   }
 
   .nl-decade__arrow:disabled {
-    visibility: hidden;
+    opacity: 0.25;
+    cursor: default;
   }
 
   .nl-bar {
@@ -945,8 +1243,10 @@ const hotspots = [
       opacity: 1;
     }
 
-    .nl-decade__state,
     .nl-decade__card,
+    .nl-decade__card-info,
+    .nl-decade__card-year,
+    .nl-decade__card-icon,
     .nl-bar__hotspot,
     .nl-bar__cta {
       transition: none;
@@ -978,75 +1278,106 @@ const hotspots = [
     button.addEventListener('click', () => activateHotspot(button.dataset.hotspot ?? ''));
   });
 
-  const decadeStates = Array.from(document.querySelectorAll<HTMLElement>('[data-decade-state]'));
+  const decadeScroller = document.querySelector<HTMLElement>('[data-decade-scroller]');
   const previousButton = document.querySelector<HTMLButtonElement>('[data-decade-previous]');
   const nextButton = document.querySelector<HTMLButtonElement>('[data-decade-next]');
-  const decadeStage = document.querySelector<HTMLElement>('[data-decade-stage]');
-  let decadeIndex = 0;
 
-  function renderDecade() {
-    decadeStates.forEach((state, index) => {
-      const active = index === decadeIndex;
-      state.classList.toggle('is-active', active);
-      state.setAttribute('aria-hidden', String(!active));
-      state.toggleAttribute('inert', !active);
-    });
+  // One card pitch, matching the constant spacing between the `left` values above.
+  const DECADE_CARD_PITCH = 0.09375;
+  const prefersInstantScroll = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let decadeFrame = 0;
+  let decadeTarget: number | null = null;
 
-    if (previousButton) previousButton.disabled = decadeIndex === 0;
-    if (nextButton) {
-      nextButton.setAttribute(
-        'aria-label',
-        decadeIndex === decadeStates.length - 1 ? 'Abrir la línea de tiempo' : 'Ver año siguiente'
-      );
-    }
+  // Native smooth scrolling clashes with the Lenis RAF loop, so ease manually.
+  function glideDecadeTo(target: number) {
+    if (!decadeScroller) return;
+    const from = decadeScroller.scrollLeft;
+    const startedAt = performance.now();
+    const duration = 650;
+
+    window.cancelAnimationFrame(decadeFrame);
+    const tick = (now: number) => {
+      if (!decadeScroller) return;
+      const progress = Math.min(1, (now - startedAt) / duration);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      decadeScroller.scrollLeft = from + (target - from) * eased;
+      if (progress < 1) {
+        decadeFrame = window.requestAnimationFrame(tick);
+      } else {
+        decadeTarget = null;
+      }
+    };
+    decadeFrame = window.requestAnimationFrame(tick);
   }
 
-  previousButton?.addEventListener('click', () => {
-    decadeIndex = Math.max(0, decadeIndex - 1);
-    renderDecade();
-  });
+  function stepDecade(direction: 1 | -1) {
+    if (!decadeScroller) return;
+    const maxScroll = decadeScroller.scrollWidth - decadeScroller.clientWidth;
+    const pitch = decadeScroller.scrollWidth * DECADE_CARD_PITCH;
+    const from = decadeTarget ?? decadeScroller.scrollLeft;
+    decadeTarget = Math.min(maxScroll, Math.max(0, from + direction * pitch));
 
-  nextButton?.addEventListener('click', () => {
-    if (decadeIndex === decadeStates.length - 1) {
-      window.location.assign('/linea-de-tiempo');
+    if (prefersInstantScroll.matches) {
+      decadeScroller.scrollLeft = decadeTarget;
+      decadeTarget = null;
       return;
     }
 
-    decadeIndex += 1;
-    renderDecade();
-  });
+    glideDecadeTo(decadeTarget);
+  }
 
-  decadeStage?.addEventListener('keydown', (event) => {
-    if (event.key === 'ArrowLeft') {
-      event.preventDefault();
-      decadeIndex = Math.max(0, decadeIndex - 1);
-      renderDecade();
-    }
+  function syncDecadeArrows() {
+    if (!decadeScroller) return;
+    const maxScroll = decadeScroller.scrollWidth - decadeScroller.clientWidth;
+    if (previousButton) previousButton.disabled = decadeScroller.scrollLeft <= 4;
+    if (nextButton) nextButton.disabled = decadeScroller.scrollLeft >= maxScroll - 4;
+  }
 
-    if (event.key === 'ArrowRight') {
-      event.preventDefault();
-      if (decadeIndex === decadeStates.length - 1) {
-        window.location.assign('/linea-de-tiempo');
-        return;
-      }
-      decadeIndex += 1;
-      renderDecade();
-    }
-  });
+  previousButton?.addEventListener('click', () => stepDecade(-1));
+  nextButton?.addEventListener('click', () => stepDecade(1));
+  decadeScroller?.addEventListener('scroll', syncDecadeArrows, { passive: true });
 
-  decadeStage?.addEventListener(
+  decadeScroller?.addEventListener(
     'wheel',
     (event) => {
-      if (Math.abs(event.deltaX) < Math.abs(event.deltaY) || Math.abs(event.deltaX) < 16) return;
+      if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
       event.preventDefault();
-      decadeIndex = Math.min(
-        decadeStates.length - 1,
-        Math.max(0, decadeIndex + (event.deltaX > 0 ? 1 : -1))
-      );
-      renderDecade();
+      decadeScroller.scrollLeft += event.deltaX;
     },
     { passive: false }
   );
 
-  renderDecade();
+  syncDecadeArrows();
+
+  // Whichever card overlaps the scroller's center band becomes `.is-center`
+  // and scales up via CSS — always three cards on screen, the middle one big.
+  const decadeCardEls = Array.from(document.querySelectorAll<HTMLElement>('[data-decade-card]'));
+
+  if (decadeScroller && decadeCardEls.length > 0) {
+    const centerObserver = new IntersectionObserver(
+      (entries) => {
+        let winner: { element: HTMLElement; ratio: number } | null = null;
+
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          if (!winner || entry.intersectionRatio > winner.ratio) {
+            winner = { element: entry.target as HTMLElement, ratio: entry.intersectionRatio };
+          }
+        });
+
+        if (winner) {
+          decadeCardEls.forEach((card) =>
+            card.classList.toggle('is-center', card === winner!.element)
+          );
+        }
+      },
+      {
+        root: decadeScroller,
+        rootMargin: '0px -35% 0px -35%',
+        threshold: [0.25, 0.5, 0.75, 1],
+      }
+    );
+
+    decadeCardEls.forEach((card) => centerObserver.observe(card));
+  }
 </script>
