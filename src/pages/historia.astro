@@ -315,6 +315,7 @@ import MainLayout from '@layouts/MainLayout.astro';
     width: 100%;
     height: 9.26%;
     background: url('/images/history-fidelity/selector.png') top center / 100% auto no-repeat;
+    clip-path: inset(39% 27.3% 0 26.4%);
     content: '';
   }
 
@@ -328,7 +329,7 @@ import MainLayout from '@layouts/MainLayout.astro';
     left: 3.125%;
     width: 3.18%;
     aspect-ratio: 1;
-    background: url('/images/site/logo-light-4.svg') center / contain no-repeat;
+    background: url('/images/history-fidelity/home-logo.svg') center / contain no-repeat;
     content: '';
     pointer-events: none;
   }
@@ -525,6 +526,8 @@ import MainLayout from '@layouts/MainLayout.astro';
     width: min(49.7917vw, 956px);
     height: min(36.927vw, 709px);
     padding: 18px 1rem 0 0;
+    box-sizing: border-box;
+    overflow-x: hidden;
     overflow-y: auto;
     font-family: var(--font-body);
     font-size: 18px;
@@ -558,6 +561,7 @@ import MainLayout from '@layouts/MainLayout.astro';
 
   .rococo-reader__scroll blockquote {
     width: 956px;
+    max-width: 100%;
     margin: 2.2rem 0 1rem;
     color: #fd6500;
     font-family: var(--font-display);
