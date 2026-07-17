@@ -132,15 +132,22 @@ const detailByYear = new Map([
 >
   <div class="timeline-page" data-timeline>
     <header class="timeline-nav">
-      <img src="/images/timeline-adli/nav-bar.svg" alt="Palais Galliera" />
-      <nav class="sr-only" aria-label="Principal">
-        <a href="/">Inicio</a>
-        <a href="/agenda">Visitar</a>
-        <a href="/muestra">Exposiciones</a>
-        <a href="/coleccion">Colecciones</a>
-        <a href="/historia">El museo</a>
-        <a href="/agenda">Agenda y entradas</a>
-      </nav>
+      <img src="/images/timeline-adli/nav-bar.svg" alt="" aria-hidden="true" />
+      <a
+        class="timeline-nav__hit timeline-nav__hit--logo"
+        href="/"
+        aria-label="Palais Galliera — Inicio"></a>
+      <a class="timeline-nav__hit timeline-nav__hit--visit" href="/agenda">Visitar</a>
+      <a class="timeline-nav__hit timeline-nav__hit--exhibitions" href="/muestra">Exposiciones</a>
+      <a class="timeline-nav__hit timeline-nav__hit--collection" href="/coleccion-permanente"
+        >Colecciones</a
+      >
+      <a class="timeline-nav__hit timeline-nav__hit--museum" href="/historia">El museo</a>
+      <a class="timeline-nav__hit timeline-nav__hit--agenda" href="/agenda">Agenda</a>
+      <a class="timeline-nav__hit timeline-nav__hit--tickets" href="/agenda">Entradas</a>
+      <a class="timeline-nav__hit timeline-nav__hit--search" href="/coleccion-permanente"
+        >Buscar en la colección</a
+      >
     </header>
 
     <section class="timeline-overview" aria-label="Recorrido histórico">
@@ -264,7 +271,7 @@ const detailByYear = new Map([
   .timeline-nav {
     position: fixed;
     top: var(--nav-frame-y);
-    left: var(--nav-frame-x);
+    left: calc((100vw - var(--presentation-width)) / 2 + var(--nav-frame-x));
     z-index: 100;
     display: flex;
     align-items: stretch;
@@ -276,6 +283,56 @@ const detailByYear = new Map([
     display: block;
     width: 100%;
     height: auto;
+  }
+
+  .timeline-nav__hit {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    color: transparent;
+    font-size: 0;
+    line-height: 0;
+    outline-offset: 3px;
+  }
+
+  .timeline-nav__hit--logo {
+    left: 0;
+    width: calc(61 / 1345 * 100%);
+  }
+
+  .timeline-nav__hit--visit {
+    left: calc(475 / 1345 * 100%);
+    width: calc(90 / 1345 * 100%);
+  }
+
+  .timeline-nav__hit--exhibitions {
+    left: calc(565 / 1345 * 100%);
+    width: calc(145 / 1345 * 100%);
+  }
+
+  .timeline-nav__hit--collection {
+    left: calc(710 / 1345 * 100%);
+    width: calc(150 / 1345 * 100%);
+  }
+
+  .timeline-nav__hit--museum {
+    left: calc(860 / 1345 * 100%);
+    width: calc(115 / 1345 * 100%);
+  }
+
+  .timeline-nav__hit--agenda {
+    left: calc(975 / 1345 * 100%);
+    width: calc(105 / 1345 * 100%);
+  }
+
+  .timeline-nav__hit--tickets {
+    left: calc(1118 / 1345 * 100%);
+    width: calc(112 / 1345 * 100%);
+  }
+
+  .timeline-nav__hit--search {
+    left: calc(1270 / 1345 * 100%);
+    width: calc(75 / 1345 * 100%);
   }
   .timeline-page.is-detail-active .timeline-nav,
   .timeline-page.is-detail-active .timeline-overview__rail {

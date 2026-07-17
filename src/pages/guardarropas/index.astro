@@ -183,7 +183,7 @@ const portraits = [
   .wardrobe-nav {
     position: fixed;
     top: var(--nav-frame-y);
-    left: var(--nav-frame-x);
+    left: calc((100vw - var(--presentation-width)) / 2 + var(--nav-frame-x));
     z-index: 50;
     width: min(var(--nav-frame-width), calc(100vw - (2 * var(--nav-frame-x))));
     aspect-ratio: var(--nav-frame-width) / var(--nav-frame-height);
