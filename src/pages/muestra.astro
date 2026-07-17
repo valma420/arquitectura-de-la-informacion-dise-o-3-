@@ -275,10 +275,14 @@ const hotspots = [
     </div>
 
     <div class="nl-decade__heading">
-      <h2 class="nl-decade__title">Diez años, una casa</h2>
+      <h2 class="nl-decade__title">
+        <img src={`${decadeAssets}/heading-title.svg`} alt="Diez años, una casa" />
+      </h2>
       <p class="nl-decade__subtitle">
-        El New Look no fue una colección: fue el punto de partida de una hegemonía absoluta de diez
-        años.
+        <img
+          src={`${decadeAssets}/heading-subtitle.svg`}
+          alt="El New Look no fue una colección: fue el punto de partida de una hegemonía absoluta de diez años."
+        />
       </p>
     </div>
 
@@ -684,14 +688,9 @@ const hotspots = [
     top: 0;
     left: 0;
     display: flex;
-    /*
-     * flex-start + a fixed offset on the subtitle, not `align-items: baseline`.
-     * Baseline alignment across a single-line and a wrapping multi-line flex
-     * item is computed inconsistently between browsers (notably Safari), so
-     * this bakes in the same result using each font's real ascent metrics
-     * instead of leaving it to the browser's own baseline calculation.
-     */
-    align-items: flex-start;
+    /* Both title and subtitle are now pre-rendered SVG text; bottom-align
+       their image boxes instead of computing a font-baseline offset. */
+    align-items: flex-end;
     justify-content: space-between;
     width: 100%;
     padding: 4.54% 0.41% 0 3.03%;
@@ -749,20 +748,26 @@ const hotspots = [
 
   .nl-decade__title {
     margin: 0;
-    font-size: 7.29cqw;
-    font-weight: 100;
-    line-height: 1;
-    letter-spacing: -0.02em;
+    line-height: 0;
+  }
+
+  /* Original design size: 969x122px text-outline SVG on the 1920px canvas. */
+  .nl-decade__title img {
+    display: block;
+    width: 50.469cqw;
+    height: auto;
   }
 
   .nl-decade__subtitle {
-    width: 34.79%;
-    /* Pushes the subtitle's own baseline down to meet the title's baseline. */
-    margin: 5.188cqw 0 0;
-    font-family: var(--font-body);
-    font-size: 1.667cqw;
-    font-style: italic;
-    line-height: 1.15;
+    margin: 0;
+    line-height: 0;
+  }
+
+  /* Original design size: 636x66px text-outline SVG on the 1920px canvas. */
+  .nl-decade__subtitle img {
+    display: block;
+    width: 33.125cqw;
+    height: auto;
   }
 
   /*
