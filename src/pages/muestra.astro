@@ -684,7 +684,14 @@ const hotspots = [
     top: 0;
     left: 0;
     display: flex;
-    align-items: baseline;
+    /*
+     * flex-start + a fixed offset on the subtitle, not `align-items: baseline`.
+     * Baseline alignment across a single-line and a wrapping multi-line flex
+     * item is computed inconsistently between browsers (notably Safari), so
+     * this bakes in the same result using each font's real ascent metrics
+     * instead of leaving it to the browser's own baseline calculation.
+     */
+    align-items: flex-start;
     justify-content: space-between;
     width: 100%;
     padding: 4.54% 0.41% 0 3.03%;
@@ -750,7 +757,8 @@ const hotspots = [
 
   .nl-decade__subtitle {
     width: 34.79%;
-    margin: 0;
+    /* Pushes the subtitle's own baseline down to meet the title's baseline. */
+    margin: 5.188cqw 0 0;
     font-family: var(--font-body);
     font-size: 1.667cqw;
     font-style: italic;
