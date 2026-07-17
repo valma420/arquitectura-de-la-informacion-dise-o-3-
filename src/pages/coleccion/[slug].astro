@@ -70,7 +70,7 @@ const exactDetails = [
     zoomSrc: '/images/collection-fidelity/robe/zoom-panier.png',
     thumb: '/images/collection-fidelity/robe/zoom-thumb-panier-a.png',
     backgroundSrc: '/images/collection-fidelity/robe/zoom-background-panier.png',
-    figureSrc: '/images/collection-fidelity/robe/zoom-panier-diagram-figma.svg',
+    figureSrc: '/images/collection-fidelity/robe/vector-panier.svg',
     figureVariant: 'panier',
     figureLabel: 'Esquema constructivo',
     figureCaption: 'Estructura interna · vista frontal',
@@ -103,7 +103,7 @@ const exactDetails = [
     zoomSrc: '/images/collection-fidelity/robe/zoom-fabalas.png',
     thumb: '/images/collection-fidelity/robe/zoom-thumb-fabalas-a.png',
     backgroundSrc: '/images/collection-fidelity/robe/zoom-background-fabalas.png',
-    figureSrc: '/images/collection-fidelity/robe/zoom-fabalas-cross.svg',
+    figureSrc: '/images/collection-fidelity/robe/vector-fabalas.svg',
     figureLabel: 'Corte transversal',
     figureCaption: 'Tres capas · seda, algodón, base',
     noteLabel: 'Origen del término',
@@ -135,7 +135,7 @@ const exactDetails = [
     zoomSrc: '/images/collection-fidelity/robe/zoom-lampas.png',
     thumb: '/images/collection-fidelity/robe/zoom-thumb-lampas-a.png',
     backgroundSrc: '/images/collection-fidelity/robe/zoom-background-lampas.png',
-    figureSrc: '/images/collection-fidelity/robe/zoom-lampas-weave.svg',
+    figureSrc: '/images/collection-fidelity/robe/vector-lampas.svg',
     figureLabel: 'Estructura del tejido',
     figureCaption: 'Doble urdimbre · doble trama',
     noteLabel: 'Manufactura',
@@ -799,11 +799,19 @@ const hotspots = isFigmaFeature
   .detail-viewer__thumbs {
     position: absolute;
     z-index: 5;
-    top: 17.9%;
+    top: 14.25%;
     left: 8.8%;
     display: grid;
-    gap: 2.15rem;
+    grid-template-rows: repeat(3, max-content);
+    align-content: space-between;
+    height: 70%;
+    gap: 0;
     width: 15rem;
+  }
+
+  .detail-viewer[data-index='0'] .detail-viewer__thumbs {
+    top: 14.1667%;
+    height: 70.3704%;
   }
 
   .detail-viewer__thumbs button {
@@ -968,14 +976,6 @@ const hotspots = isFigmaFeature
     margin-top: calc(var(--presentation-width) * 0.0122969);
     overflow: hidden;
     background: var(--ink);
-  }
-
-  .detail-viewer__figure[data-figure-variant='panier'] .detail-viewer__figure-media img {
-    width: 99.43%;
-    height: auto;
-    margin-left: 0.571428%;
-    transform: translateY(-37.603%);
-    transform-origin: top left;
   }
 
   .detail-viewer__figure .detail-viewer__caption {
