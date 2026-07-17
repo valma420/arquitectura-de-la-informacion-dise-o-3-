@@ -248,13 +248,13 @@ function initMuestraMotion(): void {
       0
     )
     .to(centralCopy, { autoAlpha: 0, duration: 0.2 }, 0.22)
-    .to(quote, { autoAlpha: 1, duration: 0.2 }, 0.29)
+    .to(quote, { autoAlpha: 1, duration: 0.2 }, 0.42)
     .to(meta, { autoAlpha: 0, duration: 0.18 }, 0.55)
     .to(creamWash, { autoAlpha: 1, duration: 0.3 }, 0.62);
 
   if (quoteRule) {
     timeline
-      .to(quoteRule, { autoAlpha: 1, duration: 0.12 }, 0.29)
+      .to(quoteRule, { autoAlpha: 1, duration: 0.12 }, 0.42)
       .to(quoteRule, { autoAlpha: 0, duration: 0.12 }, 0.56);
   }
 }
