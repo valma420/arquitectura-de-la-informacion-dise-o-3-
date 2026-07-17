@@ -65,8 +65,8 @@ const exactDetails = [
     title: 'Silueta · Panier',
     description:
       'La falda se extiende sobre paniers laterales, ensanchando la cadera y estrechando visualmente el talle. Definió la silueta cortesana del período.',
-    crop: '100% center',
-    size: 'auto 100%',
+    crop: 'center',
+    size: '100%',
     zoomSrc: '/images/collection-fidelity/robe/zoom-panier.png',
     thumb: '/images/collection-fidelity/robe/zoom-thumb-panier-a.png',
     backgroundSrc: '/images/collection-fidelity/robe/zoom-background-panier.png',
@@ -204,7 +204,7 @@ const hotspots = isFigmaFeature
 
 <MainLayout immersive title={`${displayTitle} — Colección`} description={description}>
   <article class:list={['object', { 'object--feature': isFigmaFeature }]} data-object-page>
-    <a class="object__back" href="/coleccion">
+    <a class="object__back" href="/coleccion-permanente">
       {
         isFigmaFeature ? (
           <img
@@ -336,28 +336,33 @@ const hotspots = isFigmaFeature
     id="object-detail-viewer"
     data-detail-viewer
     data-index="0"
-    style={`--detail-background:url('${details[0].backgroundSrc}');--detail-zoom:url('${detailImage}');`}
+    style={`--detail-zoom:url('${detailImage}');`}
     role="dialog"
     aria-modal="true"
     aria-labelledby="detail-title"
     aria-hidden="true"
     hidden
   >
-    <a class="detail-viewer__back" href="/coleccion">
+    <div
+      class="detail-viewer__background"
+      data-detail-background
+      style={`background-image:url('${details[0].backgroundSrc}');`}
+      aria-hidden="true"
+    >
+    </div>
+    <div
+      class="detail-viewer__background detail-viewer__background--transition"
+      data-detail-background-transition
+      aria-hidden="true"
+    >
+    </div>
+
+    <a class="detail-viewer__back" href="/coleccion-permanente">
       <img
         src="/images/collection-fidelity/robe/back-to-collection.svg"
         alt="Volver a la colección"
       />
     </a>
-
-    <button
-      class="detail-viewer__close"
-      type="button"
-      data-detail-close
-      aria-label="Cerrar detalle"
-    >
-      <span aria-hidden="true">×</span>
-    </button>
 
     <div class="detail-viewer__progress" aria-hidden="true">
       <span data-progress-segment></span>
@@ -684,6 +689,7 @@ const hotspots = isFigmaFeature
   }
 
   .detail-viewer {
+    --viewer-offset-y: 0px;
     position: fixed;
     z-index: 9999;
     top: 50%;
@@ -695,7 +701,7 @@ const hotspots = isFigmaFeature
     background: var(--ink);
     box-shadow: 0 0 0 100vmax var(--color-black);
     opacity: 0;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, calc(-50% + var(--viewer-offset-y)));
     transition: opacity 320ms ease;
     isolation: isolate;
   }
@@ -704,21 +710,20 @@ const hotspots = isFigmaFeature
     display: none;
   }
 
-  .detail-viewer::before {
+  .detail-viewer__background {
     position: absolute;
     z-index: -2;
     inset: 0;
-    background-image: var(--detail-background);
     background-position: center;
     background-size: 100% 100%;
     background-repeat: no-repeat;
-    content: '';
-    opacity: 1;
-    filter: none;
     transform: scale(1.02);
-    transition:
-      background-position 520ms cubic-bezier(0.76, 0, 0.24, 1),
-      transform 620ms cubic-bezier(0.76, 0, 0.24, 1);
+    transition: transform 620ms cubic-bezier(0.76, 0, 0.24, 1);
+    will-change: opacity, transform;
+  }
+
+  .detail-viewer__background--transition {
+    opacity: 0;
   }
 
   .detail-viewer::after {
@@ -735,28 +740,8 @@ const hotspots = isFigmaFeature
     opacity: 1;
   }
 
-  .detail-viewer.is-open::before {
+  .detail-viewer.is-open .detail-viewer__background {
     transform: scale(1);
-  }
-
-  .detail-viewer__close {
-    position: absolute;
-    z-index: 15;
-    top: 5.25%;
-    right: 3%;
-    display: grid;
-    width: 2.6rem;
-    height: 2.6rem;
-    padding: 0 0 0.15rem;
-    place-items: center;
-    color: var(--cream);
-    background: rgb(20 20 20 / 55%);
-    border: 1px solid var(--cream);
-    border-radius: 50%;
-    cursor: pointer;
-    font-family: var(--font-body);
-    font-size: 1.55rem;
-    font-weight: 200;
   }
 
   .detail-viewer__back {
@@ -869,10 +854,10 @@ const hotspots = isFigmaFeature
   .detail-viewer__focus {
     position: absolute;
     z-index: 4;
-    top: 14.25%;
-    left: 23.55%;
-    width: 34.85%;
-    height: 70%;
+    top: calc(49.2593% - 378px);
+    left: calc(40.9636% - 334.5px);
+    width: 669px;
+    height: 756px;
     overflow: hidden;
     background-image: var(--detail-zoom);
     background-position: var(--crop);
@@ -880,23 +865,9 @@ const hotspots = isFigmaFeature
     background-repeat: no-repeat;
     border-radius: 1000px 1000px 0 0;
     box-shadow: 0 22px 70px rgb(0 0 0 / 30%);
-    transform: scale(0.72);
-    transform-origin: center 60%;
     transition:
       background-position 500ms cubic-bezier(0.76, 0, 0.24, 1),
-      background-size 500ms cubic-bezier(0.76, 0, 0.24, 1),
-      transform 600ms cubic-bezier(0.76, 0, 0.24, 1);
-  }
-
-  .detail-viewer.is-open .detail-viewer__focus {
-    transform: none;
-  }
-
-  .detail-viewer[data-index='0'] .detail-viewer__focus {
-    top: 14.1667%;
-    left: 26.1979%;
-    width: 32.1875%;
-    height: 70.3704%;
+      background-size 500ms cubic-bezier(0.76, 0, 0.24, 1);
   }
 
   .detail-viewer__copy {
@@ -1013,6 +984,10 @@ const hotspots = isFigmaFeature
     display: block;
     width: 100%;
     height: 100%;
+  }
+
+  .object--feature .object__detail-entry {
+    left: 5.3%;
   }
 
   .object--feature .object__detail-entry img,
@@ -1145,6 +1120,9 @@ const hotspots = isFigmaFeature
 </style>
 
 <script>
+  import { gsap } from '@lib/gsap';
+  import { prefersReducedMotion } from '@utils/dom';
+
   type DetailState = {
     title: string;
     description: string;
@@ -1176,21 +1154,24 @@ const hotspots = isFigmaFeature
     const description = viewer.querySelector<HTMLElement>('[data-detail-description]');
     const focus = viewer.querySelector<HTMLElement>('[data-detail-focus]');
     const progress = viewer.querySelector<HTMLElement>('[data-progress-segment]');
+    const background = viewer.querySelector<HTMLElement>('[data-detail-background]');
+    const backgroundTransition = viewer.querySelector<HTMLElement>(
+      '[data-detail-background-transition]'
+    );
     const figureLabel = viewer.querySelector<HTMLElement>('[data-detail-figure-label]');
     const figure = viewer.querySelector<HTMLElement>('[data-detail-figure]');
     const figureImage = viewer.querySelector<HTMLImageElement>('[data-detail-figure-image]');
     const figureCaption = viewer.querySelector<HTMLElement>('[data-detail-figure-caption]');
     const noteLabel = viewer.querySelector<HTMLElement>('[data-detail-note-label]');
     const note = viewer.querySelector<HTMLElement>('[data-detail-note]');
-    const closeButton = viewer.querySelector<HTMLButtonElement>('[data-detail-close]');
-    const previousButton = viewer.querySelector<HTMLButtonElement>('[data-detail-previous]');
-    const nextButton = viewer.querySelector<HTMLButtonElement>('[data-detail-next]');
     const thumbButtons = [...viewer.querySelectorAll<HTMLButtonElement>('[data-detail-thumb]')];
     let activeIndex = 0;
     let lastFocus: HTMLElement | null = null;
-    let closeTimer = 0;
+    let isTransitioning = false;
+    let wheelDelta = 0;
+    let wheelReset = 0;
 
-    const normalized = (index: number) => (index + detailStates.length) % detailStates.length;
+    const clampedIndex = (index: number) => Math.min(Math.max(index, 0), detailStates.length - 1);
     const getFocusable = () =>
       Array.from(
         viewer.querySelectorAll<HTMLElement>(
@@ -1198,8 +1179,35 @@ const hotspots = isFigmaFeature
         )
       );
 
+    const getMotionTargets = () =>
+      [
+        focus,
+        viewer.querySelector<HTMLElement>('.detail-viewer__thumbs'),
+        viewer.querySelector<HTMLElement>('.detail-viewer__copy'),
+        figure,
+        note,
+      ].filter((element): element is HTMLElement => element instanceof HTMLElement);
+
+    const backgroundImage = (source?: string) => (source ? `url("${source}")` : 'none');
+
+    const setBackground = (source?: string) => {
+      if (!background || !source) return;
+      background.style.backgroundImage = backgroundImage(source);
+      if (backgroundTransition) {
+        backgroundTransition.style.backgroundImage = 'none';
+        gsap.set(backgroundTransition, { opacity: 0 });
+      }
+    };
+
+    const transitionBackground = (source?: string) => {
+      if (!background || !backgroundTransition || !source) return;
+      backgroundTransition.style.backgroundImage = background.style.backgroundImage;
+      background.style.backgroundImage = backgroundImage(source);
+      gsap.set(backgroundTransition, { opacity: 1 });
+    };
+
     const renderDetail = (nextIndex: number) => {
-      activeIndex = normalized(nextIndex);
+      activeIndex = clampedIndex(nextIndex);
       const state = detailStates[activeIndex];
       viewer.dataset.index = String(activeIndex);
       if (title) title.textContent = state.title;
@@ -1207,9 +1215,6 @@ const hotspots = isFigmaFeature
       if (focus) {
         focus.style.setProperty('--crop', state.crop);
         focus.style.setProperty('--crop-size', state.size);
-      }
-      if (state.backgroundSrc) {
-        viewer.style.setProperty('--detail-background', `url('${state.backgroundSrc}')`);
       }
       if (state.zoomSrc) {
         viewer.style.setProperty('--detail-zoom', `url('${state.zoomSrc}')`);
@@ -1240,30 +1245,139 @@ const hotspots = isFigmaFeature
       });
     };
 
+    const finishOpening = () => {
+      isTransitioning = false;
+      getFocusable().at(0)?.focus();
+    };
+
     const openDetail = (index: number, trigger?: HTMLElement) => {
-      window.clearTimeout(closeTimer);
+      if (isTransitioning) return;
+      isTransitioning = true;
       lastFocus =
         trigger ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);
       renderDetail(index);
+      setBackground(detailStates[activeIndex].backgroundSrc);
       pageContent?.setAttribute('inert', '');
       viewer.hidden = false;
       viewer.setAttribute('aria-hidden', 'false');
       document.documentElement.classList.add('detail-open');
       requestAnimationFrame(() => {
         viewer.classList.add('is-open');
-        closeButton?.focus();
+        const motionTargets = getMotionTargets();
+
+        if (prefersReducedMotion()) {
+          gsap.set(pageContent, { autoAlpha: 0, y: -24 });
+          gsap.set(viewer, { '--viewer-offset-y': '0px', autoAlpha: 1 });
+          gsap.set(motionTargets, { autoAlpha: 1, y: 0 });
+          finishOpening();
+          return;
+        }
+
+        gsap.set(viewer, { '--viewer-offset-y': '56px', autoAlpha: 0 });
+        gsap.set(motionTargets, { autoAlpha: 0, y: 28 });
+        gsap
+          .timeline({ onComplete: finishOpening })
+          .to(pageContent, { autoAlpha: 0, duration: 0.38, ease: 'power2.out', y: -24 }, 0)
+          .to(
+            viewer,
+            { '--viewer-offset-y': '0px', autoAlpha: 1, duration: 0.58, ease: 'power3.out' },
+            0.08
+          )
+          .to(
+            motionTargets,
+            { autoAlpha: 1, duration: 0.46, ease: 'power3.out', stagger: 0.045, y: 0 },
+            0.24
+          );
       });
     };
 
-    const closeDetail = () => {
+    const finishClosing = () => {
       viewer.classList.remove('is-open');
       viewer.setAttribute('aria-hidden', 'true');
       document.documentElement.classList.remove('detail-open');
-      closeTimer = window.setTimeout(() => {
-        viewer.hidden = true;
-        pageContent?.removeAttribute('inert');
-        lastFocus?.focus();
-      }, 320);
+      viewer.hidden = true;
+      pageContent?.removeAttribute('inert');
+      viewer.style.removeProperty('--viewer-offset-y');
+      gsap.set([viewer, pageContent, ...getMotionTargets()], {
+        clearProps: 'opacity,transform,visibility',
+      });
+      isTransitioning = false;
+      lastFocus?.focus();
+    };
+
+    const closeDetail = () => {
+      if (viewer.hidden || isTransitioning) return;
+      isTransitioning = true;
+      viewer.setAttribute('aria-hidden', 'true');
+      const motionTargets = getMotionTargets();
+
+      if (prefersReducedMotion()) {
+        finishClosing();
+        return;
+      }
+
+      gsap
+        .timeline({ onComplete: finishClosing })
+        .to(motionTargets, { autoAlpha: 0, duration: 0.24, ease: 'power2.in', y: 26 }, 0)
+        .to(
+          viewer,
+          { '--viewer-offset-y': '56px', autoAlpha: 0, duration: 0.48, ease: 'power3.inOut' },
+          0
+        )
+        .to(pageContent, { autoAlpha: 1, duration: 0.48, ease: 'power3.out', y: 0 }, 0.1);
+    };
+
+    const transitionDetail = (nextIndex: number, direction: 1 | -1) => {
+      if (isTransitioning || nextIndex === activeIndex) return;
+      isTransitioning = true;
+      const exitOffset = direction > 0 ? -26 : 26;
+      const entryOffset = -exitOffset;
+      const motionTargets = getMotionTargets();
+
+      if (prefersReducedMotion()) {
+        renderDetail(nextIndex);
+        setBackground(detailStates[activeIndex].backgroundSrc);
+        isTransitioning = false;
+        return;
+      }
+
+      gsap
+        .timeline({
+          onComplete: () => {
+            if (backgroundTransition) {
+              backgroundTransition.style.backgroundImage = 'none';
+              gsap.set(backgroundTransition, { opacity: 0 });
+            }
+            isTransitioning = false;
+          },
+        })
+        .to(motionTargets, { autoAlpha: 0, duration: 0.24, ease: 'power2.in', y: exitOffset }, 0)
+        .add(() => {
+          transitionBackground(detailStates[clampedIndex(nextIndex)].backgroundSrc);
+          renderDetail(nextIndex);
+          gsap.set(getMotionTargets(), { autoAlpha: 0, y: entryOffset });
+        }, 0.26)
+        .to(backgroundTransition, { duration: 0.52, ease: 'power2.out', opacity: 0 }, 0.26)
+        .to(
+          motionTargets,
+          { autoAlpha: 1, duration: 0.46, ease: 'power3.out', stagger: 0.04, y: 0 },
+          0.34
+        );
+    };
+
+    const navigateBy = (direction: 1 | -1) => {
+      if (isTransitioning) return;
+      if (viewer.hidden) {
+        if (direction > 0) openDetail(0);
+        return;
+      }
+
+      const nextIndex = activeIndex + direction;
+      if (nextIndex < 0) {
+        closeDetail();
+      } else if (nextIndex < detailStates.length) {
+        transitionDetail(nextIndex, direction);
+      }
     };
 
     document.querySelectorAll<HTMLButtonElement>('[data-hotspot]').forEach((button) => {
@@ -1276,33 +1390,34 @@ const hotspots = isFigmaFeature
         openDetail(0, event.currentTarget as HTMLElement);
       });
 
-    closeButton?.addEventListener('click', closeDetail);
-    previousButton?.addEventListener('click', () => renderDetail(activeIndex - 1));
-    nextButton?.addEventListener('click', () => renderDetail(activeIndex + 1));
-
-    let lastWheelNavigation = 0;
-    viewer.addEventListener(
+    document.addEventListener(
       'wheel',
       (event) => {
-        if (viewer.hidden || Math.abs(event.deltaY) < 12) return;
+        if (event.ctrlKey || Math.abs(event.deltaY) < 1) return;
         event.preventDefault();
+        if (isTransitioning) return;
 
-        const now = performance.now();
-        if (now - lastWheelNavigation < 420) return;
-        lastWheelNavigation = now;
-        renderDetail(activeIndex + (event.deltaY > 0 ? 1 : -1));
+        wheelDelta += event.deltaY;
+        window.clearTimeout(wheelReset);
+        wheelReset = window.setTimeout(() => {
+          wheelDelta = 0;
+        }, 160);
+
+        if (Math.abs(wheelDelta) < 48) return;
+        const direction = wheelDelta > 0 ? 1 : -1;
+        wheelDelta = 0;
+        navigateBy(direction);
       },
       { passive: false }
     );
 
     document.addEventListener('keydown', (event) => {
-      if (viewer.hidden) return;
-      if (event.key === 'Escape') {
+      if (!viewer.hidden && event.key === 'Escape') {
         event.preventDefault();
         closeDetail();
         return;
       }
-      if (event.key === 'Tab') {
+      if (!viewer.hidden && event.key === 'Tab') {
         const focusable = getFocusable();
         const first = focusable.at(0);
         const last = focusable.at(-1);
@@ -1317,8 +1432,21 @@ const hotspots = isFigmaFeature
         }
         return;
       }
-      if (event.key === 'ArrowLeft') renderDetail(activeIndex - 1);
-      if (event.key === 'ArrowRight') renderDetail(activeIndex + 1);
+
+      if (
+        ['ArrowDown', 'ArrowRight', 'PageDown'].includes(event.key) ||
+        (event.code === 'Space' && !event.shiftKey)
+      ) {
+        event.preventDefault();
+        navigateBy(1);
+      }
+      if (
+        ['ArrowUp', 'ArrowLeft', 'PageUp'].includes(event.key) ||
+        (event.code === 'Space' && event.shiftKey)
+      ) {
+        event.preventDefault();
+        navigateBy(-1);
+      }
     });
   }
 </script>
