@@ -7,7 +7,11 @@ import MainLayout from '@layouts/MainLayout.astro';
 import { getPeriod, pieces } from '@data/collection';
 
 export function getStaticPaths() {
-  return pieces.map((piece) => ({ params: { slug: piece.slug }, props: { piece } }));
+  const objectDetailSlug = 'robe-francaise-1760';
+
+  return pieces
+    .filter((piece) => piece.slug === objectDetailSlug)
+    .map((piece) => ({ params: { slug: piece.slug }, props: { piece } }));
 }
 
 const { piece } = Astro.props;
@@ -136,7 +140,16 @@ const hotspots = isFigmaFeature
 <MainLayout immersive title={`${displayTitle} — Colección`} description={description}>
   <article class:list={['object', { 'object--feature': isFigmaFeature }]} data-object-page>
     <a class="object__back" href="/coleccion">
-      <span>Volver a la colección</span>
+      {
+        isFigmaFeature ? (
+          <img
+            src="/images/collection-fidelity/robe/back-to-collection.svg"
+            alt="Volver a la colección"
+          />
+        ) : (
+          <span>Volver a la colección</span>
+        )
+      }
     </a>
 
     {
@@ -810,16 +823,23 @@ const hotspots = isFigmaFeature
   .object--feature .object__back {
     top: 4.35%;
     left: 2.5%;
-    width: 11.75%;
-    height: 2.35rem;
-    color: var(--cream);
-    background: var(--orange);
-    border: 1px solid var(--orange);
-    border-radius: 999px;
-    box-shadow:
-      inset 0 0 0 3px var(--ink),
-      0 0 0 1px var(--orange);
-    font-size: 0.7rem;
+    width: 11.146%;
+    height: 4.074%;
+    background: transparent;
+    border: 0;
+    box-shadow: none;
+  }
+
+  .object--feature .object__back img {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .object--feature .object__detail-entry img,
+  .object--feature .object__detail-entry:hover img,
+  .object--feature .object__detail-entry:focus-visible img {
+    transform: none;
   }
 
   .object--feature .object__timeline,
