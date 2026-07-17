@@ -65,9 +65,9 @@ const exactDetails = [
     title: 'Silueta · Panier',
     description:
       'La falda se extiende sobre paniers laterales, ensanchando la cadera y estrechando visualmente el talle. Definió la silueta cortesana del período.',
-    crop: '50% 0%',
-    size: '100%',
-    zoomSrc: '/images/collection-fidelity/robe/zoom-dress.png',
+    crop: '100% center',
+    size: 'auto 100%',
+    zoomSrc: '/images/collection-fidelity/robe/zoom-panier.png',
     thumb: '/images/collection-fidelity/robe/zoom-thumb-panier-a.png',
     backgroundSrc: '/images/collection-fidelity/robe/zoom-background-panier.png',
     figureSrc: '/images/collection-fidelity/robe/zoom-panier-diagram-figma.svg',
@@ -869,7 +869,7 @@ const hotspots = isFigmaFeature
     overflow: hidden;
     background-image: var(--detail-zoom);
     background-position: var(--crop);
-    background-size: var(--crop-size) auto;
+    background-size: var(--crop-size);
     background-repeat: no-repeat;
     border-radius: 1000px 1000px 0 0;
     box-shadow: 0 22px 70px rgb(0 0 0 / 30%);
@@ -886,8 +886,10 @@ const hotspots = isFigmaFeature
   }
 
   .detail-viewer[data-index='0'] .detail-viewer__focus {
-    left: 26.35%;
-    width: 32%;
+    top: 14.1667%;
+    left: 26.1979%;
+    width: 32.1875%;
+    height: 70.3704%;
   }
 
   .detail-viewer__copy {
