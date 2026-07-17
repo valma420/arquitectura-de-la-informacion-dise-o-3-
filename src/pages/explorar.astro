@@ -123,11 +123,29 @@ const reserve = [
       <strong>La sala · Rococó, siglo XVIII</strong>
     </header>
 
-    <aside class="reconstruction__guide" data-guide>
-      <p class="reconstruction__guide-title">Cómo reconocerla</p>
-      <p data-guide-copy>
-        Panier · talle ceñido · escote cuadrado · pliegue Watteau · seda labrada
-      </p>
+    <aside
+      class="reconstruction__guide"
+      aria-label="Cómo reconocerla: Panier, talle ceñido, escote cuadrado, pliegue Watteau y seda labrada"
+      data-guide
+    >
+      <img
+        class="reconstruction__guide-illustration"
+        src="/images/reconstruction/como-reconocerla.svg"
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        class="reconstruction__guide-error-illustration"
+        src="/images/reconstruction/como-reconocerla-error.svg"
+        alt=""
+        aria-hidden="true"
+      />
+      <div class="reconstruction__guide-message">
+        <p class="reconstruction__guide-title">Cómo reconocerla</p>
+        <p data-guide-copy>
+          Panier · talle ceñido · escote cuadrado · pliegue Watteau · seda labrada
+        </p>
+      </div>
     </aside>
 
     <div class="reconstruction__progress" aria-live="polite">
@@ -167,7 +185,7 @@ const reserve = [
 
     <img
       class="reconstruction__divider"
-      src="/images/reconstruction/divider.svg"
+      src="/images/reconstruction/line-violeta.svg"
       alt=""
       aria-hidden="true"
     />
@@ -234,6 +252,8 @@ const reserve = [
     const guideCopy = root.querySelector<HTMLElement>('[data-guide-copy]');
     const status = root.querySelector<HTMLElement>('[data-game-status]');
     const total = slots.length;
+    const defaultGuideCopy =
+      'Panier · talle ceñido · escote cuadrado · pliegue Watteau · seda labrada';
     let selected: HTMLButtonElement | null = null;
     let completed = 0;
 
@@ -241,6 +261,7 @@ const reserve = [
       if (!guideCopy || !guide) return;
       guideCopy.textContent = copy;
       guide.classList.toggle('is-error', isError);
+      guide.classList.toggle('is-message', isError || copy !== defaultGuideCopy);
     };
 
     const placeGarment = (garment: HTMLButtonElement, target?: HTMLElement) => {
@@ -398,26 +419,31 @@ const reserve = [
 
   .reconstruction__header h1 {
     margin: 0;
-    font-family: var(--font-display);
+    font-family: 'Helvetica Neue LT Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
     font-size: clamp(3.4rem, 3.34vw, 4rem);
     font-style: italic;
     font-weight: 400;
-    letter-spacing: -0.045em;
-    line-height: 1;
+    letter-spacing: normal;
+    line-height: normal;
   }
 
   .reconstruction__header p {
     margin: 0.55rem 0 0;
+    font-family: var(--font-body);
     font-size: clamp(0.88rem, 0.94vw, 1.125rem);
+    font-weight: var(--font-weight-roman);
+    line-height: normal;
   }
 
   .reconstruction__header strong,
   .reconstruction__reserve h2,
   .reconstruction__progress,
   .reconstruction__guide-title {
+    font-family: var(--font-body);
     font-size: clamp(0.68rem, 0.73vw, 0.875rem);
-    font-weight: 700;
+    font-weight: var(--font-weight-medium);
     letter-spacing: 0.06em;
+    line-height: normal;
     text-transform: uppercase;
   }
 
@@ -430,9 +456,28 @@ const reserve = [
   .reconstruction__guide {
     position: absolute;
     z-index: 3;
-    top: 12.4%;
-    left: 71.78%;
+    top: 12.04%;
+    left: 71.56%;
     width: 28.65%;
+  }
+
+  .reconstruction__guide-illustration {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .reconstruction__guide-error-illustration {
+    display: none;
+    width: 100%;
+    height: auto;
+  }
+
+  .reconstruction__guide-message {
+    display: none;
+  }
+
+  .reconstruction__guide.is-message {
     min-height: 6.3%;
     padding: 1rem 1.35rem 0.85rem;
     color: var(--cream);
@@ -447,16 +492,38 @@ const reserve = [
       color 180ms ease;
   }
 
+  .reconstruction__guide.is-message .reconstruction__guide-illustration {
+    display: none;
+  }
+
+  .reconstruction__guide.is-message .reconstruction__guide-message {
+    display: block;
+  }
+
   .reconstruction__guide.is-error {
-    background: var(--orange);
-    color: var(--purple);
+    min-height: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .reconstruction__guide.is-error .reconstruction__guide-message {
+    display: none;
+  }
+
+  .reconstruction__guide.is-error .reconstruction__guide-error-illustration {
+    display: block;
   }
   .reconstruction__guide p {
     margin: 0;
+    font-family: var(--font-body);
     font-size: clamp(0.68rem, 0.84vw, 1rem);
+    font-weight: var(--font-weight-roman);
     line-height: 1.15;
   }
   .reconstruction__guide-title {
+    font-family: var(--font-body);
     color: var(--blue);
     margin-bottom: 0.1rem !important;
   }
@@ -504,7 +571,9 @@ const reserve = [
   .room-card {
     min-width: 0;
     align-self: end;
+    font-family: var(--font-body);
     font-size: clamp(0.68rem, 0.84vw, 1rem);
+    font-weight: var(--font-weight-roman);
   }
 
   .room-card__arch {
@@ -561,6 +630,8 @@ const reserve = [
 
   .room-card__plus {
     color: var(--orange);
+    font-family: 'Inter', Arial, sans-serif;
+    font-weight: 400;
     font-size: 1.35rem;
     line-height: 1;
   }
@@ -593,7 +664,10 @@ const reserve = [
   }
   .reconstruction__reserve header p {
     margin: 0.45rem 0 0;
+    font-family: var(--font-body);
     font-size: clamp(0.72rem, 0.84vw, 1rem);
+    font-weight: var(--font-weight-roman);
+    line-height: normal;
   }
 
   .reserve-list {
