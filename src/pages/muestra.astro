@@ -76,7 +76,30 @@ const decadeCards = [
   },
 ];
 
-/** Floral outline decorations laid out along the strip (insets of the track). */
+/**
+ * Floral outline decorations for the "Diez años, una casa" backdrop.
+ * Insets below are authored relative to the full 5990px-wide Figma strip
+ * (matching `.nl-decade__track`'s 311.98cqw width). Since the flowers now
+ * sit in a fixed, non-scrolling layer sized to the visible 16:9 canvas
+ * (100cqw), their left/right insets are rescaled by DECADE_TRACK_SCALE so
+ * the initial composition keeps its authored proportions; entries that
+ * land off-canvas are dropped.
+ */
+const DECADE_TRACK_SCALE = 311.98 / 100;
+
+/**
+ * Rescales a track-relative inset box to the canvas-relative coordinate
+ * space. `left` is a straight position rescale, but `right` is a distance
+ * from the (now differently-sized) right edge, so it needs the edge-position
+ * correction below rather than a plain multiply.
+ */
+function toFixedVineInset(inset: string): string {
+  const [top, right, bottom, left] = inset.split(' ').map((value) => parseFloat(value));
+  const fixedLeft = left * DECADE_TRACK_SCALE;
+  const fixedRight = right * DECADE_TRACK_SCALE - 100 * (DECADE_TRACK_SCALE - 1);
+  return `${top}% ${fixedRight}% ${bottom}% ${fixedLeft}%`;
+}
+
 const decadeVines = [
   { image: 'vine-1', inset: '4.17% 0.06% -13% 91.89%', flip: 'x' },
   { image: 'vine-2', inset: '-0.39% 11.93% 82.22% 84.97%', flip: 'y' },
@@ -105,7 +128,12 @@ const decadeVines = [
   { image: 'vine-8', inset: '52.82% 20.07% 29.01% 76.23%', flip: 'x' },
   { image: 'vine-8', inset: '16.48% 58.53% 65.35% 37.77%', flip: 'x' },
   { image: 'vine-8', inset: '52.87% 1.38% 28.96% 94.91%', flip: 'x' },
-];
+]
+  .map((vine) => ({ ...vine, fixedInset: toFixedVineInset(vine.inset) }))
+  .filter((vine) => {
+    const [, right, , left] = vine.fixedInset.split(' ').map((value) => parseFloat(value));
+    return left < 100 && right < 100;
+  });
 
 const hotspots = [
   {
@@ -233,6 +261,19 @@ const hotspots = [
   </section>
 
   <section class="nl-decade" data-decade-carousel data-motion-owned>
+    <div class="nl-decade__backdrop" aria-hidden="true">
+      {
+        decadeVines.map((vine) => (
+          <div
+            class:list={['nl-decade__vine', vine.flip && `nl-decade__vine--${vine.flip}`]}
+            style={`inset:${vine.fixedInset};`}
+          >
+            <img src={`${decadeAssets}/${vine.image}.svg`} alt="" />
+          </div>
+        ))
+      }
+    </div>
+
     <div class="nl-decade__heading">
       <h2 class="nl-decade__title">Diez años, una casa</h2>
       <p class="nl-decade__subtitle">
@@ -248,17 +289,6 @@ const hotspots = [
       data-decade-scroller
     >
       <div class="nl-decade__track">
-        {
-          decadeVines.map((vine) => (
-            <div
-              class:list={['nl-decade__vine', vine.flip && `nl-decade__vine--${vine.flip}`]}
-              style={`inset:${vine.inset};`}
-            >
-              <img src={`${decadeAssets}/${vine.image}.svg`} alt="" />
-            </div>
-          ))
-        }
-
         {
           decadeCards.map((card) => (
             <article
@@ -639,6 +669,15 @@ const hotspots = [
     color: #141414;
   }
 
+  /* Non-scrolling floral layer — stays put while cards move above it. */
+  .nl-decade__backdrop {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
   .nl-decade__heading {
     position: absolute;
     z-index: 3;
@@ -653,6 +692,8 @@ const hotspots = [
   }
 
   .nl-decade__scroller {
+    position: relative;
+    z-index: 2;
     height: 100%;
     overflow-x: auto;
     overflow-y: hidden;
