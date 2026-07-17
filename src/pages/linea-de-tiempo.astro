@@ -1,1026 +1,741 @@
 ---
 import MainLayout from '@layouts/MainLayout.astro';
-import { getPeriod, piecesByPeriod } from '@data/collection';
 
-const belleDescription =
-  'La moda de la opulencia y el refinamiento. El corsé esculpe una silueta en S, pecho hacia adelante, cintura de avispa, cadera atrás, y el vestido se cubre de encajes, bordados y volúmenes.';
-
-const belleDetailDescription =
-  'La moda de la opulencia y el refinamiento. El corsé esculpe una silueta en S, pecho hacia adelante, cintura de avispa, cadera atrás, y el vestido se cubre de encajes, bordados y volúmenes. París se consagra como capital de la moda y nace la alta costura moderna; hacia el final del período, Poiret empieza a liberar el cuerpo del corsé.';
-
-const anneesFolles = getPeriod('annees-folles');
-const anneesPieces = piecesByPeriod('annees-folles');
-
-const overviewEras = [
+const overviewEntries = [
   {
-    name: 'Belle Époque',
-    range: '1871-1914',
-    image: '/images/timeline-agenda/timeline-1870.png',
+    year: '1715',
+    title: 'Rococó',
     tone: 'orange',
-    description: belleDescription,
+    image: '/images/timeline-adli/rococo-1.png',
+    alt: 'Silueta de moda del período rococó',
   },
   {
-    name: anneesFolles?.name ?? 'Années Folles',
-    range: '1918-1929',
-    image: '/images/timeline-agenda/timeline-1918.png',
+    year: '1789',
+    title: 'La revolución',
+    tone: 'cream',
+    description:
+      'En cinco años, Francia destruye su propia moda. Los brocados de Lyon, los paniers, los corsés de corte se vuelven símbolo del régimen caído.\n\nVestir a la francesa pasa de motivo de orgullo a motivo de sospecha. Los aristócratas queman sus vestidos o los cortan en pedazos. Marie Antoinette muere en la guillotina con una túnica blanca puesta. El sistema del rococó no sobrevive a su reina.',
+  },
+  {
+    year: '1795',
+    title: 'Neoclásico',
+    tone: 'purple',
+    image: '/images/timeline-adli/neoclasico-1.png',
+    alt: 'Silueta de moda del período neoclásico',
+  },
+  {
+    year: '1820',
+    title: 'El regreso\ndel corsé',
+    tone: 'cream',
+    description:
+      'Con la Restauración borbónica, las estructuras rígidas vuelven poco a poco al vestir femenino. El talle baja del pecho a la cintura natural, los corsés se ajustan otra vez, las mangas se hinchan hasta volverse enormes.\n\nLas telas se oscurecen y engrosan. La libertad neoclásica dura menos que las guerras napoleónicas: en una década, el cuerpo femenino vuelve a estar comprimido y esculpido. Sin revolución, sin escándalo, empieza un siglo entero de moda como arquitectura.',
+  },
+  {
+    year: '1830',
+    title: 'Siglo XIX',
     tone: 'blue',
-    description: anneesFolles?.description ?? '',
+    image: '/images/timeline-adli/siglo-xix-1.png',
+    alt: 'Silueta de moda del siglo XIX',
+  },
+  {
+    year: '1890',
+    title: 'Anticipatoria',
+    tone: 'cream',
+    description:
+      'El siglo XIX no muere en 1900. Se estira, se envuelve en más seda, en más plumas, en más lujo. El polisón desaparece pero el corsé se aprieta más que nunca, deformando el torso en una curva imposible.\n\nParís vive una euforia sostenida: cafés-conciertos, teatros llenos, salones aristocráticos. Nadie sabe todavía que lo están viviendo por última vez. El nombre "Belle Époque" se lo pondrán después, desde las trincheras, en 1918, cuando ya no exista.',
   },
 ];
 
 const detailEras = [
   {
-    id: 'belle-epoque',
-    name: 'Belle Époque',
-    ghostYear: '1870',
+    id: 'rococo',
     tone: 'orange',
     cards: [
       {
-        year: '1871-1914',
-        title: 'Belle Époque',
-        image: '/images/timeline-agenda/timeline-1870.png',
+        year: '1745',
+        title: 'La era de Pompadour',
+        image: '/images/timeline-adli/rococo-2.png',
+        copy: 'Madame de Pompadour, amante oficial de Luis XV, se convierte en árbitro absoluto del gusto.\n\nLa robe à la française se consolida como uniforme de la corte: escote cuadrado, pliegues Watteau, paniers cada vez más anchos. Los talleres de Lyon producen brocados y damascos con hilos de oro y plata.\n\nUn solo vestido puede requerir veinte metros de seda tejida a mano.',
+        silhouette: 'Robe à la francesa · panier ancho · brocado de Lyon · damasco',
+        figures: 'Marquesa de Pompadour · François Boucher · Talleres de Lyon',
       },
-      { year: '1890s', image: '/images/timeline-agenda/timeline-1890.png' },
-      { year: '1900s', image: '/images/timeline-agenda/timeline-1900.png' },
-    ].map((card) => ({
-      ...card,
-      description: belleDetailDescription,
-      meta: [
-        {
-          label: 'SILUETA',
-          value: 'Corsé · silueta en S · cintura de avispa · falda con cola y volumen',
-        },
-        {
-          label: 'FIGURAS CLAVE',
-          value: 'Charles Frederick Worth · Jacques Doucet · Jeanne Paquin · Callot Soeurs',
-        },
-      ],
-    })),
+      {
+        year: '1774',
+        title: 'Marie Antoinette y Rose Bertin',
+        image: '/images/timeline-adli/rococo-3.png',
+        copy: 'Marie Antoinette llega al trono con diecinueve años y contrata a la modista Rose Bertin.\n\nLa corte la llama "ministra de la moda". La reina propone siluetas nuevas casi cada semana: peinados torres, plumas de avestruz, colores pastel.\n\nLa haute couture pre-industrial nace en las trastiendas del rue Saint-Honoré, donde Bertin recibe a las clientas más poderosas de Europa.',
+        silhouette: 'Robe à la polonaise · pouf · peinado alto · plumas · panier reducido',
+        figures: 'Marie Antoinette · Rose Bertin · Léonard Autié',
+      },
+    ],
   },
   {
-    id: 'annees-folles',
-    name: anneesFolles?.name ?? 'Années Folles',
-    ghostYear: '1918',
+    id: 'neoclasico',
+    tone: 'purple',
+    cards: [
+      {
+        year: '1804',
+        title: 'El Imperio de Josefina',
+        image: '/images/timeline-adli/neoclasico-2.png',
+        copy: 'Napoleón corona a Josefina emperatriz. Ella instala el estilo imperio como uniforme de una nueva aristocracia. Talle bajo el pecho, corte columna, mangas cortas abullonadas, bordados dorados en el pecho y el bajo. Louis-Hippolyte Leroy se vuelve su modisto exclusivo: el primer diseñador con nombre desde Rose Bertin. Napoleón, obsesionado con reactivar la industria francesa, prohíbe importar telas inglesas. Las sedas de Lyon vuelven a producir para la corte.',
+        silhouette:
+          'Talle imperio · bordado dorado · manga corta abullonada · chal cachemir · zapato plano',
+        figures: 'Emperatriz Josefina · Louis-Hippolyte Leroy · Jacques David',
+      },
+      {
+        year: '1815',
+        title: 'La Restauración',
+        image: '/images/timeline-adli/neoclasico-3.png',
+        copy: 'Waterloo termina con Napoleón y con el Imperio. Los Borbones vuelven al trono, y con ellos, poco a poco, las estructuras que la Revolución había prohibido. El talle empieza a bajar del pecho hacia la cintura natural. Los corsés reaparecen tímidamente. Las mangas se hinchan. Los colores oscuros ganan terreno sobre el blanco imperial. El cuerpo se prepara, sin saberlo, para volver a encerrarse. El romanticismo está por empezar.',
+        silhouette: 'Talle bajando · corsé ligero · manga jamón · falda campana · color oscuro',
+        figures: 'Duquesa de Berry · Herbault · Victorine',
+      },
+    ],
+  },
+  {
+    id: 'siglo-xix',
     tone: 'blue',
     cards: [
       {
-        year: '1918-1929',
-        title: anneesFolles?.name ?? 'Années Folles',
-        image: '/images/timeline-agenda/timeline-1918.png',
-        description: anneesFolles?.description ?? '',
-        meta: [
-          { label: 'PERÍODO', value: '1918-1929' },
-          {
-            label: 'PIEZAS',
-            value: anneesPieces.map((piece) => piece.title).join(' · '),
-          },
-        ],
+        year: '1856',
+        title: 'La crinolina y Worth',
+        image: '/images/timeline-adli/siglo-xix-2.png',
+        copy: 'La ingeniería textil inventa la crinolina de aros de acero: una jaula liviana que reemplaza las enaguas y ensancha la falda hasta diámetros imposibles. Bajo el Segundo Imperio, la emperatriz Eugenia de Montijo se convierte en el ícono internacional del vestir. Su modisto exclusivo es un inglés recién llegado a París: Charles Frederick Worth. En su casa de Rue de la Paix inventa un sistema nuevo: colecciones dos veces al año, modelos vivas para exhibir la ropa, firma del diseñador en cada pieza. Nace la haute couture como sistema.',
+        silhouette:
+          'Crinolina de aros · falda máxima · corpiño ajustado · hombro caído · escote descubierto',
+        figures: 'Emperatriz Eugenia de Montijo · Charles Frederick Worth · Winterhalter',
       },
-      ...anneesPieces.map((piece) => ({
-        year: piece.yearLabel,
-        title: piece.title,
-        image: piece.image,
-        imageKind: piece.imageKind,
-        description: piece.description,
-        meta: [
-          { label: 'MATERIALES', value: piece.material ?? '—' },
-          { label: 'TÉCNICA', value: piece.technique ?? '—' },
-        ],
-      })),
+      {
+        year: '1870',
+        title: 'El polisón',
+        image: '/images/timeline-adli/siglo-xix-3.png',
+        copy: 'Cae el Segundo Imperio con la guerra franco-prusiana. La crinolina redonda desaparece y en su lugar aparece el polisón: una estructura acolchada que empuja el volumen hacia atrás, transformando la silueta en un perfil quebrado. La falda cae plana adelante y explota atrás en pliegues y colas arrastradas. Bajo la Tercera República, la moda francesa se recupera y se profesionaliza. Aparecen las revistas ilustradas de moda: La Mode Illustrée, Le Moniteur de la Mode. París consolida su condición de capital mundial del vestir.',
+        silhouette:
+          'Polisón · falda plana adelante · cola arrastrada · corsé cinchado · sombrero pequeño',
+        figures: 'Charles Frederick Worth · Jacques Doucet · Émile Pingat',
+      },
     ],
   },
 ];
+
+const detailByYear = new Map([
+  ['1715', detailEras[0]],
+  ['1795', detailEras[1]],
+  ['1830', detailEras[2]],
+]);
 ---
 
 <MainLayout
   immersive
   title="Línea de tiempo"
-  description="Un recorrido por las transformaciones de la silueta entre 1870 y 1929."
+  description="Un recorrido por las transformaciones de la moda francesa entre 1715 y 1890."
 >
   <div class="timeline-page" data-timeline>
-    <section class="timeline-overview" data-timeline-overview aria-label="Recorrido histórico">
-      <div class="timeline-overview__pattern" aria-hidden="true"></div>
+    <header class="timeline-nav">
+      <img src="/images/timeline-adli/nav-bar.svg" alt="Palais Galliera" />
+      <nav class="sr-only" aria-label="Principal">
+        <a href="/">Inicio</a>
+        <a href="/agenda">Visitar</a>
+        <a href="/muestra">Exposiciones</a>
+        <a href="/coleccion">Colecciones</a>
+        <a href="/historia">El museo</a>
+        <a href="/agenda">Agenda y entradas</a>
+      </nav>
+    </header>
 
-      <div class="timeline-left" aria-hidden="true">
-        <div class="timeline-left__sticky">
-          <div class="timeline-rail">
-            <span class="timeline-rail__progress"></span>
+    <section class="timeline-overview" aria-label="Recorrido histórico">
+      <div class="timeline-pattern" aria-hidden="true"></div>
+      <aside class="timeline-overview__rail" aria-hidden="true">
+        <span class="timeline-overview__rail-track"></span>
+        <div class="timeline-date" data-timeline-date data-date-group="orange">
+          <div class="timeline-date__group is-orange" data-date-group="orange">
+            <span class="timeline-date__prefix">17</span>
+            <span class="timeline-date__wheel"><span>15</span><span>89</span></span>
           </div>
-          <span class="timeline-chevron"></span>
-          <span class="timeline-century">1</span>
-          <div class="timeline-wheel">
-            <span class="timeline-wheel__year is-1870">870</span>
-            <span class="timeline-wheel__year is-1914">914</span>
-            <span class="timeline-wheel__year is-1918">918</span>
+          <div class="timeline-date__group is-purple" data-date-group="purple">
+            <span class="timeline-date__prefix">1</span>
+            <span class="timeline-date__wheel"><span>795</span><span>820</span></span>
+          </div>
+          <div class="timeline-date__group is-blue" data-date-group="blue">
+            <span class="timeline-date__prefix">18</span>
+            <span class="timeline-date__wheel"><span>30</span><span>90</span></span>
           </div>
         </div>
-      </div>
-
-      <div class="timeline-flow">
+        <span class="timeline-overview__rail-progress"></span>
+      </aside>
+      <div class="timeline-overview__entries">
         {
-          overviewEras.map((era) => (
-            <article class:list={['timeline-era', `is-${era.tone}`]}>
-              <span class="timeline-era__line timeline-era__line--top" aria-hidden="true" />
-              <h1>{era.name}</h1>
-              <p class="timeline-era__range">{era.range}</p>
-              <img class="timeline-era__image" src={era.image} alt="" />
-              <span class="timeline-era__line timeline-era__line--bottom" aria-hidden="true" />
-              <p class="timeline-era__description">{era.description}</p>
-            </article>
-          ))
+          overviewEntries.map((entry) => {
+            const detail = detailByYear.get(entry.year);
+
+            return (
+              <article
+                class:list={[
+                  'timeline-overview__entry',
+                  `is-${entry.tone}`,
+                  { 'is-expandable': Boolean(detail) },
+                ]}
+                data-horizontal-era={detail ? '' : undefined}
+                data-lenis-prevent-wheel={detail ? '' : undefined}
+                tabindex={detail ? '0' : undefined}
+                aria-label={
+                  detail
+                    ? `${entry.title}. Deslizá horizontalmente para recorrer este período.`
+                    : undefined
+                }
+              >
+                <div class="timeline-overview__entry-track">
+                  <div class="timeline-overview__stage">
+                    <div class="timeline-overview__content">
+                      <span class="timeline-overview__line" aria-hidden="true" />
+                      <h1>{entry.title}</h1>
+                      {entry.image && (
+                        <img
+                          src={entry.image}
+                          alt={entry.alt}
+                          loading={entry.year === '1715' ? 'eager' : 'lazy'}
+                        />
+                      )}
+                      {entry.description && <p>{entry.description}</p>}
+                    </div>
+                  </div>
+                  {detail && (
+                    <section
+                      class:list={['timeline-inline-detail', `is-${detail.tone}`]}
+                      aria-label={`Recorrido horizontal: ${entry.title}`}
+                    >
+                      <div class="timeline-detail__track">
+                        <span
+                          class="timeline-detail__line timeline-detail__line--top"
+                          aria-hidden="true"
+                        />
+                        <span
+                          class="timeline-detail__line timeline-detail__line--bottom"
+                          aria-hidden="true"
+                        />
+                        {detail.cards.map((card, index) => (
+                          <article class:list={['timeline-card', `is-card-${index}`]}>
+                            {card.year && <p class="timeline-card__year">{card.year}</p>}
+                            <h3>{card.title}</h3>
+                            <img
+                              src={card.image}
+                              alt={`Referencia visual: ${card.title}`}
+                              loading="lazy"
+                            />
+                            <p class="timeline-card__copy">{card.copy}</p>
+                            <dl>
+                              <div>
+                                <dt>Silueta</dt>
+                                <dd>{card.silhouette}</dd>
+                              </div>
+                              <div>
+                                <dt>Figuras clave</dt>
+                                <dd>{card.figures}</dd>
+                              </div>
+                            </dl>
+                          </article>
+                        ))}
+                      </div>
+                    </section>
+                  )}
+                </div>
+              </article>
+            );
+          })
         }
       </div>
     </section>
-
-    {
-      detailEras.map((era) => (
-        <section
-          class:list={['timeline-detail-shell', `is-${era.tone}`]}
-          aria-labelledby={`timeline-detail-${era.id}`}
-          data-detail-shell
-        >
-          <h2 class="sr-only" id={`timeline-detail-${era.id}`}>
-            {era.name}
-          </h2>
-
-          <div
-            class="timeline-details"
-            data-timeline-details
-            data-lenis-prevent-wheel
-            tabindex="0"
-            aria-label={`${era.name}. Deslizá horizontalmente para recorrer sus tarjetas.`}
-          >
-            <span class="timeline-details__ghost" aria-hidden="true">
-              {era.ghostYear}
-            </span>
-            <div class="timeline-details__track">
-              <span class="timeline-details__line timeline-details__line--top" aria-hidden="true" />
-              <span
-                class="timeline-details__line timeline-details__line--bottom"
-                aria-hidden="true"
-              />
-
-              {era.cards.map((card, index) => (
-                <article
-                  class="timeline-card"
-                  data-detail-card
-                  data-card-label={`${card.title ?? era.name}, ${card.year}`}
-                  aria-label={`${card.title ?? era.name}, ${card.year}`}
-                  aria-current={index === 0 ? 'true' : undefined}
-                >
-                  {card.title && <h3>{card.title}</h3>}
-                  <p class="timeline-card__year">{card.year}</p>
-                  <img
-                    class:list={[
-                      'timeline-card__image',
-                      { 'is-cutout': 'imageKind' in card && card.imageKind === 'cutout' },
-                    ]}
-                    src={card.image}
-                    alt={`Referencia visual de ${card.title ?? era.name}, ${card.year}`}
-                    loading={index ? 'lazy' : 'eager'}
-                  />
-                  <p class="timeline-card__copy">{card.description}</p>
-                  {card.meta.map((item, metaIndex) => (
-                    <div
-                      class:list={['timeline-card__meta', `timeline-card__meta--${metaIndex + 1}`]}
-                    >
-                      <strong>{item.label}</strong>
-                      <span>{item.value}</span>
-                    </div>
-                  ))}
-                </article>
-              ))}
-            </div>
-          </div>
-
-          <div class="timeline-details__controls" aria-label={`Navegar ${era.name}`}>
-            <button
-              type="button"
-              data-detail-previous
-              aria-label={`Tarjeta anterior de ${era.name}`}
-            >
-              <span aria-hidden="true">←</span>
-            </button>
-            <p aria-live="polite" data-detail-status>
-              01 / {String(era.cards.length).padStart(2, '0')}
-            </p>
-            <button type="button" data-detail-next aria-label={`Tarjeta siguiente de ${era.name}`}>
-              <span aria-hidden="true">→</span>
-            </button>
-          </div>
-        </section>
-      ))
-    }
   </div>
 </MainLayout>
 
 <style>
   .timeline-page {
-    --tl-black: #141414;
-    --tl-cream: #f3eee1;
-    --tl-orange: #fd6500;
-    --tl-purple: #520345;
-    --tl-blue: #b9d6fe;
-    --tl-year-shift: 0px;
-    --tl-rail-shift: 0px;
-    --tl-pattern-x: -161px;
-    --tl-pattern-y: -76px;
-    --tl-detail-scroll: 0px;
-    --tl-detail-pattern-x: -251px;
-    position: relative;
-    isolation: isolate;
+    --black: #141414;
+    --cream: #f3eee1;
+    --orange: #fd6500;
+    --purple: #520345;
+    --blue: #b9d6fe;
+    --overview-content-left: 969px;
+    color: var(--cream);
+    background: var(--black);
     overflow: clip;
-    color: var(--tl-cream);
-    background: var(--tl-black);
   }
 
-  .timeline-overview__pattern {
+  .timeline-nav {
+    position: fixed;
+    top: 57px;
+    left: 60px;
+    z-index: 100;
+    display: flex;
+    align-items: stretch;
+    width: 1345px;
+    height: 61px;
+  }
+  .timeline-nav > img {
+    display: block;
+    width: 1345px;
+    height: 61px;
+  }
+  .timeline-page.is-detail-active .timeline-nav,
+  .timeline-page.is-detail-active .timeline-overview__rail {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .timeline-pattern {
     position: sticky;
     top: 0;
-    z-index: 10;
+    z-index: 0;
     width: 100vw;
     height: 100vh;
     margin-bottom: -100vh;
-    background-image: url('/images/timeline-agenda/timeline-pattern.svg');
-    background-position: var(--tl-pattern-x) var(--tl-pattern-y);
-    background-size: max(111.73vw, 1340px) max(204.81vw, 2457px);
-    background-repeat: no-repeat;
+    background: url('/images/timeline-agenda/timeline-pattern.svg') -365px 55px / 2145px 7086px
+      no-repeat;
     pointer-events: none;
   }
 
   .timeline-overview {
     position: relative;
+    min-height: 7086px;
+  }
+
+  .timeline-overview__rail {
+    position: absolute;
+    top: 176px;
+    bottom: 180px;
+    left: 139px;
     z-index: 1;
-    height: 2618px;
-  }
-
-  .timeline-left {
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 50.52vw;
-    pointer-events: none;
-  }
-
-  .timeline-left__sticky {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  .timeline-rail {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 7.29vw;
     width: 34px;
-    background: rgba(243, 238, 225, 0.05);
   }
 
-  .timeline-rail__progress {
+  .timeline-overview__rail-track {
     position: absolute;
-    top: 262px;
-    left: 0;
+    inset: 0;
+    background: rgb(243 238 225 / 5%);
+  }
+  .timeline-overview__rail-progress {
+    position: absolute;
+    top: var(--rail-progress-position, 143px);
+    display: block;
     width: 100%;
     height: 155px;
-    background: linear-gradient(180deg, rgba(253, 101, 0, 0.3), rgba(82, 3, 69, 0.3));
-    transform: translateY(var(--tl-rail-shift));
-    will-change: transform;
+    background: rgb(253 101 0 / 30%);
   }
 
-  .timeline-chevron {
+  .timeline-date {
+    position: sticky;
+    top: 208px;
+    margin-left: 148px;
+    width: 390px;
+    height: 200px;
+    overflow: hidden;
+  }
+  .timeline-date__group {
     position: absolute;
-    top: 472px;
-    left: calc(7.29vw + 34px);
-    width: 38px;
-    height: 14px;
+    inset: 0;
+    color: var(--orange);
+    opacity: 0;
+    transition: opacity 160ms linear;
   }
-
-  .timeline-chevron::before,
-  .timeline-chevron::after {
-    position: absolute;
-    left: 0;
-    width: 38px;
-    height: 1px;
-    background: var(--tl-orange);
-    content: '';
-    transform-origin: right;
+  .timeline-date[data-date-group='orange'] .timeline-date__group.is-orange,
+  .timeline-date[data-date-group='purple'] .timeline-date__group.is-purple,
+  .timeline-date[data-date-group='blue'] .timeline-date__group.is-blue {
+    opacity: 1;
   }
-
-  .timeline-chevron::before {
-    top: 0;
-    transform: rotate(20deg);
-  }
-
-  .timeline-chevron::after {
-    bottom: 0;
-    transform: rotate(-20deg);
-  }
-
-  .timeline-century,
-  .timeline-wheel__year,
-  .timeline-details__ghost {
+  .timeline-date__prefix,
+  .timeline-date__wheel span {
+    display: block;
+    height: 200px;
     font-family: var(--font-display);
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: -0.04em;
-  }
-
-  .timeline-century {
-    position: absolute;
-    top: 219px;
-    left: calc(15vw - 34px);
-    width: 130px;
     font-size: 200px;
-    color: transparent;
-    background: linear-gradient(180deg, var(--tl-orange) 0%, var(--tl-purple) 86%);
-    background-clip: text;
+    font-weight: 100;
+    letter-spacing: -0.02em;
+    line-height: 1;
   }
-
-  .timeline-wheel {
+  .timeline-date__prefix {
     position: absolute;
-    top: 219px;
-    left: 17.66vw;
-    width: 521px;
-    height: 299px;
-    transform: translateY(calc(-1 * var(--tl-year-shift)));
+    top: 0;
+    left: 0;
+  }
+  .timeline-date__wheel {
+    position: absolute;
+    top: 0;
+    left: 114px;
+    transform: translateY(var(--date-wheel-shift, 0px));
     will-change: transform;
   }
-
-  .timeline-wheel__year {
-    position: absolute;
-    left: 0;
-    width: 521px;
-    height: 299px;
-    font-size: 200px;
+  .timeline-date__group.is-purple {
+    color: var(--purple);
+  }
+  .timeline-date__group.is-purple .timeline-date__wheel {
+    left: 96px;
+  }
+  .timeline-date__group.is-blue {
+    color: var(--blue);
   }
 
-  .timeline-wheel__year.is-1870 {
-    top: 0;
-    color: var(--tl-orange);
-  }
-
-  .timeline-wheel__year.is-1914 {
-    top: 663px;
-    color: transparent;
-    background: linear-gradient(180deg, var(--tl-orange), var(--tl-purple));
-    background-clip: text;
-  }
-
-  .timeline-wheel__year.is-1918 {
-    top: 1326px;
-    color: transparent;
-    background: linear-gradient(180deg, var(--tl-purple), var(--tl-blue));
-    background-clip: text;
-  }
-
-  .timeline-flow {
-    width: 49.48vw;
-    margin-left: 50.52vw;
-  }
-
-  .timeline-era {
+  .timeline-overview__entries {
     position: relative;
-    height: 1309px;
+    z-index: 1;
   }
-
-  .timeline-era__line {
-    position: absolute;
-    left: -20px;
-    width: calc(100% + 20px);
-    height: 4px;
-    background: currentColor;
-    clip-path: polygon(
-      0 34%,
-      2% 62%,
-      4% 40%,
-      6% 66%,
-      8% 37%,
-      10% 60%,
-      12% 39%,
-      14% 64%,
-      16% 36%,
-      18% 61%,
-      20% 40%,
-      22% 63%,
-      24% 39%,
-      26% 61%,
-      28% 37%,
-      30% 64%,
-      32% 39%,
-      34% 62%,
-      36% 38%,
-      38% 64%,
-      40% 36%,
-      42% 62%,
-      44% 40%,
-      46% 63%,
-      48% 37%,
-      50% 64%,
-      52% 38%,
-      54% 61%,
-      56% 40%,
-      58% 64%,
-      60% 37%,
-      62% 62%,
-      64% 40%,
-      66% 64%,
-      68% 37%,
-      70% 61%,
-      72% 40%,
-      74% 63%,
-      76% 38%,
-      78% 64%,
-      80% 36%,
-      82% 62%,
-      84% 40%,
-      86% 64%,
-      88% 37%,
-      90% 62%,
-      92% 39%,
-      94% 64%,
-      96% 37%,
-      98% 62%,
-      100% 40%
-    );
-  }
-
-  .timeline-era__line--top {
-    top: 193px;
-  }
-
-  .timeline-era__line--bottom {
-    top: 878px;
-  }
-
-  .timeline-era.is-orange .timeline-era__line--top,
-  .timeline-era.is-orange .timeline-era__range {
-    color: var(--tl-orange);
-  }
-
-  .timeline-era.is-orange .timeline-era__line--bottom {
-    color: var(--tl-purple);
-  }
-
-  .timeline-era.is-blue .timeline-era__line,
-  .timeline-era.is-blue .timeline-era__range {
-    color: var(--tl-blue);
-  }
-
-  .timeline-era h1 {
-    position: absolute;
-    top: 210px;
-    left: 0;
-    font-family: var(--font-body);
-    font-size: 64px;
-    font-style: italic;
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: -0.04em;
-  }
-
-  .timeline-era__range {
-    position: absolute;
-    top: 319px;
-    left: 0;
-    font-size: 32px;
-    font-style: italic;
-    line-height: 1;
-    letter-spacing: -0.04em;
-  }
-
-  .timeline-era__image {
-    position: absolute;
-    top: 440px;
-    left: 0;
-    width: 435px;
-    height: 421px;
-    max-width: none;
-    object-fit: fill;
-  }
-
-  .timeline-era__description {
-    position: absolute;
-    top: 905px;
-    left: 0;
-    width: 500px;
-    font-size: 32px;
-    font-style: italic;
-    line-height: 1.12;
-    letter-spacing: -0.035em;
-    text-align: justify;
-    transform: scaleX(0.868);
-    transform-origin: left top;
-  }
-
-  .timeline-detail-shell {
-    --detail-accent: var(--tl-orange);
+  .timeline-overview__entry {
     position: relative;
-    z-index: 2;
-    height: 1080px;
+    height: 1218px;
   }
-
-  .timeline-details {
-    position: relative;
-    height: 100%;
+  .timeline-overview__entry.is-expandable {
     overflow-x: auto;
     overflow-y: hidden;
-    color: var(--tl-cream);
-    background: transparent;
-    scroll-behavior: smooth;
-    scroll-snap-type: x mandatory;
     scrollbar-width: none;
     cursor: grab;
+    scroll-snap-type: x mandatory;
   }
-
-  .timeline-details::after {
-    position: absolute;
-    top: 0;
-    left: var(--tl-detail-scroll);
-    z-index: 10;
-    width: 100vw;
-    height: 100%;
-    content: '';
-    background-image: url('/images/timeline-agenda/timeline-pattern.svg');
-    background-position: var(--tl-detail-pattern-x) -87px;
-    background-size: max(111.73vw, 1340px) max(204.81vw, 2457px);
-    background-repeat: no-repeat;
-    pointer-events: none;
-  }
-
-  .timeline-details::-webkit-scrollbar {
+  .timeline-overview__entry.is-expandable::-webkit-scrollbar {
     display: none;
   }
-
-  .timeline-details.is-dragging {
+  .timeline-overview__entry.is-expandable.is-dragging {
     cursor: grabbing;
-    scroll-behavior: auto;
     user-select: none;
   }
-
-  .timeline-details__track {
+  .timeline-overview__entry-track {
     position: relative;
-    display: flex;
-    width: max-content;
-    min-width: 100%;
+    width: 100%;
+    height: 100%;
+  }
+  .timeline-overview__entry.is-expandable .timeline-overview__entry-track {
+    width: calc(100vw + 3801px);
+  }
+  .timeline-overview__stage {
+    position: relative;
+    width: 100vw;
+    height: 100%;
+    scroll-snap-align: start;
+  }
+  .timeline-overview__entry:nth-child(1) {
+    height: 1285px;
+  }
+  .timeline-overview__entry:nth-child(2) {
+    height: 953px;
+  }
+  .timeline-overview__entry:nth-child(3) {
+    height: 1256px;
+  }
+  .timeline-overview__entry:nth-child(4) {
+    height: 1196px;
+  }
+  .timeline-overview__entry:nth-child(5) {
+    height: 1278px;
+  }
+
+  .timeline-overview__content {
+    position: absolute;
+    top: 339px;
+    left: var(--overview-content-left);
+    width: 666px;
+  }
+  .timeline-overview__line {
+    position: absolute;
+    top: -42px;
+    left: 0;
+    display: block;
+    width: calc(100vw - var(--overview-content-left));
+    height: 9px;
+    background: currentColor;
+    mask: url('/images/timeline-adli/line.svg') center / 100% 100% no-repeat;
+    -webkit-mask: url('/images/timeline-adli/line.svg') center / 100% 100% no-repeat;
+  }
+  .timeline-overview h1 {
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 115px;
+    font-weight: 450;
+    letter-spacing: 0;
+    line-height: 0.95;
+    white-space: pre-line;
+  }
+  .timeline-overview__content > h1,
+  .timeline-overview__content > img,
+  .timeline-overview__content > p {
+    margin-left: 0;
+  }
+  .timeline-overview img {
+    display: block;
+    width: 666px;
+    height: 643px;
+    margin-top: 70px;
+    object-fit: fill;
+  }
+  .timeline-overview__content > p {
+    margin: 64px 0 0;
+    font-family: var(--font-body);
+    font-size: 32px;
+    font-style: italic;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    white-space: pre-line;
+  }
+  .timeline-overview__entry.is-cream .timeline-overview__content {
+    top: 339px;
+  }
+  .timeline-overview__entry.is-cream .timeline-overview__content > p {
+    margin-top: 65px;
+  }
+  .timeline-overview__entry.is-cream h1 + p {
+    margin-top: 65px;
+  }
+  .timeline-overview__entry.is-orange {
+    color: var(--orange);
+  }
+  .timeline-overview__entry.is-purple {
+    color: var(--purple);
+  }
+  .timeline-overview__entry.is-blue {
+    color: var(--blue);
+  }
+  .timeline-overview__entry.is-cream {
+    color: var(--cream);
+  }
+  .timeline-overview__entry.is-cream .timeline-overview__content > p {
+    color: var(--cream);
+  }
+  .timeline-overview__entry:nth-child(2) .timeline-overview__content,
+  .timeline-overview__entry:nth-child(3) .timeline-overview__content {
+    top: 339px;
+  }
+  .timeline-overview__entry:nth-child(4) .timeline-overview__content,
+  .timeline-overview__entry:nth-child(5) .timeline-overview__content,
+  .timeline-overview__entry:nth-child(6) .timeline-overview__content {
+    top: 361px;
+  }
+
+  .timeline-inline-detail {
+    position: absolute;
+    top: 0;
+    left: calc(100vw + 54px);
+    width: 3747px;
+    height: 1080px;
+    scroll-snap-align: start;
+  }
+  .timeline-detail__track {
+    position: relative;
+    width: 3747px;
     height: 1080px;
   }
-
-  .timeline-details__track::after {
-    width: max(0px, calc(100vw - 1137px));
-    flex: 0 0 max(0px, calc(100vw - 1137px));
-    content: '';
-  }
-
-  .timeline-details__line {
+  .timeline-detail__line {
     position: absolute;
-    left: 288px;
-    z-index: 3;
-    width: calc(100% - 288px);
-    height: 4px;
+    left: 0;
+    width: 100%;
+    height: 9px;
     background: currentColor;
-    clip-path: polygon(
-      0 35%,
-      2% 62%,
-      4% 38%,
-      6% 65%,
-      8% 36%,
-      10% 61%,
-      12% 39%,
-      14% 64%,
-      16% 37%,
-      18% 62%,
-      20% 39%,
-      22% 63%,
-      24% 38%,
-      26% 62%,
-      28% 36%,
-      30% 64%,
-      32% 39%,
-      34% 62%,
-      36% 38%,
-      38% 64%,
-      40% 36%,
-      42% 62%,
-      44% 40%,
-      46% 63%,
-      48% 37%,
-      50% 64%,
-      52% 38%,
-      54% 61%,
-      56% 40%,
-      58% 64%,
-      60% 37%,
-      62% 62%,
-      64% 40%,
-      66% 64%,
-      68% 37%,
-      70% 61%,
-      72% 40%,
-      74% 63%,
-      76% 38%,
-      78% 64%,
-      80% 36%,
-      82% 62%,
-      84% 40%,
-      86% 64%,
-      88% 37%,
-      90% 62%,
-      92% 39%,
-      94% 64%,
-      96% 37%,
-      98% 62%,
-      100% 40%
-    );
-    pointer-events: none;
+    mask: url('/images/timeline-adli/line.svg') center / 100% 100% no-repeat;
+    -webkit-mask: url('/images/timeline-adli/line.svg') center / 100% 100% no-repeat;
   }
-
-  .timeline-details__line--top {
-    top: 193px;
-    color: var(--tl-orange);
+  .timeline-detail__line--top {
+    top: 117px;
   }
-
-  .timeline-details__line--bottom {
-    top: 878px;
-    color: var(--tl-cream);
+  .timeline-detail__line--bottom {
+    top: 1023px;
+    background-color: var(--cream);
   }
-
-  .timeline-details__ghost {
-    position: absolute;
-    top: 219px;
-    left: -385px;
-    z-index: 4;
-    font-size: 268px;
-    color: var(--tl-orange);
-    pointer-events: none;
+  .timeline-inline-detail.is-orange {
+    color: var(--orange);
+  }
+  .timeline-inline-detail.is-purple {
+    color: var(--purple);
+  }
+  .timeline-inline-detail.is-blue {
+    color: var(--blue);
   }
 
   .timeline-card {
-    position: relative;
-    flex: 0 0 1137px;
-    height: 1080px;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-  }
-
-  .timeline-card:not(:first-of-type)::before {
     position: absolute;
-    top: 197px;
-    left: 288px;
+    top: 0;
+    width: 970px;
+    height: 1080px;
+    color: var(--cream);
+    scroll-snap-align: start;
+  }
+  .timeline-card.is-card-0 {
+    left: 340px;
+  }
+  .timeline-card.is-card-1 {
+    left: 1963px;
+  }
+  .timeline-card h3 {
+    position: absolute;
+    top: 437px;
+    left: 695px;
+    width: 435px;
+    margin: 0;
+    color: var(--blue);
+    font-family: var(--font-display);
+    font-size: 64px;
+    font-style: italic;
+    font-weight: 100;
+    line-height: 0.94;
+  }
+  .timeline-card__year {
+    position: absolute;
+    top: 188px;
+    left: 16px;
+    margin: 0;
+    color: var(--cream);
+    font-family: var(--font-display);
+    font-size: 64px;
+    font-style: italic;
+    line-height: 1;
+  }
+  .timeline-card img {
+    position: absolute;
+    top: 337px;
+    left: 0;
+    display: block;
+    width: 666px;
+    height: 643px;
+    object-fit: fill;
+  }
+  .timeline-card__copy {
+    position: absolute;
+    top: 610px;
+    left: 695px;
+    width: 435px;
+    margin: 0;
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: 1;
+    white-space: pre-line;
+  }
+  .timeline-card dl {
+    position: absolute;
+    top: 876px;
+    left: 695px;
+    width: 435px;
+    margin: 0;
+  }
+  .timeline-card dl div + div {
+    margin-top: 31px;
+  }
+  .timeline-card dt {
+    color: var(--orange);
+    font-family: var(--font-body);
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+  .timeline-card dd {
+    margin: 17px 0 0;
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1;
+  }
+  .timeline-card::before {
+    position: absolute;
+    top: 120px;
+    left: 0;
     width: 1px;
-    height: 135px;
-    background: var(--tl-orange);
+    height: 147px;
+    background: currentColor;
     content: '';
   }
 
-  .timeline-card h3 {
-    position: absolute;
-    top: 210px;
-    left: 288px;
-    font-family: var(--font-body);
-    font-size: 64px;
-    font-style: italic;
-    font-weight: 400;
-    line-height: 1;
-    letter-spacing: -0.04em;
-  }
-
-  .timeline-card__year {
-    position: absolute;
-    top: 301px;
-    left: 288px;
-    color: var(--tl-orange);
-    font-size: 32px;
-    font-style: italic;
-    line-height: 1;
-    letter-spacing: -0.04em;
-  }
-
-  .timeline-card:not(:first-of-type) .timeline-card__year {
-    left: 268px;
-  }
-
-  .timeline-card__image {
-    position: absolute;
-    top: 440px;
-    left: 288px;
-    width: 435px;
-    height: 421px;
-    max-width: none;
-  }
-
-  .timeline-card__image.is-cutout {
-    object-fit: contain;
-    object-position: center bottom;
-  }
-
-  .timeline-card__copy {
-    position: absolute;
-    top: 440px;
-    left: 744px;
-    width: 460px;
-    font-size: 18px;
-    line-height: 1.16;
-    transform: scaleX(0.833);
-    transform-origin: left top;
-  }
-
-  .timeline-card__meta {
-    position: absolute;
-    left: 744px;
-    width: 383px;
-    font-size: 16px;
-    line-height: 1.15;
-  }
-
-  .timeline-card__meta--1 {
-    top: 660px;
-  }
-
-  .timeline-card__meta--2 {
-    top: 730px;
-  }
-
-  .timeline-card__meta strong,
-  .timeline-card__meta span {
-    display: block;
-  }
-
-  .timeline-card__meta strong {
-    margin-bottom: 3px;
-    color: var(--tl-orange);
-    font-size: 14px;
-    letter-spacing: 0.035em;
-  }
-
-  .timeline-detail-shell.is-blue .timeline-details__line,
-  .timeline-detail-shell.is-blue .timeline-details__ghost,
-  .timeline-detail-shell.is-blue .timeline-card__year,
-  .timeline-detail-shell.is-blue .timeline-card__meta strong {
-    color: var(--tl-blue);
-  }
-
-  .timeline-detail-shell.is-blue {
-    --detail-accent: var(--tl-blue);
-  }
-
-  .timeline-details__controls {
-    position: absolute;
-    right: 3.125vw;
-    bottom: 2.5rem;
-    z-index: 20;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    color: var(--detail-accent);
-  }
-
-  .timeline-details__controls button {
-    display: grid;
-    width: 3rem;
-    height: 3rem;
-    padding: 0;
-    place-items: center;
-    color: inherit;
-    background: var(--tl-black);
-    border: 1px solid currentColor;
-    border-radius: 50%;
-    cursor: pointer;
-    transition:
-      color 180ms ease,
-      background-color 180ms ease,
-      opacity 180ms ease;
-  }
-
-  .timeline-details__controls button:hover:not(:disabled),
-  .timeline-details__controls button:focus-visible {
-    color: var(--tl-black);
-    background: var(--detail-accent);
-  }
-
-  .timeline-details__controls button:disabled {
-    cursor: not-allowed;
-    opacity: 0.3;
-  }
-
-  .timeline-details__controls p {
-    min-width: 4.75rem;
-    margin: 0;
-    font-size: 0.75rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-align: center;
-  }
-
   @media (prefers-reduced-motion: reduce) {
-    .timeline-details {
-      scroll-behavior: auto;
-    }
-
-    .timeline-details__controls button {
+    .timeline-date__group {
       transition: none;
     }
   }
 </style>
 
 <script>
-  const timeline = document.querySelector<HTMLElement>('[data-timeline]');
-  const overview = timeline?.querySelector<HTMLElement>('[data-timeline-overview]');
-  const detailSections = Array.from(
-    timeline?.querySelectorAll<HTMLElement>('[data-timeline-details]') ?? []
-  );
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const timelinePage = document.querySelector<HTMLElement>('[data-timeline]');
+  const overview = document.querySelector<HTMLElement>('.timeline-overview');
+  const date = document.querySelector<HTMLElement>('[data-timeline-date]');
+  const rail = document.querySelector<HTMLElement>('.timeline-overview__rail');
+  const railProgress = document.querySelector<HTMLElement>('.timeline-overview__rail-progress');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  if (timeline && overview) {
-    let ticking = false;
+  const clamp = (value: number) => Math.min(1, Math.max(0, value));
 
-    const renderTimeline = () => {
-      const rect = overview.getBoundingClientRect();
-      const scroll = Math.max(0, Math.min(1326, -rect.top));
-      let railShift = 0;
-      let patternX = -103;
-      let patternY = 0;
+  const updateTimelineDate = () => {
+    if (!overview || !date) return;
 
-      if (scroll < 180) railShift = scroll * (224 / 180);
-      else if (scroll <= 648) railShift = 224;
-      else railShift = 224 + Math.min(202, ((scroll - 648) / 225) * 202);
+    const overviewTop = overview.getBoundingClientRect().top + window.scrollY;
+    const position = window.scrollY - overviewTop;
+    const overviewProgress = clamp(
+      position / Math.max(1, overview.offsetHeight - window.innerHeight)
+    );
+    const groups = [
+      { name: 'orange', start: 0, end: 1285 },
+      { name: 'purple', start: 2238, end: 3494 },
+      { name: 'blue', start: 4690, end: 5968 },
+    ] as const;
+    const active = position < 2238 ? groups[0] : position < 4690 ? groups[1] : groups[2];
+    const progress = clamp((position - active.start) / (active.end - active.start));
+    const shift = reduceMotion ? (progress > 0.5 ? -200 : 0) : -200 * progress;
+    const activeGroup = date.querySelector<HTMLElement>(`[data-date-group="${active.name}"]`);
 
-      if (scroll <= 224) {
-        const progress = scroll / 224;
-        patternX = -161 + 58 * progress;
-        patternY = -76 + 70 * progress;
-      } else if (scroll <= 648) {
-        patternY = -6 + 6 * ((scroll - 224) / 424);
-      } else if (scroll <= 873) {
-        patternY = -1000 * ((scroll - 648) / 225);
-      } else {
-        patternY = -1000;
-      }
+    date.dataset.dateGroup = active.name;
+    activeGroup?.style.setProperty('--date-wheel-shift', `${shift}px`);
 
-      const yearShift = reducedMotion.matches
-        ? scroll < 332
-          ? 0
-          : scroll < 995
-            ? 663
-            : 1326
-        : scroll;
+    if (rail && railProgress) {
+      const start = 143;
+      const end = Math.max(start, rail.clientHeight - railProgress.offsetHeight);
+      railProgress.style.setProperty(
+        '--rail-progress-position',
+        `${start + (end - start) * overviewProgress}px`
+      );
+    }
+  };
 
-      timeline.style.setProperty('--tl-year-shift', `${yearShift}px`);
-      timeline.style.setProperty('--tl-rail-shift', `${railShift}px`);
-      timeline.style.setProperty('--tl-pattern-x', `${patternX}px`);
-      timeline.style.setProperty('--tl-pattern-y', `${patternY}px`);
-      ticking = false;
-    };
+  updateTimelineDate();
+  window.addEventListener('scroll', updateTimelineDate, { passive: true });
 
-    const requestRender = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(renderTimeline);
-    };
-
-    renderTimeline();
-    window.addEventListener('scroll', requestRender, { passive: true });
-    window.addEventListener('resize', requestRender);
-  }
-
-  detailSections.forEach((details) => {
-    const shell = details.closest<HTMLElement>('[data-detail-shell]');
-    const cards = Array.from(details.querySelectorAll<HTMLElement>('[data-detail-card]'));
-    const previousButton = shell?.querySelector<HTMLButtonElement>('[data-detail-previous]');
-    const nextButton = shell?.querySelector<HTMLButtonElement>('[data-detail-next]');
-    const status = shell?.querySelector<HTMLElement>('[data-detail-status]');
-    let dragging = false;
+  document.querySelectorAll<HTMLElement>('[data-horizontal-era]').forEach((scroller) => {
     let startX = 0;
     let startScroll = 0;
-    let currentIndex = 0;
-    let wheelLocked = false;
-    let wheelTimer = 0;
-    let renderFrame = 0;
 
-    const normalizedIndex = (index: number) => Math.max(0, Math.min(cards.length - 1, index));
-
-    const findClosestIndex = () => {
-      let closestIndex = 0;
-      let closestDistance = Number.POSITIVE_INFINITY;
-
-      cards.forEach((card, index) => {
-        const distance = Math.abs(card.offsetLeft - details.scrollLeft);
-        if (distance >= closestDistance) return;
-        closestDistance = distance;
-        closestIndex = index;
-      });
-
-      return closestIndex;
-    };
-
-    const renderDetailsPattern = () => {
-      const maxScroll = Math.max(1, details.scrollWidth - details.clientWidth);
-      const progress = Math.min(1, details.scrollLeft / maxScroll);
-      details.style.setProperty('--tl-detail-scroll', `${details.scrollLeft}px`);
-      details.style.setProperty('--tl-detail-pattern-x', `${-251 + 250 * progress}px`);
-
-      currentIndex = findClosestIndex();
-      cards.forEach((card, index) => {
-        if (index === currentIndex) card.setAttribute('aria-current', 'true');
-        else card.removeAttribute('aria-current');
-      });
-
-      if (previousButton) previousButton.disabled = currentIndex === 0;
-      if (nextButton) nextButton.disabled = currentIndex === cards.length - 1;
-      if (status) {
-        status.textContent = `${String(currentIndex + 1).padStart(2, '0')} / ${String(cards.length).padStart(2, '0')}`;
-        status.setAttribute(
-          'aria-label',
-          `Tarjeta ${currentIndex + 1} de ${cards.length}: ${cards[currentIndex]?.dataset.cardLabel ?? ''}`
-        );
-      }
-
-      renderFrame = 0;
-    };
-
-    const requestDetailsRender = () => {
-      if (renderFrame) return;
-      renderFrame = requestAnimationFrame(renderDetailsPattern);
-    };
-
-    const goToCard = (index: number) => {
-      currentIndex = normalizedIndex(index);
-      details.scrollTo({
-        left: cards[currentIndex]?.offsetLeft ?? 0,
-        behavior: reducedMotion.matches ? 'auto' : 'smooth',
-      });
-      if (reducedMotion.matches) renderDetailsPattern();
-    };
-
-    renderDetailsPattern();
-    details.addEventListener('scroll', requestDetailsRender, { passive: true });
-
-    previousButton?.addEventListener('click', () => goToCard(currentIndex - 1));
-    nextButton?.addEventListener('click', () => goToCard(currentIndex + 1));
-
-    details.addEventListener(
-      'wheel',
-      (event) => {
-        if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-        const direction = Math.sign(event.deltaY);
-        const targetIndex = currentIndex + direction;
-        if (targetIndex < 0 || targetIndex >= cards.length) return;
-        event.preventDefault();
-        if (wheelLocked) return;
-
-        wheelLocked = true;
-        goToCard(targetIndex);
-        window.clearTimeout(wheelTimer);
-        wheelTimer = window.setTimeout(
-          () => {
-            wheelLocked = false;
-          },
-          reducedMotion.matches ? 80 : 480
-        );
-      },
-      { passive: false }
-    );
-
-    details.addEventListener('pointerdown', (event) => {
-      // Touch already has native momentum scrolling; duplicating it here doubles the travel.
-      if (event.pointerType === 'touch') return;
-      dragging = true;
+    scroller.addEventListener('pointerdown', (event) => {
       startX = event.clientX;
-      startScroll = details.scrollLeft;
-      details.classList.add('is-dragging');
-      details.setPointerCapture(event.pointerId);
+      startScroll = scroller.scrollLeft;
+      scroller.setPointerCapture(event.pointerId);
+      scroller.classList.add('is-dragging');
     });
 
-    details.addEventListener('pointermove', (event) => {
-      if (!dragging) return;
-      details.scrollLeft = startScroll - (event.clientX - startX);
+    scroller.addEventListener('pointermove', (event) => {
+      if (!scroller.classList.contains('is-dragging')) return;
+      scroller.scrollLeft = startScroll - (event.clientX - startX);
     });
 
-    const stopDragging = () => {
-      dragging = false;
-      details.classList.remove('is-dragging');
+    const release = () => scroller.classList.remove('is-dragging');
+    scroller.addEventListener('pointerup', release);
+    scroller.addEventListener('pointercancel', release);
+
+    const syncDetailState = () => {
+      const isDetailOpen = Array.from(
+        document.querySelectorAll<HTMLElement>('[data-horizontal-era]')
+      ).some((era) => era.scrollLeft > 8);
+      timelinePage?.classList.toggle('is-detail-active', isDetailOpen);
     };
 
-    details.addEventListener('pointerup', stopDragging);
-    details.addEventListener('pointercancel', stopDragging);
-    details.addEventListener('keydown', (event) => {
-      const targetIndex =
-        event.key === 'ArrowLeft'
-          ? currentIndex - 1
-          : event.key === 'ArrowRight'
-            ? currentIndex + 1
-            : event.key === 'Home'
-              ? 0
-              : event.key === 'End'
-                ? cards.length - 1
-                : null;
+    scroller.addEventListener('scroll', syncDetailState, { passive: true });
 
-      if (targetIndex === null) return;
-      event.preventDefault();
-      goToCard(targetIndex);
+    const openDetail = () => {
+      if (scroller.scrollLeft > 0) return;
+      scroller.scrollTo({
+        left: window.innerWidth + 54,
+        behavior: reduceMotion ? 'auto' : 'smooth',
+      });
+    };
+
+    scroller.addEventListener('click', (event) => {
+      if (Math.abs(event.clientX - startX) > 8) return;
+      openDetail();
     });
 
-    window.addEventListener('resize', requestDetailsRender);
+    scroller.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      openDetail();
+    });
   });
 </script>
