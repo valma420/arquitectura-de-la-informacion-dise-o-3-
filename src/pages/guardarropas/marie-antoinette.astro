@@ -1,7 +1,76 @@
 ---
 import MainLayout from '@layouts/MainLayout.astro';
 
-const collectionCards = Array.from({ length: 4 });
+const collectionItems = [
+  {
+    title: 'Robe à la française floral',
+    category: 'prendas',
+    src: '/images/wardrobe/collection/item-01.png',
+    alt: 'Vestido floral de corte con panier del siglo XVIII',
+  },
+  {
+    title: 'Robe à la française floral',
+    category: 'prendas',
+    src: '/images/wardrobe/collection/item-02.png',
+    openSrc: '/images/wardrobe/selection/item-02-open.png',
+    alt: 'Vestido floral de corte con panier del siglo XVIII',
+  },
+  {
+    title: 'Figurín de toilette',
+    category: 'documentos',
+    src: '/images/wardrobe/collection/item-03.png',
+    alt: 'Figurín de moda con vestido rayado azul',
+  },
+  {
+    title: 'Robe volante gris perla',
+    category: 'prendas',
+    src: '/images/wardrobe/collection/item-04.png',
+    alt: 'Vestido gris perla montado sobre maniquí',
+  },
+  {
+    title: 'Carta de proveedor real',
+    category: 'documentos',
+    src: '/images/wardrobe/collection/item-05.png',
+    alt: 'Documento manuscrito conservado',
+  },
+  {
+    title: 'Marie Antoinette en robe de cour',
+    category: 'retratos',
+    src: '/images/wardrobe/collection/item-06.png',
+    alt: 'Retrato de Marie Antoinette con vestido de corte',
+  },
+  {
+    title: 'Carta de proveedor real',
+    category: 'documentos',
+    src: '/images/wardrobe/collection/item-07.png',
+    alt: 'Documento manuscrito conservado',
+  },
+  {
+    title: 'Retrato con escritorio',
+    category: 'retratos',
+    src: '/images/wardrobe/collection/item-08.png',
+    alt: 'Retrato histórico de Marie Antoinette sentada junto a un escritorio',
+  },
+  {
+    title: 'Croquis de ornamento',
+    category: 'documentos',
+    src: '/images/wardrobe/collection/item-09.png',
+    alt: 'Croquis de vestido sobre papel',
+  },
+  {
+    title: 'Retrato con escritorio',
+    category: 'retratos',
+    src: '/images/wardrobe/collection/item-10.png',
+    alt: 'Retrato histórico de una figura vinculada al guardarropa',
+  },
+] as const;
+
+const collectionFilters = [
+  { label: 'Todo (10)', value: 'all' },
+  { label: 'Prendas (3)', value: 'prendas' },
+  { label: 'Documentos (4)', value: 'documentos' },
+  { label: 'Retratos (3)', value: 'retratos' },
+] as const;
 ---
 
 <MainLayout
@@ -11,7 +80,9 @@ const collectionCards = Array.from({ length: 4 });
 >
   <article class="marie-page">
     <header class="marie-hero">
-      <a class="ticket-link ticket-link--back" href="/guardarropas">Volver a la galería</a>
+      <a class="back-gallery-button" href="/guardarropas" aria-label="Volver a la galería">
+        <img src="/images/wardrobe/buttons/back-gallery.svg" alt="" aria-hidden="true" />
+      </a>
 
       <div class="marie-hero__layout">
         <img
@@ -95,7 +166,10 @@ const collectionCards = Array.from({ length: 4 });
             <img src="/images/wardrobe/corset-detail-02.jpg" alt="Vista lateral del corset" />
           </div>
 
-          <a class="ticket-link ticket-link--piece" href="/coleccion">Ver ficha completa</a>
+          <a class="ticket-link ticket-link--piece" href="/coleccion">
+            <span>Ver ficha completa</span>
+            <img src="/images/wardrobe/buttons/ticket-complete.svg" alt="" aria-hidden="true" />
+          </a>
         </div>
       </div>
     </section>
@@ -104,6 +178,7 @@ const collectionCards = Array.from({ length: 4 });
       class="wardrobe-collection"
       id="guardarropas-completo"
       aria-labelledby="collection-title"
+      data-filter="all"
     >
       <div class="wardrobe-collection__header">
         <div>
@@ -111,28 +186,70 @@ const collectionCards = Array.from({ length: 4 });
           <h2 id="collection-title">Diez piezas conservadas</h2>
         </div>
 
-        <ul class="collection-filters" aria-label="Categorías del guardarropas">
-          <li>Todo (10)</li>
-          <li>Prendas (3)</li>
-          <li class="is-active">Documentos (4)</li>
-          <li>Retratos (3)</li>
-        </ul>
+        <div class="collection-filters" aria-label="Categorías del guardarropas" data-state="all">
+          <img
+            class="collection-filters__image collection-filters__image--all"
+            src="/images/wardrobe/filters/filters-all.svg"
+            alt=""
+            aria-hidden="true"
+          />
+          <img
+            class="collection-filters__image collection-filters__image--prendas"
+            src="/images/wardrobe/filters/filters-prendas.svg"
+            alt=""
+            aria-hidden="true"
+          />
+          {
+            collectionFilters.map((filter, index) => (
+              <button
+                class:list={[
+                  'collection-filter',
+                  `collection-filter--${index + 1}`,
+                  filter.value === 'all' && 'is-active',
+                ]}
+                type="button"
+                data-filter={filter.value}
+                aria-pressed={filter.value === 'all' ? 'true' : 'false'}
+              >
+                {filter.label}
+              </button>
+            ))
+          }
+        </div>
       </div>
 
-      <img class="wardrobe-collection__divider" src="/images/wardrobe/divider.svg" alt="" />
+      <img
+        class="wardrobe-collection__divider"
+        src="/images/wardrobe/dividers/divider.svg"
+        alt=""
+      />
 
       <div class="collection-grid">
         {
-          collectionCards.map((_, index) => (
-            <figure class="collection-card">
-              <img
-                src="/images/wardrobe/character-card.png"
-                alt={index === 0 ? 'Retrato en blanco y negro de una mujer con abrigo' : ''}
-                loading="lazy"
-              />
-            </figure>
+          collectionItems.map((item) => (
+            <button
+              class="collection-card"
+              type="button"
+              data-category={item.category}
+              data-title={item.title}
+              data-src={item.src}
+              data-open-src={'openSrc' in item ? item.openSrc : undefined}
+              data-alt={item.alt}
+              aria-label={`Ampliar ${item.title}`}
+            >
+              <img class="collection-card__image" src={item.src} alt={item.alt} loading="lazy" />
+            </button>
           ))
         }
+      </div>
+
+      <div class="collection-selection" aria-hidden="true">
+        <button class="collection-selection__close" type="button" aria-label="Cerrar selección">
+        </button>
+        <figure class="collection-selection__figure">
+          <img class="collection-selection__image" src={collectionItems[1].openSrc} alt="" />
+          <figcaption class="sr-only">{collectionItems[0].title}</figcaption>
+        </figure>
       </div>
     </section>
   </article>
@@ -163,6 +280,7 @@ const collectionCards = Array.from({ length: 4 });
   }
 
   .ticket-link {
+    position: relative;
     display: grid;
     place-items: center;
     min-height: 45px;
@@ -182,15 +300,20 @@ const collectionCards = Array.from({ length: 4 });
     background: var(--marie-cream);
   }
 
-  .ticket-link--back {
+  .back-gallery-button {
     position: absolute;
     top: 57px;
-    left: 3.125vw;
+    left: 57px;
     z-index: 2;
-    width: 213px;
-    color: var(--marie-cream);
-    background: var(--marie-orange);
-    border-color: var(--marie-orange);
+    display: block;
+    width: 214px;
+    height: 44px;
+    outline-offset: 4px;
+  }
+
+  .back-gallery-button img {
+    width: 100%;
+    height: 100%;
   }
 
   .marie-hero {
@@ -373,18 +496,37 @@ const collectionCards = Array.from({ length: 4 });
 
   .ticket-link--piece {
     width: 263px;
+    height: 46px;
     margin-top: 85px;
+    padding: 0;
     color: var(--marie-blue);
-    border-color: var(--marie-blue);
+    border: 0;
+  }
+
+  .ticket-link--piece span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .ticket-link--piece img {
+    width: 100%;
+    height: 100%;
   }
 
   .wardrobe-collection {
-    min-height: 1077px;
-    padding: 95px 3.125vw 60px;
+    position: relative;
+    min-height: 2291px;
+    padding: 95px 59px 120px;
+    overflow: hidden;
     background-color: var(--marie-purple);
     background-image: url('/images/wardrobe/pattern.svg');
     background-position: center bottom;
     background-size: max(102.3vw, 1228px) auto;
+    transition: background-color 180ms ease;
   }
 
   .wardrobe-collection__header {
@@ -403,55 +545,249 @@ const collectionCards = Array.from({ length: 4 });
   }
 
   .collection-filters {
-    display: flex;
-    gap: 21px;
+    position: relative;
+    width: 543px;
+    height: 27px;
     margin: 0 0 1px;
     padding: 0;
-    list-style: none;
   }
 
-  .collection-filters li {
-    min-width: 110px;
-    padding: 7px 14px;
-    color: var(--marie-cream);
-    border: 1px solid var(--marie-cream);
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1;
-    text-align: center;
-    text-transform: uppercase;
+  .collection-filters__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    pointer-events: none;
   }
 
-  .collection-filters .is-active {
-    color: var(--marie-purple);
-    background: var(--marie-cream);
+  .collection-filters__image--prendas,
+  .collection-filters[data-state='prendas'] .collection-filters__image--all {
+    opacity: 0;
+  }
+
+  .collection-filters[data-state='prendas'] .collection-filters__image--prendas {
+    opacity: 1;
+  }
+
+  .collection-filter {
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    height: 100%;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    color: transparent;
+    cursor: pointer;
+    font-size: 0;
+  }
+
+  .collection-filter:focus-visible {
+    outline: 2px solid var(--marie-blue);
+    outline-offset: 3px;
+  }
+
+  .collection-filter--1 {
+    left: 0;
+    width: 113px;
+  }
+
+  .collection-filter--2 {
+    left: 142px;
+    width: 112px;
+  }
+
+  .collection-filter--3 {
+    left: 284px;
+    width: 128px;
+  }
+
+  .collection-filter--4 {
+    left: 439px;
+    width: 104px;
   }
 
   .wardrobe-collection__divider {
-    width: calc(100% + 6.25vw);
+    position: relative;
+    left: 50%;
+    width: 100vw;
+    max-width: none;
     height: 9px;
-    margin: 66px 0 0 -3.125vw;
+    margin: 66px 0 0;
     object-fit: fill;
+    transform: translateX(-50%);
   }
 
   .collection-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: clamp(12px, 1vw, 19px);
+    gap: 36px 20px;
     margin-top: 67px;
   }
 
   .collection-card {
+    position: relative;
+    display: block;
+    aspect-ratio: 439 / 591;
+    padding: 0;
     margin: 0;
+    overflow: hidden;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 180ms ease;
   }
 
-  .collection-card img {
+  .collection-card__image {
     width: 100%;
+    height: 100%;
+    object-fit: fill;
+  }
+
+  .wardrobe-collection[data-filter='all'] .collection-card {
+    opacity: 1;
+  }
+
+  .wardrobe-collection[data-filter='prendas'] .collection-card.is-muted {
+    opacity: 0.5;
+  }
+
+  .wardrobe-collection.has-selection .collection-card:not(.is-selected) {
+    opacity: 0.5;
+  }
+
+  .wardrobe-collection.has-selection .collection-card.is-selected {
+    opacity: 1;
+  }
+
+  .collection-card:focus-visible {
+    outline: 2px solid var(--marie-blue);
+    outline-offset: 4px;
+  }
+
+  .collection-selection {
+    position: absolute;
+    inset: 328px 0 0;
+    z-index: 8;
+    display: grid;
+    justify-items: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+
+  .collection-selection[aria-hidden='true'] {
+    display: none;
+  }
+
+  .wardrobe-collection.has-selection .collection-selection {
+    display: grid;
+    pointer-events: auto;
+    opacity: 1;
+  }
+
+  .collection-selection__close {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    padding: 0;
+    background: transparent;
+    border: 0;
+    cursor: default;
+  }
+
+  .collection-selection__figure {
+    position: relative;
+    z-index: 2;
+    width: 762px;
+    height: 941px;
+    margin: 0;
+    pointer-events: none;
+  }
+
+  .collection-selection__image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .ticket-link {
+    .ticket-link,
+    .wardrobe-collection,
+    .collection-card,
+    .collection-selection {
       transition: none;
     }
   }
 </style>
+
+<script>
+  const collection = document.querySelector<HTMLElement>('.wardrobe-collection');
+  const filterButtons = Array.from(
+    document.querySelectorAll<HTMLButtonElement>('.collection-filter')
+  );
+  const filters = document.querySelector<HTMLElement>('.collection-filters');
+  const cards = Array.from(document.querySelectorAll<HTMLButtonElement>('.collection-card'));
+  const selection = document.querySelector<HTMLElement>('.collection-selection');
+  const selectionImage = document.querySelector<HTMLImageElement>('.collection-selection__image');
+  const selectionCaption = document.querySelector<HTMLElement>('.collection-selection figcaption');
+  const selectionClose = document.querySelector<HTMLButtonElement>('.collection-selection__close');
+
+  function clearSelection() {
+    collection?.classList.remove('has-selection');
+    selection?.setAttribute('aria-hidden', 'true');
+    cards.forEach((card) => card.classList.remove('is-selected'));
+  }
+
+  function applyFilter(filter: string) {
+    const isFiltered = filter !== 'all';
+
+    collection?.setAttribute('data-filter', filter);
+    filters?.setAttribute('data-state', filter === 'prendas' ? 'prendas' : 'all');
+    clearSelection();
+
+    filterButtons.forEach((button) => {
+      const isActive = button.dataset.filter === filter;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-pressed', String(isActive));
+    });
+
+    cards.forEach((card) => {
+      const isMatch = !isFiltered || card.dataset.category === filter;
+      card.classList.toggle('is-muted', !isMatch);
+      card.classList.toggle('is-filter-match', isFiltered && isMatch);
+    });
+  }
+
+  filterButtons.forEach((button) => {
+    button.addEventListener('click', () => applyFilter(button.dataset.filter ?? 'all'));
+  });
+
+  applyFilter('all');
+
+  cards.forEach((card) => {
+    card.addEventListener('click', () => {
+      if (!selectionImage || !selectionCaption) return;
+      const openSrc = card.dataset.openSrc;
+
+      if (!openSrc) return;
+
+      selectionImage.src = openSrc;
+      selectionImage.alt = card.dataset.alt ?? '';
+      selectionCaption.textContent = card.dataset.title ?? '';
+      cards.forEach((currentCard) =>
+        currentCard.classList.toggle('is-selected', currentCard === card)
+      );
+      collection?.classList.add('has-selection');
+      selection?.setAttribute('aria-hidden', 'false');
+    });
+  });
+
+  selectionClose?.addEventListener('click', clearSelection);
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') clearSelection();
+  });
+</script>

@@ -7,6 +7,7 @@ const portraits = [
     alt: 'Retrato de Marie Antoinette',
     position: 'marie',
     href: '/guardarropas/marie-antoinette',
+    hoverSrc: '/images/wardrobe/hover/hover-01.svg',
   },
   {
     src: '/images/wardrobe/portrait-05.png',
@@ -47,16 +48,19 @@ const portraits = [
     src: '/images/wardrobe/portrait-03.png',
     alt: 'Retrato en blanco y negro de una mujer con vestido estampado',
     position: 'lower-large-1',
+    hoverSrc: '/images/wardrobe/hover/hover-02.svg',
   },
   {
     src: '/images/wardrobe/portrait-12.png',
     alt: 'Retrato en blanco y negro de una diseñadora',
     position: 'bottom-small-3',
+    hoverSrc: '/images/wardrobe/hover/hover-03.svg',
   },
   {
     src: '/images/wardrobe/portrait-10.png',
     alt: 'Retrato en blanco y negro de una actriz con vestido de gala',
     position: 'bottom-small-4',
+    hoverSrc: '/images/wardrobe/hover/hover-04.svg',
   },
   {
     src: '/images/wardrobe/portrait-04.png',
@@ -72,92 +76,79 @@ const portraits = [
   description="Una galería de guardarropas conservados por el Palais Galliera."
 >
   <section class="wardrobe-page">
-    <nav class="wardrobe-nav" aria-label="Principal">
-      <a class="wardrobe-nav__logo" href="/" aria-label="Palais Galliera — Inicio">
-        <svg viewBox="0 0 36 21" aria-hidden="true">
-          <path
-            d="M1 19.5h34M3 18V6.5h30V18M7 17V8.5m5 8.5V8.5m6 8.5V8.5m6 8.5V8.5m5 8.5V8.5M2 5h32L18 1 2 5Z"
-          ></path>
-        </svg>
-      </a>
+    <div class="wardrobe-stage">
+      <nav class="wardrobe-nav" aria-label="Principal">
+        <img src="/images/wardrobe/nav/nav-bar.svg" alt="" aria-hidden="true" />
+        <a
+          class="wardrobe-nav__hit wardrobe-nav__hit--logo"
+          href="/"
+          aria-label="Palais Galliera — Inicio"></a>
+        <a
+          class="wardrobe-nav__hit wardrobe-nav__hit--muestra"
+          href="/muestra"
+          aria-label="Exposiciones"></a>
+        <a
+          class="wardrobe-nav__hit wardrobe-nav__hit--coleccion"
+          href="/coleccion"
+          aria-label="Colecciones"></a>
+        <a class="wardrobe-nav__hit wardrobe-nav__hit--agenda" href="/agenda" aria-label="Agenda"
+        ></a>
+        <a class="wardrobe-nav__hit wardrobe-nav__hit--tickets" href="/agenda" aria-label="Entradas"
+        ></a>
+        <a
+          class="wardrobe-nav__hit wardrobe-nav__hit--search"
+          href="/coleccion"
+          aria-label="Buscar en la colección"></a>
+      </nav>
 
-      <div class="wardrobe-nav__bar">
-        <span>VISITAR</span>
-        <a href="/muestra">EXPOSICIONES</a>
-        <a class="is-active" href="/coleccion">COLECCIONES</a>
-        <span>EL MUSEO</span>
-        <a href="/agenda">AGENDA</a>
-        <a class="wardrobe-nav__tickets" href="/agenda">ENTRADAS</a>
-        <span class="wardrobe-nav__search" aria-hidden="true"></span>
-      </div>
-    </nav>
+      <header class="wardrobe-intro">
+        <h1>Guardarropas</h1>
+        <p>
+          Recorré la galería. Cada retrato abre el guardarropa de una figura que el Palais Galliera
+          conserva.
+        </p>
+        <dl class="wardrobe-stats">
+          <div><dt>12</dt><dd>figuras</dd></div>
+          <div><dt>2</dt><dd>siglos</dd></div>
+          <div><dt>7</dt><dd>países</dd></div>
+          <div><dt>+178</dt><dd>piezas</dd></div>
+        </dl>
+      </header>
 
-    <header class="wardrobe-intro">
-      <h1>Guardarropas</h1>
-      <p>
-        Recorré la galería. Cada retrato abre el guardarropa de una figura que el Palais Galliera
-        conserva.
-      </p>
-      <dl class="wardrobe-stats">
-        <div><dt>12</dt><dd>figuras</dd></div>
-        <div><dt>2</dt><dd>siglos</dd></div>
-        <div><dt>7</dt><dd>países</dd></div>
-        <div><dt>+178</dt><dd>piezas</dd></div>
-      </dl>
-    </header>
+      <img class="wardrobe-divider" src="/images/wardrobe/dividers/divider.svg" alt="" />
 
-    <img class="wardrobe-divider" src="/images/wardrobe/divider.svg" alt="" />
-
-    <div class="portrait-grid" aria-label="Figuras del guardarropa">
-      {
-        portraits.map((portrait) => {
-          const isMarie = portrait.position === 'marie';
-          const content = (
-            <>
-              <img class="portrait-card__image" src={portrait.src} alt={portrait.alt} />
-              <span class="portrait-card__overlay" aria-hidden="true">
-                {isMarie && (
-                  <span class="portrait-card__details">
-                    <span class="portrait-card__name">Marie Antoinette</span>
-                    <span class="portrait-card__meta">1755 — 1793 · Francia · Reina</span>
-                    <span class="portrait-card__cta">Ver guardarropas</span>
-                  </span>
+      <div class="portrait-grid" aria-label="Figuras del guardarropa">
+        {
+          portraits.map((portrait) => {
+            const content = (
+              <>
+                <img class="portrait-card__image" src={portrait.src} alt={portrait.alt} />
+                {'hoverSrc' in portrait && (
+                  <img class="portrait-card__hover-state" src={portrait.hoverSrc} alt="" />
                 )}
-              </span>
-              <img
-                class="portrait-card__hover-frame"
-                src={
-                  isMarie
-                    ? '/images/wardrobe/frame-large.svg'
-                    : portrait.src.includes('portrait-0') &&
-                        Number(portrait.src.match(/\d+/)?.[0]) <= 4
-                      ? '/images/wardrobe/frame-large.svg'
-                      : '/images/wardrobe/frame-small.svg'
-                }
-                alt=""
-              />
-            </>
-          );
+              </>
+            );
 
-          return 'href' in portrait ? (
-            <a
-              class:list={['portrait-card', `portrait-card--${portrait.position}`]}
-              href={portrait.href}
-              aria-label="Ver el guardarropas de Marie Antoinette"
-            >
-              {content}
-            </a>
-          ) : (
-            <figure
-              class:list={['portrait-card', `portrait-card--${portrait.position}`]}
-              tabindex="0"
-              aria-label={`${portrait.alt}. Guardarropa aún no publicado.`}
-            >
-              {content}
-            </figure>
-          );
-        })
-      }
+            return 'href' in portrait ? (
+              <a
+                class:list={['portrait-card', `portrait-card--${portrait.position}`]}
+                href={portrait.href}
+                aria-label="Ver el guardarropas de Marie Antoinette"
+              >
+                {content}
+              </a>
+            ) : (
+              <figure
+                class:list={['portrait-card', `portrait-card--${portrait.position}`]}
+                tabindex="0"
+                aria-label={`${portrait.alt}. Guardarropa aún no publicado.`}
+              >
+                {content}
+              </figure>
+            );
+          })
+        }
+      </div>
     </div>
   </section>
 </MainLayout>
@@ -168,139 +159,112 @@ const portraits = [
     --wardrobe-orange: #fd6500;
     --wardrobe-cream: #f3eee1;
     --wardrobe-black: #141414;
-    min-height: 100vh;
-    padding-top: 1px;
-    overflow: hidden;
+    --wardrobe-unit: calc(100cqw / 1920);
+    position: relative;
+    width: calc(1920 * var(--wardrobe-unit));
+    min-height: calc(1549 * var(--wardrobe-unit));
+    overflow-x: hidden;
     color: var(--wardrobe-cream);
     background-color: var(--wardrobe-purple);
     background-image: url('/images/wardrobe/pattern.svg');
-    background-position: center top;
-    background-size: max(102.3vw, 1228px) auto;
+    background-position: calc(3 * var(--wardrobe-unit)) calc(-17 * var(--wardrobe-unit));
+    background-size: calc(1964 * var(--wardrobe-unit)) calc(1963.521 * var(--wardrobe-unit));
+  }
+
+  .wardrobe-stage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flow-root;
+    width: calc(1920 * var(--wardrobe-unit));
+    height: calc(1549 * var(--wardrobe-unit));
   }
 
   .wardrobe-nav {
-    position: relative;
-    z-index: 10;
-    display: grid;
-    grid-template-columns: 61px minmax(0, 889px);
-    gap: min(20.05vw, 385px);
-    width: min(calc(100% - 6.25vw), 1345px);
-    height: 61px;
-    margin: 60px 0 0 3.125vw;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.01em;
+    position: fixed;
+    top: calc(60 * var(--wardrobe-unit));
+    left: calc(60 * var(--wardrobe-unit));
+    z-index: 50;
+    width: calc(1345 * var(--wardrobe-unit));
+    height: calc(61 * var(--wardrobe-unit));
   }
 
-  .wardrobe-nav__logo {
-    display: grid;
-    place-items: center;
-    width: 61px;
-    height: 61px;
-    color: var(--wardrobe-black);
-    background: var(--wardrobe-orange);
-    border-radius: 50%;
+  .wardrobe-nav img {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
-  .wardrobe-nav__logo svg {
-    width: 36px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.2;
-  }
-
-  .wardrobe-nav__bar {
-    display: flex;
-    align-items: center;
-    gap: 37px;
-    width: 889px;
-    height: 61px;
-    padding: 0 39px;
-    color: var(--wardrobe-cream);
-    background: var(--wardrobe-orange);
-    white-space: nowrap;
-  }
-
-  .wardrobe-nav__bar > * {
-    flex: 0 0 auto;
-  }
-
-  .wardrobe-nav__bar .is-active {
-    color: var(--wardrobe-black);
-  }
-
-  .wardrobe-nav__tickets {
-    display: grid;
-    place-items: center;
-    width: 110px;
-    height: 32px;
-    margin-left: auto;
-    color: var(--wardrobe-cream);
-    background: var(--wardrobe-black);
-  }
-
-  .wardrobe-nav__search {
-    position: relative;
-    width: 21px;
-    height: 21px;
-    margin-left: 10px;
-  }
-
-  .wardrobe-nav__search::before,
-  .wardrobe-nav__search::after {
+  .wardrobe-nav__hit {
     position: absolute;
-    content: '';
+    top: 0;
+    height: 100%;
+    outline-offset: calc(3 * var(--wardrobe-unit));
   }
 
-  .wardrobe-nav__search::before {
-    inset: 0 5px 5px 0;
-    border: 1px solid currentColor;
-    border-radius: 50%;
+  .wardrobe-nav__hit--logo {
+    left: 0;
+    width: calc(61 * var(--wardrobe-unit));
   }
 
-  .wardrobe-nav__search::after {
-    right: 1px;
-    bottom: 1px;
-    width: 7px;
-    height: 1px;
-    background: currentColor;
-    transform: rotate(45deg);
-    transform-origin: right;
+  .wardrobe-nav__hit--muestra {
+    left: calc(550 * var(--wardrobe-unit));
+    width: calc(120 * var(--wardrobe-unit));
+  }
+
+  .wardrobe-nav__hit--coleccion {
+    left: calc(680 * var(--wardrobe-unit));
+    width: calc(130 * var(--wardrobe-unit));
+  }
+
+  .wardrobe-nav__hit--agenda {
+    left: calc(950 * var(--wardrobe-unit));
+    width: calc(95 * var(--wardrobe-unit));
+  }
+
+  .wardrobe-nav__hit--tickets {
+    left: calc(1118 * var(--wardrobe-unit));
+    width: calc(110 * var(--wardrobe-unit));
+  }
+
+  .wardrobe-nav__hit--search {
+    left: calc(1280 * var(--wardrobe-unit));
+    width: calc(42 * var(--wardrobe-unit));
   }
 
   .wardrobe-intro {
-    padding: 103px 1.5rem 75px;
+    padding: calc(239 * var(--wardrobe-unit)) calc(24 * var(--wardrobe-unit))
+      calc(93 * var(--wardrobe-unit));
     text-align: center;
   }
 
   .wardrobe-intro h1 {
     color: var(--wardrobe-orange);
-    font-size: 64px;
+    font-size: calc(64 * var(--wardrobe-unit));
     font-style: italic;
     line-height: 1;
-    letter-spacing: -0.045em;
+    letter-spacing: 0;
   }
 
   .wardrobe-intro > p {
-    width: min(1500px, calc(100vw - 3rem));
+    width: calc(1245 * var(--wardrobe-unit));
     max-width: none;
-    margin: 28px auto 0;
-    font-size: 32px;
+    margin: calc(51 * var(--wardrobe-unit)) auto 0;
+    font-size: calc(32 * var(--wardrobe-unit));
     font-style: italic;
-    line-height: 1.16;
-    letter-spacing: -0.045em;
+    line-height: 1;
+    letter-spacing: 0;
     white-space: nowrap;
-    transform: scaleX(0.83);
   }
 
   .wardrobe-stats {
     display: grid;
     grid-template-columns: repeat(4, auto);
     justify-content: center;
-    gap: clamp(5rem, 10vw, 13rem);
-    margin: 45px 0 0;
+    gap: calc(152 * var(--wardrobe-unit));
+    margin: calc(40 * var(--wardrobe-unit)) 0 0;
     color: var(--wardrobe-orange);
-    font-size: 14px;
+    font-size: calc(14 * var(--wardrobe-unit));
     font-weight: 600;
     line-height: 1;
     text-transform: uppercase;
@@ -308,7 +272,7 @@ const portraits = [
 
   .wardrobe-stats div {
     display: flex;
-    gap: 0.25rem;
+    gap: calc(4 * var(--wardrobe-unit));
   }
 
   .wardrobe-stats dt,
@@ -318,22 +282,20 @@ const portraits = [
 
   .wardrobe-divider {
     width: 100%;
-    height: 9px;
+    height: calc(9 * var(--wardrobe-unit));
     object-fit: fill;
   }
 
   .portrait-grid {
-    display: grid;
-    grid-template-columns: repeat(8, minmax(0, 1fr));
-    gap: clamp(14px, 1.05vw, 22px) clamp(10px, 0.9vw, 18px);
-    width: calc(100% - 6.15vw);
-    margin: 49px auto 60px;
+    position: relative;
+    width: calc(1920 * var(--wardrobe-unit));
+    height: calc(954 * var(--wardrobe-unit));
+    margin: calc(52 * var(--wardrobe-unit)) 0 calc(60 * var(--wardrobe-unit));
   }
 
   .portrait-card {
-    position: relative;
+    position: absolute;
     isolation: isolate;
-    align-self: start;
     margin: 0;
     overflow: hidden;
     outline-offset: 4px;
@@ -345,39 +307,7 @@ const portraits = [
     object-fit: fill;
   }
 
-  .portrait-card__overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    display: grid;
-    place-items: center;
-    color: var(--wardrobe-purple);
-    background: var(--wardrobe-orange);
-    clip-path: polygon(
-      0 17%,
-      3% 16%,
-      7% 13%,
-      10% 10.5%,
-      16% 10.5%,
-      21% 6%,
-      30% 2%,
-      40% 0,
-      60% 0,
-      70% 2%,
-      79% 6%,
-      84% 10.5%,
-      90% 10.5%,
-      93% 13%,
-      97% 16%,
-      100% 17%,
-      100% 100%,
-      0 100%
-    );
-    opacity: 0;
-    transition: opacity 220ms ease;
-  }
-
-  .portrait-card__hover-frame {
+  .portrait-card__hover-state {
     position: absolute;
     inset: 0;
     z-index: 2;
@@ -386,104 +316,100 @@ const portraits = [
     object-fit: fill;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 220ms ease;
+    transition: opacity 180ms ease;
   }
 
-  .portrait-card:hover .portrait-card__overlay,
-  .portrait-card:focus-visible .portrait-card__overlay,
-  .portrait-card:hover .portrait-card__hover-frame,
-  .portrait-card:focus-visible .portrait-card__hover-frame {
+  .portrait-card:hover .portrait-card__hover-state,
+  .portrait-card:focus-visible .portrait-card__hover-state {
     opacity: 1;
   }
 
-  .portrait-card__details {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 55%;
-    margin-top: 22%;
-  }
-
-  .portrait-card__name {
-    font-size: 30px;
-    font-style: italic;
-    line-height: 1.1;
-    letter-spacing: -0.045em;
-  }
-
-  .portrait-card__meta {
-    margin-top: 16px;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1.2;
-    text-transform: uppercase;
-  }
-
-  .portrait-card__cta {
-    display: grid;
-    place-items: center;
-    width: 100%;
-    min-height: 45px;
-    margin-top: 36px;
-    color: var(--wardrobe-purple);
-    background: #b9d6fe;
-    border: 1px solid var(--wardrobe-cream);
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-  }
-
   .portrait-card--marie {
-    grid-area: 1 / 1 / span 2 / span 2;
+    left: calc(59 * var(--wardrobe-unit));
+    top: 0;
+    width: calc(433.9917 * var(--wardrobe-unit));
+    height: calc(586 * var(--wardrobe-unit));
   }
 
   .portrait-card--top-small-1 {
-    grid-area: 1 / 3;
+    left: calc(515 * var(--wardrobe-unit));
+    top: 0;
+    width: calc(208.8492 * var(--wardrobe-unit));
+    height: calc(282 * var(--wardrobe-unit));
   }
 
   .portrait-card--top-small-2 {
-    grid-area: 1 / 4;
+    left: calc(741 * var(--wardrobe-unit));
+    top: 0;
+    width: calc(208.8492 * var(--wardrobe-unit));
+    height: calc(282 * var(--wardrobe-unit));
   }
 
   .portrait-card--center-large {
-    grid-area: 1 / 5 / span 2 / span 2;
+    left: calc(972 * var(--wardrobe-unit));
+    top: 0;
+    width: calc(433.9917 * var(--wardrobe-unit));
+    height: calc(586 * var(--wardrobe-unit));
   }
 
   .portrait-card--top-small-3 {
-    grid-area: 1 / 7;
+    left: calc(1428 * var(--wardrobe-unit));
+    top: 0;
+    width: calc(208.8492 * var(--wardrobe-unit));
+    height: calc(282 * var(--wardrobe-unit));
   }
 
   .portrait-card--top-small-4 {
-    grid-area: 1 / 8;
+    left: calc(1654 * var(--wardrobe-unit));
+    top: 0;
+    width: calc(208.8492 * var(--wardrobe-unit));
+    height: calc(282 * var(--wardrobe-unit));
   }
 
   .portrait-card--bottom-small-1 {
-    grid-area: 3 / 1;
+    left: calc(59 * var(--wardrobe-unit));
+    top: calc(612 * var(--wardrobe-unit));
+    width: calc(208.8492 * var(--wardrobe-unit));
+    height: calc(282 * var(--wardrobe-unit));
   }
 
   .portrait-card--bottom-small-2 {
-    grid-area: 3 / 2;
+    left: calc(284 * var(--wardrobe-unit));
+    top: calc(612 * var(--wardrobe-unit));
+    width: calc(208.8492 * var(--wardrobe-unit));
+    height: calc(282 * var(--wardrobe-unit));
   }
 
   .portrait-card--lower-large-1 {
-    grid-area: 2 / 3 / span 2 / span 2;
+    left: calc(516 * var(--wardrobe-unit));
+    top: calc(308 * var(--wardrobe-unit));
+    width: calc(433.9917 * var(--wardrobe-unit));
+    height: calc(586 * var(--wardrobe-unit));
   }
 
   .portrait-card--bottom-small-3 {
-    grid-area: 3 / 5;
+    left: calc(972 * var(--wardrobe-unit));
+    top: calc(612 * var(--wardrobe-unit));
+    width: calc(208.8492 * var(--wardrobe-unit));
+    height: calc(282 * var(--wardrobe-unit));
   }
 
   .portrait-card--bottom-small-4 {
-    grid-area: 3 / 6;
+    left: calc(1197 * var(--wardrobe-unit));
+    top: calc(612 * var(--wardrobe-unit));
+    width: calc(208.8492 * var(--wardrobe-unit));
+    height: calc(282 * var(--wardrobe-unit));
   }
 
   .portrait-card--lower-large-2 {
-    grid-area: 2 / 7 / span 2 / span 2;
+    left: calc(1429 * var(--wardrobe-unit));
+    top: calc(308 * var(--wardrobe-unit));
+    width: calc(433.9917 * var(--wardrobe-unit));
+    height: calc(586 * var(--wardrobe-unit));
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .portrait-card__overlay,
-    .portrait-card__hover-frame {
+    .portrait-card__hover-state {
       transition: none;
     }
   }
