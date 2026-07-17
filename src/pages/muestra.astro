@@ -291,15 +291,13 @@ const hotspots = [
     </div>
 
     <div class="nl-decade__heading">
-      <h2 class="nl-decade__title">
-        <img src={`${decadeAssets}/heading-title.svg`} alt="Diez años, una casa" />
-      </h2>
-      <p class="nl-decade__subtitle">
-        <img
-          src={`${decadeAssets}/heading-subtitle.svg`}
-          alt="El New Look no fue una colección: fue el punto de partida de una hegemonía absoluta de diez años."
-        />
-      </p>
+      <img
+        class="nl-decade__heading-art"
+        src={`${decadeAssets}/heading.svg`}
+        width="1832"
+        height="186"
+        alt="Diez años, una casa. El New Look no fue una colección: fue el punto de partida de una hegemonía absoluta de diez años."
+      />
     </div>
 
     <div
@@ -411,7 +409,7 @@ const hotspots = [
             aria-controls={`callout-${hotspot.id}`}
             aria-pressed="false"
           >
-            <img src="/images/muestra/hotspot-flower.png" alt="" />
+            <span class="nl-bar__hotspot-icon" aria-hidden="true" />
           </button>
         ))
       }
@@ -456,7 +454,12 @@ const hotspots = [
       <h2>New Look</h2>
       <p class="label">Selección colección Corolle · 1947 — 1957 · 42 piezas</p>
       <a href="/coleccion">
-        <span class="label">Ver colección completa</span>
+        <img
+          src="/images/muestra/close-collection-cta.svg"
+          width="263"
+          height="46"
+          alt="Ver colección completa"
+        />
       </a>
     </div>
   </section>
@@ -700,15 +703,8 @@ const hotspots = [
   .nl-decade__heading {
     position: absolute;
     z-index: 3;
-    top: 0;
-    left: 0;
-    display: flex;
-    /* Both title and subtitle are now pre-rendered SVG text; bottom-align
-       their image boxes instead of computing a font-baseline offset. */
-    align-items: flex-end;
-    justify-content: space-between;
-    width: 100%;
-    padding: 4.54% 0.41% 0 3.03%;
+    top: 4.54%;
+    left: 2.29%;
     pointer-events: none;
   }
 
@@ -761,27 +757,10 @@ const hotspots = [
     transform: rotate(180deg);
   }
 
-  .nl-decade__title {
-    margin: 0;
-    line-height: 0;
-  }
-
-  /* Original design size: 969x122px text-outline SVG on the 1920px canvas. */
-  .nl-decade__title img {
+  /* Original design size: 1832x186px on the 1920px canvas. */
+  .nl-decade__heading-art {
     display: block;
-    width: 50.469cqw;
-    height: auto;
-  }
-
-  .nl-decade__subtitle {
-    margin: 0;
-    line-height: 0;
-  }
-
-  /* Original design size: 636x66px text-outline SVG on the 1920px canvas. */
-  .nl-decade__subtitle img {
-    display: block;
-    width: 33.125cqw;
+    width: 95.417cqw;
     height: auto;
   }
 
@@ -1091,14 +1070,29 @@ const hotspots = [
       filter 0.2s ease;
   }
 
-  .nl-bar__hotspot img {
+  .nl-bar__hotspot-icon {
+    display: block;
     width: 100%;
+    aspect-ratio: 1;
+    background: #b9d6fe;
+    -webkit-mask: url('/images/muestra/hotspot-flower.png') center / contain no-repeat;
+    mask: url('/images/muestra/hotspot-flower.png') center / contain no-repeat;
+    transition: background-color 0.2s ease;
   }
 
   .nl-bar__hotspot:hover,
-  .nl-bar__hotspot.is-active {
+  .nl-bar__hotspot:focus-visible {
     filter: drop-shadow(0 0 0.7rem rgba(185, 214, 254, 0.85));
     transform: translate(-50%, -50%) scale(1.32);
+  }
+
+  .nl-bar__hotspot.is-active {
+    filter: drop-shadow(0 0 0.7rem rgba(253, 101, 0, 0.85));
+    transform: translate(-50%, -50%) scale(1.32);
+  }
+
+  .nl-bar__hotspot.is-active .nl-bar__hotspot-icon {
+    background-color: #fd6500;
   }
 
   /* The callout is now one fully-designed SVG (arch + label + title +
@@ -1158,6 +1152,16 @@ const hotspots = [
 
   .nl-bar__callout[data-callout='largo'] .nl-bar__connector {
     top: 75%;
+  }
+
+  /* The Pollera card sits above the CTA in the Figma composition. Keep its
+     connector anchored to the flower while lifting the card clear of the CTA. */
+  .nl-bar__callout[data-callout='pollera'] {
+    transform: translateY(calc(-50% - 2.1cqw));
+  }
+
+  .nl-bar__callout[data-callout='pollera'] .nl-bar__connector {
+    top: calc(50% + 2.1cqw);
   }
 
   .nl-bar__cta {
@@ -1232,20 +1236,14 @@ const hotspots = [
   }
 
   .nl-close__disc a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 13.7%;
-    min-height: 2.84rem;
+    display: inline-block;
     margin-top: clamp(3rem, 4.8vw, 5.75rem);
-    padding: 0.75rem 1.5rem;
-    border: 1px solid #b9d6fe;
-    border-radius: 50%;
-    background: #b9d6fe;
-    color: #141414;
-    box-shadow:
-      0 0 0 3px #141414,
-      0 0 0 4px #b9d6fe;
+  }
+
+  .nl-close__disc a img {
+    display: block;
+    width: 263px;
+    height: auto;
   }
 
   @media (prefers-reduced-motion: reduce) {
