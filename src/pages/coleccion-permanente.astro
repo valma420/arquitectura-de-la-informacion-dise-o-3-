@@ -72,9 +72,12 @@ const pieceProfiles = [
   ['chaleco-courtois', 'rococo abrigo bordado'],
 ];
 
+// The selected state of the Rococó filter in the approved Figma frame.
+const rococoPieceIndexes = new Set([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 14, 16, 18, 45, 46]);
+
 const collectionPieces = collectionLayout.map(([x, y, w, h], index) => {
   const [slug, tags] = pieceProfiles[index % pieceProfiles.length];
-  return { x, y, w, h, slug, tags };
+  return { x, y, w, h, slug, tags, period: rococoPieceIndexes.has(index) ? 'rococo' : 'other' };
 });
 
 const filters = [
@@ -183,6 +186,7 @@ const filters = [
             href={index === 4 ? '/coleccion' : `/coleccion/${piece.slug}`}
             style={`--piece-x:${(piece.x / 1920) * 100}%;--piece-y:${(piece.y / 1079) * 100}%;--piece-w:${(piece.w / 1920) * 100}%;--piece-h:${(piece.h / 1079) * 100}%;--piece-delay:${(index % 8) * 45}ms;`}
             data-tags={piece.tags}
+            data-period={piece.period}
             aria-label={
               index === 4 ? 'Abrir selección Robe à la française' : 'Abrir ficha del objeto'
             }
@@ -217,7 +221,19 @@ const filters = [
               >
                 {filter.options.map(([label, selected]) => (
                   <label>
-                    <input type="checkbox" checked={selected} data-filter-option />
+                    <input
+                      type="checkbox"
+                      checked={selected}
+                      data-filter-option
+                      data-period-option={
+                        index === 0
+                          ? String(label)
+                              .toLowerCase()
+                              .normalize('NFD')
+                              .replace(/[\u0300-\u036f]/g, '')
+                          : undefined
+                      }
+                    />
                     <span aria-hidden="true" />
                     {label}
                   </label>
@@ -457,6 +473,10 @@ const filters = [
       background-color 160ms ease;
   }
 
+  .collection-filter > button[aria-expanded='true'] {
+    color: transparent;
+  }
+
   .collection-filter:nth-child(1) > button {
     --vector-x: -11.8125rem;
   }
@@ -475,10 +495,6 @@ const filters = [
 
   .collection-filter:nth-child(5) > button {
     --vector-x: -43.8125rem;
-  }
-
-  .collection-filter > button[aria-expanded='true'] {
-    color: transparent;
   }
 
   .collection-filter__menu {
@@ -548,6 +564,28 @@ const filters = [
 
   if (collection) {
     const filters = [...collection.querySelectorAll<HTMLElement>('[data-filter]')];
+    const pieces = [...collection.querySelectorAll<HTMLElement>('[data-period]')];
+    const status = collection.querySelector<HTMLElement>('[data-filter-status]');
+
+    const applyPeriodFilter = () => {
+      const rococoSelected = collection.querySelector<HTMLInputElement>(
+        '[data-period-option="rococo"]'
+      )?.checked;
+
+      collection.classList.toggle('is-filtering', Boolean(rococoSelected));
+      pieces.forEach((piece) => {
+        piece.classList.toggle(
+          'is-match',
+          Boolean(rococoSelected) && piece.dataset.period === 'rococo'
+        );
+      });
+
+      if (status) {
+        status.textContent = rococoSelected
+          ? 'Filtro Rococó activo. Se muestran las prendas seleccionadas en la referencia.'
+          : 'Filtro Rococó desactivado. Se muestran todas las prendas.';
+      }
+    };
 
     const closeMenus = (except?: HTMLElement) => {
       filters.forEach((filter) => {
@@ -572,10 +610,7 @@ const filters = [
 
       filter.querySelectorAll<HTMLInputElement>('[data-filter-option]').forEach((option) => {
         option.addEventListener('change', () => {
-          filter.querySelectorAll<HTMLInputElement>('[data-filter-option]').forEach((other) => {
-            if (other !== option) other.checked = false;
-          });
-          option.checked = true;
+          if (option.matches('[data-period-option]')) applyPeriodFilter();
         });
       });
     });
@@ -593,5 +628,7 @@ const filters = [
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape') closeMenus();
     });
+
+    applyPeriodFilter();
   }
 </script>
