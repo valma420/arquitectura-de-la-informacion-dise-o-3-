@@ -109,11 +109,7 @@ const filters = [
   <section class="agenda-page" data-agenda>
     <nav class="agenda-nav" aria-label="Principal">
       <a class="agenda-nav__logo" href="/" aria-label="Palais Galliera — Inicio">
-        <svg viewBox="0 0 36 21" aria-hidden="true">
-          <path
-            d="M1 19.5h34M3 18V6.5h30V18M7 17V8.5m5 8.5V8.5m6 8.5V8.5m6 8.5V8.5m5 8.5V8.5M2 5h32L18 1 2 5Z"
-          ></path>
-        </svg>
+        <img src="/images/timeline-agenda/agenda-nav-icon.svg" alt="" width="61" height="61" />
       </a>
       <div class="agenda-nav__bar">
         <span class="agenda-nav__label">VISITAR</span>
@@ -152,7 +148,12 @@ const filters = [
           <p class="sr-only" aria-live="polite" data-agenda-status></p>
         </div>
 
-        <div class="agenda-rule" aria-hidden="true"></div>
+        <img
+          class="agenda-rule"
+          src="/images/timeline-agenda/agenda-rule.svg"
+          alt=""
+          aria-hidden="true"
+        />
 
         <div
           class="agenda-list"
@@ -294,16 +295,11 @@ const filters = [
     place-items: center;
     width: 61px;
     height: 61px;
-    color: var(--agenda-cream);
-    background: var(--agenda-orange);
-    border-radius: 50%;
   }
 
-  .agenda-nav__logo svg {
-    width: 36px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.2;
+  .agenda-nav__logo img {
+    width: 100%;
+    height: 100%;
   }
 
   .agenda-nav__bar {
@@ -447,11 +443,10 @@ const filters = [
   }
 
   .agenda-rule {
+    display: block;
     width: calc(100% + 8px);
-    height: 4px;
+    height: auto;
     margin-left: 0;
-    background: repeating-linear-gradient(90deg, var(--agenda-black) 0 8px, transparent 8px 12px);
-    clip-path: polygon(0 45%, 100% 0, 100% 55%, 0 100%);
   }
 
   .agenda-list {
