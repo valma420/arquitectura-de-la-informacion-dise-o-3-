@@ -154,7 +154,13 @@ const filters = [
 
         <div class="agenda-rule" aria-hidden="true"></div>
 
-        <div class="agenda-list" data-agenda-list aria-label="Actividades de junio de 2026">
+        <div
+          class="agenda-list"
+          data-agenda-list
+          data-lenis-prevent
+          aria-label="Actividades de junio de 2026"
+          tabindex="0"
+        >
           {
             events.map((event) => (
               <article
@@ -163,95 +169,84 @@ const filters = [
                 data-category={event.category}
                 id={`evento-${event.day}`}
               >
-                <button
-                  class="agenda-row__header"
-                  type="button"
-                  aria-expanded="false"
-                  aria-controls={`agenda-detail-${event.day}`}
-                  data-agenda-toggle
-                >
-                  <span class="agenda-row__date">
-                    <strong>{event.day}</strong>
-                    <span>JUN</span>
-                  </span>
-                  <span class="agenda-row__kind">{event.kind}</span>
-                  <span class="agenda-row__title" id={`agenda-event-title-${event.day}`}>
-                    {event.title}
-                  </span>
-                  <span class="agenda-row__time">{event.time}</span>
-                </button>
+                {event.featured ? (
+                  <button
+                    class="agenda-row__header"
+                    type="button"
+                    aria-expanded="false"
+                    aria-controls={`agenda-detail-${event.day}`}
+                    data-agenda-toggle
+                  >
+                    <span class="agenda-row__date">
+                      <strong>{event.day}</strong>
+                      <span>JUN</span>
+                    </span>
+                    <span class="agenda-row__kind">{event.kind}</span>
+                    <span class="agenda-row__title" id={`agenda-event-title-${event.day}`}>
+                      {event.title}
+                    </span>
+                    <span class="agenda-row__time">{event.time}</span>
+                  </button>
+                ) : (
+                  <div class="agenda-row__header">
+                    <span class="agenda-row__date">
+                      <strong>{event.day}</strong>
+                      <span>JUN</span>
+                    </span>
+                    <span class="agenda-row__kind">{event.kind}</span>
+                    <span class="agenda-row__title">{event.title}</span>
+                    <span class="agenda-row__time">{event.time}</span>
+                  </div>
+                )}
 
-                <div
-                  class:list={[
-                    'agenda-row__detail',
-                    { 'agenda-row__detail--summary': !event.featured },
-                  ]}
-                  id={`agenda-detail-${event.day}`}
-                  role="region"
-                  aria-labelledby={`agenda-event-title-${event.day}`}
-                  aria-hidden="true"
-                  inert
-                >
-                  {event.featured ? (
-                    <>
-                      <img
-                        class="agenda-row__piece"
-                        src="/images/timeline-agenda/agenda-detail.png"
-                        alt="Vestido floral del acervo del Palais Galliera"
-                      />
-                      <div class="agenda-row__copy">
-                        <p>
-                          Una charla que recorre cómo el vestir del siglo XIX construyó identidad y
-                          posición social a través de la silueta: del corsé y la crinolina al
-                          polisón, cada estructura moldeó el cuerpo según los códigos de su época. A
-                          partir de piezas del acervo Galliera, figurines y prensa de moda, se
-                          revisa la transición del taller artesanal a los primeros sistemas de alta
-                          costura, y el modo en que la indumentaria volvió visibles las reglas de
-                          género y clase del período.
-                        </p>
-                        <dl>
-                          <div>
-                            <dt>DURACIÓN</dt>
-                            <dd>90 min</dd>
-                          </div>
-                          <div>
-                            <dt>LUGAR</dt>
-                            <dd>Auditorio</dd>
-                          </div>
-                          <div>
-                            <dt>HORARIO</dt>
-                            <dd>18:00 h</dd>
-                          </div>
-                        </dl>
-                        <button
-                          class="agenda-row__reserve"
-                          type="button"
-                          aria-label="Reservar entradas"
-                        >
-                          <img src="/images/timeline-agenda/agenda-ticket.png" alt="" />
-                        </button>
-                      </div>
-                    </>
-                  ) : (
-                    <div class="agenda-row__copy agenda-row__copy--summary">
-                      <p>{event.title}</p>
+                {event.featured && (
+                  <div
+                    class="agenda-row__detail"
+                    id={`agenda-detail-${event.day}`}
+                    role="region"
+                    aria-labelledby={`agenda-event-title-${event.day}`}
+                    aria-hidden="true"
+                    inert
+                  >
+                    <img
+                      class="agenda-row__piece"
+                      src="/images/timeline-agenda/agenda-detail.png"
+                      alt="Vestido floral del acervo del Palais Galliera"
+                    />
+                    <div class="agenda-row__copy">
+                      <p>
+                        Una charla que recorre cómo el vestir del siglo XIX construyó identidad y
+                        posición social a través de la silueta: del corsé y la crinolina al polisón,
+                        cada estructura moldeó el cuerpo según los códigos de su época. A partir de
+                        piezas del acervo Galliera, figurines y prensa de moda, se revisa la
+                        transición del taller artesanal a los primeros sistemas de alta costura, y
+                        el modo en que la indumentaria volvió visibles las reglas de género y clase
+                        del período.
+                      </p>
                       <dl>
                         <div>
-                          <dt>FECHA</dt>
-                          <dd>{event.day} JUN 2026</dd>
+                          <dt>DURACIÓN</dt>
+                          <dd>90 min</dd>
                         </div>
                         <div>
-                          <dt>ACTIVIDAD</dt>
-                          <dd>{event.kind}</dd>
+                          <dt>LUGAR</dt>
+                          <dd>Auditorio</dd>
                         </div>
                         <div>
                           <dt>HORARIO</dt>
-                          <dd>{event.time}</dd>
+                          <dd>18:00 h</dd>
                         </div>
                       </dl>
+                      <button
+                        class="agenda-row__reserve"
+                        type="button"
+                        aria-label="Reservar entradas"
+                      >
+                        <img src="/images/timeline-agenda/agenda-ticket.png" alt="" />
+                      </button>
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </article>
             ))
           }
@@ -270,14 +265,14 @@ const filters = [
     --agenda-blue: #b9d6fe;
     position: relative;
     isolation: isolate;
-    min-height: 100dvh;
+    height: 100dvh;
+    overflow: hidden;
     color: var(--agenda-black);
     background-color: var(--agenda-cream);
     background-image: url('/images/timeline-agenda/fondo-agenda.svg');
     background-position: 0 0;
     background-size: 100% auto;
     background-repeat: no-repeat;
-    background-attachment: scroll;
   }
 
   .agenda-nav {
@@ -378,6 +373,7 @@ const filters = [
     display: grid;
     grid-template-columns: 38.7vw minmax(0, 1120px);
     align-items: start;
+    height: calc(100dvh - 219px);
     margin-top: 119px;
   }
 
@@ -407,7 +403,11 @@ const filters = [
   }
 
   .agenda-program {
+    display: flex;
+    flex-direction: column;
     min-width: 0;
+    min-height: 0;
+    height: 100%;
   }
 
   .agenda-filters {
@@ -456,8 +456,18 @@ const filters = [
 
   .agenda-list {
     position: relative;
+    flex: 1 1 auto;
+    min-height: 0;
     width: 100%;
+    overflow-y: auto;
+    overscroll-behavior: contain;
     background: var(--agenda-cream);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .agenda-list::-webkit-scrollbar {
+    display: none;
   }
 
   .agenda-list:focus-visible {
@@ -491,10 +501,6 @@ const filters = [
     background: linear-gradient(180deg, var(--agenda-purple) 0%, var(--agenda-orange) 100%);
   }
 
-  .agenda-row.is-open:not(.is-featured) {
-    height: 320px;
-  }
-
   .agenda-row__header {
     display: grid;
     grid-template-columns: 180px 240px minmax(0, 1fr) 157px;
@@ -506,6 +512,9 @@ const filters = [
     text-align: left;
     background: none;
     border: 0;
+  }
+
+  button.agenda-row__header {
     cursor: pointer;
   }
 
@@ -611,27 +620,6 @@ const filters = [
   .agenda-row__copy dd {
     margin: 1px 0 0;
     font-size: 16px;
-  }
-
-  .agenda-row__copy--summary {
-    top: 36px;
-    left: 180px;
-    width: min(720px, calc(100% - 240px));
-  }
-
-  .agenda-row__copy--summary > p {
-    width: 100%;
-    font-family: var(--font-display);
-    font-size: clamp(2rem, 2.5vw, 3rem);
-    font-style: italic;
-    line-height: 1;
-    transform: none;
-  }
-
-  .agenda-row__copy--summary dl {
-    position: static;
-    width: 100%;
-    margin-top: 2.5rem;
   }
 
   .agenda-row__reserve {
