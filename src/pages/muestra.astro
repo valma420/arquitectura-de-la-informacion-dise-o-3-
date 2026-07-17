@@ -196,7 +196,23 @@ const hotspots = [
     y: 96.2,
     side: 'left',
   },
-];
+].map((hotspot) => {
+  // Stage width (25.99cqw) and callout offset (120.49%) are the constants
+  // from .nl-bar__stage / .nl-bar__callout--{side} below. The connector
+  // must stop at the flower's edge, not its center, so its length is the
+  // gap between the callout edge and the hotspot minus the flower's own
+  // radius (hotspot width 1.3cqw / 2) — computed per hotspot since each
+  // sits at a different x.
+  const STAGE_WIDTH_CQW = 25.99;
+  const CALLOUT_OFFSET_PCT = 120.49;
+  const FLOWER_RADIUS_CQW = 0.65;
+  const gapPct =
+    hotspot.side === 'right'
+      ? CALLOUT_OFFSET_PCT - hotspot.x
+      : hotspot.x + (CALLOUT_OFFSET_PCT - 100);
+  const connectorWidth = Math.max(0, (gapPct / 100) * STAGE_WIDTH_CQW - FLOWER_RADIUS_CQW);
+  return { ...hotspot, connectorWidth: Math.round(connectorWidth * 100) / 100 };
+});
 ---
 
 <MainLayout
@@ -405,19 +421,16 @@ const hotspots = [
           <article
             class:list={['nl-bar__callout', `nl-bar__callout--${hotspot.side}`]}
             id={`callout-${hotspot.id}`}
-            style={`--hx:${hotspot.x}%;--hy:${hotspot.y}%;`}
+            style={`--hx:${hotspot.x}%;--hy:${hotspot.y}%;--cw:${hotspot.connectorWidth}cqw;`}
             data-callout={hotspot.id}
             hidden
           >
             <span class="nl-bar__connector" aria-hidden="true" />
-            <img class="nl-bar__callout-shape" src="/images/muestra/bar-callout.png" alt="" />
-            <div class="nl-bar__callout-content">
-              <p class="nl-bar__callout-label label">
-                {hotspot.number}/ {hotspot.label}
-              </p>
-              <h3>{hotspot.title}</h3>
-              <p class="nl-bar__callout-copy type-display-italic">{hotspot.copy}</p>
-            </div>
+            <img
+              class="nl-bar__callout-shape"
+              src={`/images/muestra/bar-callout-${hotspot.id}.svg`}
+              alt={`${hotspot.number}/ ${hotspot.label}. ${hotspot.title}. ${hotspot.copy}`}
+            />
           </article>
         ))
       }
@@ -1088,19 +1101,14 @@ const hotspots = [
     transform: translate(-50%, -50%) scale(1.32);
   }
 
-  /*
-   * Height is auto (driven by .nl-bar__callout-content, the only
-   * normal-flow child) rather than a fixed aspect-ratio, so a longer
-   * title or copy that wraps to an extra line simply grows the card
-   * instead of overlapping the text below it.
-   */
+  /* The callout is now one fully-designed SVG (arch + label + title +
+     copy baked in as vector text) instead of a shape image with HTML
+     text positioned on top, so its box just follows the image. */
   .nl-bar__callout {
     position: absolute;
     z-index: 4;
     top: var(--hy);
     width: 66.16%;
-    color: #141414;
-    text-align: center;
     transform: translateY(-50%);
   }
 
@@ -1113,23 +1121,31 @@ const hotspots = [
   }
 
   .nl-bar__callout-shape {
-    position: absolute;
-    z-index: 0;
-    inset: 0;
+    display: block;
     width: 100%;
-    height: 100%;
   }
 
+  /*
+   * Stops at the flower's edge instead of running through it: --cw is
+   * computed per hotspot (in the frontmatter above) as the exact gap
+   * between the callout edge and the flower, minus the flower's own
+   * radius, so the line's far end always lands just outside the flower
+   * regardless of which side or how far the hotspot sits.
+   */
   .nl-bar__connector {
     position: absolute;
     z-index: -1;
     top: 50%;
-    border-top: 1px solid #f3eee1;
+    width: var(--cw);
+    border-top: 1px solid #fd6500;
   }
 
   .nl-bar__callout--right .nl-bar__connector {
     right: 100%;
-    width: 142%;
+  }
+
+  .nl-bar__callout--left .nl-bar__connector {
+    left: 100%;
   }
 
   /* "Largo" sits right at the hem, near the section's bottom edge — shift
@@ -1142,38 +1158,6 @@ const hotspots = [
 
   .nl-bar__callout[data-callout='largo'] .nl-bar__connector {
     top: 75%;
-  }
-
-  .nl-bar__callout--left .nl-bar__connector {
-    left: 100%;
-    width: 111%;
-  }
-
-  /* Padding-top is percent-of-width (per the CSS padding spec), tuned to
-     clear the arch shape's curve regardless of how tall the card grows. */
-  .nl-bar__callout-content {
-    position: relative;
-    z-index: 2;
-    padding: 35.5% 7% 10%;
-  }
-
-  .nl-bar__callout-label {
-    margin: 0;
-    font-size: 0.73cqw;
-  }
-
-  .nl-bar__callout h3 {
-    margin: 0.3em 0 0;
-    font-family: var(--font-display);
-    font-size: 3.33cqw;
-    line-height: 1.1;
-  }
-
-  .nl-bar__callout-copy {
-    margin: 0.5em 0 0;
-    font-family: var(--font-body);
-    font-size: 1.15cqw;
-    line-height: 1.28;
   }
 
   .nl-bar__cta {
