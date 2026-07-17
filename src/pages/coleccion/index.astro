@@ -109,6 +109,12 @@ const introPositions = [
   { x: 82.9, y: 71, w: 5.7 },
   { x: 85.3, y: 92.2, w: 6.1 },
 ];
+const selectedNeighbourPositions = [
+  { x: 9.8, y: 62 },
+  { x: 23.3, y: 45 },
+  { x: 67.2, y: 44 },
+  { x: 81.3, y: 65 },
+];
 ---
 
 <MainLayout
@@ -218,15 +224,18 @@ const introPositions = [
 
         <div class="catalogue__neighbours" aria-label="Piezas próximas">
           {
-            [-2, -1, 1, 2].map((offset) => {
+            [-2, -1, 1, 2].map((offset, neighbourIndex) => {
               const index = (initialIndex + offset + catalogueItems.length) % catalogueItems.length;
               const item = catalogueItems[index];
+              const position = selectedNeighbourPositions[neighbourIndex];
               return (
                 <button
                   class="catalogue__neighbour"
                   type="button"
                   data-side-card
                   data-index={index}
+                  data-position={neighbourIndex}
+                  style={`--neighbour-x:${position.x}%;--neighbour-y:${position.y}%;`}
                 >
                   <img src={item.image} alt="" data-side-image />
                   <span class="catalogue__neighbour-title" data-side-title>
@@ -565,7 +574,7 @@ const introPositions = [
     height: 46.875%;
     font-size: min(1rem, 0.833vw);
     font-weight: 400;
-    line-height: normal;
+    line-height: 0;
     letter-spacing: 0.06em;
     text-align: right;
     text-transform: capitalize;
@@ -726,6 +735,8 @@ const introPositions = [
   .catalogue__neighbour {
     position: absolute;
     z-index: 3;
+    top: var(--neighbour-y);
+    left: var(--neighbour-x);
     width: 10%;
     padding: 0;
     color: var(--cream);
@@ -734,33 +745,24 @@ const introPositions = [
     border: 0;
     cursor: pointer;
     transition:
+      top 620ms cubic-bezier(0.76, 0, 0.24, 1),
+      left 620ms cubic-bezier(0.76, 0, 0.24, 1),
       opacity 180ms ease,
       transform 260ms ease;
+  }
+
+  .catalogue__neighbour.is-wrapping {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+
+  .catalogue__neighbour.is-teleporting {
+    transition: none;
   }
 
   .catalogue__neighbour:hover,
   .catalogue__neighbour:focus-visible {
     transform: translateY(-0.75rem);
-  }
-
-  .catalogue__neighbour:nth-child(1) {
-    top: 62%;
-    left: 9.8%;
-  }
-
-  .catalogue__neighbour:nth-child(2) {
-    top: 45%;
-    left: 23.3%;
-  }
-
-  .catalogue__neighbour:nth-child(3) {
-    top: 44%;
-    right: 22.8%;
-  }
-
-  .catalogue__neighbour:nth-child(4) {
-    top: 65%;
-    right: 8.7%;
   }
 
   .catalogue__neighbour img {
@@ -1124,6 +1126,12 @@ const introPositions = [
   const items = JSON.parse(data) as CatalogueItem[];
   const orbitData = document.getElementById('catalogue-orbit-positions')?.textContent ?? '[]';
   const orbitPositions = JSON.parse(orbitData) as { x: number; y: number; w: number }[];
+  const neighbourPositions = [
+    { x: 9.8, y: 62 },
+    { x: 23.3, y: 45 },
+    { x: 67.2, y: 44 },
+    { x: 81.3, y: 65 },
+  ];
 
   if (catalogue && items.length > 0) {
     const mainImage = catalogue.querySelector<HTMLImageElement>('[data-main-image]');
@@ -1143,12 +1151,62 @@ const introPositions = [
     let currentIndex = 3;
     let changeTimer = 0;
     let orbitTimer = 0;
+    let neighbourTimer = 0;
     let orbitLocked = false;
+    let neighboursLocked = false;
 
     const normalized = (index: number) => (index + items.length) % items.length;
 
+    const setNeighbourPosition = (card: HTMLButtonElement, positionIndex: number) => {
+      const position = neighbourPositions[positionIndex];
+      if (!position) return;
+      card.dataset.position = String(positionIndex);
+      card.style.setProperty('--neighbour-x', `${position.x}%`);
+      card.style.setProperty('--neighbour-y', `${position.y}%`);
+    };
+
+    const rotateNeighbours = (delta: number) => {
+      if (neighboursLocked) return;
+
+      neighboursLocked = true;
+      window.clearTimeout(neighbourTimer);
+
+      sideCards.forEach((card) => {
+        const position = Number(card.dataset.position ?? 0);
+        const rawTarget = position + delta;
+        const target = ((rawTarget % sideCards.length) + sideCards.length) % sideCards.length;
+        const wraps = rawTarget < 0 || rawTarget >= sideCards.length;
+
+        if (!wraps) {
+          setNeighbourPosition(card, target);
+          return;
+        }
+
+        card.classList.add('is-wrapping');
+        window.setTimeout(() => {
+          card.classList.add('is-teleporting');
+          setNeighbourPosition(card, target);
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+              card.classList.remove('is-teleporting', 'is-wrapping');
+            });
+          });
+        }, 230);
+      });
+
+      neighbourTimer = window.setTimeout(() => {
+        neighboursLocked = false;
+      }, 680);
+    };
+
     const render = (nextIndex: number, announce = true) => {
+      const previousIndex = currentIndex;
       currentIndex = normalized(nextIndex);
+      if (currentIndex !== previousIndex) {
+        const forwardDistance = normalized(currentIndex - previousIndex);
+        const backwardDistance = normalized(previousIndex - currentIndex);
+        rotateNeighbours(forwardDistance <= backwardDistance ? 1 : -1);
+      }
       const current = items[currentIndex];
       const visibleNumber = String(currentIndex + 2).padStart(2, '0');
 
@@ -1174,7 +1232,8 @@ const introPositions = [
         }
 
         sideCards.forEach((card, cardIndex) => {
-          const sideIndex = normalized(currentIndex + sideOffsets[cardIndex]);
+          const positionIndex = Number(card.dataset.position ?? cardIndex);
+          const sideIndex = normalized(currentIndex + sideOffsets[positionIndex]);
           const side = items[sideIndex];
           const image = card.querySelector<HTMLImageElement>('[data-side-image]');
           const sideTitle = card.querySelector<HTMLElement>('[data-side-title]');
@@ -1188,7 +1247,7 @@ const introPositions = [
 
         if (announce && liveRegion) liveRegion.textContent = `${current.title}, ${current.year}`;
         catalogue.classList.remove('is-changing');
-      }, 160);
+      }, 250);
     };
 
     const selectMode = () => {
