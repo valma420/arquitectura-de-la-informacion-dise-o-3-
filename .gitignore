@@ -33,3 +33,6 @@ Thumbs.db
 
 # Claude Code local config
 .claude/
+
+# Agent scratch space
+/.agent-tmp/
